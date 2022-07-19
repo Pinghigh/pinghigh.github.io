@@ -1536,6 +1536,10 @@ blockquote footer cite:before {
 blockquote > :last-child {
   margin-bottom: 0 !important;
 }
+@font-face {
+  font-family: "Jetbrains Mono";
+  src: url("../../fonts/JetBrainsMono-Regular.ttf");
+}
 :root {
   --hl-color: #eff;
   --hl-bg: #212121;
@@ -1660,7 +1664,7 @@ figure.highlight pre .javascript .function {
 #article-container pre,
 #article-container code {
   font-size: var(--global-font-size);
-  font-family: monospace, "Ubuntu Mono", "PingFang SC", "Microsoft JhengHei", "Microsoft YaHei", sans-serif !important;
+  font-family: "Jetbrains Mono", monospace, 'PingFang SC', 'Microsoft YaHei', sans-serif !important src;
 }
 #article-container code {
   padding: 2px 4px;
