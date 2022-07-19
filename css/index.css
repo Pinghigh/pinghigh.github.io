@@ -1660,7 +1660,7 @@ figure.highlight pre .javascript .function {
 #article-container pre,
 #article-container code {
   font-size: var(--global-font-size);
-  font-family: monospace, "Ubuntu Mono", "PingFang SC", "Microsoft JhengHei", "Microsoft YaHei", sans-serif !important;
+  font-family: "Ubuntu Mono", monospace, "PingFang SC";
 }
 #article-container code {
   padding: 2px 4px;
