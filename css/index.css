@@ -1664,7 +1664,7 @@ figure.highlight pre .javascript .function {
 #article-container pre,
 #article-container code {
   font-size: var(--global-font-size);
-  font-family: "Jetbrains Mono", monospace, 'PingFang SC', 'Microsoft YaHei', sans-serif !important src;
+  font-family: "Jetbrains Mono", monospace, 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 #article-container code {
   padding: 2px 4px;
