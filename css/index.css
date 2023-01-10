@@ -3471,14 +3471,14 @@ h1.page-title + .tag-cloud-list {
   box-shadow: 0 5px 6px -5px rgba(133,133,133,0.6);
 }
 #page-header.not-top-img #nav a {
-  color: var(--font-color);
+  color: var(--white);
   text-shadow: none;
 }
 #page-header.nav-fixed #nav {
   position: fixed;
-  top: -70px;
+/*top: -70px*/
   z-index: 91;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.4);
   -webkit-box-shadow: 0 5px 6px -5px rgba(133,133,133,0.6);
   box-shadow: 0 5px 6px -5px rgba(133,133,133,0.6);
   -webkit-transition: -webkit-transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
@@ -3486,11 +3486,16 @@ h1.page-title + .tag-cloud-list {
   -o-transition: -o-transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
   -ms-transition: -ms-transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
   transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  -webkit-transition: top 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  -moz-transition: top 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  -o-transition: top 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  -ms-transition: top 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  transition: top 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
 #page-header.nav-fixed #nav a,
 #page-header.nav-fixed #nav #site-name,
 #page-header.nav-fixed #nav #toggle-menu {
-  color: var(--font-color);
+  color: var(--white);
   text-shadow: none;
 }
 #page-header.nav-fixed #nav a:hover,
@@ -3498,17 +3503,20 @@ h1.page-title + .tag-cloud-list {
 #page-header.nav-fixed #nav #toggle-menu:hover {
   color: #04a5e5;
 }
+#page-header.nav-fixed.nav-unv #nav {
+  top: -70px;
+}
 #page-header.nav-visible #nav {
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -o-transition: all 0.3s;
   -ms-transition: all 0.3s;
   transition: all 0.3s;
-  -webkit-transform: translate3d(0, 130%, 0);
-  -moz-transform: translate3d(0, 130%, 0);
-  -o-transform: translate3d(0, 130%, 0);
-  -ms-transform: translate3d(0, 130%, 0);
-  transform: translate3d(0, 130%, 0);
+  -webkit-transform: translate3d(0, 10%, 0);
+  -moz-transform: translate3d(0, 10%, 0);
+  -o-transform: translate3d(0, 10%, 0);
+  -ms-transform: translate3d(0, 10%, 0);
+  transform: translate3d(0, 10%, 0);
 }
 #page-header.nav-visible + .layout > .aside-content > .sticky_layout {
   top: 70px;
@@ -3728,7 +3736,7 @@ h1.page-title + .tag-cloud-list {
   display: inline-block;
   padding: 8px 16px;
   width: 100%;
-  color: var(--font-color) !important;
+  color: var(--white) !important;
   text-shadow: none !important;
 }
 #nav.hide-menu #toggle-menu {

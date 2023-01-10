@@ -282,6 +282,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const isDown = scrollDirection(currentTop)
         if (currentTop > 128) {
           if (isDown) {
+            if (!$header.classList.contains('nav-unv')) 
+              $header.classList.add('nav-unv')
             if ($header.classList.contains('nav-visible')) 
               $header.classList.remove('nav-visible')
             if (isChatBtnShow && isChatShow === true) {
@@ -289,6 +291,7 @@ document.addEventListener('DOMContentLoaded', function () {
               isChatShow = false
             }
           } else {
+            if ($header.classList.contains('nav-unv')) $header.classList.remove('nav-unv')
             if (!$header.classList.contains('nav-visible')) $header.classList.add('nav-visible')
             if (isChatBtnHide && isChatShow === false) {
               chatBtnShow()
