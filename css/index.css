@@ -3471,14 +3471,14 @@ h1.page-title + .tag-cloud-list {
   box-shadow: 0 5px 6px -5px rgba(133,133,133,0.6);
 }
 #page-header.not-top-img #nav a {
-  color: var(--white);
+  color: var(--font-color);
   text-shadow: none;
 }
 #page-header.nav-fixed #nav {
   position: fixed;
 /*top: -70px*/
   z-index: 91;
-  background: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.6);
   -webkit-box-shadow: 0 5px 6px -5px rgba(133,133,133,0.6);
   box-shadow: 0 5px 6px -5px rgba(133,133,133,0.6);
   -webkit-transition: -webkit-transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
@@ -3495,7 +3495,7 @@ h1.page-title + .tag-cloud-list {
 #page-header.nav-fixed #nav a,
 #page-header.nav-fixed #nav #site-name,
 #page-header.nav-fixed #nav #toggle-menu {
-  color: var(--white);
+  color: var(--font-color);
   text-shadow: none;
 }
 #page-header.nav-fixed #nav a:hover,
@@ -3546,7 +3546,7 @@ h1.page-title + .tag-cloud-list {
 }
 #post-info .post-title {
   margin-bottom: 8px;
-  color: var(--white);
+  color: var(--font-color);
   font-weight: normal;
   font-size: 2.5em;
   line-height: 1.5;
@@ -3588,7 +3588,7 @@ h1.page-title + .tag-cloud-list {
   margin-right: 4px;
 }
 #post-info #post-meta a {
-  color: var(--light-grey);
+  color: var(--font-color);
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
@@ -3736,7 +3736,7 @@ h1.page-title + .tag-cloud-list {
   display: inline-block;
   padding: 8px 16px;
   width: 100%;
-  color: var(--white) !important;
+  color: var(--font-color) !important;
   text-shadow: none !important;
 }
 #nav.hide-menu #toggle-menu {
