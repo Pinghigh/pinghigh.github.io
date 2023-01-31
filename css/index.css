@@ -3495,57 +3495,33 @@ h1.page-title + .tag-cloud-list {
   -ms-transition: top 0.2s ease-in-out, opacity 0.2s ease-in-out;
   transition: top 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
-#page-header.nav-fixed #nav #blog-info {
-  color: var(--font-color);
-}
-#page-header.nav-fixed #nav #blog-info:hover {
-  color: #04a5e5;
-}
-#page-header.nav-fixed #nav #blog-info .site-name {
-  text-shadow: none;
-}
-#page-header.nav-fixed #nav #blog-info {
-  color: var(--font-color);
-}
-#page-header.nav-fixed #nav #blog-info:hover {
-  color: #04a5e5;
-}
-#page-header.nav-fixed #nav #blog-info .site-name {
-  text-shadow: none;
-}
 #page-header.nav-fixed #nav a,
+#page-header.nav-fixed #nav #site-name,
 #page-header.nav-fixed #nav #toggle-menu {
   color: var(--font-color);
   text-shadow: none;
 }
 #page-header.nav-fixed #nav a:hover,
+#page-header.nav-fixed #nav #site-name:hover,
 #page-header.nav-fixed #nav #toggle-menu:hover {
   color: #04a5e5;
-}
-#page-header.nav-fixed.fixed #nav {
-  top: 0;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  -ms-transition: all 0.5s;
-  transition: all 0.5s;
 }
 #page-header.nav-fixed.nav-unv #nav {
   top: -70px;
 }
-#page-header.nav-visible:not(.fixed) #nav {
+#page-header.nav-visible #nav {
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   -o-transition: all 0.3s;
   -ms-transition: all 0.3s;
   transition: all 0.3s;
-  -webkit-transform: translate3d(0, 100%, 0);
-  -moz-transform: translate3d(0, 100%, 0);
-  -o-transform: translate3d(0, 100%, 0);
-  -ms-transform: translate3d(0, 100%, 0);
-  transform: translate3d(0, 100%, 0);
+  -webkit-transform: translate3d(0, 10%, 0);
+  -moz-transform: translate3d(0, 10%, 0);
+  -o-transform: translate3d(0, 10%, 0);
+  -ms-transform: translate3d(0, 10%, 0);
+  transform: translate3d(0, 10%, 0);
 }
-#page-header.nav-visible:not(.fixed) + .layout > .aside-content > .sticky_layout {
+#page-header.nav-visible + .layout > .aside-content > .sticky_layout {
   top: 70px;
   -webkit-transition: top 0.5s;
   -moz-transition: top 0.5s;

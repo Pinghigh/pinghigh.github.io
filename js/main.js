@@ -293,10 +293,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  /**
+   /**
    * 滾動處理
    */
-  const scrollFn = function () {
+   const scrollFn = function () {
     const $rightside = document.getElementById('rightside')
     const innerHeight = window.innerHeight + 56
 
@@ -318,12 +318,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const $header = document.getElementById('page-header')
     const isChatBtnHide = typeof chatBtnHide === 'function'
     const isChatBtnShow = typeof chatBtnShow === 'function'
-    const isShowPercent = GLOBAL_CONFIG.percent.rightside
 
     const scrollTask = btf.throttle(() => {
       const currentTop = window.scrollY || document.documentElement.scrollTop
       const isDown = scrollDirection(currentTop)
-      if (currentTop > 56) {
+      if (currentTop > 128) {
         if (isDown) {
           if ($header.classList.contains('nav-visible'))
             $header.classList.remove('nav-visible')
@@ -358,15 +357,11 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }, 200)
 
-      if (document.body.scrollHeight <= innerHeight) {
-        $rightside.style.cssText = 'opacity: 0.8; transform: translateX(-58px)'
-      }
-    }, 200)
-
     window.scrollCollect = scrollTask
 
     window.addEventListener('scroll', scrollCollect)
   }
+
 
   /**
   * toc,anchor
