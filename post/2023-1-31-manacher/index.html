@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='求串的最长回文子串'>
+<title>Manacher</title>
+
+<link rel='canonical' href='https://blog.tibrella.top/post/2023-1-31-manacher/'>
+
+<link rel="stylesheet" href="/scss/style.min.c8ab8a897338e7deff55c14b521348c524b0e76381ccd55846bb0e7075402432.css"><meta property='og:title' content='Manacher'>
+<meta property='og:description' content='求串的最长回文子串'>
+<meta property='og:url' content='https://blog.tibrella.top/post/2023-1-31-manacher/'>
+<meta property='og:site_name' content='钛合金伞的隙间'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='[算法]' /><meta property='article:tag' content='[Manacher]' /><meta property='article:tag' content='[字符串]' /><meta property='article:published_time' content='2023-01-31T20:27:12&#43;00:00'/><meta property='article:modified_time' content='2023-01-31T20:27:12&#43;00:00'/><meta property='og:image' content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
+<meta name="twitter:title" content="Manacher">
+<meta name="twitter:description" content="求串的最长回文子串"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="/img/avatar.jpg" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">🌂</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
+            <h2 class="site-description">将梦想化为残机，我们就仍能飞翔</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:pinghigh24678@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/pinghigh'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/@pinghigh24678'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>文章</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#预处理">预处理</a></li>
+    <li><a href="#manacher">Manacher</a>
+      <ul>
+        <li><a href="#基本思想">基本思想</a></li>
+        <li><a href="#实现">实现</a></li>
+        <li><a href="#时间复杂度1">时间复杂度</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/post/2023-1-31-manacher/">
+                
+                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" alt="Featured image of post Manacher" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%AE%97%E6%B3%95/" >
+                算法
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/post/2023-1-31-manacher/">Manacher</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            求串的最长回文子串
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 31, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>求一个字符串最长的回文子串。
+字面意思，回文就是一个串正着读倒着读一样，子串就是一个连续的子序列。</p>
+<h2 id="预处理">预处理</h2>
+<p>不难发现对于一个回文字串，有两种情况：</p>
+<ol>
+<li><code>ABBA</code> 即长度为偶数，没有中心字符，半径为 2，长度为 4</li>
+<li><code>ABCBA</code> 即长度为奇数，有中心字符，半径为 3，长度为 5</li>
+</ol>
+<p>懒得给他们处理两种情况，怎么办？只需要插入一些其他字符即可。
+比如说我们可以在头部插入一个 <code>?</code> 代表串开始，<code>^</code> 代表串结束，然后在新串的每一个字符之间插入一个 <code>#</code> 号，得到的新串就能达到简化情况的目的。<br>
+按照上面的方法处理之后，原来的两个串会变为：
+（只观察回文子串）</p>
+<ol>
+<li><code>?#A#B#B#A#^</code> 长度变为奇数，有中心字符，半径为 5，长度为 9</li>
+<li><code>?#A#B#C#B#A#^</code> 长度为奇数不变，有中心字符，半径为 6，长度为 11</li>
+</ol>
+<p>情况被简化成一种，即长度为奇数。与此同时我们发现，新串的回文子串的 <strong>半径$-1$</strong> 就是原串回文子串的 <strong>长度</strong></p>
+<p>与此同时，问题不变，还是求串的最长回文子串。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;$&#39;</span>;
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> a[i];
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;^&#39;</span>;
+</span></span><span style="display:flex;"><span>    n<span style="color:#f92672">=</span>b.size();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="manacher">Manacher</h2>
+<h3 id="基本思想">基本思想</h3>
+<p><del>抽象来说</del>就是对于字符串的每一个位置，维护以这个位置为中心的最长回文串长度同时算出这个回文串的右边界，再通过这个右边界来更新下一个位置的最长回文串长度与右边界。</p>
+<p>具体来说，对于一个字符串 $S$，开一个数组 $P_i$ 记录以 $i$ 为中心的最长回文串半径（含 $S_i$），变量 $mid$ 为在 $i$ 之前边界最靠右的回文子串的中心，$mr$（也就是 $maxright$）记录这个回文子串的右边界，通过这些更新下一个位置的这些值。</p>
+<p>为了方便说明，以 $i$ 为中心的最长回文子串称为 $T_i$</p>
+<h4 id="继承对称点的数据">继承对称点的数据</h4>
+<p>枚举到 $i$ 之前的状态：</p>
+<p><img src="https://s1.ax1x.com/2023/01/31/pS0hKFU.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>枚举到 $i$ 后，对于 $mr$ 和 $i$ 来说有两种情况：$i$ 在左侧或 $mr$ 在左侧</p>
+<ul>
+<li>
+<p>$i$ 在左侧
+即 $i$ 被 $T_{mid}$ 包含。
+显然 $i$ 之前的 $P_k$ 都是已知的，同时 $i$ 在一个回文字串内，那么假设 $j$ 是 $i$ 关于 $mid$ 的对称点，则
+<img src="https://s1.ax1x.com/2023/01/31/pS0hKFU.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+>
+那么 $P_j$ 已知，对于以 $j$ 为中心的最长回文子串 $T_j$ 来说有两种情况</p>
+<ol>
+<li>$T_j$ 被 $T_{mid}$ 完全包含，此时 $P_i$ 可以继承 $P_j$ （因为回文）（不用考虑边界问题，后续会处理）</li>
+<li>$T_j$ 未被 $T_{mid}$ 完全包含，此时 $T_i$ 一定被 $T_{mid}$ 完全包含。因为如果不被完全包含，则 $P_{mid}$ 的值仍可以增大，如下图
+<img src="https://s1.ax1x.com/2023/01/31/pS0hRk8.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+>
+图中蓝色块通过 $T_{mid}$ 串回文的性质已知相等，每个蓝色块均可以通过自身所在回文串推出其外侧橙色块也是相等的。
+显然这种情况不会出现，因为这种情况下 $P_{mid}$ 是一个假值。</li>
+</ol>
+</li>
+<li>
+<p>$i$ 在右侧
+没有可以继承的值则可以直接重新推，不需要过多考虑。</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> mr) {
+</span></span><span style="display:flex;"><span>    p[i] <span style="color:#f92672">=</span> min(p[(mid <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">-</span> i], mr <span style="color:#f92672">-</span> i);
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    p[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="更新-p_i">更新 $P_i$</h4>
+<p>直接从当前记录的半径向外继续枚举，直到遇到两个不相同的字符为止（边界上有 <code>$</code> <code>^</code>，枚举到一定会停止，所以不用考虑边界问题）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">while</span> (b[i <span style="color:#f92672">-</span> p[i]] <span style="color:#f92672">==</span> b[i <span style="color:#f92672">+</span> p[i]]) {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">++</span> p[i];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="更新-mr-和-mid">更新 $mr$ 和 $mid$</h4>
+<p>前文说过 $mr$ $mid$ 都是边界最靠右的回文子串的属性，那么只需要判断新找到的回文子串右边界是否大于 $mr$ 即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> p[i] <span style="color:#f92672">&gt;</span> mr) {
+</span></span><span style="display:flex;"><span>    mr <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> p[i];
+</span></span><span style="display:flex;"><span>    mid <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>至此 Manacher 算法主要过程结束。</p>
+<h3 id="实现">实现</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>cin;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>cout;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>sort;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>string;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>T max(T a, T b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a<span style="color:#f92672">&gt;</span>b<span style="color:#f92672">?</span>a:b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>T min(T a, T b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a<span style="color:#f92672">&lt;</span>b<span style="color:#f92672">?</span>a:b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e7</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">514</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>string a, b;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> p[N];  <span style="color:#75715e">// p[i] 表示以第 i 个字符为中心的最长回文子串半径
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> res;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;$&#39;</span>;
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> a[i];
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;^&#39;</span>;
+</span></span><span style="display:flex;"><span>    n<span style="color:#f92672">=</span>b.size();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">manacher</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> mr <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, mid;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> mr) {
+</span></span><span style="display:flex;"><span>            p[i] <span style="color:#f92672">=</span> min(p[(mid<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">-</span>i], mr <span style="color:#f92672">-</span> i);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            p[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (b[i<span style="color:#f92672">-</span>p[i]] <span style="color:#f92672">==</span> b[i<span style="color:#f92672">+</span>p[i]]) {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">++</span> p[i];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i<span style="color:#f92672">+</span>p[i]<span style="color:#f92672">&gt;</span>mr) {
+</span></span><span style="display:flex;"><span>            mr <span style="color:#f92672">=</span> i<span style="color:#f92672">+</span>p[i];
+</span></span><span style="display:flex;"><span>            mid <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>ios<span style="color:#f92672">::</span>sync_with_stdio(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    cin.tie(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    cout.tie(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    a.reserve(N);
+</span></span><span style="display:flex;"><span>    b.reserve(N);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> a;
+</span></span><span style="display:flex;"><span>    n <span style="color:#f92672">=</span> a.size();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    init();
+</span></span><span style="display:flex;"><span>    manacher();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) { <span style="color:#75715e">// 最后需要枚举一遍来找出最大值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        res <span style="color:#f92672">=</span> max(res, p[i]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> res <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="时间复杂度1">时间复杂度<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></h3>
+<p>当 $P_j$ 左侧取到左边界及以外时，$P_i$ 才需要更新（其他情况都因为不满足条件而不用进循环），而右端点是单调递增且严格小于等于 $n$ 的，因此总时间复杂度为 $\operatorname{O}(n)$</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>参考<a class="link" href="https://www.acwing.com/file_system/file/content/whole/index/content/7964832/"  target="_blank" rel="noopener"
+    >谷雨的笔记</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" transform="rotate(180)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under FDL 1.3</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css"integrity="sha256-J&#43;iAE0sgH8QSz9hpcDxXIftnj65JEZgNhGcgReTTK9s="crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js"integrity="sha256-InsNdER1b2xUewP&#43;pKCUJpkhiqwHgqiPXDlIk7GzBu4="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/contrib/auto-render.min.js"integrity="sha256-y39Mpg7V3D4lhBX4x6O0bUqTV4pSrfgwEfGKfxkOdgI="crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        renderMathInElement(document.querySelector(`.article-content`), {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ]
+        });})
+</script>
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/post/2022-10-math/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" data-key="" data-hash="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">初级数论</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/post/2022-7-19-oi%E7%AC%94%E8%AE%B0/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" data-key="" data-hash="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">类、结构体 斐波那契数列题解</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/post/2023-2-2-lca/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" data-key="" data-hash="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">倍增求LCA/最近共同祖先</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/post/2023-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" data-key="" data-hash="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">语言特性杂谈与常数优化</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/post/2022-12-zfsrootarch/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.9/twikoo.all.min.js"></script>
+<div id="tcomment"></div>
+<style>
+    .twikoo {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    :root[data-scheme="dark"] {
+        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+    }
+    .twikoo .el-input-group__prepend,
+    .twikoo .tk-action-icon,
+    .twikoo .tk-time,
+    .twikoo .tk-comments-count {
+        color: var(--twikoo-body-text-color);
+    }
+    .twikoo .el-input__inner,
+    .twikoo .el-textarea__inner,
+    .twikoo .tk-preview-container,
+    .twikoo .tk-content,
+    .twikoo .tk-nick,
+    .twikoo .tk-send {
+        color: var(--twikoo-body-text-color-main);
+    }
+    .twikoo .el-button{
+        color: var(--twikoo-body-text-color)!important;
+    }
+    .OwO .OwO-body {
+        background-color: var(--body-background) !important;
+        color: var(--body-text-color) !important;
+    }
+</style><script>
+    twikoo.init({
+        envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+        el: '#tcomment',lang: 'zh-cn',})
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        <i style="display:inline-block; transform: rotatey(180deg);">&copy;</i> 
+        
+            2020 - 
+        
+        2023 钛合金伞的隙间
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://icp.gov.moe/?keyword=20220284" rel="external nofollow noreferrer" target="_blank">萌ICP备20220284号</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

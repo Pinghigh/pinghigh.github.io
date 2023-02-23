@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>算法 on 钛合金伞的隙间</title>
+        <link>https://blog.tibrella.top/categories/%E7%AE%97%E6%B3%95/</link>
+        <description>Recent content in 算法 on 钛合金伞的隙间</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Thu, 23 Feb 2023 14:11:18 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>模拟退火</title>
+        <link>https://blog.tibrella.top/post/2023-2-23-%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/</link>
+        <pubDate>Thu, 23 Feb 2023 14:11:18 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2023-2-23-%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg" alt="Featured image of post 模拟退火" /&gt;&lt;p&gt;模拟退火不是模拟题意，也不会让你退火（可能会让你上火），顾名思义，这个算法模拟的是“退火” 的过程。&lt;/p&gt;
+&lt;h2 id=&#34;基本原理&#34;&gt;基本原理&lt;/h2&gt;
+&lt;p&gt;退火即晶体冷却的过程，将一个物体加热到一定温度后使其逐渐降温。而在物理中，物体内能越高，其粒子随机运动就更剧烈，状态也就越不稳定。物体温度高时，状态最不稳定，然后使其降温，粒子运动变慢，状态就趋于稳定。
+当降温速度过快，会导致粒子来不及排列成稳定的原有的结构，从而形成能量高不稳定的非晶体。相对的，如果降温速度足够慢，粒子会渐趋有序，直至内能减为最小，此时物体呈现回晶体。&lt;/p&gt;
+&lt;p&gt;上面两段所说的“非晶体”可以看作“局部最优解”，而变回原有结构的晶体则可以看作“最优解”。&lt;/p&gt;
+&lt;p&gt;大体来说，模拟退火就是随机跳解，接受更优的解，同时为了防止局部最优解的陷阱，对跳到的相对不优的解概率性接受。&lt;/p&gt;
+&lt;p&gt;概率性接受不优解，相当于物理过程中粒子的随机跳动，才带来晶体降温结果的随机性。而跳随机解的次数，则相当于降温的速度，降温的速度越慢，晶体回到原有结构的可能性更高，则跑出最优解的可能性更高。&lt;/p&gt;
+&lt;p&gt;先放一张图感性理解一下&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63f75151f144a01007973ad6.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;有一个比较有趣的比喻&lt;/p&gt;
+&lt;p&gt;爬山算法：一个兔子从一个点往高爬，爬到了一个山顶，但是不知道这个山顶是不是珠穆朗玛峰&lt;br&gt;
+模拟退火：一个兔子喝醉了乱跳，跳到了某个山顶也要继续跳到别的山坡，但是它逐渐清醒，向最高点跳去&lt;/p&gt;
+&lt;p&gt;感性理解后我们详细讲解一下算法过程。&lt;/p&gt;
+&lt;h2 id=&#34;算法过程&#34;&gt;算法过程&lt;/h2&gt;
+&lt;p&gt;设定好“初始解”，“初始温度”与“下降速度”，每一次“下降”都得到一个新解，则有两种情况，即新解优于旧解或不优于旧解。优于旧解显然是要接受的，但是只接受优解可能只能找到局部最优，因而我们对于一个不优的解还需要进一步处理。&lt;/p&gt;
+&lt;p&gt;而这一步处理（可能是）模拟退火的精髓所在，是把这个随机化算法和热力学/统计力学等连接起来的部分，即接受这个不优解的概率。&lt;/p&gt;
+&lt;p&gt;摘自维基百科&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;玻尔兹曼分布是状态能量与系统温度的概率分布函数，给出了粒子处于特定状态下的概率&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;公式即为&lt;/p&gt;
+&lt;p&gt;$$
+p_i = \frac{1}{Q} e^{\frac{-\epsilon_i}{kT}}
+$$&lt;/p&gt;
+&lt;p&gt;此处 $p_i$ 是状态 $i$ 的概率，$\epsilon_i$ 为状态 $i$ 的能量，$k$ 为 Boltzmann 常数，$T$ 为温度&lt;/p&gt;
+&lt;p&gt;啊当然这个并不是我们接下来需要用到的准则，只是引入一个热力学常量，即 Boltzmann 常数。同时下面的准则很大程度基于上面的玻尔兹曼分布（可能是，我目测的&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1953 年 Metropolis 提出了这样一个重要性采样的方法，即设从当前状态 $i$ 生成新状态 $j$，若新状态的内能小于状态 $i$ 的内能，即 $E_j&amp;lt;E_i$，则接受新状态 $j$ 作为新的当前状态；否则，以概率 $\exp(\frac{-(E_j-E_i)}{kT})$ 接受状态 $j$，其中 $k$ 为 Boltzmann 常数。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面的概率公式中 $\exp$ 即 $e$ 的指数函数，同时两个状态能量的差 $E_j - E_i$ 可以表示为 $\Delta E$，则可以写出一个（我）更容易理解的表达方式，即&lt;/p&gt;
+&lt;p&gt;$$
+p_j = e^\frac{-\Delta E}{kT}
+$$&lt;/p&gt;
+&lt;p&gt;总的来说，概率 $p_{new}$ 可以表示为&lt;/p&gt;
+&lt;p&gt;$$
+p_{new} =
+\begin{cases}
+1, &amp;amp; \text{if } \operatorname{E}(x_{new}) &amp;lt; \operatorname{E}(x_{old}) \
+e^\frac{-\Delta E}{kT} &amp;amp; \text{if } \operatorname{E}(x_{new}) \geqslant \operatorname{E}(x_{old})
+\end{cases}
+$$&lt;/p&gt;
+&lt;p&gt;概率处理完了，主要算法部分也基本上结束了，下面我们引入一道例题。&lt;/p&gt;
+&lt;h2 id=&#34;例题&#34;&gt;例题&lt;/h2&gt;
+&lt;p&gt;题面：&lt;/p&gt;
+&lt;h3 id=&#34;jsoi2004-平衡点--吊打xxx&#34;&gt;[JSOI2004] 平衡点 / 吊打XXX&lt;/h3&gt;
+&lt;h4 id=&#34;题目描述&#34;&gt;题目描述&lt;/h4&gt;
+&lt;p&gt;如图，有 $n$ 个重物，每个重物系在一条足够长的绳子上。&lt;/p&gt;
+&lt;p&gt;每条绳子自上而下穿过桌面上的洞，然后系在一起。图中 $x$ 处就是公共的绳结。假设绳子是完全弹性的（即不会造成能量损失），桌子足够高（重物不会垂到地上），且忽略所有的摩擦，求绳结 $x$ 最终平衡于何处。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：桌面上的洞都比绳结 $x$ 小得多，所以即使某个重物特别重，绳结 $x$ 也不可能穿过桌面上的洞掉下来，最多是卡在某个洞口处。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.luogu.com.cn/upload/pic/148.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h4 id=&#34;输入格式&#34;&gt;输入格式&lt;/h4&gt;
+&lt;p&gt;文件的第一行为一个正整数 $n$（$1\le n\le 1000$），表示重物和洞的数目。&lt;/p&gt;
+&lt;p&gt;接下来的 $n$ 行，每行是 $3$ 个整数 $x_i, y_i, w_i$，分别表示第 $i$ 个洞的坐标以及第 $i$ 个重物的重量。（$-10000\le x_i,y_i\le10000, 0&amp;lt;w_i\le1000$）&lt;/p&gt;
+&lt;h4 id=&#34;输出格式&#34;&gt;输出格式&lt;/h4&gt;
+&lt;p&gt;你的程序必须输出两个浮点数（保留小数点后三位），分别表示处于最终平衡状态时绳结 $x$ 的横坐标和纵坐标。两个数以一个空格隔开。&lt;/p&gt;
+&lt;h4 id=&#34;样例-1&#34;&gt;样例 #1&lt;/h4&gt;
+&lt;h5 id=&#34;样例输入-1&#34;&gt;样例输入 #1&lt;/h5&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;3
+0 0 1
+0 2 1
+1 1 1
+&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;样例输出-1&#34;&gt;样例输出 #1&lt;/h5&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;0.577 1.000
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;del&gt;物理还没学势能所以题解先咕咕&lt;/del&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>倍增求LCA/最近共同祖先</title>
+        <link>https://blog.tibrella.top/post/2023-2-2-lca/</link>
+        <pubDate>Thu, 02 Feb 2023 21:27:12 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2023-2-2-lca/</guid>
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 倍增求LCA/最近共同祖先" /&gt;&lt;p&gt;倍增求 LCA 是一种高效的求 LCA 算法，时间复杂度为 $\operatorname{O}(\log{n})$&lt;/p&gt;
+&lt;h2 id=&#34;原理&#34;&gt;原理&lt;/h2&gt;
+&lt;h3 id=&#34;初始&#34;&gt;初始&lt;/h3&gt;
+&lt;p&gt;维护一个 $fa_{i,x}$ 表示 $x$ 往根节点走 $2^i$ 步到达的节点。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;初始化时 $fa_{0,x} = father_x$&lt;/li&gt;
+&lt;li&gt;更新为 $fa_{i,x} = fa_{i-1,fa_{i-1,x}}$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;查询&#34;&gt;查询&lt;/h3&gt;
+&lt;p&gt;中心思想是利用二进制向上跳。
+假设目前要查询 a 号节点和 b 号节点的 LCA，将较深节点设为a，较浅设为b，即：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;首先将 a 向上跳到和 b 同一高度，若此时 a = b，直接返回 b 即可，即 b 为 a 的一个直接父亲，LCA 也一定是 b。&lt;/li&gt;
+&lt;li&gt;否则将两个节点同时往上跳，$i$ 从大到小，每次跳 $2^i$，规则如下：
+&lt;ol&gt;
+&lt;li&gt;如果跳完两个节点相同，即找到了一个共同祖先，则不跳，因为此时&lt;strong&gt;不能确定&lt;/strong&gt;这个共同祖先是不是&lt;strong&gt;最近的&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;否则就继续同时往上跳，最终返回 $fa_{0,a}$ 即可。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>Manacher</title>
+        <link>https://blog.tibrella.top/post/2023-1-31-manacher/</link>
+        <pubDate>Tue, 31 Jan 2023 20:27:12 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2023-1-31-manacher/</guid>
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post Manacher" /&gt;&lt;p&gt;求一个字符串最长的回文子串。
+字面意思，回文就是一个串正着读倒着读一样，子串就是一个连续的子序列。&lt;/p&gt;
+&lt;h2 id=&#34;预处理&#34;&gt;预处理&lt;/h2&gt;
+&lt;p&gt;不难发现对于一个回文字串，有两种情况：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;ABBA&lt;/code&gt; 即长度为偶数，没有中心字符，半径为 2，长度为 4&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ABCBA&lt;/code&gt; 即长度为奇数，有中心字符，半径为 3，长度为 5&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;懒得给他们处理两种情况，怎么办？只需要插入一些其他字符即可。
+比如说我们可以在头部插入一个 &lt;code&gt;?&lt;/code&gt; 代表串开始，&lt;code&gt;^&lt;/code&gt; 代表串结束，然后在新串的每一个字符之间插入一个 &lt;code&gt;#&lt;/code&gt; 号，得到的新串就能达到简化情况的目的。&lt;br&gt;
+按照上面的方法处理之后，原来的两个串会变为：
+（只观察回文子串）&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;?#A#B#B#A#^&lt;/code&gt; 长度变为奇数，有中心字符，半径为 5，长度为 9&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;?#A#B#C#B#A#^&lt;/code&gt; 长度为奇数不变，有中心字符，半径为 6，长度为 11&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;情况被简化成一种，即长度为奇数。与此同时我们发现，新串的回文子串的 &lt;strong&gt;半径$-1$&lt;/strong&gt; 就是原串回文子串的 &lt;strong&gt;长度&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;与此同时，问题不变，还是求串的最长回文子串。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;init&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    b &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;$&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    b &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        b &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; a[i];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        b &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    b &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;^&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    n&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;b.size();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;manacher&#34;&gt;Manacher&lt;/h2&gt;
+&lt;h3 id=&#34;基本思想&#34;&gt;基本思想&lt;/h3&gt;
+&lt;p&gt;&lt;del&gt;抽象来说&lt;/del&gt;就是对于字符串的每一个位置，维护以这个位置为中心的最长回文串长度同时算出这个回文串的右边界，再通过这个右边界来更新下一个位置的最长回文串长度与右边界。&lt;/p&gt;
+&lt;p&gt;具体来说，对于一个字符串 $S$，开一个数组 $P_i$ 记录以 $i$ 为中心的最长回文串半径（含 $S_i$），变量 $mid$ 为在 $i$ 之前边界最靠右的回文子串的中心，$mr$（也就是 $maxright$）记录这个回文子串的右边界，通过这些更新下一个位置的这些值。&lt;/p&gt;
+&lt;p&gt;为了方便说明，以 $i$ 为中心的最长回文子串称为 $T_i$&lt;/p&gt;
+&lt;h4 id=&#34;继承对称点的数据&#34;&gt;继承对称点的数据&lt;/h4&gt;
+&lt;p&gt;枚举到 $i$ 之前的状态：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s1.ax1x.com/2023/01/31/pS0hKFU.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;枚举到 $i$ 后，对于 $mr$ 和 $i$ 来说有两种情况：$i$ 在左侧或 $mr$ 在左侧&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;$i$ 在左侧
+即 $i$ 被 $T_{mid}$ 包含。
+显然 $i$ 之前的 $P_k$ 都是已知的，同时 $i$ 在一个回文字串内，那么假设 $j$ 是 $i$ 关于 $mid$ 的对称点，则
+&lt;img src=&#34;https://s1.ax1x.com/2023/01/31/pS0hKFU.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;
+那么 $P_j$ 已知，对于以 $j$ 为中心的最长回文子串 $T_j$ 来说有两种情况&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;$T_j$ 被 $T_{mid}$ 完全包含，此时 $P_i$ 可以继承 $P_j$ （因为回文）（不用考虑边界问题，后续会处理）&lt;/li&gt;
+&lt;li&gt;$T_j$ 未被 $T_{mid}$ 完全包含，此时 $T_i$ 一定被 $T_{mid}$ 完全包含。因为如果不被完全包含，则 $P_{mid}$ 的值仍可以增大，如下图
+&lt;img src=&#34;https://s1.ax1x.com/2023/01/31/pS0hRk8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;
+图中蓝色块通过 $T_{mid}$ 串回文的性质已知相等，每个蓝色块均可以通过自身所在回文串推出其外侧橙色块也是相等的。
+显然这种情况不会出现，因为这种情况下 $P_{mid}$ 是一个假值。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$i$ 在右侧
+没有可以继承的值则可以直接重新推，不需要过多考虑。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; mr) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    p[i] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; min(p[(mid &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; i], mr &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; i);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;} &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    p[i] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;更新-p_i&#34;&gt;更新 $P_i$&lt;/h4&gt;
+&lt;p&gt;直接从当前记录的半径向外继续枚举，直到遇到两个不相同的字符为止（边界上有 &lt;code&gt;$&lt;/code&gt; &lt;code&gt;^&lt;/code&gt;，枚举到一定会停止，所以不用考虑边界问题）。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (b[i &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; p[i]] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; b[i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; p[i]]) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; p[i];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;更新-mr-和-mid&#34;&gt;更新 $mr$ 和 $mid$&lt;/h4&gt;
+&lt;p&gt;前文说过 $mr$ $mid$ 都是边界最靠右的回文子串的属性，那么只需要判断新找到的回文子串右边界是否大于 $mr$ 即可。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; p[i] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; mr) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    mr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; p[i];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    mid &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;至此 Manacher 算法主要过程结束。&lt;/p&gt;
+&lt;h3 id=&#34;实现&#34;&gt;实现&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;algorithm&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;cstring&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;cin;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;cout;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;sort;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;string;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;T max(T a, T b) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; a&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;b&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;a:b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;T min(T a, T b) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; a&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;b&lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt;a:b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;constexpr&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; N &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2e7&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;514&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;string a, b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; p[N];  &lt;span style=&#34;color:#75715e&#34;&gt;// p[i] 表示以第 i 个字符为中心的最长回文子串半径
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; res;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;init&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    b &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;$&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    b &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        b &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; a[i];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        b &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;#&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    b &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;^&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    n&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;b.size();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;manacher&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; mr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, mid;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; mr) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            p[i] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; min(p[(mid&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;i], mr &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; i);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            p[i] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (b[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;p[i]] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; b[i&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;p[i]]) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; p[i];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (i&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;p[i]&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;mr) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            mr &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;p[i];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            mid &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;ios&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;sync_with_stdio(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cin.tie(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cout.tie(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    a.reserve(N);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    b.reserve(N);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; a;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a.size();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    init();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    manacher();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) { &lt;span style=&#34;color:#75715e&#34;&gt;// 最后需要枚举一遍来找出最大值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(res, p[i]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; res &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;时间复杂度1&#34;&gt;时间复杂度&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+&lt;p&gt;当 $P_j$ 左侧取到左边界及以外时，$P_i$ 才需要更新（其他情况都因为不满足条件而不用进循环），而右端点是单调递增且严格小于等于 $n$ 的，因此总时间复杂度为 $\operatorname{O}(n)$&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;参考&lt;a class=&#34;link&#34; href=&#34;https://www.acwing.com/file_system/file/content/whole/index/content/7964832/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;谷雨的笔记&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
