@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>并查集 on 钛合金伞的隙间</title>
+        <link>https://blog.tibrella.top/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
+        <description>Recent content in 并查集 on 钛合金伞的隙间</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Tue, 17 Jan 2023 15:11:36 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>并查集</title>
+        <link>https://blog.tibrella.top/post/2022-1-17-%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
+        <pubDate>Tue, 17 Jan 2023 15:11:36 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2022-1-17-%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 并查集" /&gt;&lt;p&gt;今天讲的最短路啥的感觉有点费劲，先把并查集的东西写了&lt;/p&gt;
+&lt;h2 id=&#34;用途&#34;&gt;用途&lt;/h2&gt;
+&lt;p&gt;基本上用来处理 &lt;strong&gt;关系&lt;/strong&gt;
+什么是关系？比如一个人和他的表弟是亲戚，亲戚的关系可以人为理清
+但是&lt;del&gt;毒瘤的&lt;/del&gt;出题人会给这个人安上 114514 个表弟这些表弟的 1919810 个其他亲戚以及 1145141919810 个其他无关的人，然后问你这个序列里面第 $a$ 个人和第 $b$ 个人是不是亲戚，一般的方法显然处理不了
+并查集就是专门用来解决这种东西用的&lt;/p&gt;
+&lt;h2 id=&#34;实现&#34;&gt;实现&lt;/h2&gt;
+&lt;p&gt;“并查集”的操作就是前两个字，即合并与查询
+此处默认以树实现并查集&lt;/p&gt;
+&lt;h3 id=&#34;合并&#34;&gt;合并&lt;/h3&gt;
+&lt;p&gt;合并的操作即把两棵树的根节点连接在一起&lt;/p&gt;
+&lt;p&gt;文字解释不清楚，但是直接用树结构实现就比较清楚了&lt;/p&gt;
+&lt;p&gt;这里我们只需要开一个数组 $F$ 存储每一个节点的祖先即可
+每次设置 $i$ 节点的祖先只需要修改 $F_i$ 的值&lt;/p&gt;
+&lt;p&gt;比如目前我们有五个点&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c64e44be43e0d30eb8b23d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后由输入数据可知，&lt;code&gt;1&lt;/code&gt; 和 &lt;code&gt;3&lt;/code&gt;，&lt;code&gt;2&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;5&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;4&lt;/code&gt; 和 &lt;code&gt;1&lt;/code&gt; 是亲戚
+于是我们把 &lt;code&gt;1&lt;/code&gt; 设为 &lt;code&gt;5&lt;/code&gt; 的祖先来表示他们的关系， &lt;code&gt;2&lt;/code&gt; &lt;code&gt;4&lt;/code&gt; 同理
+相当于把这四个集合（或者说树）两两合并&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c65028be43e0d30ebcaa53.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;下一步&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c6526dbe43e0d30ec1760c.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;以及把以 &lt;code&gt;4&lt;/code&gt; 为根的这棵树合并到 &lt;code&gt;1&lt;/code&gt; 上，连接他们的根节点&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c657d0be43e0d30ecda861.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这样我们就基本完成了这个集合的初始化
+我们只需要再把根节点 &lt;code&gt;1&lt;/code&gt; 的祖先设置为自己，来表示它是这棵树的根节点（应该在合并之前初始化每一个结点的祖先为自己，因为图可能会不太清楚所以改到这里了）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c6595cbe43e0d30ed06172.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;代码实现思路就很清楚了&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;uni&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; y) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 查询两个节点所在树的根
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    xx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find(u);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    yy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find(v);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (xx &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; yy) f[xx] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; yy; &lt;span style=&#34;color:#75715e&#34;&gt;//连接根节点
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/*
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;int main() {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    .....
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    cin &amp;gt;&amp;gt; m &amp;gt;&amp;gt; n; // m 为人数，n 为关系数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    int f[m+10], u, v;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    int p,q;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    memset(f,0,sizeof 0);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    for (int i = 1; i &amp;lt;= m; ++i) {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;        f[i] = i;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;*/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;查找&#34;&gt;查找&lt;/h3&gt;
+&lt;p&gt;假如我们需要查找上一张图里面 &lt;code&gt;2&lt;/code&gt; &lt;code&gt;3&lt;/code&gt; 是否是亲戚，如何操作呢？&lt;/p&gt;
+&lt;p&gt;很容易发现，&lt;code&gt;2&lt;/code&gt; &lt;code&gt;3&lt;/code&gt;两个节点在同一棵树中，也就是说我们可以直接查找这两个节点的根节点，如果相同则是亲戚。&lt;/p&gt;
+&lt;p&gt;查找的实现也很简单，直接递归/迭代寻找上一级的父亲节点，如果一个节点的祖先是自己，就直接输出这个节点即可&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 查询 pos 的根
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;find&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; pos) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (f[pos] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; pos) &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; pos; &lt;span style=&#34;color:#75715e&#34;&gt;// 边界
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; find(father[pos]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;优化&#34;&gt;优化&lt;/h2&gt;
+&lt;p&gt;由上文可以发现，在并查集中查找一个节点的祖先最坏情况下的时间复杂度是 $O(h)$ 的（$h$ 为树的最大深度）
+那么对于并查集的主要优化就是减小它的最大深度&lt;/p&gt;
+&lt;h3 id=&#34;按树的大小合并&#34;&gt;按树的大小合并&lt;/h3&gt;
+&lt;p&gt;假如说我们有这样两棵树&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c66020be43e0d30edcc678.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;现在 &lt;code&gt;1&lt;/code&gt; &lt;code&gt;5&lt;/code&gt;两个节点是亲戚，那么把 &lt;code&gt;5&lt;/code&gt; 的祖先设为 &lt;code&gt;1&lt;/code&gt; 合适还是反过来合适呢？
+显然是前者&lt;/p&gt;
+&lt;p&gt;如果按照前者合并，结果就是&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c66135be43e0d30edef9df.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;最大深度是 3&lt;/p&gt;
+&lt;p&gt;如果按照后者合并，最大深度为 4&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c66158be43e0d30edf4e8c.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;也就是说，为了让 $h$ 尽可能地小，需要把深度小的树合并到深度大的树上，作为大深度树的子树&lt;/p&gt;
+&lt;p&gt;此处定义一个 $R$ 数组记录以 $i$ 为根节点的树的最大深度为 $R_i$
+（$R$ 的修改在初始化/添加关系时修改）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;uni&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; y) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; xx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find(x);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; yy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find(y);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (xx &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; yy) &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;; &lt;span style=&#34;color:#75715e&#34;&gt;// 在同一棵树中不需要合并
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (r[xx] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; r[yy]) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        f[yy] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; xx;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        r[xx] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(r[xx],r[yy]&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;// 可能合并后 y 树深度 +1 大于 x 树最大深度
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        f[xx] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; yy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        r[yy] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(r[yy],r[xx]&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;路径压缩&#34;&gt;路径压缩&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c66407be43e0d30ee5216d.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;以上两棵树显然右侧的树更优，因为它的最大深度更小&lt;/p&gt;
+&lt;p&gt;并查集的查询方式为“查询根节点”，这意味着我们查询时只需要关注查询最终的根节点，而不用关心查询途中经过的节点，这就是路径压缩的原理
+路径压缩即把一个没有连着根的节点（如上图左侧的&lt;code&gt;4&lt;/code&gt; &lt;code&gt;5&lt;/code&gt; &lt;code&gt;6&lt;/code&gt; &lt;code&gt;7&lt;/code&gt;），“跳过”所有中间节点，直接把它连到根节点上。
+对于上图来说，就是把 &lt;code&gt;4&lt;/code&gt; &lt;code&gt;5&lt;/code&gt; &lt;code&gt;6&lt;/code&gt; &lt;code&gt;7&lt;/code&gt; 摘出来连接到 &lt;code&gt;2&lt;/code&gt; &lt;code&gt;3&lt;/code&gt; 的父节点上，即 &lt;code&gt;1&lt;/code&gt;，于是形成了右图，最大深度从 2 降到了 1。
+由于并查集相关的题目中可能初始化之后仍然有需要增删的元素，同时路径压缩也需要耗费时间，所以我们只在查询需要的点时优化&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;find&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (x &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; f[x]) { &lt;span style=&#34;color:#75715e&#34;&gt;// 如果 x 不是根节点
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        f[x] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find(f[x]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f[x];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;新的查询函数可以结合上图理解。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

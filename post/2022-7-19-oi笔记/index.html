@@ -2,16 +2,16 @@
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='类 (class) 与 结构体 (struct) #include &amp;lt;iostream&amp;gt; using namespace std; class Person { private: // Person类私有 只能在 Person 这个类里面调用 int age, height; double money; public: string name; void say() { cout &amp;lt;&amp;lt; &amp;#34;I&amp;#39;m &amp;#34; &amp;lt;&amp;lt; name &amp;lt;&amp;lt; endl; } int get_age() { return age; // Person 类中可以调用由 Person 类私有的量 } void add_money(int a){ money &#43;= a; } private: // private/public 可以有多个 string books[1000]; }; // 类定义结束要加分号 int main(){ Person pinghigh(); Person persons; // 可以定义一个 Person 类的数组 pinghigh.'>
-<title>类、结构体 斐波那契数列题解</title>
+<title>类、结构体</title>
 
 <link rel='canonical' href='https://blog.tibrella.top/post/2022-7-19-oi%E7%AC%94%E8%AE%B0/'>
 
-<link rel="stylesheet" href="/scss/style.min.c8ab8a897338e7deff55c14b521348c524b0e76381ccd55846bb0e7075402432.css"><meta property='og:title' content='类、结构体 斐波那契数列题解'>
+<link rel="stylesheet" href="/scss/style.min.c8ab8a897338e7deff55c14b521348c524b0e76381ccd55846bb0e7075402432.css"><meta property='og:title' content='类、结构体'>
 <meta property='og:description' content='类 (class) 与 结构体 (struct) #include &amp;lt;iostream&amp;gt; using namespace std; class Person { private: // Person类私有 只能在 Person 这个类里面调用 int age, height; double money; public: string name; void say() { cout &amp;lt;&amp;lt; &amp;#34;I&amp;#39;m &amp;#34; &amp;lt;&amp;lt; name &amp;lt;&amp;lt; endl; } int get_age() { return age; // Person 类中可以调用由 Person 类私有的量 } void add_money(int a){ money &#43;= a; } private: // private/public 可以有多个 string books[1000]; }; // 类定义结束要加分号 int main(){ Person pinghigh(); Person persons; // 可以定义一个 Person 类的数组 pinghigh.'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2022-7-19-oi%E7%AC%94%E8%AE%B0/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='[结构体]' /><meta property='article:tag' content='[类]' /><meta property='article:tag' content='[斐波那契数列]' /><meta property='article:tag' content='[二逼做法]' /><meta property='article:tag' content='[等差数列]' /><meta property='article:published_time' content='2022-07-19T14:34:12&#43;00:00'/><meta property='article:modified_time' content='2022-07-19T14:34:12&#43;00:00'/><meta property='og:image' content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
-<meta name="twitter:title" content="类、结构体 斐波那契数列题解">
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='结构体' /><meta property='article:tag' content='类' /><meta property='article:published_time' content='2022-07-19T14:34:12&#43;00:00'/><meta property='article:modified_time' content='2022-07-19T14:34:12&#43;00:00'/><meta property='og:image' content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
+<meta name="twitter:title" content="类、结构体">
 <meta name="twitter:description" content="类 (class) 与 结构体 (struct) #include &amp;lt;iostream&amp;gt; using namespace std; class Person { private: // Person类私有 只能在 Person 这个类里面调用 int age, height; double money; public: string name; void say() { cout &amp;lt;&amp;lt; &amp;#34;I&amp;#39;m &amp;#34; &amp;lt;&amp;lt; name &amp;lt;&amp;lt; endl; } int get_age() { return age; // Person 类中可以调用由 Person 类私有的量 } void add_money(int a){ money &#43;= a; } private: // private/public 可以有多个 string books[1000]; }; // 类定义结束要加分号 int main(){ Person pinghigh(); Person persons; // 可以定义一个 Person 类的数组 pinghigh."><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
     <link rel="shortcut icon" href="/favicon.png" />
@@ -137,6 +137,26 @@
         
         
         <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
             <a href='/page/archives/' >
                 
                 
@@ -157,7 +177,7 @@
         
         
         <li >
-            <a href='/page/search/' >
+            <a href='/page/search/search/' >
                 
                 
                 
@@ -248,7 +268,6 @@
         <li><a href="#class-与-struct的异同">class 与 struct的异同</a></li>
       </ul>
     </li>
-    <li><a href="#斐波那契数列">斐波那契数列</a></li>
   </ul>
 </nav>
         </div>
@@ -265,7 +284,7 @@
         <div class="article-image">
             <a href="/post/2022-7-19-oi%E7%AC%94%E8%AE%B0/">
                 
-                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" alt="Featured image of post 类、结构体 斐波那契数列题解" />
+                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" alt="Featured image of post 类、结构体" />
                 
             </a>
         </div>
@@ -284,7 +303,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/post/2022-7-19-oi%E7%AC%94%E8%AE%B0/">类、结构体 斐波那契数列题解</a>
+            <a href="/post/2022-7-19-oi%E7%AC%94%E8%AE%B0/">类、结构体</a>
         </h2>
     
         
@@ -374,26 +393,17 @@
 </span></span></code></pre></div><h3 id="class-与-struct的异同">class 与 struct的异同</h3>
 <p>唯一一点不同是 class 中的量默认为 private , struct 中的量默认为 public<br>
 其他完全相同</p>
-<h2 id="斐波那契数列">斐波那契数列</h2>
-<p>递归无记忆搜索的写法</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">Fibonacci</span>(<span style="color:#66d9ef">int</span> n){
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>){
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> n;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Fibonacci(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> Fibonacci(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>以及等差数列(1+2+&hellip;..+n)(不允许判断，乘除)二逼做法</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">getsum</span>(<span style="color:#66d9ef">int</span> n){
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> a[n][n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>]; <span style="color:#75715e">//二维数组的size代替乘法
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">sizeof</span>(a)<span style="color:#f92672">&gt;&gt;</span><span style="color:#ae81ff">1</span>; <span style="color:#75715e">//二进制右移一位表示除以2
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
-</span></span></code></pre></div>
+
 </section>
 
 
     <footer class="article-footer">
     
     <section class="article-tags">
+        
+            <a href="/tags/%E7%BB%93%E6%9E%84%E4%BD%93/">结构体</a>
+        
+            <a href="/tags/%E7%B1%BB/">类</a>
         
     </section>
 
@@ -452,7 +462,7 @@
             
                 
 <article class="has-image">
-    <a href="/post/2022-10-math/">
+    <a href="/post/2022-7-23-oi%E7%AC%94%E8%AE%B0/">
         
         
             <div class="article-image">
@@ -463,7 +473,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">初级数论</h2>
+            <h2 class="article-title">STL</h2>
         </div>
     </a>
 </article>
@@ -471,7 +481,7 @@
             
                 
 <article class="has-image">
-    <a href="/post/2023-2-2-lca/">
+    <a href="/post/2022-7-18-oi%E7%AC%94%E8%AE%B0/">
         
         
             <div class="article-image">
@@ -482,7 +492,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">倍增求LCA/最近共同祖先</h2>
+            <h2 class="article-title">字符数组与字符串 2</h2>
         </div>
     </a>
 </article>
@@ -490,7 +500,7 @@
             
                 
 <article class="has-image">
-    <a href="/post/2023-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/">
+    <a href="/post/2022-7-17-oi%E7%AC%94%E8%AE%B0/">
         
         
             <div class="article-image">
@@ -501,7 +511,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">语言特性杂谈与常数优化</h2>
+            <h2 class="article-title">字符数组与字符串 1</h2>
         </div>
     </a>
 </article>
@@ -509,7 +519,7 @@
             
                 
 <article class="has-image">
-    <a href="/post/2023-1-31-manacher/">
+    <a href="/post/2022-7-15-oi%E7%AC%94%E8%AE%B0/">
         
         
             <div class="article-image">
@@ -520,7 +530,7 @@
         
 
         <div class="article-details">
-            <h2 class="article-title">Manacher</h2>
+            <h2 class="article-title">埃氏筛 &amp; cstring 部分函数</h2>
         </div>
     </a>
 </article>
@@ -528,18 +538,18 @@
             
                 
 <article class="has-image">
-    <a href="/post/2022-12-zfsrootarch/">
+    <a href="/post/2022-7-14-read-unknown-length/">
         
         
             <div class="article-image">
                 
-                    <img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg"/>
+                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" data-key="" data-hash="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG"/>
                 
             </div>
         
 
         <div class="article-details">
-            <h2 class="article-title">在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动</h2>
+            <h2 class="article-title">读入未知数量的数据</h2>
         </div>
     </a>
 </article>

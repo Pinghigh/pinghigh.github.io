@@ -10,7 +10,7 @@
 <meta property='og:description' content='想学一个比较简单的暴力求解方式，于是找到了模拟退火'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2023-2-23-%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='[模拟退火]' /><meta property='article:tag' content='[随机化算法]' /><meta property='article:published_time' content='2023-02-23T14:11:18&#43;00:00'/><meta property='article:modified_time' content='2023-02-23T14:11:18&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='模拟退火' /><meta property='article:tag' content='随机化算法' /><meta property='article:published_time' content='2023-02-23T14:11:18&#43;00:00'/><meta property='article:modified_time' content='2023-02-23T14:11:18&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg' />
 <meta name="twitter:title" content="模拟退火">
 <meta name="twitter:description" content="想学一个比较简单的暴力求解方式，于是找到了模拟退火"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg' />
@@ -137,6 +137,26 @@
         
         
         <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
             <a href='/page/archives/' >
                 
                 
@@ -157,7 +177,7 @@
         
         
         <li >
-            <a href='/page/search/' >
+            <a href='/page/search/search/' >
                 
                 
                 
@@ -343,11 +363,10 @@
     
     <p>模拟退火不是模拟题意，也不会让你退火（可能会让你上火），顾名思义，这个算法模拟的是“退火” 的过程。</p>
 <h2 id="基本原理">基本原理</h2>
-<p>退火即晶体冷却的过程，将一个物体加热到一定温度后使其逐渐降温。而在物理中，物体内能越高，其粒子随机运动就更剧烈，状态也就越不稳定。物体温度高时，状态最不稳定，然后使其降温，粒子运动变慢，状态就趋于稳定。
-当降温速度过快，会导致粒子来不及排列成稳定的原有的结构，从而形成能量高不稳定的非晶体。相对的，如果降温速度足够慢，粒子会渐趋有序，直至内能减为最小，此时物体呈现回晶体。</p>
+<p>退火即晶体冷却的过程，将一个物体加热到一定温度后使其逐渐降温。而在物理中，物体内能越高，其粒子随机运动就更剧烈，状态也就越不稳定。物体温度高时，状态最不稳定。使降温，粒子运动变慢，状态就趋于稳定。
+当降温速度过快，会导致粒子来不及排列成稳定的原有的结构，从而形成能量高不稳定的非晶体。相对的，如果降温速度足够慢，粒子会渐趋有序，直至内能减为最小，此时物体呈现为晶体。</p>
 <p>上面两段所说的“非晶体”可以看作“局部最优解”，而变回原有结构的晶体则可以看作“最优解”。</p>
-<p>大体来说，模拟退火就是随机跳解，接受更优的解，同时为了防止局部最优解的陷阱，对跳到的相对不优的解概率性接受。</p>
-<p>概率性接受不优解，相当于物理过程中粒子的随机跳动，才带来晶体降温结果的随机性。而跳随机解的次数，则相当于降温的速度，降温的速度越慢，晶体回到原有结构的可能性更高，则跑出最优解的可能性更高。</p>
+<p>大体来说，模拟退火就是随机跳解，接受更优的解，同时为了防止局部最优解的陷阱，对跳到的相对不优的解概率性接受，后者相当于物理过程中粒子的随机跳动，带来晶体降温结果的随机性。而跳随机解的次数，则相当于降温的速度，降温的速度越慢，晶体回到原有结构的可能性更高，也就相当于跑出最优解的可能性更高。</p>
 <p>先放一张图感性理解一下</p>
 <p><img src="https://pic.imgdb.cn/item/63f75151f144a01007973ad6.webp"
 	
@@ -362,7 +381,7 @@
 模拟退火：一个兔子喝醉了乱跳，跳到了某个山顶也要继续跳到别的山坡，但是它逐渐清醒，向最高点跳去</p>
 <p>感性理解后我们详细讲解一下算法过程。</p>
 <h2 id="算法过程">算法过程</h2>
-<p>设定好“初始解”，“初始温度”与“下降速度”，每一次“下降”都得到一个新解，则有两种情况，即新解优于旧解或不优于旧解。优于旧解显然是要接受的，但是只接受优解可能只能找到局部最优，因而我们对于一个不优的解还需要进一步处理。</p>
+<p>设定好“初始解”，“初始温度”与“下降速度”，每一次“下降”都得到一个新解，则有两种情况，即新解优于旧解或不优于旧解。优于旧解显然是要接受的，但是只接受优解可能只能找到局部最优，与爬山算法无异，因而我们对于一个不优的解还需要进一步处理。</p>
 <p>而这一步处理（可能是）模拟退火的精髓所在，是把这个随机化算法和热力学/统计力学等连接起来的部分，即接受这个不优解的概率。</p>
 <p>摘自维基百科</p>
 <blockquote>
@@ -426,6 +445,10 @@ $$</p>
     <footer class="article-footer">
     
     <section class="article-tags">
+        
+            <a href="/tags/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/">模拟退火</a>
+        
+            <a href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%AE%97%E6%B3%95/">随机化算法</a>
         
     </section>
 
@@ -503,44 +526,6 @@ $$</p>
             
                 
 <article class="has-image">
-    <a href="/post/2022-10-math/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" data-key="" data-hash="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">初级数论</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/post/2022-7-19-oi%E7%AC%94%E8%AE%B0/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" data-key="" data-hash="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">类、结构体 斐波那契数列题解</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
     <a href="/post/2023-1-31-manacher/">
         
         
@@ -553,25 +538,6 @@ $$</p>
 
         <div class="article-details">
             <h2 class="article-title">Manacher</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/post/2023-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" data-key="" data-hash="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">语言特性杂谈与常数优化</h2>
         </div>
     </a>
 </article>

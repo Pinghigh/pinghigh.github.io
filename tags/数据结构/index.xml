@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>数据结构 on 钛合金伞的隙间</title>
+        <link>https://blog.tibrella.top/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
+        <description>Recent content in 数据结构 on 钛合金伞的隙间</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Sun, 29 Jan 2023 14:12:27 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>树状数组</title>
+        <link>https://blog.tibrella.top/post/2023-1-29-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</link>
+        <pubDate>Sun, 29 Jan 2023 14:12:27 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2023-1-29-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</guid>
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 树状数组" /&gt;&lt;p&gt;顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。
+用途是解决大部分区间修改查询问题，复杂度一般是 $\operatorname{O}(\log n)$ ，同时常数小（暗示线段树不行），同时码量小，好理解（暗示*2），但是复杂的区间修改查询问题不能解决，同时区间最大最小值也不能用它处理（后文会说）&lt;/p&gt;
+&lt;h2 id=&#34;基本树状数组&#34;&gt;基本树状数组&lt;/h2&gt;
+&lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
+&lt;p&gt;来自学长的一张图
+&lt;strong&gt;注意&lt;/strong&gt;下文基本上所有东西都可以/需要搭配这个图进行理解&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63d613b2face21e9ef36c9df.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;以求区间和的树状数组为例，树中每一个节点存储一段区间的和，询问时进行前缀和加减即可得出任意区间的和。
+分区间的方法即利用二进制，对于第 $i$ 节点来说，$i$ 的二进制形式中最低一位 &lt;code&gt;1&lt;/code&gt; 的位置为 $x$，那么 $tree_i$ 就存储了 $[i-2^x+1,i]$ 区间的和。
+注意此处 $x$ 从 &lt;code&gt;0&lt;/code&gt; 开始算
+以 $3$ 为例，$3$ 的二进制为 &lt;code&gt;0000 0011&lt;/code&gt;，最低一位 &lt;code&gt;1&lt;/code&gt; 的位置是 0，则 $tree_3$ 存储 $[3-1+1,3]$ 即 $[3,3]$ 的区间和。
+再以 $8$ 为例，$8$ 的二进制为 &lt;code&gt;0000 1000&lt;/code&gt;，最低一位 &lt;code&gt;1&lt;/code&gt; 的位置是 3，则 $tree_8$ 存储 $[8-8+1,8]$ 即 $[1,8]$ 的区间和。&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h3 id=&#34;实现&#34;&gt;实现&lt;/h3&gt;
+&lt;h4 id=&#34;建立&#34;&gt;建立&lt;/h4&gt;
+&lt;p&gt;实际上不用特意处理建立，直接在输入过程中每输入一个数就&lt;a class=&#34;link&#34; href=&#34;#%e5%8d%95%e7%82%b9%e4%bf%ae%e6%94%b9&#34; &gt;修改&lt;/a&gt;即可。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; t1; &lt;span style=&#34;color:#75715e&#34;&gt;// tmp
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    modify(i,t1);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;lowbit&#34;&gt;lowbit&lt;/h4&gt;
+&lt;p&gt;本函数实现查找一个数最后一位 $1$ 的位置。&lt;/p&gt;
+&lt;p&gt;首先声明一个冷知识（大概冷），位运算是针对内存中存储的原数据的运算，换句话说，进行位运算的是补码而不是原码。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原码&lt;/strong&gt;即一个数本身的二进制表示，&lt;strong&gt;反码&lt;/strong&gt;即在原码的基础上符号位不变其他位取反。
+&lt;strong&gt;补码&lt;/strong&gt;分类来说，正数的补码是它的原码，负数的补码为其反码$+1$。&lt;/p&gt;
+&lt;p&gt;在这里我们只考虑最后一位 &lt;code&gt;1&lt;/code&gt; 及它后面的 &lt;code&gt;0&lt;/code&gt;。
+比如 &lt;code&gt;0011 0100&lt;/code&gt; 这个二进制数，我们先把它变成负数，即按位取反后加一（易证这就是他的相反数），变为 &lt;code&gt;11001011&lt;/code&gt; 再变为 &lt;code&gt;11001100&lt;/code&gt;。
+发现了一件神奇的事情，原来最低一位 &lt;code&gt;1&lt;/code&gt; 竟然回来了！
+显然，这位 &lt;code&gt;1&lt;/code&gt; 前面的所有数字因为被取反所以和原数完全不同；后面的所有数字原来一定是 &lt;code&gt;0&lt;/code&gt; 取反后变成一排 &lt;code&gt;1&lt;/code&gt;，负数的补码是反码$+1$，从而一直进位到原来最后一位 &lt;code&gt;1&lt;/code&gt; 这里，而它们本身变回了 &lt;code&gt;0&lt;/code&gt; ；又因为这位 &lt;code&gt;1&lt;/code&gt; 被取反后是 &lt;code&gt;0&lt;/code&gt; 所以无论如何都不会再向前进位。
+从而保证对于任意一个正数 $x$，$-x$ 与 $x$ 的存储只有 $x$ 本身最后一位 &lt;code&gt;1&lt;/code&gt; 是相同的。
+因此 &lt;code&gt;lowbit()&lt;/code&gt; 的实现就非常简单了，直接用 &lt;code&gt;x&amp;amp;-x&lt;/code&gt;，得到的结果就是&lt;a class=&#34;link&#34; href=&#34;#%e5%8e%9f%e7%90%86&#34; &gt;原理&lt;/a&gt;中所说的 $2^x$，又快又好想，用着还方便。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lowbit&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (x&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;-&lt;/span&gt;x);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;单点修改&#34;&gt;单点修改&lt;/h4&gt;
+&lt;p&gt;假设修改为给第 $x$ 个数增加 $v$，那我们就需要修改所有包含第 $x$ 个元素的节点，则从第 $x$ 个节点寻找父亲节点直到根节点为止（参考上图）。
+$x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层循环实现 $\operatorname{O}(\log(n))$ 修改。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;modify&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; i &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; lowbit(i)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        tree[i] &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; v;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;区间查询&#34;&gt;区间查询&lt;/h4&gt;
+&lt;p&gt;查询区间为 $[l,r]$ 时，将问题转化为求 $[1,r] - [1,l-1]$ 的值（前缀和知识），因此我们只需要实现查询前缀和的功能即可。
+因为 $i$ 节点存储的是一段长度为 $\operatorname{lowbit}(i)$ 的区间的和，因此取完 $i$ 号点的值后再取 $i-\operatorname{lowbit}(i)$ 号节点的值，直到位置变为 $0$（到头）即可（看不懂就结合上面图）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x; i; i &lt;span style=&#34;color:#f92672&#34;&gt;-=&lt;/span&gt; lowbit(i)) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        res &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; tree[i];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ans &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; query(r) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; query(l&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;改区间查单点&#34;&gt;改区间查单点&lt;/h2&gt;
+&lt;p&gt;上文我们解决了求前缀和的问题，本次需要查询单点，那么很容易联想到&lt;strong&gt;差分&lt;/strong&gt;。更改区间对应改差分数组上的两个点，查询单点对应查询差分数组的前缀和。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>RMQ/ST表</title>
+        <link>https://blog.tibrella.top/post/2023-1-28-rmq/</link>
+        <pubDate>Fri, 27 Jan 2023 14:22:33 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2023-1-28-rmq/</guid>
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post RMQ/ST表" /&gt;&lt;p&gt;目标是解决 RMQ 问题，即对于一个大区间，短时间内查询一个小区间的最大最小值&lt;/p&gt;
+&lt;p&gt;下文以最大值为例说明&lt;/p&gt;
+&lt;p&gt;ST 表本质上是一个动态规划（倍增的）&lt;/p&gt;
+&lt;p&gt;先利用倍增（二进制拆分）预处理然后 $\operatorname{O}(1)$ 查询，比线段树快，但是只支持静态区间&lt;/p&gt;
+&lt;h2 id=&#34;原理&#34;&gt;原理&lt;/h2&gt;
+&lt;h3 id=&#34;预处理&#34;&gt;预处理&lt;/h3&gt;
+&lt;p&gt;$f_{i,j}$ 表示从 $i$ 开始，长度为 $2^j$ 的区间中的最大值&lt;/p&gt;
+&lt;p&gt;预处理阶段，对于 $f_{i,j}$ 来说，直接
+$$
+max{ f_{i,{j-1}},f_{i+2^{j-1},j-1} }
+$$
+递推即可，非常容易想，时间复杂度为 $O(n\log n)$&lt;/p&gt;
+&lt;h3 id=&#34;查询&#34;&gt;查询&lt;/h3&gt;
+&lt;p&gt;对于一个区间 $[L,R]$ 来说，假设他的长度为 $len$&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63d4c4b0face21e9ef9f3cb9.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;很容易能找到一个 $k$ 使得
+$$
+\frac{len}{2} &amp;lt; 2^k \leqslant len
+$$&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63d4c785face21e9efa61b8e.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;显然 $[L,R]$ 被 $[L,2^k],[R-2^k-1,k]$ 严格包含，因此 ST 表中查询最大最小值的时间复杂度是常数级别的，而不是线段树的 $\log$ 级别
+查询结果就是 $\max
+{f_{L,2^k},f_{R-2^k-1k,k}}$&lt;/p&gt;
+&lt;p&gt;至于 $k$，肉眼可见 $k=\lfloor\log _2 (len)\rfloor$
+此处可以直接使用 &lt;code&gt;cmath&lt;/code&gt; 库中的 &lt;code&gt;log()&lt;/code&gt; 函数，它是用来求以 10 为底的对数的
+根据换底公式&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;可知 $$k=\lfloor\log_2(len)\rfloor=\lfloor \frac{\lg(len)}{\lg2} \rfloor$$&lt;/p&gt;
+&lt;h2 id=&#34;实现&#34;&gt;实现&lt;/h2&gt;
+&lt;p&gt;首先是初始化&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; M; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;j) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; j) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;j) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            f[i][j] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; w[i];  &lt;span style=&#34;color:#75715e&#34;&gt;// 从 i 开始长度为 2^0=1 的区间最大值为 i 本身
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            f[i][j] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(f[i][j &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;], f[i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)][j &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后是查询&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; l, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; r) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; len &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; log(len) &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; log(&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; max(f[l][k], f[r &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; k) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;][k]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;动态修改&#34;&gt;动态修改&lt;/h2&gt;
+&lt;p&gt;这个标题比较诡异，因为我提到过&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;只支持静态区间&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;但是实际上我们可以用一些小 trick 实现在 st 表的尾部增加值。
+（前提是题目要求比较少，比如目前这道题只需要在尾部增加数，同时只需要查询尾部某长度区间的最值）
+显然对于 st 表的每一个 $f_{i,j}$ 来说，他只会用到 $f_{k,j}$,$k&amp;gt;i$ 的值而不会用到前面的值，因此我们给他做一个倒转。
+换句话说，现在 $ f_{i,j} $ 表示从 $ i $ 开始，向前长度为 $ 2^j $ 的区间中的最大值。
+代码如下&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;add&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; a) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    a &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; t;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    a &lt;span style=&#34;color:#f92672&#34;&gt;%=&lt;/span&gt; d;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ori[&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;tail] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; tail &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; j) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;j) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;j) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            f[tail][j] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            f[tail][j] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(f[tail][j &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;], f[tail &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)][j &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; len) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; tail &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; len &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; log2(len);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    t &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;  max(f[tail][k], f[l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; (&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; k) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;][k]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;$ \log_xy=\frac{\log_cy}{\log_cx} $&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        <item>
+        <title>并查集</title>
+        <link>https://blog.tibrella.top/post/2022-1-17-%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
+        <pubDate>Tue, 17 Jan 2023 15:11:36 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2022-1-17-%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 并查集" /&gt;&lt;p&gt;今天讲的最短路啥的感觉有点费劲，先把并查集的东西写了&lt;/p&gt;
+&lt;h2 id=&#34;用途&#34;&gt;用途&lt;/h2&gt;
+&lt;p&gt;基本上用来处理 &lt;strong&gt;关系&lt;/strong&gt;
+什么是关系？比如一个人和他的表弟是亲戚，亲戚的关系可以人为理清
+但是&lt;del&gt;毒瘤的&lt;/del&gt;出题人会给这个人安上 114514 个表弟这些表弟的 1919810 个其他亲戚以及 1145141919810 个其他无关的人，然后问你这个序列里面第 $a$ 个人和第 $b$ 个人是不是亲戚，一般的方法显然处理不了
+并查集就是专门用来解决这种东西用的&lt;/p&gt;
+&lt;h2 id=&#34;实现&#34;&gt;实现&lt;/h2&gt;
+&lt;p&gt;“并查集”的操作就是前两个字，即合并与查询
+此处默认以树实现并查集&lt;/p&gt;
+&lt;h3 id=&#34;合并&#34;&gt;合并&lt;/h3&gt;
+&lt;p&gt;合并的操作即把两棵树的根节点连接在一起&lt;/p&gt;
+&lt;p&gt;文字解释不清楚，但是直接用树结构实现就比较清楚了&lt;/p&gt;
+&lt;p&gt;这里我们只需要开一个数组 $F$ 存储每一个节点的祖先即可
+每次设置 $i$ 节点的祖先只需要修改 $F_i$ 的值&lt;/p&gt;
+&lt;p&gt;比如目前我们有五个点&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c64e44be43e0d30eb8b23d.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后由输入数据可知，&lt;code&gt;1&lt;/code&gt; 和 &lt;code&gt;3&lt;/code&gt;，&lt;code&gt;2&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;5&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;4&lt;/code&gt; 和 &lt;code&gt;1&lt;/code&gt; 是亲戚
+于是我们把 &lt;code&gt;1&lt;/code&gt; 设为 &lt;code&gt;5&lt;/code&gt; 的祖先来表示他们的关系， &lt;code&gt;2&lt;/code&gt; &lt;code&gt;4&lt;/code&gt; 同理
+相当于把这四个集合（或者说树）两两合并&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c65028be43e0d30ebcaa53.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;下一步&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c6526dbe43e0d30ec1760c.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;以及把以 &lt;code&gt;4&lt;/code&gt; 为根的这棵树合并到 &lt;code&gt;1&lt;/code&gt; 上，连接他们的根节点&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c657d0be43e0d30ecda861.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;这样我们就基本完成了这个集合的初始化
+我们只需要再把根节点 &lt;code&gt;1&lt;/code&gt; 的祖先设置为自己，来表示它是这棵树的根节点（应该在合并之前初始化每一个结点的祖先为自己，因为图可能会不太清楚所以改到这里了）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c6595cbe43e0d30ed06172.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;代码实现思路就很清楚了&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;uni&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; y) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 查询两个节点所在树的根
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    xx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find(u);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    yy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find(v);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (xx &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; yy) f[xx] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; yy; &lt;span style=&#34;color:#75715e&#34;&gt;//连接根节点
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;/*
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;int main() {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    .....
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    cin &amp;gt;&amp;gt; m &amp;gt;&amp;gt; n; // m 为人数，n 为关系数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    int f[m+10], u, v;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    int p,q;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    memset(f,0,sizeof 0);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    for (int i = 1; i &amp;lt;= m; ++i) {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;        f[i] = i;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    ...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;*/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;查找&#34;&gt;查找&lt;/h3&gt;
+&lt;p&gt;假如我们需要查找上一张图里面 &lt;code&gt;2&lt;/code&gt; &lt;code&gt;3&lt;/code&gt; 是否是亲戚，如何操作呢？&lt;/p&gt;
+&lt;p&gt;很容易发现，&lt;code&gt;2&lt;/code&gt; &lt;code&gt;3&lt;/code&gt;两个节点在同一棵树中，也就是说我们可以直接查找这两个节点的根节点，如果相同则是亲戚。&lt;/p&gt;
+&lt;p&gt;查找的实现也很简单，直接递归/迭代寻找上一级的父亲节点，如果一个节点的祖先是自己，就直接输出这个节点即可&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 查询 pos 的根
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;find&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; pos) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (f[pos] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; pos) &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; pos; &lt;span style=&#34;color:#75715e&#34;&gt;// 边界
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; find(father[pos]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;优化&#34;&gt;优化&lt;/h2&gt;
+&lt;p&gt;由上文可以发现，在并查集中查找一个节点的祖先最坏情况下的时间复杂度是 $O(h)$ 的（$h$ 为树的最大深度）
+那么对于并查集的主要优化就是减小它的最大深度&lt;/p&gt;
+&lt;h3 id=&#34;按树的大小合并&#34;&gt;按树的大小合并&lt;/h3&gt;
+&lt;p&gt;假如说我们有这样两棵树&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c66020be43e0d30edcc678.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;现在 &lt;code&gt;1&lt;/code&gt; &lt;code&gt;5&lt;/code&gt;两个节点是亲戚，那么把 &lt;code&gt;5&lt;/code&gt; 的祖先设为 &lt;code&gt;1&lt;/code&gt; 合适还是反过来合适呢？
+显然是前者&lt;/p&gt;
+&lt;p&gt;如果按照前者合并，结果就是&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c66135be43e0d30edef9df.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;最大深度是 3&lt;/p&gt;
+&lt;p&gt;如果按照后者合并，最大深度为 4&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c66158be43e0d30edf4e8c.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;也就是说，为了让 $h$ 尽可能地小，需要把深度小的树合并到深度大的树上，作为大深度树的子树&lt;/p&gt;
+&lt;p&gt;此处定义一个 $R$ 数组记录以 $i$ 为根节点的树的最大深度为 $R_i$
+（$R$ 的修改在初始化/添加关系时修改）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;uni&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; y) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; xx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find(x);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; yy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find(y);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (xx &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; yy) &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;; &lt;span style=&#34;color:#75715e&#34;&gt;// 在同一棵树中不需要合并
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (r[xx] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; r[yy]) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        f[yy] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; xx;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        r[xx] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(r[xx],r[yy]&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;// 可能合并后 y 树深度 +1 大于 x 树最大深度
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        f[xx] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; yy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        r[yy] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(r[yy],r[xx]&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;路径压缩&#34;&gt;路径压缩&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c66407be43e0d30ee5216d.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;以上两棵树显然右侧的树更优，因为它的最大深度更小&lt;/p&gt;
+&lt;p&gt;并查集的查询方式为“查询根节点”，这意味着我们查询时只需要关注查询最终的根节点，而不用关心查询途中经过的节点，这就是路径压缩的原理
+路径压缩即把一个没有连着根的节点（如上图左侧的&lt;code&gt;4&lt;/code&gt; &lt;code&gt;5&lt;/code&gt; &lt;code&gt;6&lt;/code&gt; &lt;code&gt;7&lt;/code&gt;），“跳过”所有中间节点，直接把它连到根节点上。
+对于上图来说，就是把 &lt;code&gt;4&lt;/code&gt; &lt;code&gt;5&lt;/code&gt; &lt;code&gt;6&lt;/code&gt; &lt;code&gt;7&lt;/code&gt; 摘出来连接到 &lt;code&gt;2&lt;/code&gt; &lt;code&gt;3&lt;/code&gt; 的父节点上，即 &lt;code&gt;1&lt;/code&gt;，于是形成了右图，最大深度从 2 降到了 1。
+由于并查集相关的题目中可能初始化之后仍然有需要增删的元素，同时路径压缩也需要耗费时间，所以我们只在查询需要的点时优化&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;find&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (x &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; f[x]) { &lt;span style=&#34;color:#75715e&#34;&gt;// 如果 x 不是根节点
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        f[x] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find(f[x]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; f[x];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;新的查询函数可以结合上图理解。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>线段树</title>
+        <link>https://blog.tibrella.top/post/2022-10-xianduanshu/</link>
+        <pubDate>Thu, 27 Oct 2022 14:22:33 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2022-10-xianduanshu/</guid>
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 线段树" /&gt;&lt;p&gt;&lt;del&gt;闪击线段树&lt;/del&gt;&lt;/p&gt;
+&lt;h2 id=&#34;基本线段树&#34;&gt;基本线段树&lt;/h2&gt;
+&lt;h3 id=&#34;操作&#34;&gt;操作&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;push_up()&lt;/code&gt; 通过子区间计算父区间的数据&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;build()&lt;/code&gt; 将一段区间初始化成线段树&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;modify()&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;修改单点数据&lt;/li&gt;
+&lt;li&gt;修改区间数据 (即 &lt;code&gt;push_down()&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;query()&lt;/code&gt; 查询&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;push_down()&lt;/code&gt; 修改区间数据并递归修改子区间的数据&lt;/p&gt;
+&lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
+&lt;p&gt;还是用图理解&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63d63113face21e9ef80106d.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;简单来说就是把一个区间整成类似上图的完全二叉树，父节点（区间）的数据可以由子节点（区间）的数据推出（如区间最大值，区间和等），同时父节点的更改可以推到子节点里。
+可能有点抽象，但是把操作挨个解释就比较易懂了。&lt;/p&gt;
+&lt;h3 id=&#34;存储节点&#34;&gt;存储节点&lt;/h3&gt;
+&lt;p&gt;使用结构体感觉比较清晰，配上指针就能脱离中括号的束缚了&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Node&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; u;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Node &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;lc, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;rc;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; l, r, mid;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; lazy;  &lt;span style=&#34;color:#75715e&#34;&gt;// 懒标记
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;init&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; L;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; R;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        mid &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;} tr[N &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同时 &lt;code&gt;mid&lt;/code&gt; 是需要用到的变量，我这里选择直接存在里面，同时写一个初始化函数，直接传进去区间的左右端点，非常方便。&lt;/p&gt;
+&lt;h3 id=&#34;建立线段树&#34;&gt;建立线段树&lt;/h3&gt;
+&lt;p&gt;第一层区间为 $[l,r]$&lt;/p&gt;
+&lt;p&gt;取 $mid = \lfloor \frac{l+r}{2} \rfloor $&lt;/p&gt;
+&lt;p&gt;则第二层的区间分别是 $[l,mid], [mid+1,r]$&lt;/p&gt;
+&lt;p&gt;目前节点为 $u$，线段树数组为 $tr$，&lt;code&gt;build()&lt;/code&gt; 函数如下&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;build&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;init(L, R); &lt;span style=&#34;color:#75715e&#34;&gt;// 记录区间范围
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (L &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; R) { &lt;span style=&#34;color:#75715e&#34;&gt;// 到达叶子节点就回溯
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ori[L];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; tr; &lt;span style=&#34;color:#75715e&#34;&gt;// 防止空指针，左右儿子指向第一个空节点
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;tail; &lt;span style=&#34;color:#75715e&#34;&gt;// tail 是一个指向最后创建的节点的指针，这样是一个类似动态开点的操作
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;tail;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    build(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc, L, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;mid);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    build(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;mid &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, R);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    push_up(nod);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;查询&#34;&gt;查询&lt;/h3&gt;
+&lt;p&gt;以区间和为例&lt;/p&gt;
+&lt;p&gt;设查询的区间为 $[l,r]$，目前节点区间为 $[T_l,T_r]$&lt;/p&gt;
+&lt;p&gt;则有二种情况&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;$[l,r] \ni [T_l,T_r]$ 查询区间包含目前节点区间（因为每次查询都可能把查询区间切割开再下传，所以这种情况可视为严格包含）&lt;/li&gt;
+&lt;li&gt;$[l,r]\cap[T_l,T_r] \neq \varnothing$&lt;/li&gt;
+&lt;li&gt;$[l,r]\not\ni[T_l,T_r]$ （不存在）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;把第二种情况还需要再分开成三种情况&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;$[l,r] \in [lc_l,lc_r]$ 即被左儿子区间包含&lt;/li&gt;
+&lt;li&gt;$[l,r] \in [rc_l,rc_r]$ 即被右儿子区间包含&lt;/li&gt;
+&lt;li&gt;$l \leqslant mid , r &amp;gt; mid$ 即左右区间都不能单独覆盖查询区间，这种情况把查询区间从 mid 劈成两半再分别在左右儿子区间查询即可。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;所以只用处理相应的情况就可以了&lt;/p&gt;
+&lt;p&gt;这里直接给出一个维护区间最大值的查询函数&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    push_down(nod);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; L) { &lt;span style=&#34;color:#75715e&#34;&gt;// 严格覆盖
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; R) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; query(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc, L, R);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; L) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; query(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc, L, R);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; query(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc, L, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; query(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l, R);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;从子节点推出父节点数据&#34;&gt;从子节点推出父节点数据&lt;/h3&gt;
+&lt;p&gt;还是以区间和为例，父区间最大值为两个子区间最大值中的最大值。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;push_up&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;修改区间值&#34;&gt;修改区间值&lt;/h3&gt;
+&lt;p&gt;理解起来其实挺简单的，比如给区间 $[L,R]$ 都加一个数 $x$，朴素写法直接用类似&lt;a class=&#34;link&#34; href=&#34;#%e6%9f%a5%e8%af%a2&#34; &gt;查询&lt;/a&gt;的方法递归到底部回溯的时候一个一个更新即可。
+但是显然这样做效率很低，对于长度为 $n$ 的一个区间，最坏情况下它对应 $\log n$ 个极大区间（这些区间不存在可以合并的两个）；对于每一个极大区间来说修改它和它所有子区间的值的时间复杂度显然是他的长度，即 $\operatorname{O}(len)$。则如上朴素写法每次修改的时间复杂度最坏为 $\operatorname{O}(n\log n)$，属于是飞慢了。
+优化的方式很容易想到，就是每次修改只需要保证需要用到的节点是正确的，其他节点先不管，需要用到的时候再更改。这种方式很像前端里面的一个优化“懒加载”，即一个网页如果有很多元素，一次全部加载完可能会缓慢，所以设备显示到哪里就只加载哪里的元素，看不到的元素能不加载就不加载。同样的，这种优化方式需要打标记，同时能不下放就不下放，子节点能不修改就不修改，被称为“懒标记”。
+也就是说若一个节点拥有懒标记，那么该节点的子节点们都不知道这个懒标记的存在，同时也就表明该节点的叶子节点存储的信息均不是真实信息。如果需要用到当前拥有懒标记的节点的真实信息，就需要把懒标记下放到子节点，通过懒标记更改子节点数据，然后处理子节点更改造成的数据更改即可（直接 &lt;code&gt;push_up&lt;/code&gt;）&lt;/p&gt;
+&lt;p&gt;假设目前要求维护区间和的同时处理区间加的操作，对于每一个节点来说，我们需要维护一个懒标记 $lazy$ ，代表“当前区间的子区间需要加一个 $lazy$ ”。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;modify&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v) { &lt;span style=&#34;color:#75715e&#34;&gt;// 给 [L,R] 每个数加 v
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (L &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r) { &lt;span style=&#34;color:#75715e&#34;&gt;// 包含了
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; v; &lt;span style=&#34;color:#75715e&#34;&gt;// 该区间的每个子区间都需要加 v
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; v; &lt;span style=&#34;color:#75715e&#34;&gt;// 当前区间一共有 R-L+1 个元素（因为严格包含所以 L 和 R 就是区间的左右端点）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// 用不上子区间的数据，不下传懒标记直接结束
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        push_down(nod);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;/*
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;        判断三种情况
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;        */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; R) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            modify(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc, L, R, v);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; L) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            modify(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc, L, R, v);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            modify(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc, L, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r, v);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            modify(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l, R, v);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        push_down(nod);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        push_up(nod);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;push_down&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc) nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc) nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;mid &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;mid) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;值得注意的是，加上懒标记之后，为了保证查询时访问的节点数据正确，需要在查询时添加 &lt;code&gt;push_down()&lt;/code&gt; 操作（上文已加）。&lt;/p&gt;
+&lt;h3 id=&#34;完整实现&#34;&gt;完整实现&lt;/h3&gt;
+&lt;p&gt;区间加修改&amp;amp;求区间和&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define int long long
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define N 1000150
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Node&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; u;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Node &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;lc, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;rc;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; l, r, mid;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; lazy;  &lt;span style=&#34;color:#75715e&#34;&gt;// 懒标记
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;init&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        l &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; L;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; R;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        mid &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;} tr[N &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n, m;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, y, k;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; ori[N];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; beh;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; t1, t2, t3;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; cnt &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; tail &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; tr;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;push_up&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;build&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;init(L, R);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (L &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; R) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ori[L];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; tr;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;tail;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;tail;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    build(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc, L, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;mid);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    build(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;mid &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, R);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    push_up(nod);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;push_down&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc) nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc) nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;mid &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;mid) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;modify&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (L &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; v;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; v;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        push_down(nod);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; R) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            modify(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc, L, R, v);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; L) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            modify(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc, L, R, v);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            modify(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc, L, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r, v);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            modify(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l, R, v);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        push_down(nod);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        push_up(nod);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    push_down(nod);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; L) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; R) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; query(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc, L, R);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; L) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; query(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc, L, R);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; query(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc, L, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r) &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; query(nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc, nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;rc&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l, R);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;signed&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ios&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;sync_with_stdio(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cin.tie(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cout.tie(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; m;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; ori[i];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    build(&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;tail, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, n);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (m&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; beh;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (beh &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;1&amp;#39;&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; t1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; t2 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; t3;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            modify(tr &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, t1, t2, t3);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; t1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; t2;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; query(tr &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, t1, t2) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;区间加乘同时存在&#34;&gt;区间加乘同时存在&lt;/h2&gt;
+&lt;p&gt;上文介绍了加法的懒标记，如果是单独乘法的懒标记也很好实现。但是如果需要同时处理加法、乘法两个区间操作该怎么办捏？&lt;/p&gt;
+&lt;p&gt;只需要使用一下分配律即可。&lt;/p&gt;
+&lt;p&gt;$(nod_cnod_v + nod_a) \cdot d=d \cdot nod_cnod_v+d \cdot nod_a$&lt;/p&gt;
+&lt;p&gt;$nod_c$ 即乘法懒标记， $nod_a$ 即加法懒标记，$d$ 是需要乘的数（操作数）&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
