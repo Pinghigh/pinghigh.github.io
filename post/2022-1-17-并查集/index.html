@@ -369,18 +369,15 @@
     
     <p>今天讲的最短路啥的感觉有点费劲，先把并查集的东西写了</p>
 <h2 id="用途">用途</h2>
-<p>基本上用来处理 <strong>关系</strong>
-什么是关系？比如一个人和他的表弟是亲戚，亲戚的关系可以人为理清
-但是<del>毒瘤的</del>出题人会给这个人安上 114514 个表弟这些表弟的 1919810 个其他亲戚以及 1145141919810 个其他无关的人，然后问你这个序列里面第 $a$ 个人和第 $b$ 个人是不是亲戚，一般的方法显然处理不了
-并查集就是专门用来解决这种东西用的</p>
+<p>基本上用来处理 <strong>关系</strong><br>
+什么是关系？比如一个人和他的表弟是亲戚，亲戚的关系可以人为理清，
+但是<del>毒瘤的</del>出题人会给这个人安上 114514 个表弟这些表弟的 1919810 个其他亲戚以及 1145141919810 个其他无关的人，然后问你这个序列里面第 $a$ 个人和第 $b$ 个人是不是亲戚，一般的方法显然处理不了，而并查集就是专门用来解决这种东西用的。</p>
 <h2 id="实现">实现</h2>
-<p>“并查集”的操作就是前两个字，即合并与查询
-此处默认以树实现并查集</p>
+<p>“并查集”的操作就是前两个字，即合并与查询。<br>
+此处默认以树实现并查集。</p>
 <h3 id="合并">合并</h3>
-<p>合并的操作即把两棵树的根节点连接在一起</p>
-<p>文字解释不清楚，但是直接用树结构实现就比较清楚了</p>
-<p>这里我们只需要开一个数组 $F$ 存储每一个节点的祖先即可
-每次设置 $i$ 节点的祖先只需要修改 $F_i$ 的值</p>
+<p>合并的操作即把两棵树的根节点连接在一起，文字解释不清楚，但是直接用树结构实现就比较清楚了。</p>
+<p>这里我们只需要开一个数组 $F$ 存储每一个节点的祖先，每次更改 $i$ 节点的祖先只需要修改 $F_i$ 的值</p>
 <p>比如目前我们有五个点</p>
 <p><img src="https://pic.imgdb.cn/item/63c64e44be43e0d30eb8b23d.png"
 	
@@ -390,9 +387,7 @@
 	
 	
 ></p>
-<p>然后由输入数据可知，<code>1</code> 和 <code>3</code>，<code>2</code> 和 <code>4</code>，<code>5</code> 和 <code>4</code>，<code>4</code> 和 <code>1</code> 是亲戚
-于是我们把 <code>1</code> 设为 <code>5</code> 的祖先来表示他们的关系， <code>2</code> <code>4</code> 同理
-相当于把这四个集合（或者说树）两两合并</p>
+<p>然后由输入数据可知，<code>1</code> 和 <code>3</code>，<code>2</code> 和 <code>4</code>，<code>5</code> 和 <code>4</code>，<code>4</code> 和 <code>1</code> 是亲戚，于是我们把 <code>1</code> 设为 <code>5</code> 的祖先来表示他们的关系， <code>2</code> <code>4</code> 同理，相当于把这四个集合（或者说树）两两合并</p>
 <p><img src="https://pic.imgdb.cn/item/63c65028be43e0d30ebcaa53.jpg"
 	
 	
@@ -419,8 +414,7 @@
 	
 	
 ></p>
-<p>这样我们就基本完成了这个集合的初始化
-我们只需要再把根节点 <code>1</code> 的祖先设置为自己，来表示它是这棵树的根节点（应该在合并之前初始化每一个结点的祖先为自己，因为图可能会不太清楚所以改到这里了）</p>
+<p>这样我们就基本完成了这个集合的初始化，我们只需要再把根节点 <code>1</code> 的祖先设置为自己，来表示它是这棵树的根节点（应该在合并之前初始化每一个结点的祖先为自己，因为图可能会不太清楚所以改到这里了）</p>
 <p><img src="https://pic.imgdb.cn/item/63c6595cbe43e0d30ed06172.jpg"
 	
 	
@@ -453,16 +447,14 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
 </span></span></code></pre></div><h3 id="查找">查找</h3>
 <p>假如我们需要查找上一张图里面 <code>2</code> <code>3</code> 是否是亲戚，如何操作呢？</p>
-<p>很容易发现，<code>2</code> <code>3</code>两个节点在同一棵树中，也就是说我们可以直接查找这两个节点的根节点，如果相同则是亲戚。</p>
-<p>查找的实现也很简单，直接递归/迭代寻找上一级的父亲节点，如果一个节点的祖先是自己，就直接输出这个节点即可</p>
+<p>很容易发现，<code>2</code> <code>3</code>两个节点在同一棵树中，也就是说我们可以直接查找这两个节点的根节点，如果相同则是亲戚。查找的实现也很简单，直接递归寻找上一级的父亲节点，如果一个节点的祖先是自己，就直接输出这个节点即可</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">// 查询 pos 的根
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span>(<span style="color:#66d9ef">int</span> pos) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (f[pos] <span style="color:#f92672">==</span> pos) <span style="color:#66d9ef">return</span> pos; <span style="color:#75715e">// 边界
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> find(father[pos]);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="优化">优化</h2>
-<p>由上文可以发现，在并查集中查找一个节点的祖先最坏情况下的时间复杂度是 $O(h)$ 的（$h$ 为树的最大深度）
-那么对于并查集的主要优化就是减小它的最大深度</p>
+<p>由上文可以发现，在并查集中查找一个节点的祖先最坏情况下的时间复杂度是 $O(h)$ 的（$h$ 为树的最大深度），那么就可以通过减小最大深度来优化并查集。</p>
 <h3 id="按树的大小合并">按树的大小合并</h3>
 <p>假如说我们有这样两棵树</p>
 <p><img src="https://pic.imgdb.cn/item/63c66020be43e0d30edcc678.jpg"
@@ -473,7 +465,7 @@
 	
 	
 ></p>
-<p>现在 <code>1</code> <code>5</code>两个节点是亲戚，那么把 <code>5</code> 的祖先设为 <code>1</code> 合适还是反过来合适呢？
+<p>现在 <code>1</code> <code>5</code>两个节点是亲戚，那么把 <code>5</code> 的祖先设为 <code>1</code> 合适还是反过来合适呢？<br>
 显然是前者</p>
 <p>如果按照前者合并，结果就是</p>
 <p><img src="https://pic.imgdb.cn/item/63c66135be43e0d30edef9df.jpg"
@@ -494,7 +486,7 @@
 	
 	
 ></p>
-<p>也就是说，为了让 $h$ 尽可能地小，需要把深度小的树合并到深度大的树上，作为大深度树的子树</p>
+<p>也就是说，为了让 $h$ 尽可能地小，需要把深度/体积小的树合并到深度大的树上，作为大深度/体积树的子树</p>
 <p>此处定义一个 $R$ 数组记录以 $i$ 为根节点的树的最大深度为 $R_i$
 （$R$ 的修改在初始化/添加关系时修改）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">uni</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
@@ -521,10 +513,9 @@
 	
 ></p>
 <p>以上两棵树显然右侧的树更优，因为它的最大深度更小</p>
-<p>并查集的查询方式为“查询根节点”，这意味着我们查询时只需要关注查询最终的根节点，而不用关心查询途中经过的节点，这就是路径压缩的原理
-路径压缩即把一个没有连着根的节点（如上图左侧的<code>4</code> <code>5</code> <code>6</code> <code>7</code>），“跳过”所有中间节点，直接把它连到根节点上。
+<p>并查集的查询方式为“查询根节点”，这意味着我们查询时只需要关注查询最终的根节点，而不用关心查询途中经过的节点，这就是路径压缩的原理。路径压缩即把一个没有连着根的节点（如上图左侧的<code>4</code> <code>5</code> <code>6</code> <code>7</code>），“跳过”所有中间节点，直接把它连到根节点上。<br>
 对于上图来说，就是把 <code>4</code> <code>5</code> <code>6</code> <code>7</code> 摘出来连接到 <code>2</code> <code>3</code> 的父节点上，即 <code>1</code>，于是形成了右图，最大深度从 2 降到了 1。
-由于并查集相关的题目中可能初始化之后仍然有需要增删的元素，同时路径压缩也需要耗费时间，所以我们只在查询需要的点时优化</p>
+由于并查集相关的题目中可能初始化之后仍然有需要增删的元素，同时路径压缩也需要耗费时间，所以我们只在查询需要的点时优化。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span>(<span style="color:#66d9ef">int</span> x) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">!=</span> f[x]) { <span style="color:#75715e">// 如果 x 不是根节点
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        f[x] <span style="color:#f92672">=</span> find(f[x]);

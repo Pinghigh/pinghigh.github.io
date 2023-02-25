@@ -6,7 +6,25 @@
         <description>Recent content on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 23 Feb 2023 14:11:18 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 24 Feb 2023 21:40:29 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>更改博客主题之后的一些破事</title>
+        <link>https://blog.tibrella.top/post/2023-2-24-move-to-hugo/</link>
+        <pubDate>Fri, 24 Feb 2023 21:40:29 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2023-2-24-move-to-hugo/</guid>
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 更改博客主题之后的一些破事" /&gt;&lt;p&gt;最近因为原来 &lt;a class=&#34;link&#34; href=&#34;https://github.com/pinghigh/hexo-theme-butterfly/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;我的 butterfly 主题 fork&lt;/a&gt; 实在改不动了（实际上因为我水平太差），对于 pug 什么的也不太懂，同时由于界面过于花哨看腻了，想换点动态效果少的而又相对简单的博客主题。
+又因为之前就观察过 hugo 的主题列表，hugo 的特点是快，大部分的 hugo 主题也非常简洁（比如 &lt;a class=&#34;link&#34; href=&#34;https://c4096.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;c4096 的博客&lt;/a&gt;所采用的主题），因此我又双叒叕去 hugo theme 列表挑了个非常符合我审美（大概）的主题，即 &lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;stack&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;最一开始用 test 界面测试主题功能的时候 hugo 的速度就惊艳我了，实在是过于迅速，和我之前所用的 hexo+butterfly 的速度相比，hugo 让我感觉到构建了又好像没构建的构建过程。同时它的即时修改即时预览功能也很好用（有的时候并不能做到完全应用新修改）。
+但是一起到来的问题也很多，比如 stack 主题的文档并不是很完善，相对于我看过的大部分 hexo 主题来说可能是最不完善的（中英文倒是无所谓），因此我需要一边看文档一边看源码，还得看主题的示例站点的配置文件才让我的博客跑出正常的样子。&lt;/p&gt;
+&lt;p&gt;主题配置问题还算好解决，对于我这个&lt;del&gt;啥都不懂还贼挑的&lt;/del&gt;人来说，改动主题是必须有的部分，但是 hugo 的编写修改维护主题的文档和教程更是少之又少了&amp;hellip;因此研究了好久也没研究出来怎么改代码块样式，改配色也没成功，但是把深浅色代码块背景宽度不统一的问题倒是解决了，还得对这个进行进一步更改。当然，主题克隆下来的第一步就是 copyright-&amp;gt;copyleft，然后给 &lt;code&gt;&amp;amp;copy&lt;/code&gt; 掉个头，文章许可证改为 FDL 1.3 才继续做接下来的修改。&lt;/p&gt;
+&lt;p&gt;关于写配置，我最开始采用的是网上得到大部分好评的 toml 格式，据说比 yaml 新还好用，在此之前因为 yaml 的缩进问题我痛苦了很长时间，但是折腾了好久 toml 之后感觉 toml 更不容易被人类理解（可能只有我不理解），然后用工具回到了 yaml 的怀抱，在此之前为了研究 toml 的 map 映射语法之类的东西已经折腾不动了&amp;hellip;&lt;/p&gt;
+&lt;p&gt;关于换行，由于之前的 butterfly 主题能够自动换行，但是 stack 主题默认用的是 markdown 的换行规则，即行尾双空格或回车两次为一个换行，于是我博文基本上都炸了，会找时间修（逃&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>模拟退火</title>
         <link>https://blog.tibrella.top/post/2023-2-23-%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/</link>
         <pubDate>Thu, 23 Feb 2023 14:11:18 +0000</pubDate>
@@ -534,18 +552,15 @@ $$&lt;/p&gt;
         <guid>https://blog.tibrella.top/post/2022-1-17-%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
         <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 并查集" /&gt;&lt;p&gt;今天讲的最短路啥的感觉有点费劲，先把并查集的东西写了&lt;/p&gt;
 &lt;h2 id=&#34;用途&#34;&gt;用途&lt;/h2&gt;
-&lt;p&gt;基本上用来处理 &lt;strong&gt;关系&lt;/strong&gt;
-什么是关系？比如一个人和他的表弟是亲戚，亲戚的关系可以人为理清
-但是&lt;del&gt;毒瘤的&lt;/del&gt;出题人会给这个人安上 114514 个表弟这些表弟的 1919810 个其他亲戚以及 1145141919810 个其他无关的人，然后问你这个序列里面第 $a$ 个人和第 $b$ 个人是不是亲戚，一般的方法显然处理不了
-并查集就是专门用来解决这种东西用的&lt;/p&gt;
+&lt;p&gt;基本上用来处理 &lt;strong&gt;关系&lt;/strong&gt;&lt;br&gt;
+什么是关系？比如一个人和他的表弟是亲戚，亲戚的关系可以人为理清，
+但是&lt;del&gt;毒瘤的&lt;/del&gt;出题人会给这个人安上 114514 个表弟这些表弟的 1919810 个其他亲戚以及 1145141919810 个其他无关的人，然后问你这个序列里面第 $a$ 个人和第 $b$ 个人是不是亲戚，一般的方法显然处理不了，而并查集就是专门用来解决这种东西用的。&lt;/p&gt;
 &lt;h2 id=&#34;实现&#34;&gt;实现&lt;/h2&gt;
-&lt;p&gt;“并查集”的操作就是前两个字，即合并与查询
-此处默认以树实现并查集&lt;/p&gt;
+&lt;p&gt;“并查集”的操作就是前两个字，即合并与查询。&lt;br&gt;
+此处默认以树实现并查集。&lt;/p&gt;
 &lt;h3 id=&#34;合并&#34;&gt;合并&lt;/h3&gt;
-&lt;p&gt;合并的操作即把两棵树的根节点连接在一起&lt;/p&gt;
-&lt;p&gt;文字解释不清楚，但是直接用树结构实现就比较清楚了&lt;/p&gt;
-&lt;p&gt;这里我们只需要开一个数组 $F$ 存储每一个节点的祖先即可
-每次设置 $i$ 节点的祖先只需要修改 $F_i$ 的值&lt;/p&gt;
+&lt;p&gt;合并的操作即把两棵树的根节点连接在一起，文字解释不清楚，但是直接用树结构实现就比较清楚了。&lt;/p&gt;
+&lt;p&gt;这里我们只需要开一个数组 $F$ 存储每一个节点的祖先，每次更改 $i$ 节点的祖先只需要修改 $F_i$ 的值&lt;/p&gt;
 &lt;p&gt;比如目前我们有五个点&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c64e44be43e0d30eb8b23d.png&#34;
 	
@@ -555,9 +570,7 @@ $$&lt;/p&gt;
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;然后由输入数据可知，&lt;code&gt;1&lt;/code&gt; 和 &lt;code&gt;3&lt;/code&gt;，&lt;code&gt;2&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;5&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;4&lt;/code&gt; 和 &lt;code&gt;1&lt;/code&gt; 是亲戚
-于是我们把 &lt;code&gt;1&lt;/code&gt; 设为 &lt;code&gt;5&lt;/code&gt; 的祖先来表示他们的关系， &lt;code&gt;2&lt;/code&gt; &lt;code&gt;4&lt;/code&gt; 同理
-相当于把这四个集合（或者说树）两两合并&lt;/p&gt;
+&lt;p&gt;然后由输入数据可知，&lt;code&gt;1&lt;/code&gt; 和 &lt;code&gt;3&lt;/code&gt;，&lt;code&gt;2&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;5&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;4&lt;/code&gt; 和 &lt;code&gt;1&lt;/code&gt; 是亲戚，于是我们把 &lt;code&gt;1&lt;/code&gt; 设为 &lt;code&gt;5&lt;/code&gt; 的祖先来表示他们的关系， &lt;code&gt;2&lt;/code&gt; &lt;code&gt;4&lt;/code&gt; 同理，相当于把这四个集合（或者说树）两两合并&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c65028be43e0d30ebcaa53.jpg&#34;
 	
 	
@@ -584,8 +597,7 @@ $$&lt;/p&gt;
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;这样我们就基本完成了这个集合的初始化
-我们只需要再把根节点 &lt;code&gt;1&lt;/code&gt; 的祖先设置为自己，来表示它是这棵树的根节点（应该在合并之前初始化每一个结点的祖先为自己，因为图可能会不太清楚所以改到这里了）&lt;/p&gt;
+&lt;p&gt;这样我们就基本完成了这个集合的初始化，我们只需要再把根节点 &lt;code&gt;1&lt;/code&gt; 的祖先设置为自己，来表示它是这棵树的根节点（应该在合并之前初始化每一个结点的祖先为自己，因为图可能会不太清楚所以改到这里了）&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c6595cbe43e0d30ed06172.jpg&#34;
 	
 	
@@ -618,16 +630,14 @@ $$&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;*/&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;查找&#34;&gt;查找&lt;/h3&gt;
 &lt;p&gt;假如我们需要查找上一张图里面 &lt;code&gt;2&lt;/code&gt; &lt;code&gt;3&lt;/code&gt; 是否是亲戚，如何操作呢？&lt;/p&gt;
-&lt;p&gt;很容易发现，&lt;code&gt;2&lt;/code&gt; &lt;code&gt;3&lt;/code&gt;两个节点在同一棵树中，也就是说我们可以直接查找这两个节点的根节点，如果相同则是亲戚。&lt;/p&gt;
-&lt;p&gt;查找的实现也很简单，直接递归/迭代寻找上一级的父亲节点，如果一个节点的祖先是自己，就直接输出这个节点即可&lt;/p&gt;
+&lt;p&gt;很容易发现，&lt;code&gt;2&lt;/code&gt; &lt;code&gt;3&lt;/code&gt;两个节点在同一棵树中，也就是说我们可以直接查找这两个节点的根节点，如果相同则是亲戚。查找的实现也很简单，直接递归寻找上一级的父亲节点，如果一个节点的祖先是自己，就直接输出这个节点即可&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// 查询 pos 的根
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;find&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; pos) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (f[pos] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; pos) &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; pos; &lt;span style=&#34;color:#75715e&#34;&gt;// 边界
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; find(father[pos]);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;优化&#34;&gt;优化&lt;/h2&gt;
-&lt;p&gt;由上文可以发现，在并查集中查找一个节点的祖先最坏情况下的时间复杂度是 $O(h)$ 的（$h$ 为树的最大深度）
-那么对于并查集的主要优化就是减小它的最大深度&lt;/p&gt;
+&lt;p&gt;由上文可以发现，在并查集中查找一个节点的祖先最坏情况下的时间复杂度是 $O(h)$ 的（$h$ 为树的最大深度），那么就可以通过减小最大深度来优化并查集。&lt;/p&gt;
 &lt;h3 id=&#34;按树的大小合并&#34;&gt;按树的大小合并&lt;/h3&gt;
 &lt;p&gt;假如说我们有这样两棵树&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c66020be43e0d30edcc678.jpg&#34;
@@ -638,7 +648,7 @@ $$&lt;/p&gt;
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;现在 &lt;code&gt;1&lt;/code&gt; &lt;code&gt;5&lt;/code&gt;两个节点是亲戚，那么把 &lt;code&gt;5&lt;/code&gt; 的祖先设为 &lt;code&gt;1&lt;/code&gt; 合适还是反过来合适呢？
+&lt;p&gt;现在 &lt;code&gt;1&lt;/code&gt; &lt;code&gt;5&lt;/code&gt;两个节点是亲戚，那么把 &lt;code&gt;5&lt;/code&gt; 的祖先设为 &lt;code&gt;1&lt;/code&gt; 合适还是反过来合适呢？&lt;br&gt;
 显然是前者&lt;/p&gt;
 &lt;p&gt;如果按照前者合并，结果就是&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c66135be43e0d30edef9df.jpg&#34;
@@ -659,7 +669,7 @@ $$&lt;/p&gt;
 	
 	
 &gt;&lt;/p&gt;
-&lt;p&gt;也就是说，为了让 $h$ 尽可能地小，需要把深度小的树合并到深度大的树上，作为大深度树的子树&lt;/p&gt;
+&lt;p&gt;也就是说，为了让 $h$ 尽可能地小，需要把深度/体积小的树合并到深度大的树上，作为大深度/体积树的子树&lt;/p&gt;
 &lt;p&gt;此处定义一个 $R$ 数组记录以 $i$ 为根节点的树的最大深度为 $R_i$
 （$R$ 的修改在初始化/添加关系时修改）&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;uni&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; y) {
@@ -686,10 +696,9 @@ $$&lt;/p&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;以上两棵树显然右侧的树更优，因为它的最大深度更小&lt;/p&gt;
-&lt;p&gt;并查集的查询方式为“查询根节点”，这意味着我们查询时只需要关注查询最终的根节点，而不用关心查询途中经过的节点，这就是路径压缩的原理
-路径压缩即把一个没有连着根的节点（如上图左侧的&lt;code&gt;4&lt;/code&gt; &lt;code&gt;5&lt;/code&gt; &lt;code&gt;6&lt;/code&gt; &lt;code&gt;7&lt;/code&gt;），“跳过”所有中间节点，直接把它连到根节点上。
+&lt;p&gt;并查集的查询方式为“查询根节点”，这意味着我们查询时只需要关注查询最终的根节点，而不用关心查询途中经过的节点，这就是路径压缩的原理。路径压缩即把一个没有连着根的节点（如上图左侧的&lt;code&gt;4&lt;/code&gt; &lt;code&gt;5&lt;/code&gt; &lt;code&gt;6&lt;/code&gt; &lt;code&gt;7&lt;/code&gt;），“跳过”所有中间节点，直接把它连到根节点上。&lt;br&gt;
 对于上图来说，就是把 &lt;code&gt;4&lt;/code&gt; &lt;code&gt;5&lt;/code&gt; &lt;code&gt;6&lt;/code&gt; &lt;code&gt;7&lt;/code&gt; 摘出来连接到 &lt;code&gt;2&lt;/code&gt; &lt;code&gt;3&lt;/code&gt; 的父节点上，即 &lt;code&gt;1&lt;/code&gt;，于是形成了右图，最大深度从 2 降到了 1。
-由于并查集相关的题目中可能初始化之后仍然有需要增删的元素，同时路径压缩也需要耗费时间，所以我们只在查询需要的点时优化&lt;/p&gt;
+由于并查集相关的题目中可能初始化之后仍然有需要增删的元素，同时路径压缩也需要耗费时间，所以我们只在查询需要的点时优化。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;find&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (x &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; f[x]) { &lt;span style=&#34;color:#75715e&#34;&gt;// 如果 x 不是根节点
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        f[x] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; find(f[x]);
