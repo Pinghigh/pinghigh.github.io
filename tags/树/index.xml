@@ -12,33 +12,25 @@
         <pubDate>Thu, 02 Feb 2023 21:27:12 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2023-2-2-lca/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 倍增求LCA/最近共同祖先" /&gt;&lt;p&gt;倍增求 LCA 是一种高效的求 LCA 算法，时间复杂度为 &lt;span
-class=&#34;math inline&#34;&gt;\(\operatorname{O}(\log{n})\)&lt;/span&gt;&lt;/p&gt;
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 倍增求LCA/最近共同祖先" /&gt;&lt;p&gt;倍增求 LCA 是一种高效的求 LCA 算法，时间复杂度为 $\operatorname{O}(\log{n})$&lt;/p&gt;
 &lt;h2 id=&#34;原理&#34;&gt;原理&lt;/h2&gt;
 &lt;h3 id=&#34;初始&#34;&gt;初始&lt;/h3&gt;
-&lt;p&gt;维护一个 &lt;span class=&#34;math inline&#34;&gt;\(fa_{i,x}\)&lt;/span&gt; 表示 &lt;span
-class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; 往根节点走 &lt;span
-class=&#34;math inline&#34;&gt;\(2^i\)&lt;/span&gt; 步到达的节点。&lt;/p&gt;
+&lt;p&gt;维护一个 $fa_{i,x}$ 表示 $x$ 往根节点走 $2^i$ 步到达的节点。&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;初始化时 &lt;span class=&#34;math inline&#34;&gt;\(fa_{0,x} =
-father_x\)&lt;/span&gt;&lt;/li&gt;
-&lt;li&gt;更新为 &lt;span class=&#34;math inline&#34;&gt;\(fa_{i,x} =
-fa_{i-1,fa_{i-1,x}}\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;初始化时 $fa_{0,x} = father_x$&lt;/li&gt;
+&lt;li&gt;更新为 $fa_{i,x} = fa_{i-1,fa_{i-1,x}}$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;查询&#34;&gt;查询&lt;/h3&gt;
-&lt;p&gt;中心思想是利用二进制向上跳。&lt;br /&gt;
-假设目前要查询 a 号节点和 b 号节点的
-LCA，将较深节点设为a，较浅设为b，即：&lt;/p&gt;
+&lt;p&gt;中心思想是利用二进制向上跳。&lt;br&gt;
+假设目前要查询 a 号节点和 b 号节点的 LCA，将较深节点设为a，较浅设为b，即：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;首先将 a 向上跳到和 b 同一高度，若此时 a = b，直接返回 b 即可，即 b
-为 a 的一个直接父亲，LCA 也一定是 b。&lt;/li&gt;
-&lt;li&gt;否则将两个节点同时往上跳，&lt;span class=&#34;math inline&#34;&gt;\(i\)&lt;/span&gt;
-从大到小，每次跳 &lt;span class=&#34;math inline&#34;&gt;\(2^i\)&lt;/span&gt;，规则如下：
-&lt;ol type=&#34;1&#34;&gt;
+&lt;li&gt;首先将 a 向上跳到和 b 同一高度，若此时 a = b，直接返回 b 即可，即 b 为 a 的一个直接父亲，LCA 也一定是 b。&lt;/li&gt;
+&lt;li&gt;否则将两个节点同时往上跳，$i$ 从大到小，每次跳 $2^i$，规则如下：
+&lt;ol&gt;
 &lt;li&gt;如果跳完两个节点相同，即找到了一个共同祖先，则不跳，因为此时&lt;strong&gt;不能确定&lt;/strong&gt;这个共同祖先是不是&lt;strong&gt;最近的&lt;/strong&gt;。&lt;/li&gt;
-&lt;li&gt;否则就继续同时往上跳，最终返回 &lt;span
-class=&#34;math inline&#34;&gt;\(fa_{0,a}\)&lt;/span&gt; 即可。&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;否则就继续同时往上跳，最终返回 $fa_{0,a}$ 即可。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         </item>

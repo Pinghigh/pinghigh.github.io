@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://blog.tibrella.top/post/2023-2-23-%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/'>
 
-<link rel="stylesheet" href="/scss/style.min.9b420c4d5524bd3fdfdf876acca8bac566c1b4813d13b39901fea466757c7f1b.css"><meta property='og:title' content='模拟退火'>
+<link rel="stylesheet" href="/scss/style.min.de6eddfdd97e27f2b8ef52e0d873aea2eae1153dba4914ef70520ac54e2244de.css"><meta property='og:title' content='模拟退火'>
 <meta property='og:description' content='想学一个比较简单的暴力求解方式，于是找到了模拟退火'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2023-2-23-%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,7 +15,6 @@
 <meta name="twitter:description" content="想学一个比较简单的暴力求解方式，于是找到了模拟退火"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg' />
     <link rel="shortcut icon" href="/favicon.png" />
-
 <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
 <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
@@ -244,7 +243,44 @@
     </ol>
 </aside>
 
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#基本原理">基本原理</a></li>
+    <li><a href="#算法过程">算法过程</a></li>
+    <li><a href="#例题">例题</a>
+      <ul>
+        <li><a href="#jsoi2004-平衡点--吊打xxx">[JSOI2004] 平衡点 / 吊打XXX</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
             <main class="main full-width">
     <article class="has-image main-article">
@@ -327,108 +363,82 @@
     <section class="article-content">
     
     
-    <p>模拟退火不是模拟题意，也不会让你退火（可能会让你上火），顾名思义，这个算法模拟的是“退火”
-的过程。</p>
+    <p>模拟退火不是模拟题意，也不会让你退火（可能会让你上火），顾名思义，这个算法模拟的是“退火” 的过程。</p>
 <h2 id="基本原理">基本原理</h2>
 <p>退火即晶体冷却的过程，将一个物体加热到一定温度后使其逐渐降温。而在物理中，物体内能越高，其粒子随机运动就更剧烈，状态也就越不稳定。物体温度高时，状态最不稳定。使降温，粒子运动变慢，状态就趋于稳定。当降温速度过快，会导致粒子来不及排列成稳定的原有的结构，从而形成能量高不稳定的非晶体。相对的，如果降温速度足够慢，粒子会渐趋有序，直至内能减为最小，此时物体呈现为晶体。</p>
 <p>上面两段所说的“非晶体”可以看作“局部最优解”，而变回原有结构的晶体则可以看作“最优解”。</p>
-<p>大体来说，模拟退火就是随机跳解，接受更优的解，同时为了防止局部最优解的陷阱，对跳到的相对不优的解概率性接受，后者相当于物理过程中粒子的随机跳动，带来晶体降温结果的随机性。而跳随机解的次数，则相当于降温的速度，降温的速度越慢，晶体回到原有结构的可能性更高，也就相当于跑出最优解的可能性更高。</p>
+<p>大体来说，模拟退火就是随机跳解，接受更优的解，同时为了防止局部最优解的陷阱，概率性接受不优的解，后者相当于物理过程中粒子的随机跳动，它带来了晶体降温结果的随机性。而跳随机解的次数多少，则相当于降温的速度，降温的速度越慢，晶体回到原有结构的可能性更高，也就相当于跳解的次数越多，跑出最优解的可能性更高。</p>
 <p>先放一张图感性理解一下</p>
-<p><img
-src="https://pic.imgdb.cn/item/63f75151f144a01007973ad6.webp" /></p>
+<p><img src="https://pic.imgdb.cn/item/63f75151f144a01007973ad6.webp"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
 <p>有一个比较有趣的比喻</p>
-<p>爬山算法：一个兔子从一个点往高爬，爬到了一个山顶，但是不知道这个山顶是不是珠穆朗玛峰<br />
+<p>爬山算法：一个兔子从一个点往高爬，爬到了一个山顶，但是不知道这个山顶是不是珠穆朗玛峰<br>
 模拟退火：一个兔子喝醉了乱跳，跳到了某个山顶也要继续跳到别的山坡，但是它逐渐清醒，向最高点跳去</p>
 <p>感性理解后我们详细讲解一下算法过程。</p>
 <h2 id="算法过程">算法过程</h2>
-<p>设定好“初始解”，“初始温度”与“下降速度”，每一次“下降”都得到一个新解，则有两种情况，即新解优于旧解或不优于旧解。优于旧解显然是要接受的，但是只接受优解可能只能找到局部最优，与爬山算法无异，因而我们对于一个不优的解还需要进一步处理。</p>
+<p>设定好“初始解”，“初始温度”与“下降速度”，每一次“降温”都得到一个新解，于是出现两种情况，即新解优于旧解或不优于旧解。优于旧解显然是要接受的，但是只接受优解可能只能找到局部最优，与爬山算法无异，因而我们对于一个不优的解还需要进一步处理。</p>
 <p>而这一步处理（可能是）模拟退火的精髓所在，是把这个随机化算法和热力学/统计力学等连接起来的部分，即接受这个不优解的概率。</p>
 <p>摘自维基百科</p>
 <blockquote>
 <p>玻尔兹曼分布是状态能量与系统温度的概率分布函数，给出了粒子处于特定状态下的概率</p>
 </blockquote>
 <p>公式即为</p>
-<p><span class="math display">\[
+<p>$$
 p_i = \frac{1}{Q} e^{\frac{-\epsilon_i}{kT}}
-\]</span></p>
-<p>此处 <span class="math inline">\(p_i\)</span> 是状态 <span
-class="math inline">\(i\)</span> 的概率，<span
-class="math inline">\(\epsilon_i\)</span> 为状态 <span
-class="math inline">\(i\)</span> 的能量，<span
-class="math inline">\(k\)</span> 为 Boltzmann 常数，<span
-class="math inline">\(T\)</span> 为温度</p>
-<p>啊当然这个并不是我们接下来需要用到的准则，只是引入一个热力学常量，即
-Boltzmann
-常数。同时下面的准则很大程度基于上面的玻尔兹曼分布（可能是，我目测的</p>
+$$</p>
+<p>此处 $p_i$ 是状态 $i$ 的概率，$\epsilon_i$ 为状态 $i$ 的能量，$k$ 为 Boltzmann 常数，$T$ 为温度</p>
+<p>啊当然这个并不是我们接下来需要用到的准则，只是引入一个热力学常量，即 Boltzmann 常数。同时下面的准则很大程度基于上面的玻尔兹曼分布（可能是，我目测的</p>
 <blockquote>
-<p>1953 年 Metropolis 提出了这样一个重要性采样的方法，即设从当前状态
-<span class="math inline">\(i\)</span> 生成新状态 <span
-class="math inline">\(j\)</span>，若新状态的内能小于状态 <span
-class="math inline">\(i\)</span> 的内能，即 <span
-class="math inline">\(E_j&lt;E_i\)</span>，则接受新状态 <span
-class="math inline">\(j\)</span> 作为新的当前状态；否则，以概率 <span
-class="math inline">\(\exp(\frac{-(E_j-E_i)}{kT})\)</span> 接受状态
-<span class="math inline">\(j\)</span>，其中 <span
-class="math inline">\(k\)</span> 为 Boltzmann 常数。</p>
+<p>1953 年 Metropolis 提出了这样一个重要性采样的方法，即设从当前状态 $i$ 生成新状态 $j$，若新状态的内能小于状态 $i$ 的内能，即 $E_j&lt;E_i$，则接受新状态 $j$ 作为新的当前状态；否则，以概率 $\exp(\frac{-(E_j-E_i)}{kT})$ 接受状态 $j$，其中 $k$ 为 Boltzmann 常数。</p>
 </blockquote>
-<p>上面的概率公式中 <span class="math inline">\(\exp\)</span> 即 <span
-class="math inline">\(e\)</span> 的指数函数，同时两个状态能量的差 <span
-class="math inline">\(E_j - E_i\)</span> 可以表示为 <span
-class="math inline">\(\Delta
-E\)</span>，则可以写出一个（我）更容易理解的表达方式，即</p>
-<p><span class="math display">\[
+<p>上面的概率公式中 $\exp$ 即 $e$ 的指数函数，同时两个状态能量的差 $E_j - E_i$ 可以表示为 $\Delta E$，则可以写出一个（我）更容易理解的表达方式，即</p>
+<p>$$
 p_j = e^\frac{-\Delta E}{kT}
-\]</span></p>
-<p>总的来说，概率 <span class="math inline">\(p_{new}\)</span>
-可以表示为</p>
-<p><span class="math display">\[
+$$</p>
+<p>总的来说，概率 $p_{new}$ 可以表示为</p>
+<p>$$
 p_{new} =
 \begin{cases}
-1, &amp; \text{if } \operatorname{E}(x_{new}) &lt;
-\operatorname{E}(x_{old}) \\
-e^\frac{-\Delta E}{kT} &amp; \text{if } \operatorname{E}(x_{new})
-\geqslant \operatorname{E}(x_{old})
+1, &amp; \text{if } \operatorname{E}(x_{new}) &lt; \operatorname{E}(x_{old}) \\
+e^\frac{-\Delta E}{kT} &amp; \text{if } \operatorname{E}(x_{new}) \geqslant \operatorname{E}(x_{old})
 \end{cases}
-\]</span></p>
+$$</p>
 <p>概率处理完了，主要算法部分也基本上结束了，下面我们引入一道例题。</p>
 <h2 id="例题">例题</h2>
 <p>题面：</p>
-<h3 id="jsoi2004-平衡点-吊打xxx">[JSOI2004] 平衡点 / 吊打XXX</h3>
+<h3 id="jsoi2004-平衡点--吊打xxx">[JSOI2004] 平衡点 / 吊打XXX</h3>
 <h4 id="题目描述">题目描述</h4>
-<p>如图，有 <span class="math inline">\(n\)</span>
-个重物，每个重物系在一条足够长的绳子上。</p>
-<p>每条绳子自上而下穿过桌面上的洞，然后系在一起。图中 <span
-class="math inline">\(x\)</span>
-处就是公共的绳结。假设绳子是完全弹性的（即不会造成能量损失），桌子足够高（重物不会垂到地上），且忽略所有的摩擦，求绳结
-<span class="math inline">\(x\)</span> 最终平衡于何处。</p>
-<p><strong>注意</strong>：桌面上的洞都比绳结 <span
-class="math inline">\(x\)</span> 小得多，所以即使某个重物特别重，绳结
-<span class="math inline">\(x\)</span>
-也不可能穿过桌面上的洞掉下来，最多是卡在某个洞口处。</p>
-<p><img src="https://cdn.luogu.com.cn/upload/pic/148.png" /></p>
+<p>如图，有 $n$ 个重物，每个重物系在一条足够长的绳子上。</p>
+<p>每条绳子自上而下穿过桌面上的洞，然后系在一起。图中 $x$ 处就是公共的绳结。假设绳子是完全弹性的（即不会造成能量损失），桌子足够高（重物不会垂到地上），且忽略所有的摩擦，求绳结 $x$ 最终平衡于何处。</p>
+<p><strong>注意</strong>：桌面上的洞都比绳结 $x$ 小得多，所以即使某个重物特别重，绳结 $x$ 也不可能穿过桌面上的洞掉下来，最多是卡在某个洞口处。</p>
+<p><img src="https://cdn.luogu.com.cn/upload/pic/148.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
 <h4 id="输入格式">输入格式</h4>
-<p>文件的第一行为一个正整数 <span
-class="math inline">\(n\)</span>（<span class="math inline">\(1\le n\le
-1000\)</span>），表示重物和洞的数目。</p>
-<p>接下来的 <span class="math inline">\(n\)</span> 行，每行是 <span
-class="math inline">\(3\)</span> 个整数 <span class="math inline">\(x_i,
-y_i, w_i\)</span>，分别表示第 <span class="math inline">\(i\)</span>
-个洞的坐标以及第 <span class="math inline">\(i\)</span>
-个重物的重量。（<span class="math inline">\(-10000\le x_i,y_i\le10000,
-0&lt;w_i\le1000\)</span>）</p>
+<p>文件的第一行为一个正整数 $n$（$1\le n\le 1000$），表示重物和洞的数目。</p>
+<p>接下来的 $n$ 行，每行是 $3$ 个整数 $x_i, y_i, w_i$，分别表示第 $i$ 个洞的坐标以及第 $i$ 个重物的重量。（$-10000\le x_i,y_i\le10000, 0&lt;w_i\le1000$）</p>
 <h4 id="输出格式">输出格式</h4>
-<p>你的程序必须输出两个浮点数（保留小数点后三位），分别表示处于最终平衡状态时绳结
-<span class="math inline">\(x\)</span>
-的横坐标和纵坐标。两个数以一个空格隔开。</p>
+<p>你的程序必须输出两个浮点数（保留小数点后三位），分别表示处于最终平衡状态时绳结 $x$ 的横坐标和纵坐标。两个数以一个空格隔开。</p>
 <h4 id="样例-1">样例 #1</h4>
 <h5 id="样例输入-1">样例输入 #1</h5>
-<pre><code>3
+<pre tabindex="0"><code>3
 0 0 1
 0 2 1
-1 1 1</code></pre>
-<h5 id="样例输出-1">样例输出 #1</h5>
-<pre><code>0.577 1.000</code></pre>
-<p><del>物理还没学势能所以题解先咕咕</del></p>
+1 1 1
+</code></pre><h5 id="样例输出-1">样例输出 #1</h5>
+<pre tabindex="0"><code>0.577 1.000
+</code></pre><p><del>物理还没学势能所以题解先咕咕</del></p>
 
 </section>
 
@@ -458,6 +468,31 @@ y_i, w_i\)</span>，分别表示第 <span class="math inline">\(i\)</span>
     </section>
     </footer>
 
+
+    
+        <script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    };
+
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += 'has-jax'
+        })
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
 
     
 </article>
@@ -588,7 +623,7 @@ y_i, w_i\)</span>，分别表示第 <span class="math inline">\(i\)</span>
 <script>
     (function () {
         const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
 
         customFont.type = "text/css";
         customFont.rel = "stylesheet";
@@ -596,6 +631,7 @@ y_i, w_i\)</span>，分别表示第 <span class="math inline">\(i\)</span>
         document.head.appendChild(customFont);
     }());
 </script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 
     </body>
 </html>

@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://blog.tibrella.top/post/2023-2-24-move-to-hugo/'>
 
-<link rel="stylesheet" href="/scss/style.min.9b420c4d5524bd3fdfdf876acca8bac566c1b4813d13b39901fea466757c7f1b.css"><meta property='og:title' content='更改博客主题之后的一些破事'>
+<link rel="stylesheet" href="/scss/style.min.de6eddfdd97e27f2b8ef52e0d873aea2eae1153dba4914ef70520ac54e2244de.css"><meta property='og:title' content='更改博客主题之后的一些破事'>
 <meta property='og:description' content='hugo 真快，但是真不太好用（不一定）'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2023-2-24-move-to-hugo/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,7 +15,6 @@
 <meta name="twitter:description" content="hugo 真快，但是真不太好用（不一定）"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
     <link rel="shortcut icon" href="/favicon.png" />
-
 <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
 <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
@@ -327,36 +326,16 @@
     <section class="article-content">
     
     
-    <p>最近因为原来 <a
-href="https://github.com/pinghigh/hexo-theme-butterfly/">我的 butterfly
-主题 fork</a> 实在改不动了（实际上因为我水平太差），对于 pug
-什么的也不太懂，同时由于界面过于花哨看腻了，想换点动态效果少的而又相对简单的博客主题。
-又因为之前就观察过 hugo 的主题列表，hugo 的特点是快，大部分的 hugo
-主题也非常简洁（比如 <a href="https://c4096.cn/">c4096
-的博客</a>所采用的主题），因此我又双叒叕去 hugo theme
-列表挑了个非常符合我审美（大概）的主题，即 <a
-href="https://github.com/CaiJimmy/hugo-theme-stack">stack</a>。</p>
-<p>最一开始用 test 界面测试主题功能的时候 hugo
-的速度就惊艳我了，实在是过于迅速，和我之前所用的 hexo+butterfly
-的速度相比，hugo
-让我感觉到构建了又好像没构建的构建过程。同时它的即时修改即时预览功能也很好用（有的时候并不能做到完全应用新修改）。
-但是一起到来的问题也很多，比如 stack
-主题的文档并不是很完善，相对于我看过的大部分 hexo
-主题来说可能是最不完善的（中英文倒是无所谓），因此我需要一边看文档一边看源码，还得看主题的示例站点的配置文件才让我的博客跑出正常的样子。</p>
-<p>主题配置问题还算好解决，对于我这个<del>啥都不懂还贼挑的</del>人来说，改动主题是必须有的部分，但是
-hugo
-的编写修改维护主题的文档和教程更是少之又少了…因此研究了好久也没研究出来怎么改代码块样式，改配色也没成功，但是把深浅色代码块背景宽度不统一的问题倒是解决了，还得对这个进行进一步更改。当然，主题克隆下来的第一步就是
-copyright-&gt;copyleft，然后给 <code>&amp;copy</code>
-掉个头，文章许可证改为 FDL 1.3 才继续做接下来的修改。</p>
-<p>关于写配置，我最开始采用的是网上得到大部分好评的 toml 格式，据说比
-yaml 新还好用，在此之前因为 yaml
-的缩进问题我痛苦了很长时间，但是折腾了好久 toml 之后感觉 toml
-更不容易被人类理解（可能只有我不理解），然后用工具回到了 yaml
-的怀抱，在此之前为了研究 toml 的 map
-映射语法之类的东西已经折腾不动了…</p>
-<p>关于换行，由于之前的 butterfly 主题能够自动换行，但是 stack
-主题默认用的是 markdown
-的换行规则，即行尾双空格或回车两次为一个换行，于是我博文基本上都炸了，会找时间修（逃</p>
+    <p>最近因为原来 <a class="link" href="https://github.com/pinghigh/hexo-theme-butterfly/"  target="_blank" rel="noopener"
+    >我的 butterfly 主题 fork</a> 实在改不动了（实际上因为我水平太差），对于 pug 什么的也不太懂，同时由于界面过于花哨看腻了，想换点动态效果少的而又相对简单的博客主题。
+又因为之前就观察过 hugo 的主题列表，hugo 的特点是快，大部分的 hugo 主题也非常简洁（比如 <a class="link" href="https://c4096.cn/"  target="_blank" rel="noopener"
+    >c4096 的博客</a>所采用的主题），因此我又双叒叕去 hugo theme 列表挑了个非常符合我审美（大概）的主题，即 <a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack"  target="_blank" rel="noopener"
+    >stack</a>。</p>
+<p>最一开始用 test 界面测试主题功能的时候 hugo 的速度就惊艳我了，实在是过于迅速，和我之前所用的 hexo+butterfly 的速度相比，hugo 让我感觉到构建了又好像没构建的构建过程。同时它的即时修改即时预览功能也很好用（有的时候并不能做到完全应用新修改）。
+但是一起到来的问题也很多，比如 stack 主题的文档并不是很完善，相对于我看过的大部分 hexo 主题来说可能是最不完善的（中英文倒是无所谓），因此我需要一边看文档一边看源码，还得看主题的示例站点的配置文件才让我的博客跑出正常的样子。</p>
+<p>主题配置问题还算好解决，对于我这个<del>啥都不懂还贼挑的</del>人来说，改动主题是必须有的部分，但是 hugo 的编写修改维护主题的文档和教程更是少之又少了&hellip;因此研究了好久也没研究出来怎么改代码块样式，改配色也没成功，但是把深浅色代码块背景宽度不统一的问题倒是解决了，还得对这个进行进一步更改。当然，主题克隆下来的第一步就是 copyright-&gt;copyleft，然后给 <code>&amp;copy</code> 掉个头，文章许可证改为 FDL 1.3 才继续做接下来的修改。</p>
+<p>关于写配置，我最开始采用的是网上得到大部分好评的 toml 格式，据说比 yaml 新还好用，在此之前因为 yaml 的缩进问题我痛苦了很长时间，但是折腾了好久 toml 之后感觉 toml 更不容易被人类理解（可能只有我不理解），然后用工具回到了 yaml 的怀抱，在此之前为了研究 toml 的 map 映射语法之类的东西已经折腾不动了&hellip;</p>
+<p>关于换行，由于之前的 butterfly 主题能够自动换行，但是 stack 主题默认用的是 markdown 的换行规则，即行尾双空格或回车两次为一个换行，于是我博文基本上都炸了，会找时间修（逃</p>
 
 </section>
 
@@ -386,6 +365,31 @@ yaml 新还好用，在此之前因为 yaml
     </section>
     </footer>
 
+
+    
+        <script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    };
+
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += 'has-jax'
+        })
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
 
     
 </article>
@@ -469,7 +473,7 @@ yaml 新还好用，在此之前因为 yaml
 <script>
     (function () {
         const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
 
         customFont.type = "text/css";
         customFont.rel = "stylesheet";
@@ -477,6 +481,7 @@ yaml 新还好用，在此之前因为 yaml
         document.head.appendChild(customFont);
     }());
 </script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 
     </body>
 </html>

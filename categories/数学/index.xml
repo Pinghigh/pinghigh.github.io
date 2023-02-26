@@ -12,121 +12,84 @@
         <pubDate>Mon, 24 Oct 2022 09:10:49 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2022-10-math/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 初级数论" /&gt;&lt;h2 id=&#34;模运算相关&#34;&gt;&lt;del&gt;%%%&lt;/del&gt; 模运算相关&lt;/h2&gt;
-&lt;p&gt;首先，存在唯一的整数 &lt;span class=&#34;math inline&#34;&gt;\(q,r\)&lt;/span&gt; 满足
-&lt;span class=&#34;math inline&#34;&gt;\(n=qm+r, 0\leqslant r&amp;lt;m\)&lt;/span&gt;，&lt;span
-class=&#34;math inline&#34;&gt;\(q\)&lt;/span&gt; 就是商，&lt;span
-class=&#34;math inline&#34;&gt;\(r\)&lt;/span&gt; 就是余数。&lt;br /&gt;
-C++ 中模运算可能结果是负数。当 &lt;span
-class=&#34;math inline&#34;&gt;\(n&amp;lt;0\)&lt;/span&gt; 时，模运算结果满足 &lt;span
-class=&#34;math inline&#34;&gt;\(-m&amp;lt;r \leqslant 0\)&lt;/span&gt;。&lt;br /&gt;
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 初级数论" /&gt;&lt;h2 id=&#34;-模运算相关&#34;&gt;&lt;del&gt;%%%&lt;/del&gt; 模运算相关&lt;/h2&gt;
+&lt;p&gt;首先，存在唯一的整数 $q,r$ 满足 $n=qm+r, 0\leqslant r&amp;lt;m$，$q$ 就是商，$r$ 就是余数。 &lt;br&gt;
+C++ 中模运算可能结果是负数。当 $n&amp;lt;0$ 时，模运算结果满足 $-m&amp;lt;r \leqslant 0$。 &lt;br&gt;
 因此可以使用&lt;/p&gt;
-&lt;div class=&#34;sourceCode&#34; id=&#34;cb1&#34;&gt;&lt;pre
-class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb1-1&#34;&gt;&lt;a href=&#34;#cb1-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;((&lt;/span&gt;n&lt;span class=&#34;op&#34;&gt;%&lt;/span&gt;m&lt;span class=&#34;op&#34;&gt;)+&lt;/span&gt;m&lt;span class=&#34;op&#34;&gt;)%&lt;/span&gt;m&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;进行取余操作。&lt;/p&gt;
-&lt;h2 id=&#34;辗转相除法&#34;&gt;&lt;a
-href=&#34;https://pinghigh.github.io/2022/07/14/2022-7-14-OI%E7%AC%94%E8%AE%B0/#%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0&#34;&gt;辗转相除法&lt;/a&gt;&lt;/h2&gt;
-&lt;div class=&#34;sourceCode&#34; id=&#34;cb2&#34;&gt;&lt;pre
-class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb2-1&#34;&gt;&lt;a href=&#34;#cb2-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-2&#34;&gt;&lt;a href=&#34;#cb2-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;kw&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;kw&#34;&gt;namespace&lt;/span&gt; std&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-3&#34;&gt;&lt;a href=&#34;#cb2-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; main&lt;span class=&#34;op&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-4&#34;&gt;&lt;a href=&#34;#cb2-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; a&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt;b&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt;r&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-5&#34;&gt;&lt;a href=&#34;#cb2-5&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    cin &lt;span class=&#34;op&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; a &lt;span class=&#34;op&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; b&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-6&#34;&gt;&lt;a href=&#34;#cb2-6&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;a &lt;span class=&#34;op&#34;&gt;%&lt;/span&gt; b &lt;span class=&#34;op&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-7&#34;&gt;&lt;a href=&#34;#cb2-7&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;        r &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; a &lt;span class=&#34;op&#34;&gt;%&lt;/span&gt; b&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-8&#34;&gt;&lt;a href=&#34;#cb2-8&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;        a &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; b&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-9&#34;&gt;&lt;a href=&#34;#cb2-9&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;        b &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; r&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-10&#34;&gt;&lt;a href=&#34;#cb2-10&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-11&#34;&gt;&lt;a href=&#34;#cb2-11&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    cout &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; b &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-12&#34;&gt;&lt;a href=&#34;#cb2-12&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-13&#34;&gt;&lt;a href=&#34;#cb2-13&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2 id=&#34;同余&#34;&gt;同余&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;((n&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;m)&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;m)&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;m
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;进行取余操作。&lt;/p&gt;
+&lt;h2 id=&#34;辗转相除法httpspinghighgithubio202207142022-7-14-oie7ac94e8aeb0e69c80e5a4a7e585ace7baa6e695b0&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://pinghigh.github.io/2022/07/14/2022-7-14-OI%E7%AC%94%E8%AE%B0/#%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;辗转相除法&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; a,b,r;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (a &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; r;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;同余&#34;&gt;同余&lt;/h2&gt;
 &lt;h3 id=&#34;定义&#34;&gt;定义&lt;/h3&gt;
-&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(a\bmod m = b \bmod m\)&lt;/span&gt; 则称 &lt;span
-class=&#34;math inline&#34;&gt;\(a,b\)&lt;/span&gt; 对于模 &lt;span
-class=&#34;math inline&#34;&gt;\(m\)&lt;/span&gt; 同余，记为 &lt;span
-class=&#34;math inline&#34;&gt;\(a \equiv b \pmod m\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;等价于 &lt;span class=&#34;math inline&#34;&gt;\(m\)&lt;/span&gt; 整除 &lt;span
-class=&#34;math inline&#34;&gt;\((a-b)\)&lt;/span&gt;，即 &lt;span
-class=&#34;math inline&#34;&gt;\(m\mid(a-b)\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;$a\bmod m = b \bmod m$ 则称 $a,b$ 对于模 $m$ 同余，记为 $a \equiv b \pmod m$&lt;/p&gt;
+&lt;p&gt;等价于 $m$ 整除 $(a-b)$，即 $m\mid(a-b)$&lt;/p&gt;
 &lt;h3 id=&#34;同余方程&#34;&gt;同余方程&lt;/h3&gt;
-&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(ax \equiv b \pmod n\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;已知 &lt;span class=&#34;math inline&#34;&gt;\(a,b,n\)&lt;/span&gt;，求解 &lt;span
-class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt;。&lt;br /&gt;
-当且仅当 &lt;span class=&#34;math inline&#34;&gt;\(b\)&lt;/span&gt; 能被 &lt;span
-class=&#34;math inline&#34;&gt;\(a\)&lt;/span&gt; 和 &lt;span
-class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt; 的最大公约数整除时此方程有解&lt;br /&gt;
-若 &lt;span class=&#34;math inline&#34;&gt;\(x_0\)&lt;/span&gt;
-是方程的一个解，那么所有的解就是 &lt;span
-class=&#34;math inline&#34;&gt;\(\{x_0+k\cdot n/\gcd(a,n) | k\in
-\mathbf{Z}\}\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;$ax \equiv b \pmod n$&lt;/p&gt;
+&lt;p&gt;已知 $a,b,n$，求解 $x$。&lt;br&gt;
+当且仅当 $b$ 能被 $a$ 和 $n$ 的最大公约数整除时此方程有解&lt;br&gt;
+若 $x_0$ 是方程的一个解，那么所有的解就是 ${x_0+k\cdot n/\gcd(a,n) | k\in \mathbf{Z}}$&lt;/p&gt;
 &lt;h3 id=&#34;扩展欧几里得算法&#34;&gt;扩展欧几里得算法&lt;/h3&gt;
 &lt;h4 id=&#34;裴蜀定理&#34;&gt;裴蜀定理&lt;/h4&gt;
-&lt;p&gt;对于任意 &lt;span class=&#34;math inline&#34;&gt;\(a,b\)&lt;/span&gt; &lt;span
-class=&#34;math inline&#34;&gt;\(\exists x,y,ax+by=\gcd(a,b)\)&lt;/span&gt;&lt;br /&gt;
-即 &lt;span class=&#34;math inline&#34;&gt;\(ax\equiv \gcd(a,b)\pmod b\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;对于任意 $a,b$ $\exists x,y,ax+by=\gcd(a,b)$&lt;br&gt;
+即 $ax\equiv \gcd(a,b)\pmod b$&lt;/p&gt;
 &lt;h4 id=&#34;用途&#34;&gt;用途&lt;/h4&gt;
 &lt;ul&gt;
-&lt;li&gt;求解同余方程 &lt;span class=&#34;math inline&#34;&gt;\(ax \equiv \gcd(a,n) \pmod
-n\)&lt;/span&gt;
+&lt;li&gt;求解同余方程 $ax \equiv \gcd(a,n) \pmod n$
 &lt;ul&gt;
-&lt;li&gt;对任意 &lt;span class=&#34;math inline&#34;&gt;\(a,b\)&lt;/span&gt;，存在&lt;span
-class=&#34;math inline&#34;&gt;\(x,y\)&lt;/span&gt;满足 &lt;span
-class=&#34;math inline&#34;&gt;\(ax+by=\gcd(a,b)\)&lt;/span&gt; (裴蜀定理)&lt;br /&gt;
-即 &lt;span class=&#34;math inline&#34;&gt;\(ax\equiv \gcd(a,b) \pmod b\)&lt;/span&gt;。而
-&lt;span class=&#34;math inline&#34;&gt;\(x,y\)&lt;/span&gt; 可以用扩展欧几里得算法求出&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;对任意 $a,b$，存在$x,y$满足 $ax+by=\gcd(a,b)$ (裴蜀定理)&lt;br&gt;
+即 $ax\equiv \gcd(a,b) \pmod b$。而 $x,y$ 可以用扩展欧几里得算法求出&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;原理&#34;&gt;原理&lt;/h4&gt;
-&lt;p&gt;回想辗转相除法，&lt;span class=&#34;math inline&#34;&gt;\(\gcd(a,b) = \gcd(b,a\bmod
-b)\)&lt;/span&gt; 即&lt;strong&gt;缩小问题规模&lt;/strong&gt;，当 &lt;span
-class=&#34;math inline&#34;&gt;\(b\mid a\)&lt;/span&gt; 时，问题解决&lt;/p&gt;
-&lt;p&gt;可得 &lt;span class=&#34;math inline&#34;&gt;\(ax+by= \gcd(a,b) \Leftrightarrow
-bx&amp;#39; + (a\bmod b)y&amp;#39; = \gcd(b,a\bmod b)\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;即当 &lt;span class=&#34;math inline&#34;&gt;\(b\mid a\)&lt;/span&gt; 时，问题解决，$x’ =
-1, y’ = 0 $&lt;/p&gt;
-&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(\begin{aligned} ax+by &amp;amp;=
-bx&amp;#39;+(a\bmod b)y&amp;#39; \\ &amp;amp;=bx&amp;#39;+(a-a/b\cdot
-b)y&amp;#39;=b(x&amp;#39;-a/b\cdot y&amp;#39;) + ay&amp;#39; \end{aligned}\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;即每层递归结束时，$ x=y’, y=x’-a/by’$&lt;/p&gt;
+&lt;p&gt;回想辗转相除法，$\gcd(a,b) = \gcd(b,a\bmod b)$ 即&lt;strong&gt;缩小问题规模&lt;/strong&gt;，当 $b\mid a$ 时，问题解决&lt;/p&gt;
+&lt;p&gt;可得 $ax+by= \gcd(a,b) \Leftrightarrow bx&amp;rsquo; + (a\bmod b)y&amp;rsquo; = \gcd(b,a\bmod b)$&lt;/p&gt;
+&lt;p&gt;即当 $b\mid a$ 时，问题解决，$x&amp;rsquo; = 1, y&amp;rsquo; = 0 $&lt;/p&gt;
+&lt;p&gt;$\begin{aligned} ax+by &amp;amp;= bx&amp;rsquo;+(a\bmod b)y&amp;rsquo; \ &amp;amp;=bx&amp;rsquo;+(a-a/b\cdot b)y&amp;rsquo;=b(x&amp;rsquo;-a/b\cdot y&amp;rsquo;) + ay&amp;rsquo; \end{aligned}$&lt;/p&gt;
+&lt;p&gt;即每层递归结束时，$ x=y&amp;rsquo;, y=x&amp;rsquo;-a/b\cdot y&#39;$&lt;/p&gt;
 &lt;h4 id=&#34;实现&#34;&gt;实现&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;算法：函数 &lt;code&gt;ex_gcd(a,b)&lt;/code&gt;
 &lt;ul&gt;
-&lt;li&gt;若 &lt;code&gt;b=0&lt;/code&gt;，&lt;code&gt;ax+by=gcd(a,b)&lt;/code&gt; 的解是
-&lt;code&gt;x=1&lt;/code&gt;, &lt;code&gt;y=0&lt;/code&gt;，直接返回&lt;/li&gt;
-&lt;li&gt;否则递归调用 &lt;code&gt;ex_gcd(b,a%b)&lt;/code&gt;，求解
-&lt;code&gt;bx&#39;+(a%b)y&#39;=gcd(b,a%b)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;用上一步解的 &lt;code&gt;x&#39;,y&#39;&lt;/code&gt;，令
-&lt;code&gt;x=y&#39;，y=x&#39;-a/b*y&#39;&lt;/code&gt;，&lt;code&gt;x&lt;/code&gt;和&lt;code&gt;y&lt;/code&gt;就是当前方程的解&lt;/li&gt;
+&lt;li&gt;若 &lt;code&gt;b=0&lt;/code&gt;，&lt;code&gt;ax+by=gcd(a,b)&lt;/code&gt; 的解是 &lt;code&gt;x=1&lt;/code&gt;, &lt;code&gt;y=0&lt;/code&gt;，直接返回&lt;/li&gt;
+&lt;li&gt;否则递归调用 &lt;code&gt;ex_gcd(b,a%b)&lt;/code&gt;，求解 &lt;code&gt;bx&#39;+(a%b)y&#39;=gcd(b,a%b)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;用上一步解的 &lt;code&gt;x&#39;,y&#39;&lt;/code&gt;，令 &lt;code&gt;x=y&#39;，y=x&#39;-a/b*y&#39;&lt;/code&gt;，&lt;code&gt;x&lt;/code&gt;和&lt;code&gt;y&lt;/code&gt;就是当前方程的解&lt;/li&gt;
 &lt;li&gt;返回&lt;code&gt;x,y&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;对于任意同余方程 &lt;span class=&#34;math inline&#34;&gt;\(ax\equiv b \pmod
-n\)&lt;/span&gt;，只要满足 &lt;span class=&#34;math inline&#34;&gt;\(\gcd(a,n)\mid
-b\)&lt;/span&gt;&lt;br /&gt;
-就可以先用扩欧求出 &lt;span class=&#34;math inline&#34;&gt;\(ax&amp;#39;\equiv \gcd(a,n)\
-\pmod n\)&lt;/span&gt;&lt;br /&gt;
-即 &lt;span class=&#34;math inline&#34;&gt;\(d=\gcd(a,n)\)&lt;/span&gt;，得到 &lt;span
-class=&#34;math inline&#34;&gt;\(ax&amp;#39;(b/d)\equiv b\ \pmod n\)&lt;/span&gt;&lt;br /&gt;
-所以原方程一解 &lt;span
-class=&#34;math inline&#34;&gt;\(x_0=x&amp;#39;(b/d)\)&lt;/span&gt;，通解 &lt;span
-class=&#34;math inline&#34;&gt;\(x_0+k(n/d), k\in \mathbf{Z}\)&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;对于任意同余方程 $ax\equiv b \pmod n$，只要满足 $\gcd(a,n)\mid b$&lt;br&gt;
+就可以先用扩欧求出 $ax&amp;rsquo;\equiv \gcd(a,n)\ \pmod n$&lt;br&gt;
+即 $d=\gcd(a,n)$，得到 $ax&amp;rsquo;(b/d)\equiv b\ \pmod n$&lt;br&gt;
+所以原方程一解 $x_0=x&amp;rsquo;(b/d)$，通解 $x_0+k(n/d), k\in \mathbf{Z}$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;代码&#34;&gt;代码&lt;/h4&gt;
-&lt;div class=&#34;sourceCode&#34; id=&#34;cb3&#34;&gt;&lt;pre
-class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb3-1&#34;&gt;&lt;a href=&#34;#cb3-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;algorithm&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-2&#34;&gt;&lt;a href=&#34;#cb3-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; ex_gcd&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; u&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; v&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;&amp;amp;&lt;/span&gt;x&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;&amp;amp;&lt;/span&gt;y&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-3&#34;&gt;&lt;a href=&#34;#cb3-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;(!&lt;/span&gt;v&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-4&#34;&gt;&lt;a href=&#34;#cb3-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;        x &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; y &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-5&#34;&gt;&lt;a href=&#34;#cb3-5&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;        &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; u&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-6&#34;&gt;&lt;a href=&#34;#cb3-6&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-7&#34;&gt;&lt;a href=&#34;#cb3-7&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-8&#34;&gt;&lt;a href=&#34;#cb3-8&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; xx&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; yy&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-9&#34;&gt;&lt;a href=&#34;#cb3-9&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; g &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; ex_gcd&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;v&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; u&lt;span class=&#34;op&#34;&gt;%&lt;/span&gt;v&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; xx &lt;span class=&#34;op&#34;&gt;,&lt;/span&gt;yy&lt;span class=&#34;op&#34;&gt;);&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-10&#34;&gt;&lt;a href=&#34;#cb3-10&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    x &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; yy&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; y &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; xx &lt;span class=&#34;op&#34;&gt;-&lt;/span&gt; u&lt;span class=&#34;op&#34;&gt;/&lt;/span&gt;v&lt;span class=&#34;op&#34;&gt;*&lt;/span&gt;yy&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-11&#34;&gt;&lt;a href=&#34;#cb3-11&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; g&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-12&#34;&gt;&lt;a href=&#34;#cb3-12&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;algorithm&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ex_gcd&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; u, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;y) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;v) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; u;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; xx, yy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ex_gcd(v, u&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;v, xx ,yy);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; yy; y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; xx &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; u&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;v&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;yy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; g;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         </item>
         <item>
         <title>gcd 最大公约数</title>
@@ -137,43 +100,41 @@ class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt
         <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post gcd 最大公约数" /&gt;&lt;h2 id=&#34;最大公约数&#34;&gt;最大公约数&lt;/h2&gt;
 &lt;h3 id=&#34;辗转相除法求最大公约数&#34;&gt;辗转相除法求最大公约数&lt;/h3&gt;
 &lt;p&gt;例：&lt;/p&gt;
-&lt;pre class=&#34;text&#34;&gt;&lt;code&gt;70 % 50 = 20
-50 % 20 = 10
-20 % 10 = 0&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;取模到0为止，此时10就是70、50最大公约数&lt;/p&gt;
-&lt;div class=&#34;sourceCode&#34; id=&#34;cb2&#34;&gt;&lt;pre
-class=&#34;sourceCode cpp&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb2-1&#34;&gt;&lt;a href=&#34;#cb2-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-2&#34;&gt;&lt;a href=&#34;#cb2-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;kw&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;kw&#34;&gt;namespace&lt;/span&gt; std&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-3&#34;&gt;&lt;a href=&#34;#cb2-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; main&lt;span class=&#34;op&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-4&#34;&gt;&lt;a href=&#34;#cb2-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; a&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt;b&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt;r&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-5&#34;&gt;&lt;a href=&#34;#cb2-5&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    cin &lt;span class=&#34;op&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; a &lt;span class=&#34;op&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; b&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-6&#34;&gt;&lt;a href=&#34;#cb2-6&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;a &lt;span class=&#34;op&#34;&gt;%&lt;/span&gt; b &lt;span class=&#34;op&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;){&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-7&#34;&gt;&lt;a href=&#34;#cb2-7&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;        r &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; a &lt;span class=&#34;op&#34;&gt;%&lt;/span&gt; b&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-8&#34;&gt;&lt;a href=&#34;#cb2-8&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;        a &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; b&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-9&#34;&gt;&lt;a href=&#34;#cb2-9&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;        b &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; r&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-10&#34;&gt;&lt;a href=&#34;#cb2-10&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-11&#34;&gt;&lt;a href=&#34;#cb2-11&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    cout &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; b &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-12&#34;&gt;&lt;a href=&#34;#cb2-12&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-13&#34;&gt;&lt;a href=&#34;#cb2-13&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;在实际应用中可以直接用 &lt;code&gt;__gcd()&lt;/code&gt; 函数&lt;/p&gt;
-&lt;div class=&#34;sourceCode&#34; id=&#34;cb3&#34;&gt;&lt;pre
-class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb3-1&#34;&gt;&lt;a href=&#34;#cb3-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;algorithm&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-2&#34;&gt;&lt;a href=&#34;#cb3-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-3&#34;&gt;&lt;a href=&#34;#cb3-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; main&lt;span class=&#34;op&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-4&#34;&gt;&lt;a href=&#34;#cb3-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;bu&#34;&gt;std::&lt;/span&gt;cout&lt;span class=&#34;op&#34;&gt; &amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;bu&#34;&gt;std::&lt;/span&gt;__gcd&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;dv&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;dv&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;);&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-5&#34;&gt;&lt;a href=&#34;#cb3-5&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-6&#34;&gt;&lt;a href=&#34;#cb3-6&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3 id=&#34;更相减损术求最大公约数&#34;&gt;更相减损术求最大公约数&lt;/h3&gt;
-&lt;pre class=&#34;text&#34;&gt;&lt;code&gt;54 24
-|        除以2（可除可不除，除后方便计算）
-V
-27 12
-27-12=15    大减小
-...
-...
-
-6-3=3&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;此处3=3,所以最大公约数为3&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;70 % 50 = 20
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;50 % 20 = 10
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;20 % 10 = 0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;取模到0为止，此时10就是70、50最大公约数&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; a,b,r;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (a &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; r;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在实际应用中可以直接用 &lt;code&gt;__gcd()&lt;/code&gt; 函数&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;algorithm&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;__gcd(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;更相减损术求最大公约数&#34;&gt;更相减损术求最大公约数&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;54 24
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|        除以2（可除可不除，除后方便计算）
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;V
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;27 12
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;27-12=15    大减小
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;6-3=3
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此处3=3,所以最大公约数为3&lt;/p&gt;
 </description>
         </item>
         

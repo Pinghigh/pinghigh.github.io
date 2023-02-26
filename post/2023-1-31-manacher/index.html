@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://blog.tibrella.top/post/2023-1-31-manacher/'>
 
-<link rel="stylesheet" href="/scss/style.min.9b420c4d5524bd3fdfdf876acca8bac566c1b4813d13b39901fea466757c7f1b.css"><meta property='og:title' content='Manacher'>
+<link rel="stylesheet" href="/scss/style.min.de6eddfdd97e27f2b8ef52e0d873aea2eae1153dba4914ef70520ac54e2244de.css"><meta property='og:title' content='Manacher'>
 <meta property='og:description' content='求串的最长回文子串'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2023-1-31-manacher/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,7 +15,6 @@
 <meta name="twitter:description" content="求串的最长回文子串"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
     <link rel="shortcut icon" href="/favicon.png" />
-
 <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
 <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
@@ -244,7 +243,45 @@
     </ol>
 </aside>
 
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#预处理">预处理</a></li>
+    <li><a href="#manacher">Manacher</a>
+      <ul>
+        <li><a href="#基本思想">基本思想</a></li>
+        <li><a href="#实现">实现</a></li>
+        <li><a href="#时间复杂度1">时间复杂度</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
             <main class="main full-width">
     <article class="has-image main-article">
@@ -331,219 +368,189 @@
 字面意思，回文就是一个串正着读倒着读一样，子串就是一个连续的子序列。</p>
 <h2 id="预处理">预处理</h2>
 <p>不难发现对于一个回文字串，有两种情况：</p>
-<ol type="1">
-<li><code>ABBA</code> 即长度为偶数，没有中心字符，半径为 2，长度为
-4</li>
+<ol>
+<li><code>ABBA</code> 即长度为偶数，没有中心字符，半径为 2，长度为 4</li>
 <li><code>ABCBA</code> 即长度为奇数，有中心字符，半径为 3，长度为 5</li>
 </ol>
-<p>懒得给他们处理两种情况，怎么办？只需要插入一些其他字符即可。<br />
-比如说我们可以在头部插入一个 <code>?</code> 代表串开始，<code>^</code>
-代表串结束，然后在新串的每一个字符之间插入一个 <code>#</code>
-号，得到的新串就能达到简化情况的目的。<br />
-按照上面的方法处理之后，原来的两个串会变为：<br />
+<p>懒得给他们处理两种情况，怎么办？只需要插入一些其他字符即可。<br>
+比如说我们可以在头部插入一个 <code>?</code> 代表串开始，<code>^</code> 代表串结束，然后在新串的每一个字符之间插入一个 <code>#</code> 号，得到的新串就能达到简化情况的目的。 <br>
+按照上面的方法处理之后，原来的两个串会变为：<br>
 （只观察回文子串）</p>
-<ol type="1">
-<li><code>?#A#B#B#A#^</code> 长度变为奇数，有中心字符，半径为 5，长度为
-9</li>
-<li><code>?#A#B#C#B#A#^</code> 长度为奇数不变，有中心字符，半径为
-6，长度为 11</li>
+<ol>
+<li><code>?#A#B#B#A#^</code> 长度变为奇数，有中心字符，半径为 5，长度为 9</li>
+<li><code>?#A#B#C#B#A#^</code> 长度为奇数不变，有中心字符，半径为 6，长度为 11</li>
 </ol>
-<p>情况被简化成一种，即长度为奇数。与此同时我们发现，新串的回文子串的
-<strong>半径<span class="math inline">\(-1\)</span></strong>
-就是原串回文子串的 <strong>长度</strong></p>
+<p>情况被简化成一种，即长度为奇数。与此同时我们发现，新串的回文子串的 <strong>半径$-1$</strong> 就是原串回文子串的 <strong>长度</strong></p>
 <p>与此同时，问题不变，还是求串的最长回文子串。</p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode c++"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> init<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    b <span class="op">+=</span> <span class="ch">&#39;$&#39;</span><span class="op">;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    b <span class="op">+=</span> <span class="ch">&#39;#&#39;</span><span class="op">;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        b <span class="op">+=</span> a<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        b <span class="op">+=</span> <span class="ch">&#39;#&#39;</span><span class="op">;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    b <span class="op">+=</span> <span class="ch">&#39;^&#39;</span><span class="op">;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>b<span class="op">.</span>size<span class="op">();</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h2 id="manacher">Manacher</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;$&#39;</span>;
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> a[i];
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;^&#39;</span>;
+</span></span><span style="display:flex;"><span>    n<span style="color:#f92672">=</span>b.size();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="manacher">Manacher</h2>
 <h3 id="基本思想">基本思想</h3>
 <p><del>抽象来说</del>就是对于字符串的每一个位置，维护以这个位置为中心的最长回文串长度同时算出这个回文串的右边界，再通过这个右边界来更新下一个位置的最长回文串长度与右边界。</p>
-<p>具体来说，对于一个字符串 <span
-class="math inline">\(S\)</span>，开一个数组 <span
-class="math inline">\(P_i\)</span> 记录以 <span
-class="math inline">\(i\)</span> 为中心的最长回文串半径（含 <span
-class="math inline">\(S_i\)</span>），变量 <span
-class="math inline">\(mid\)</span> 为在 <span
-class="math inline">\(i\)</span> 之前边界最靠右的回文子串的中心，<span
-class="math inline">\(mr\)</span>（也就是 <span
-class="math inline">\(maxright\)</span>）记录这个回文子串的右边界，通过这些更新下一个位置的这些值。</p>
-<p>为了方便说明，以 <span class="math inline">\(i\)</span>
-为中心的最长回文子串称为 <span class="math inline">\(T_i\)</span></p>
+<p>具体来说，对于一个字符串 $S$，开一个数组 $P_i$ 记录以 $i$ 为中心的最长回文串半径（含 $S_i$），变量 $mid$ 为在 $i$ 之前边界最靠右的回文子串的中心，$mr$（也就是 $maxright$）记录这个回文子串的右边界，通过这些更新下一个位置的这些值。</p>
+<p>为了方便说明，以 $i$ 为中心的最长回文子串称为 $T_i$</p>
 <h4 id="继承对称点的数据">继承对称点的数据</h4>
-<p>枚举到 <span class="math inline">\(i\)</span> 之前的状态：</p>
-<p><img src="https://s1.ax1x.com/2023/01/31/pS0hKFU.png" /></p>
-<p>枚举到 <span class="math inline">\(i\)</span> 后，对于 <span
-class="math inline">\(mr\)</span> 和 <span
-class="math inline">\(i\)</span> 来说有两种情况：<span
-class="math inline">\(i\)</span> 在左侧或 <span
-class="math inline">\(mr\)</span> 在左侧</p>
+<p>枚举到 $i$ 之前的状态：</p>
+<p><img src="https://s1.ax1x.com/2023/01/31/pS0hKFU.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>枚举到 $i$ 后，对于 $mr$ 和 $i$ 来说有两种情况：$i$ 在左侧或 $mr$ 在左侧</p>
 <ul>
-<li><span class="math inline">\(i\)</span> 在左侧 即 <span
-class="math inline">\(i\)</span> 被 <span
-class="math inline">\(T_{mid}\)</span> 包含。<br />
-显然 <span class="math inline">\(i\)</span> 之前的 <span
-class="math inline">\(P_k\)</span> 都是已知的，同时 <span
-class="math inline">\(i\)</span> 在一个回文字串内，那么假设 <span
-class="math inline">\(j\)</span> 是 <span
-class="math inline">\(i\)</span> 关于 <span
-class="math inline">\(mid\)</span> 的对称点，则<br />
-<img src="https://s1.ax1x.com/2023/01/31/pS0hKFU.png" /><br />
-那么 <span class="math inline">\(P_j\)</span> 已知，对于以 <span
-class="math inline">\(j\)</span> 为中心的最长回文子串 <span
-class="math inline">\(T_j\)</span> 来说有两种情况
-<ol type="1">
-<li><span class="math inline">\(T_j\)</span> 被 <span
-class="math inline">\(T_{mid}\)</span> 完全包含，此时 <span
-class="math inline">\(P_i\)</span> 可以继承 <span
-class="math inline">\(P_j\)</span>
-（因为回文）（不用考虑边界问题，后续会处理）</li>
-<li><span class="math inline">\(T_j\)</span> 未被 <span
-class="math inline">\(T_{mid}\)</span> 完全包含，此时 <span
-class="math inline">\(T_i\)</span> 一定被 <span
-class="math inline">\(T_{mid}\)</span>
-完全包含。因为如果不被完全包含，则 <span
-class="math inline">\(P_{mid}\)</span> 的值仍可以增大，如下图<br />
-<img src="https://s1.ax1x.com/2023/01/31/pS0hRk8.png" /><br />
-图中蓝色块通过 <span class="math inline">\(T_{mid}\)</span>
-串回文的性质已知相等，每个蓝色块均可以通过自身所在回文串推出其外侧橙色块也是相等的。<br />
-显然这种情况不会出现，因为这种情况下 <span
-class="math inline">\(P_{mid}\)</span> 是一个假值。</li>
-</ol></li>
-<li><span class="math inline">\(i\)</span> 在右侧<br />
-没有可以继承的值则可以直接重新推，不需要过多考虑。</li>
-</ul>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode c++"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>i <span class="op">&lt;</span> mr<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    p<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> min<span class="op">(</span>p<span class="op">[(</span>mid <span class="op">&lt;&lt;</span> <span class="dv">1</span><span class="op">)</span> <span class="op">-</span> i<span class="op">],</span> mr <span class="op">-</span> i<span class="op">);</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    p<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h4 id="更新-p_i">更新 <span class="math inline">\(P_i\)</span></h4>
-<p>直接从当前记录的半径向外继续枚举，直到遇到两个不相同的字符为止（边界上有
-<code>$</code>
-<code>^</code>，枚举到一定会停止，所以不用考虑边界问题）。</p>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode c++"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>b<span class="op">[</span>i <span class="op">-</span> p<span class="op">[</span>i<span class="op">]]</span> <span class="op">==</span> b<span class="op">[</span>i <span class="op">+</span> p<span class="op">[</span>i<span class="op">]])</span> <span class="op">{</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">++</span> p<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h4 id="更新-mr-和-mid">更新 <span class="math inline">\(mr\)</span> 和
-<span class="math inline">\(mid\)</span></h4>
-<p>前文说过 <span class="math inline">\(mr\)</span> <span
-class="math inline">\(mid\)</span>
-都是边界最靠右的回文子串的属性，那么只需要判断新找到的回文子串右边界是否大于
-<span class="math inline">\(mr\)</span> 即可。</p>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode c++"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>i <span class="op">+</span> p<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;</span> mr<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    mr <span class="op">=</span> i <span class="op">+</span> p<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    mid <span class="op">=</span> i<span class="op">;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<p>至此 Manacher 算法主要过程结束。</p>
-<h3 id="实现">实现</h3>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode c++"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;string&gt;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="bu">std::</span>cin<span class="op">;</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="bu">std::</span>cout<span class="op">;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="bu">std::</span>endl<span class="op">;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="bu">std::</span>sort<span class="op">;</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="bu">std::</span>string<span class="op">;</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> T<span class="op">&gt;</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>T max<span class="op">(</span>T a<span class="op">,</span> T b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">&gt;</span>b<span class="op">?</span>a<span class="op">:</span>b<span class="op">;</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> T<span class="op">&gt;</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>T min<span class="op">(</span>T a<span class="op">,</span> T b<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">&lt;</span>b<span class="op">?</span>a<span class="op">:</span>b<span class="op">;</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="kw">constexpr</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">2e7</span> <span class="op">+</span> <span class="dv">514</span><span class="op">;</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">;</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>string a<span class="op">,</span> b<span class="op">;</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> p<span class="op">[</span>N<span class="op">];</span>  <span class="co">// p[i] 表示以第 i 个字符为中心的最长回文子串半径</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> res<span class="op">;</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> init<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    b <span class="op">+=</span> <span class="ch">&#39;$&#39;</span><span class="op">;</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    b <span class="op">+=</span> <span class="ch">&#39;#&#39;</span><span class="op">;</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        b <span class="op">+=</span> a<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        b <span class="op">+=</span> <span class="ch">&#39;#&#39;</span><span class="op">;</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    b <span class="op">+=</span> <span class="ch">&#39;^&#39;</span><span class="op">;</span></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    n<span class="op">=</span>b<span class="op">.</span>size<span class="op">();</span></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> manacher<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> mr <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> mid<span class="op">;</span></span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>i <span class="op">&lt;</span> mr<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>            p<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> min<span class="op">(</span>p<span class="op">[(</span>mid<span class="op">&lt;&lt;</span><span class="dv">1</span><span class="op">)-</span>i<span class="op">],</span> mr <span class="op">-</span> i<span class="op">);</span></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>            p<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>b<span class="op">[</span>i<span class="op">-</span>p<span class="op">[</span>i<span class="op">]]</span> <span class="op">==</span> b<span class="op">[</span>i<span class="op">+</span>p<span class="op">[</span>i<span class="op">]])</span> <span class="op">{</span></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>            <span class="op">++</span> p<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>i<span class="op">+</span>p<span class="op">[</span>i<span class="op">]&gt;</span>mr<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>            mr <span class="op">=</span> i<span class="op">+</span>p<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>            mid <span class="op">=</span> i<span class="op">;</span></span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>ios<span class="bu">::</span>sync_with_stdio<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    cin<span class="op">.</span>tie<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    cout<span class="op">.</span>tie<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    a<span class="op">.</span>reserve<span class="op">(</span>N<span class="op">);</span></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>    b<span class="op">.</span>reserve<span class="op">(</span>N<span class="op">);</span></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> a<span class="op">;</span></span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> a<span class="op">.</span>size<span class="op">();</span></span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    init<span class="op">();</span></span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    manacher<span class="op">();</span></span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span> <span class="co">// 最后需要枚举一遍来找出最大值</span></span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> max<span class="op">(</span>res<span class="op">,</span> p<span class="op">[</span>i<span class="op">]);</span></span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> res <span class="op">-</span> <span class="dv">1</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h3 id="时间复杂度1">时间复杂度<a href="#fn1" class="footnote-ref"
-id="fnref1" role="doc-noteref"><sup>1</sup></a></h3>
-<p>当 <span class="math inline">\(P_j\)</span>
-左侧取到左边界及以外时，<span class="math inline">\(P_i\)</span>
-才需要更新（其他情况都因为不满足条件而不用进循环），而右端点是单调递增且严格小于等于
-<span class="math inline">\(n\)</span> 的，因此总时间复杂度为 <span
-class="math inline">\(\operatorname{O}(n)\)</span></p>
-<section id="footnotes" class="footnotes footnotes-end-of-document"
-role="doc-endnotes">
-<hr />
+<li>
+<p>$i$ 在左侧
+即 $i$ 被 $T_{mid}$ 包含。<br>
+显然 $i$ 之前的 $P_k$ 都是已知的，同时 $i$ 在一个回文字串内，那么假设 $j$ 是 $i$ 关于 $mid$ 的对称点，则<br>
+<img src="https://s1.ax1x.com/2023/01/31/pS0hKFU.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+><br>
+那么 $P_j$ 已知，对于以 $j$ 为中心的最长回文子串 $T_j$ 来说有两种情况</p>
 <ol>
-<li id="fn1"><p>参考<a
-href="https://www.acwing.com/file_system/file/content/whole/index/content/7964832/">谷雨的笔记</a><a
-href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li>$T_j$ 被 $T_{mid}$ 完全包含，此时 $P_i$ 可以继承 $P_j$ （因为回文）（不用考虑边界问题，后续会处理）</li>
+<li>$T_j$ 未被 $T_{mid}$ 完全包含，此时 $T_i$ 一定被 $T_{mid}$ 完全包含。因为如果不被完全包含，则 $P_{mid}$ 的值仍可以增大，如下图<br>
+<img src="https://s1.ax1x.com/2023/01/31/pS0hRk8.png"
+	
+	
+	
+	loading="lazy"
+	
+	
+><br>
+图中蓝色块通过 $T_{mid}$ 串回文的性质已知相等，每个蓝色块均可以通过自身所在回文串推出其外侧橙色块也是相等的。<br>
+显然这种情况不会出现，因为这种情况下 $P_{mid}$ 是一个假值。</li>
 </ol>
-</section>
+</li>
+<li>
+<p>$i$ 在右侧<br>
+没有可以继承的值则可以直接重新推，不需要过多考虑。</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> mr) {
+</span></span><span style="display:flex;"><span>    p[i] <span style="color:#f92672">=</span> min(p[(mid <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">-</span> i], mr <span style="color:#f92672">-</span> i);
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    p[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="更新-p_i">更新 $P_i$</h4>
+<p>直接从当前记录的半径向外继续枚举，直到遇到两个不相同的字符为止（边界上有 <code>$</code> <code>^</code>，枚举到一定会停止，所以不用考虑边界问题）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">while</span> (b[i <span style="color:#f92672">-</span> p[i]] <span style="color:#f92672">==</span> b[i <span style="color:#f92672">+</span> p[i]]) {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">++</span> p[i];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="更新-mr-和-mid">更新 $mr$ 和 $mid$</h4>
+<p>前文说过 $mr$ $mid$ 都是边界最靠右的回文子串的属性，那么只需要判断新找到的回文子串右边界是否大于 $mr$ 即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> p[i] <span style="color:#f92672">&gt;</span> mr) {
+</span></span><span style="display:flex;"><span>    mr <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> p[i];
+</span></span><span style="display:flex;"><span>    mid <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>至此 Manacher 算法主要过程结束。</p>
+<h3 id="实现">实现</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>cin;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>cout;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>sort;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>string;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>T max(T a, T b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a<span style="color:#f92672">&gt;</span>b<span style="color:#f92672">?</span>a:b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>T min(T a, T b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a<span style="color:#f92672">&lt;</span>b<span style="color:#f92672">?</span>a:b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">2e7</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">514</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>string a, b;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> p[N];  <span style="color:#75715e">// p[i] 表示以第 i 个字符为中心的最长回文子串半径
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> res;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;$&#39;</span>;
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> a[i];
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;^&#39;</span>;
+</span></span><span style="display:flex;"><span>    n<span style="color:#f92672">=</span>b.size();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">manacher</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> mr <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, mid;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> mr) {
+</span></span><span style="display:flex;"><span>            p[i] <span style="color:#f92672">=</span> min(p[(mid<span style="color:#f92672">&lt;&lt;</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">-</span>i], mr <span style="color:#f92672">-</span> i);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            p[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (b[i<span style="color:#f92672">-</span>p[i]] <span style="color:#f92672">==</span> b[i<span style="color:#f92672">+</span>p[i]]) {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">++</span> p[i];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i<span style="color:#f92672">+</span>p[i]<span style="color:#f92672">&gt;</span>mr) {
+</span></span><span style="display:flex;"><span>            mr <span style="color:#f92672">=</span> i<span style="color:#f92672">+</span>p[i];
+</span></span><span style="display:flex;"><span>            mid <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>ios<span style="color:#f92672">::</span>sync_with_stdio(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    cin.tie(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    cout.tie(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    a.reserve(N);
+</span></span><span style="display:flex;"><span>    b.reserve(N);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> a;
+</span></span><span style="display:flex;"><span>    n <span style="color:#f92672">=</span> a.size();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    init();
+</span></span><span style="display:flex;"><span>    manacher();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) { <span style="color:#75715e">// 最后需要枚举一遍来找出最大值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        res <span style="color:#f92672">=</span> max(res, p[i]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> res <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="时间复杂度1">时间复杂度<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></h3>
+<p>当 $P_j$ 左侧取到左边界及以外时，$P_i$ 才需要更新（其他情况都因为不满足条件而不用进循环），而右端点是单调递增且严格小于等于 $n$ 的，因此总时间复杂度为 $\operatorname{O}(n)$</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>参考<a class="link" href="https://www.acwing.com/file_system/file/content/whole/index/content/7964832/"  target="_blank" rel="noopener"
+    >谷雨的笔记</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
 </section>
 
@@ -575,6 +582,31 @@ href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
     </section>
     </footer>
 
+
+    
+        <script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    };
+
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += 'has-jax'
+        })
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
 
     
 </article>
@@ -705,7 +737,7 @@ href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <script>
     (function () {
         const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
 
         customFont.type = "text/css";
         customFont.rel = "stylesheet";
@@ -713,6 +745,7 @@ href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
         document.head.appendChild(customFont);
     }());
 </script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 
     </body>
 </html>

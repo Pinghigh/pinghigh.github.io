@@ -12,52 +12,36 @@
         <pubDate>Sun, 15 Jan 2023 14:05:20 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2023-1-15-basic-graph/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 图论基础" /&gt;&lt;p&gt;图论是嗜血分支&lt;a href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;
-role=&#34;doc-noteref&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;，相应的，图论基础并没有什么太多需要思考的东西，只有一堆该死的概念等着记，有如绳之以法抽象了&lt;/p&gt;
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 图论基础" /&gt;&lt;p&gt;图论是嗜血分支&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;，相应的，图论基础并没有什么太多需要思考的东西，只有一堆该死的概念等着记，有如绳之以法抽象了&lt;/p&gt;
 &lt;h2 id=&#34;基本概念&#34;&gt;基本概念&lt;/h2&gt;
 &lt;h3 id=&#34;图&#34;&gt;图&lt;/h3&gt;
-&lt;p&gt;由顶点（点）（Vertex）的集合和边（Edge）的集合组成，记为 &lt;span
-class=&#34;math inline&#34;&gt;\(\mathbb{G} =
-(\mathbb{V}+\mathbb{E})\)&lt;/span&gt;&lt;br /&gt;
-点的集合用 &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{V(G)}\)&lt;/span&gt; 表示，点用
-&lt;span class=&#34;math inline&#34;&gt;\(u,v\)&lt;/span&gt; 等符号表示&lt;br /&gt;
-顶点的数量称为图的“阶”，用 &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt;
-表示&lt;br /&gt;
-边的集合用 &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{E(G)}\)&lt;/span&gt; 表示，边用
-&lt;span class=&#34;math inline&#34;&gt;\(e\)&lt;/span&gt; 等符号表示&lt;br /&gt;
-边的个数称为图的“边数” &lt;del&gt;感觉说了和没说一样&lt;/del&gt;，用 &lt;span
-class=&#34;math inline&#34;&gt;\(m\)&lt;/span&gt; 表示&lt;/p&gt;
+&lt;p&gt;由顶点（点）（Vertex）的集合和边（Edge）的集合组成，记为 $\mathbb{G} = (\mathbb{V}+\mathbb{E})$&lt;br&gt;
+点的集合用 $\mathbb{V(G)}$ 表示，点用 $u,v$ 等符号表示&lt;br&gt;
+顶点的数量称为图的“阶”，用 $n$ 表示&lt;br&gt;
+边的集合用 $\mathbb{E(G)}$ 表示，边用 $e$ 等符号表示&lt;br&gt;
+边的个数称为图的“边数” &lt;del&gt;感觉说了和没说一样&lt;/del&gt;，用 $m$ 表示&lt;/p&gt;
 &lt;h3 id=&#34;图的种类&#34;&gt;图的种类&lt;/h3&gt;
-&lt;p&gt;从 &lt;span class=&#34;math inline&#34;&gt;\(u\)&lt;/span&gt; 到 &lt;span
-class=&#34;math inline&#34;&gt;\(v\)&lt;/span&gt; 的无向边： &lt;span
-class=&#34;math inline&#34;&gt;\((u,v)\)&lt;/span&gt;&lt;br /&gt;
-从 &lt;span class=&#34;math inline&#34;&gt;\(u\)&lt;/span&gt; 到 &lt;span
-class=&#34;math inline&#34;&gt;\(v\)&lt;/span&gt; 的有向边：&lt;span
-class=&#34;math inline&#34;&gt;\(\langle u,v \rangle\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;有向图：图的所有边都是有向边&lt;br /&gt;
-无向图：图的所有边都是无向边&lt;br /&gt;
-完全图：每个点都与其他所有顶点连接；对于有向图来说，任意顶点 &lt;span
-class=&#34;math inline&#34;&gt;\(u,v\)&lt;/span&gt; 都有边 &lt;span
-class=&#34;math inline&#34;&gt;\(\langle u,v \rangle \langle v,u
-\rangle\)&lt;/span&gt;&lt;br /&gt;
-稀疏图/稠密图：边少/多的图&lt;br /&gt;
-平凡图：一个点的图&lt;br /&gt;
+&lt;p&gt;从 $u$ 到 $v$ 的无向边： $(u,v)$&lt;br&gt;
+从 $u$ 到 $v$ 的有向边：$\langle u,v \rangle$&lt;/p&gt;
+&lt;p&gt;有向图：图的所有边都是有向边&lt;br&gt;
+无向图：图的所有边都是无向边&lt;br&gt;
+完全图：每个点都与其他所有顶点连接；对于有向图来说，任意顶点 $u,v$ 都有边 $\langle u,v \rangle \langle v,u \rangle$&lt;br&gt;
+稀疏图/稠密图：边少/多的图&lt;br&gt;
+平凡图：一个点的图&lt;br&gt;
 零图：没有边的图&lt;/p&gt;
 &lt;h3 id=&#34;度&#34;&gt;度&lt;/h3&gt;
-&lt;p&gt;对于顶点 &lt;span class=&#34;math inline&#34;&gt;\(v\)&lt;/span&gt; 来说&lt;br /&gt;
-入度 &lt;span class=&#34;math inline&#34;&gt;\(ID(v)\)&lt;/span&gt;：以 &lt;span
-class=&#34;math inline&#34;&gt;\(v\)&lt;/span&gt; 为终点的边的个数&lt;br /&gt;
-出度 &lt;span class=&#34;math inline&#34;&gt;\(OD(v)\)&lt;/span&gt;：以 &lt;span
-class=&#34;math inline&#34;&gt;\(v\)&lt;/span&gt; 为起点的边的个数&lt;br /&gt;
-度 &lt;span class=&#34;math inline&#34;&gt;\(D(v)\)&lt;/span&gt; = 入度 + 出度&lt;/p&gt;
+&lt;p&gt;对于顶点 $v$ 来说&lt;br&gt;
+入度 $ID(v)$：以 $v$ 为终点的边的个数&lt;br&gt;
+出度 $OD(v)$：以 $v$ 为起点的边的个数&lt;br&gt;
+度 $D(v)$ = 入度 + 出度&lt;/p&gt;
 &lt;p&gt;度为奇数的点为奇点，度为偶数的顶点为偶点&lt;/p&gt;
-&lt;p&gt;于是可得：对于图 &lt;span class=&#34;math inline&#34;&gt;\(\mathbb{G}\)&lt;/span&gt;
-中所有顶点的度=边数的两倍&lt;br /&gt;
+&lt;p&gt;于是可得：对于图 $\mathbb{G}$ 中所有顶点的度=边数的两倍&lt;br&gt;
 以及推论：一个图中的奇点数量为偶数&lt;/p&gt;
-&lt;p&gt;简短证明： 1. 每条边一定贡献一个出度一个入度共两个度&lt;br /&gt;
-2. 度一定是偶数所以奇点的数量为偶数（奇&lt;span
-class=&#34;math inline&#34;&gt;\(\times\)&lt;/span&gt;偶&lt;span
-class=&#34;math inline&#34;&gt;\(=\)&lt;/span&gt;偶）&lt;/p&gt;
+&lt;p&gt;简短证明：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;每条边一定贡献一个出度一个入度共两个度&lt;/li&gt;
+&lt;li&gt;度一定是偶数所以奇点的数量为偶数（奇$\times$偶$=$偶）&lt;/li&gt;
+&lt;/ol&gt;
 &lt;h2 id=&#34;存图&#34;&gt;存图&lt;/h2&gt;
 &lt;p&gt;无向图可以看作有向图但是两个点之间互相有一条有向边，所以只需要考虑有向图存图&lt;/p&gt;
 &lt;h3 id=&#34;邻接矩阵&#34;&gt;邻接矩阵&lt;/h3&gt;
@@ -65,7 +49,7 @@ class=&#34;math inline&#34;&gt;\(=\)&lt;/span&gt;偶）&lt;/p&gt;
 &lt;p&gt;比如当前图有四个点，则开数组 &lt;code&gt;g[5][5]&lt;/code&gt;，初始化为 0。&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
-&lt;tr class=&#34;header&#34;&gt;
+&lt;tr&gt;
 &lt;th&gt;&lt;/th&gt;
 &lt;th&gt;1&lt;/th&gt;
 &lt;th&gt;2&lt;/th&gt;
@@ -74,28 +58,28 @@ class=&#34;math inline&#34;&gt;\(=\)&lt;/span&gt;偶）&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
-&lt;tr class=&#34;odd&#34;&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;strong&gt;2&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr class=&#34;odd&#34;&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;strong&gt;3&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;strong&gt;4&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
@@ -104,11 +88,10 @@ class=&#34;math inline&#34;&gt;\(=\)&lt;/span&gt;偶）&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;然后 1 到 2，3 到 1 有一条有向边，边权为 1，则修改
-&lt;code&gt;g[1][2]&lt;/code&gt; &lt;code&gt;g[3][1]&lt;/code&gt; 为 1&lt;/p&gt;
+&lt;p&gt;然后 1 到 2，3 到 1 有一条有向边，边权为 1，则修改 &lt;code&gt;g[1][2]&lt;/code&gt; &lt;code&gt;g[3][1]&lt;/code&gt; 为 1&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
-&lt;tr class=&#34;header&#34;&gt;
+&lt;tr&gt;
 &lt;th&gt;&lt;/th&gt;
 &lt;th&gt;1&lt;/th&gt;
 &lt;th&gt;2&lt;/th&gt;
@@ -117,28 +100,28 @@ class=&#34;math inline&#34;&gt;\(=\)&lt;/span&gt;偶）&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
-&lt;tr class=&#34;odd&#34;&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;1&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;strong&gt;2&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr class=&#34;odd&#34;&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;strong&gt;3&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;1&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;strong&gt;4&lt;/strong&gt;&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
 &lt;td&gt;0&lt;/td&gt;
@@ -147,33 +130,27 @@ class=&#34;math inline&#34;&gt;\(=\)&lt;/span&gt;偶）&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;非常容易理解，缺点也显而易见，如果有 114514 个点但是只有 1
-条边，那就需要开 114514*114514
-的空间但是只有一个位置有数据，显然造成了巨大的浪费（空间早就炸了）&lt;br /&gt;
+&lt;p&gt;非常容易理解，缺点也显而易见，如果有 114514 个点但是只有 1 条边，那就需要开 114514*114514 的空间但是只有一个位置有数据，显然造成了巨大的浪费（空间早就炸了）&lt;br&gt;
 因此需要寻找一个只存边的存图方案，从而诞生邻接表&lt;/p&gt;
 &lt;h3 id=&#34;链式前向星&#34;&gt;链式前向星&lt;/h3&gt;
 &lt;p&gt;用链表实现的邻接表&lt;/p&gt;
 &lt;p&gt;先说链表，顾名思义，链状链接的列表&lt;/p&gt;
 &lt;p&gt;开一个结构体存链的每一个元素&lt;/p&gt;
-&lt;div class=&#34;sourceCode&#34; id=&#34;cb1&#34;&gt;&lt;pre
-class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb1-1&#34;&gt;&lt;a href=&#34;#cb1-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;kw&#34;&gt;struct&lt;/span&gt; Node &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb1-2&#34;&gt;&lt;a href=&#34;#cb1-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; data&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb1-3&#34;&gt;&lt;a href=&#34;#cb1-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    Node &lt;span class=&#34;op&#34;&gt;*&lt;/span&gt;nex&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb1-4&#34;&gt;&lt;a href=&#34;#cb1-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;显然，把链表每一个部分连接起来的东西就是指针
-&lt;code&gt;nex&lt;/code&gt;，&lt;code&gt;nex&lt;/code&gt;
-指向当前元素的下一个元素的地址。&lt;br /&gt;
-当然，如果开一个数组存储所有的元素，地址可以改为存储下标，即
-&lt;code&gt;nex&lt;/code&gt; 可以是一个整数，存储下一个元素在数组里的下标。&lt;/p&gt;
-&lt;section id=&#34;footnotes&#34; class=&#34;footnotes footnotes-end-of-document&#34;
-role=&#34;doc-endnotes&#34;&gt;
-&lt;hr /&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Node&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; data;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Node &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;nex;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;显然，把链表每一个部分连接起来的东西就是指针 &lt;code&gt;nex&lt;/code&gt;，&lt;code&gt;nex&lt;/code&gt; 指向当前元素的下一个元素的地址。&lt;br&gt;
+当然，如果开一个数组存储所有的元素，地址可以改为存储下标，即 &lt;code&gt;nex&lt;/code&gt; 可以是一个整数，存储下一个元素在数组里的下标。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;数学，来自 &lt;a
-href=&#34;https://grainrain.site&#34;&gt;GrainRain谷神&lt;/a&gt;&lt;a href=&#34;#fnref1&#34;
-class=&#34;footnote-back&#34; role=&#34;doc-backlink&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;数学，来自 &lt;a class=&#34;link&#34; href=&#34;https://grainrain.site&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;GrainRain谷神&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/section&gt;
+&lt;/div&gt;
 </description>
         </item>
         

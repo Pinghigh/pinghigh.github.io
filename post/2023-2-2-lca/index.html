@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://blog.tibrella.top/post/2023-2-2-lca/'>
 
-<link rel="stylesheet" href="/scss/style.min.9b420c4d5524bd3fdfdf876acca8bac566c1b4813d13b39901fea466757c7f1b.css"><meta property='og:title' content='倍增求LCA/最近共同祖先'>
+<link rel="stylesheet" href="/scss/style.min.de6eddfdd97e27f2b8ef52e0d873aea2eae1153dba4914ef70520ac54e2244de.css"><meta property='og:title' content='倍增求LCA/最近共同祖先'>
 <meta property='og:description' content='求树上两个节点的最近公共祖先（倍增做法）'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2023-2-2-lca/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,7 +15,6 @@
 <meta name="twitter:description" content="求树上两个节点的最近公共祖先（倍增做法）"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
     <link rel="shortcut icon" href="/favicon.png" />
-
 <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
 <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
@@ -244,7 +243,43 @@
     </ol>
 </aside>
 
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#原理">原理</a>
+      <ul>
+        <li><a href="#初始">初始</a></li>
+        <li><a href="#查询">查询</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
             <main class="main full-width">
     <article class="has-image main-article">
@@ -327,33 +362,25 @@
     <section class="article-content">
     
     
-    <p>倍增求 LCA 是一种高效的求 LCA 算法，时间复杂度为 <span
-class="math inline">\(\operatorname{O}(\log{n})\)</span></p>
+    <p>倍增求 LCA 是一种高效的求 LCA 算法，时间复杂度为 $\operatorname{O}(\log{n})$</p>
 <h2 id="原理">原理</h2>
 <h3 id="初始">初始</h3>
-<p>维护一个 <span class="math inline">\(fa_{i,x}\)</span> 表示 <span
-class="math inline">\(x\)</span> 往根节点走 <span
-class="math inline">\(2^i\)</span> 步到达的节点。</p>
+<p>维护一个 $fa_{i,x}$ 表示 $x$ 往根节点走 $2^i$ 步到达的节点。</p>
 <ul>
-<li>初始化时 <span class="math inline">\(fa_{0,x} =
-father_x\)</span></li>
-<li>更新为 <span class="math inline">\(fa_{i,x} =
-fa_{i-1,fa_{i-1,x}}\)</span></li>
+<li>初始化时 $fa_{0,x} = father_x$</li>
+<li>更新为 $fa_{i,x} = fa_{i-1,fa_{i-1,x}}$</li>
 </ul>
 <h3 id="查询">查询</h3>
-<p>中心思想是利用二进制向上跳。<br />
-假设目前要查询 a 号节点和 b 号节点的
-LCA，将较深节点设为a，较浅设为b，即：</p>
+<p>中心思想是利用二进制向上跳。<br>
+假设目前要查询 a 号节点和 b 号节点的 LCA，将较深节点设为a，较浅设为b，即：</p>
 <ul>
-<li>首先将 a 向上跳到和 b 同一高度，若此时 a = b，直接返回 b 即可，即 b
-为 a 的一个直接父亲，LCA 也一定是 b。</li>
-<li>否则将两个节点同时往上跳，<span class="math inline">\(i\)</span>
-从大到小，每次跳 <span class="math inline">\(2^i\)</span>，规则如下：
-<ol type="1">
+<li>首先将 a 向上跳到和 b 同一高度，若此时 a = b，直接返回 b 即可，即 b 为 a 的一个直接父亲，LCA 也一定是 b。</li>
+<li>否则将两个节点同时往上跳，$i$ 从大到小，每次跳 $2^i$，规则如下：
+<ol>
 <li>如果跳完两个节点相同，即找到了一个共同祖先，则不跳，因为此时<strong>不能确定</strong>这个共同祖先是不是<strong>最近的</strong>。</li>
-<li>否则就继续同时往上跳，最终返回 <span
-class="math inline">\(fa_{0,a}\)</span> 即可。</li>
-</ol></li>
+<li>否则就继续同时往上跳，最终返回 $fa_{0,a}$ 即可。</li>
+</ol>
+</li>
 </ul>
 
 </section>
@@ -388,6 +415,31 @@ class="math inline">\(fa_{0,a}\)</span> 即可。</li>
     </section>
     </footer>
 
+
+    
+        <script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    };
+
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += 'has-jax'
+        })
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
 
     
 </article>
@@ -518,7 +570,7 @@ class="math inline">\(fa_{0,a}\)</span> 即可。</li>
 <script>
     (function () {
         const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
 
         customFont.type = "text/css";
         customFont.rel = "stylesheet";
@@ -526,6 +578,7 @@ class="math inline">\(fa_{0,a}\)</span> 即可。</li>
         document.head.appendChild(customFont);
     }());
 </script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 
     </body>
 </html>

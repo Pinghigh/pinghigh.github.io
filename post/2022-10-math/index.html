@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://blog.tibrella.top/post/2022-10-math/'>
 
-<link rel="stylesheet" href="/scss/style.min.9b420c4d5524bd3fdfdf876acca8bac566c1b4813d13b39901fea466757c7f1b.css"><meta property='og:title' content='初级数论'>
+<link rel="stylesheet" href="/scss/style.min.de6eddfdd97e27f2b8ef52e0d873aea2eae1153dba4914ef70520ac54e2244de.css"><meta property='og:title' content='初级数论'>
 <meta property='og:description' content='一点点数论，比较杂'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2022-10-math/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,7 +15,6 @@
 <meta name="twitter:description" content="一点点数论，比较杂"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
     <link rel="shortcut icon" href="/favicon.png" />
-
 <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
 <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
@@ -244,7 +243,46 @@
     </ol>
 </aside>
 
-    
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#-模运算相关">%%% 模运算相关</a></li>
+    <li><a href="#辗转相除法httpspinghighgithubio202207142022-7-14-oie7ac94e8aeb0e69c80e5a4a7e585ace7baa6e695b0"><a href="https://pinghigh.github.io/2022/07/14/2022-7-14-OI%E7%AC%94%E8%AE%B0/#%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0">辗转相除法</a></a></li>
+    <li><a href="#同余">同余</a>
+      <ul>
+        <li><a href="#定义">定义</a></li>
+        <li><a href="#同余方程">同余方程</a></li>
+        <li><a href="#扩展欧几里得算法">扩展欧几里得算法</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
 
             <main class="main full-width">
     <article class="has-image main-article">
@@ -327,121 +365,84 @@
     <section class="article-content">
     
     
-    <h2 id="模运算相关"><del>%%%</del> 模运算相关</h2>
-<p>首先，存在唯一的整数 <span class="math inline">\(q,r\)</span> 满足
-<span class="math inline">\(n=qm+r, 0\leqslant r&lt;m\)</span>，<span
-class="math inline">\(q\)</span> 就是商，<span
-class="math inline">\(r\)</span> 就是余数。<br />
-C++ 中模运算可能结果是负数。当 <span
-class="math inline">\(n&lt;0\)</span> 时，模运算结果满足 <span
-class="math inline">\(-m&lt;r \leqslant 0\)</span>。<br />
+    <h2 id="-模运算相关"><del>%%%</del> 模运算相关</h2>
+<p>首先，存在唯一的整数 $q,r$ 满足 $n=qm+r, 0\leqslant r&lt;m$，$q$ 就是商，$r$ 就是余数。 <br>
+C++ 中模运算可能结果是负数。当 $n&lt;0$ 时，模运算结果满足 $-m&lt;r \leqslant 0$。 <br>
 因此可以使用</p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode c++"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">((</span>n<span class="op">%</span>m<span class="op">)+</span>m<span class="op">)%</span>m</span></code></pre></div>
-<p>进行取余操作。</p>
-<h2 id="辗转相除法"><a
-href="https://pinghigh.github.io/2022/07/14/2022-7-14-OI%E7%AC%94%E8%AE%B0/#%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0">辗转相除法</a></h2>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode c++"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a<span class="op">,</span>b<span class="op">,</span>r<span class="op">;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b<span class="op">;</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>a <span class="op">%</span> b <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> a <span class="op">%</span> b<span class="op">;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> b<span class="op">;</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> r<span class="op">;</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> b <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h2 id="同余">同余</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span>((n<span style="color:#f92672">%</span>m)<span style="color:#f92672">+</span>m)<span style="color:#f92672">%</span>m
+</span></span></code></pre></div><p>进行取余操作。</p>
+<h2 id="辗转相除法httpspinghighgithubio202207142022-7-14-oie7ac94e8aeb0e69c80e5a4a7e585ace7baa6e695b0"><a class="link" href="https://pinghigh.github.io/2022/07/14/2022-7-14-OI%E7%AC%94%E8%AE%B0/#%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0"  target="_blank" rel="noopener"
+    >辗转相除法</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a,b,r;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (a <span style="color:#f92672">%</span> b <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> a <span style="color:#f92672">%</span> b;
+</span></span><span style="display:flex;"><span>        a <span style="color:#f92672">=</span> b;
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">=</span> r;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="同余">同余</h2>
 <h3 id="定义">定义</h3>
-<p><span class="math inline">\(a\bmod m = b \bmod m\)</span> 则称 <span
-class="math inline">\(a,b\)</span> 对于模 <span
-class="math inline">\(m\)</span> 同余，记为 <span
-class="math inline">\(a \equiv b \pmod m\)</span></p>
-<p>等价于 <span class="math inline">\(m\)</span> 整除 <span
-class="math inline">\((a-b)\)</span>，即 <span
-class="math inline">\(m\mid(a-b)\)</span></p>
+<p>$a\bmod m = b \bmod m$ 则称 $a,b$ 对于模 $m$ 同余，记为 $a \equiv b \pmod m$</p>
+<p>等价于 $m$ 整除 $(a-b)$，即 $m\mid(a-b)$</p>
 <h3 id="同余方程">同余方程</h3>
-<p><span class="math inline">\(ax \equiv b \pmod n\)</span></p>
-<p>已知 <span class="math inline">\(a,b,n\)</span>，求解 <span
-class="math inline">\(x\)</span>。<br />
-当且仅当 <span class="math inline">\(b\)</span> 能被 <span
-class="math inline">\(a\)</span> 和 <span
-class="math inline">\(n\)</span> 的最大公约数整除时此方程有解<br />
-若 <span class="math inline">\(x_0\)</span>
-是方程的一个解，那么所有的解就是 <span
-class="math inline">\(\{x_0+k\cdot n/\gcd(a,n) | k\in
-\mathbf{Z}\}\)</span></p>
+<p>$ax \equiv b \pmod n$</p>
+<p>已知 $a,b,n$，求解 $x$。<br>
+当且仅当 $b$ 能被 $a$ 和 $n$ 的最大公约数整除时此方程有解<br>
+若 $x_0$ 是方程的一个解，那么所有的解就是 ${x_0+k\cdot n/\gcd(a,n) | k\in \mathbf{Z}}$</p>
 <h3 id="扩展欧几里得算法">扩展欧几里得算法</h3>
 <h4 id="裴蜀定理">裴蜀定理</h4>
-<p>对于任意 <span class="math inline">\(a,b\)</span> <span
-class="math inline">\(\exists x,y,ax+by=\gcd(a,b)\)</span><br />
-即 <span class="math inline">\(ax\equiv \gcd(a,b)\pmod b\)</span></p>
+<p>对于任意 $a,b$ $\exists x,y,ax+by=\gcd(a,b)$<br>
+即 $ax\equiv \gcd(a,b)\pmod b$</p>
 <h4 id="用途">用途</h4>
 <ul>
-<li>求解同余方程 <span class="math inline">\(ax \equiv \gcd(a,n) \pmod
-n\)</span>
+<li>求解同余方程 $ax \equiv \gcd(a,n) \pmod n$
 <ul>
-<li>对任意 <span class="math inline">\(a,b\)</span>，存在<span
-class="math inline">\(x,y\)</span>满足 <span
-class="math inline">\(ax+by=\gcd(a,b)\)</span> (裴蜀定理)<br />
-即 <span class="math inline">\(ax\equiv \gcd(a,b) \pmod b\)</span>。而
-<span class="math inline">\(x,y\)</span> 可以用扩展欧几里得算法求出</li>
-</ul></li>
+<li>对任意 $a,b$，存在$x,y$满足 $ax+by=\gcd(a,b)$ (裴蜀定理)<br>
+即 $ax\equiv \gcd(a,b) \pmod b$。而 $x,y$ 可以用扩展欧几里得算法求出</li>
+</ul>
+</li>
 </ul>
 <h4 id="原理">原理</h4>
-<p>回想辗转相除法，<span class="math inline">\(\gcd(a,b) = \gcd(b,a\bmod
-b)\)</span> 即<strong>缩小问题规模</strong>，当 <span
-class="math inline">\(b\mid a\)</span> 时，问题解决</p>
-<p>可得 <span class="math inline">\(ax+by= \gcd(a,b) \Leftrightarrow
-bx&#39; + (a\bmod b)y&#39; = \gcd(b,a\bmod b)\)</span></p>
-<p>即当 <span class="math inline">\(b\mid a\)</span> 时，问题解决，$x’ =
-1, y’ = 0 $</p>
-<p><span class="math inline">\(\begin{aligned} ax+by &amp;=
-bx&#39;+(a\bmod b)y&#39; \\ &amp;=bx&#39;+(a-a/b\cdot
-b)y&#39;=b(x&#39;-a/b\cdot y&#39;) + ay&#39; \end{aligned}\)</span></p>
-<p>即每层递归结束时，$ x=y’, y=x’-a/by’$</p>
+<p>回想辗转相除法，$\gcd(a,b) = \gcd(b,a\bmod b)$ 即<strong>缩小问题规模</strong>，当 $b\mid a$ 时，问题解决</p>
+<p>可得 $ax+by= \gcd(a,b) \Leftrightarrow bx&rsquo; + (a\bmod b)y&rsquo; = \gcd(b,a\bmod b)$</p>
+<p>即当 $b\mid a$ 时，问题解决，$x&rsquo; = 1, y&rsquo; = 0 $</p>
+<p>$\begin{aligned} ax+by &amp;= bx&rsquo;+(a\bmod b)y&rsquo; \ &amp;=bx&rsquo;+(a-a/b\cdot b)y&rsquo;=b(x&rsquo;-a/b\cdot y&rsquo;) + ay&rsquo; \end{aligned}$</p>
+<p>即每层递归结束时，$ x=y&rsquo;, y=x&rsquo;-a/b\cdot y'$</p>
 <h4 id="实现">实现</h4>
 <ul>
 <li>算法：函数 <code>ex_gcd(a,b)</code>
 <ul>
-<li>若 <code>b=0</code>，<code>ax+by=gcd(a,b)</code> 的解是
-<code>x=1</code>, <code>y=0</code>，直接返回</li>
-<li>否则递归调用 <code>ex_gcd(b,a%b)</code>，求解
-<code>bx'+(a%b)y'=gcd(b,a%b)</code></li>
-<li>用上一步解的 <code>x',y'</code>，令
-<code>x=y'，y=x'-a/b*y'</code>，<code>x</code>和<code>y</code>就是当前方程的解</li>
+<li>若 <code>b=0</code>，<code>ax+by=gcd(a,b)</code> 的解是 <code>x=1</code>, <code>y=0</code>，直接返回</li>
+<li>否则递归调用 <code>ex_gcd(b,a%b)</code>，求解 <code>bx'+(a%b)y'=gcd(b,a%b)</code></li>
+<li>用上一步解的 <code>x',y'</code>，令 <code>x=y'，y=x'-a/b*y'</code>，<code>x</code>和<code>y</code>就是当前方程的解</li>
 <li>返回<code>x,y</code></li>
-</ul></li>
-<li>对于任意同余方程 <span class="math inline">\(ax\equiv b \pmod
-n\)</span>，只要满足 <span class="math inline">\(\gcd(a,n)\mid
-b\)</span><br />
-就可以先用扩欧求出 <span class="math inline">\(ax&#39;\equiv \gcd(a,n)\
-\pmod n\)</span><br />
-即 <span class="math inline">\(d=\gcd(a,n)\)</span>，得到 <span
-class="math inline">\(ax&#39;(b/d)\equiv b\ \pmod n\)</span><br />
-所以原方程一解 <span
-class="math inline">\(x_0=x&#39;(b/d)\)</span>，通解 <span
-class="math inline">\(x_0+k(n/d), k\in \mathbf{Z}\)</span></li>
+</ul>
+</li>
+<li>对于任意同余方程 $ax\equiv b \pmod n$，只要满足 $\gcd(a,n)\mid b$<br>
+就可以先用扩欧求出 $ax&rsquo;\equiv \gcd(a,n)\ \pmod n$<br>
+即 $d=\gcd(a,n)$，得到 $ax&rsquo;(b/d)\equiv b\ \pmod n$<br>
+所以原方程一解 $x_0=x&rsquo;(b/d)$，通解 $x_0+k(n/d), k\in \mathbf{Z}$</li>
 </ul>
 <h4 id="代码">代码</h4>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode c++"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> ex_gcd<span class="op">(</span><span class="dt">int</span> u<span class="op">,</span> <span class="dt">int</span> v<span class="op">,</span> <span class="dt">int</span> <span class="op">&amp;</span>x<span class="op">,</span> <span class="dt">int</span> <span class="op">&amp;</span>y<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>v<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> u<span class="op">;</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> xx<span class="op">,</span> yy<span class="op">;</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> g <span class="op">=</span> ex_gcd<span class="op">(</span>v<span class="op">,</span> u<span class="op">%</span>v<span class="op">,</span> xx <span class="op">,</span>yy<span class="op">);</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> yy<span class="op">;</span> y <span class="op">=</span> xx <span class="op">-</span> u<span class="op">/</span>v<span class="op">*</span>yy<span class="op">;</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> g<span class="op">;</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">ex_gcd</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>x, <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>y) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>v) {
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> u;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> xx, yy;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> g <span style="color:#f92672">=</span> ex_gcd(v, u<span style="color:#f92672">%</span>v, xx ,yy);
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> yy; y <span style="color:#f92672">=</span> xx <span style="color:#f92672">-</span> u<span style="color:#f92672">/</span>v<span style="color:#f92672">*</span>yy;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> g;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
 </section>
 
 
@@ -476,6 +477,31 @@ class="sourceCode c++"><code class="sourceCode cpp"><span id="cb3-1"><a href="#c
     </section>
     </footer>
 
+
+    
+        <script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    };
+
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += 'has-jax'
+        })
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
 
     
 </article>
@@ -587,7 +613,7 @@ class="sourceCode c++"><code class="sourceCode cpp"><span id="cb3-1"><a href="#c
 <script>
     (function () {
         const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
 
         customFont.type = "text/css";
         customFont.rel = "stylesheet";
@@ -595,6 +621,7 @@ class="sourceCode c++"><code class="sourceCode cpp"><span id="cb3-1"><a href="#c
         document.head.appendChild(customFont);
     }());
 </script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 
     </body>
 </html>

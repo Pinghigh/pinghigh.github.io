@@ -16,54 +16,33 @@
 &lt;h2 id=&#34;template-模板函数&#34;&gt;&lt;code&gt;template&lt;/code&gt; 模板函数&lt;/h2&gt;
 &lt;h3 id=&#34;基本&#34;&gt;基本&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;template&lt;/code&gt; 顾名思义是用来做模板的，那是做什么的模板呢？
-举个例子，一般来说我们写 &lt;code&gt;max&lt;/code&gt; 函数替代 &lt;code&gt;std::max&lt;/code&gt;
-来优化的时候，写出来的大概长下面这样：&lt;/p&gt;
-&lt;div class=&#34;sourceCode&#34; id=&#34;cb1&#34;&gt;&lt;pre
-class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb1-1&#34;&gt;&lt;a href=&#34;#cb1-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; max&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; a&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; b&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb1-2&#34;&gt;&lt;a href=&#34;#cb1-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; a &lt;span class=&#34;op&#34;&gt;&amp;gt;&lt;/span&gt; b &lt;span class=&#34;op&#34;&gt;?&lt;/span&gt; a &lt;span class=&#34;op&#34;&gt;:&lt;/span&gt; b&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb1-3&#34;&gt;&lt;a href=&#34;#cb1-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;在这三行代码中，第一行定义了 &lt;code&gt;max&lt;/code&gt; 的返回值和参数
-&lt;code&gt;a&lt;/code&gt; &lt;code&gt;b&lt;/code&gt; 的类型为
-&lt;code&gt;int&lt;/code&gt;，显然意味着这个函数只能比较 &lt;code&gt;int&lt;/code&gt;
-类型的量。&lt;/p&gt;
-&lt;p&gt;那么如果既想要比较 &lt;code&gt;int&lt;/code&gt; 又想要比较 &lt;code&gt;long long&lt;/code&gt;
-还想比较 &lt;code&gt;char&lt;/code&gt; 等等，如果按传统的写法，就是 Ctrl+C Ctrl+V
-写好几个比较函数，还得重新命名，甚是麻烦。&lt;/p&gt;
+举个例子，一般来说我们写 &lt;code&gt;max&lt;/code&gt; 函数替代 &lt;code&gt;std::max&lt;/code&gt; 来优化的时候，写出来的大概长下面这样：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;max&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; a, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; b) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; a : b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在这三行代码中，第一行定义了 &lt;code&gt;max&lt;/code&gt; 的返回值和参数 &lt;code&gt;a&lt;/code&gt; &lt;code&gt;b&lt;/code&gt; 的类型为 &lt;code&gt;int&lt;/code&gt;，显然意味着这个函数只能比较 &lt;code&gt;int&lt;/code&gt; 类型的量。&lt;/p&gt;
+&lt;p&gt;那么如果既想要比较 &lt;code&gt;int&lt;/code&gt; 又想要比较 &lt;code&gt;long long&lt;/code&gt; 还想比较 &lt;code&gt;char&lt;/code&gt; 等等，如果按传统的写法，就是 Ctrl+C Ctrl+V 写好几个比较函数，还得重新命名，甚是麻烦。&lt;/p&gt;
 &lt;p&gt;观察写出来的几个函数，肉眼可见他们的本质区别只有返回值与参数的类型。那么有没有一种类似模板的东西，写一个函数的主要部分作为模板，返回值、变量的类型由编译器决定呢？&lt;/p&gt;
 &lt;p&gt;这就是 &lt;code&gt;template&lt;/code&gt; 的一大作用，也是 OI 中最常用的方面。&lt;/p&gt;
-&lt;p&gt;使用起来也很简单，在函数声明前面加上
-&lt;code&gt;template &amp;lt;typename T&amp;gt;&lt;/code&gt;，此处 T
-可以是随便一个字母或者单词，后面写函数的时候把 &lt;code&gt;int&lt;/code&gt; 替换成
-&lt;code&gt;T&lt;/code&gt; 即可。&lt;/p&gt;
-&lt;div class=&#34;sourceCode&#34; id=&#34;cb2&#34;&gt;&lt;pre
-class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb2-1&#34;&gt;&lt;a href=&#34;#cb2-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;kw&#34;&gt;template&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kw&#34;&gt;typename&lt;/span&gt; T&lt;span class=&#34;op&#34;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-2&#34;&gt;&lt;a href=&#34;#cb2-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;T max&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;T a&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; T b&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-3&#34;&gt;&lt;a href=&#34;#cb2-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; a &lt;span class=&#34;op&#34;&gt;&amp;gt;&lt;/span&gt; b &lt;span class=&#34;op&#34;&gt;?&lt;/span&gt; a &lt;span class=&#34;op&#34;&gt;:&lt;/span&gt; b&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb2-4&#34;&gt;&lt;a href=&#34;#cb2-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt; &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;此时的 &lt;code&gt;T&lt;/code&gt;
-相当于一个变量类型，如果这个函数被调用，编译器会给你生成一个符合传入参数的类型的
-&lt;code&gt;max&lt;/code&gt; 函数。&lt;/p&gt;
-&lt;h3 id=&#34;todo-...-关键字&#34;&gt;TODO: &lt;code&gt;...&lt;/code&gt; 关键字&lt;/h3&gt;
+&lt;p&gt;使用起来也很简单，在函数声明前面加上 &lt;code&gt;template &amp;lt;typename T&amp;gt;&lt;/code&gt;，此处 T 可以是随便一个字母或者单词，后面写函数的时候把 &lt;code&gt;int&lt;/code&gt; 替换成 &lt;code&gt;T&lt;/code&gt; 即可。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;template&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;typename&lt;/span&gt; T&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;T max(T a, T b) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;?&lt;/span&gt; a : b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;} 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;此时的 &lt;code&gt;T&lt;/code&gt; 相当于一个变量类型，如果这个函数被调用，编译器会给你生成一个符合传入参数的类型的 &lt;code&gt;max&lt;/code&gt; 函数。&lt;/p&gt;
+&lt;h3 id=&#34;todo--关键字&#34;&gt;TODO: &lt;code&gt;...&lt;/code&gt; 关键字&lt;/h3&gt;
 &lt;h2 id=&#34;基于范围的循环&#34;&gt;基于范围的循环&lt;/h2&gt;
 &lt;p&gt;不过多介绍了，主要在 STL 里用&lt;/p&gt;
-&lt;div class=&#34;sourceCode&#34; id=&#34;cb3&#34;&gt;&lt;pre
-class=&#34;sourceCode cpp&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb3-1&#34;&gt;&lt;a href=&#34;#cb3-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cf&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kw&#34;&gt;auto&lt;/span&gt; i &lt;span class=&#34;op&#34;&gt;:&lt;/span&gt; container&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-2&#34;&gt;&lt;a href=&#34;#cb3-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;bu&#34;&gt;std::&lt;/span&gt;cout&lt;span class=&#34;op&#34;&gt; &amp;lt;&amp;lt;&lt;/span&gt; i &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;ch&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb3-3&#34;&gt;&lt;a href=&#34;#cb3-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code&gt;container&lt;/code&gt; 为容器的名称，&lt;code&gt;auto&lt;/code&gt; 是 C++11
-以后的类型名称，编译时由编译器推断。&lt;/p&gt;
-&lt;p&gt;此处 &lt;code&gt;auto&lt;/code&gt; 的效果就是把 &lt;code&gt;i&lt;/code&gt; 的类型设置为
-&lt;code&gt;container&lt;/code&gt; 的元素的类型。如果 &lt;code&gt;container&lt;/code&gt; 是
-&lt;code&gt;vector&amp;lt;int&amp;gt;&lt;/code&gt; ，则上面语句的效果就是遍历
-&lt;code&gt;container&lt;/code&gt; 的所有元素并输出。&lt;/p&gt;
-&lt;p&gt;此外，如果想遍历的同时修改容器中的元素，可以在 &lt;code&gt;i&lt;/code&gt;
-前加取址符 &lt;code&gt;&amp;amp;&lt;/code&gt; 表示引用，如下&lt;/p&gt;
-&lt;div class=&#34;sourceCode&#34; id=&#34;cb4&#34;&gt;&lt;pre
-class=&#34;sourceCode cpp&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb4-1&#34;&gt;&lt;a href=&#34;#cb4-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cf&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kw&#34;&gt;auto&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;&amp;amp;&lt;/span&gt;i &lt;span class=&#34;op&#34;&gt;:&lt;/span&gt; container&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb4-2&#34;&gt;&lt;a href=&#34;#cb4-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    i &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
-&lt;span id=&#34;cb4-3&#34;&gt;&lt;a href=&#34;#cb4-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;该段代码的效果即为遍历容器
-&lt;code&gt;container&lt;/code&gt;，同时把其中所有元素赋值为 &lt;code&gt;0&lt;/code&gt;;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; i : container) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;container&lt;/code&gt; 为容器的名称，&lt;code&gt;auto&lt;/code&gt; 是 C++11 以后的类型名称，编译时由编译器推断。&lt;/p&gt;
+&lt;p&gt;此处 &lt;code&gt;auto&lt;/code&gt; 的效果就是把 &lt;code&gt;i&lt;/code&gt; 的类型设置为 &lt;code&gt;container&lt;/code&gt; 的元素的类型。如果 &lt;code&gt;container&lt;/code&gt; 是 &lt;code&gt;vector&amp;lt;int&amp;gt;&lt;/code&gt; ，则上面语句的效果就是遍历 &lt;code&gt;container&lt;/code&gt; 的所有元素并输出。&lt;/p&gt;
+&lt;p&gt;此外，如果想遍历的同时修改容器中的元素，可以在 &lt;code&gt;i&lt;/code&gt; 前加取址符 &lt;code&gt;&amp;amp;&lt;/code&gt; 表示引用，如下&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;i : container) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;该段代码的效果即为遍历容器 &lt;code&gt;container&lt;/code&gt;，同时把其中所有元素赋值为 &lt;code&gt;0&lt;/code&gt;;&lt;/p&gt;
 </description>
         </item>
         
