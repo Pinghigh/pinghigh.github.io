@@ -2,32 +2,74 @@
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='图论是嗜血分支1，相应的，图论基础并没有什么太多需要思考的东西，只有一堆该死的概念等着记，有如绳之以法抽象了
-基本概念 图 由顶点（点）（Vertex）的集合和边（Edge）的集合组成，记为 $\mathbb{G} = (\mathbb{V}&#43;\mathbb{E})$ 点的集合用 $\mathbb{V(G)}$ 表示，点用 $u,v$ 等符号表示 顶点的数量称为图的“阶”，用 $n$ 表示 边的集合用 $\mathbb{E(G)}$ 表示，边用 $e$ 等符号表示 边的个数称为图的“边数” 感觉说了和没说一样，用 $m$ 表示
-图的种类 从 $u$ 到 $v$ 的无向边： $(u,v)$ 从 $u$ 到 $v$ 的有向边：$\langle u,v \rangle$
-有向图：图的所有边都是有向边 无向图：图的所有边都是无向边 完全图：每个点都与其他所有顶点连接；对于有向图来说，任意顶点 $u,v$ 都有边 $\langle u,v \rangle \langle v,u \rangle$ 稀疏图/稠密图：边少/多的图 平凡图：一个点的图 零图：没有边的图
-度 对于顶点 $v$ 来说 入度 $ID(v)$：以 $v$ 为终点的边的个数 出度 $OD(v)$：以 $v$ 为起点的边的个数 度 $D(v)$ = 入度 &#43; 出度'>
+基本概念 图 由顶点（点）（Vertex）的集合和边（Edge）的集合组成，记为 \(\mathbb{G} = (\mathbb{V}&#43;\mathbb{E})\)
+点的集合用 \(\mathbb{V(G)}\) 表示，点用 \(u,v\) 等符号表示
+顶点的数量称为图的“阶”，用 \(n\) 表示
+边的集合用 \(\mathbb{E(G)}\) 表示，边用 \(e\) 等符号表示
+边的个数称为图的“边数” 感觉说了和没说一样，用 \(m\) 表示
+图的种类 从 \(u\) 到 \(v\) 的无向边： \((u,v)\)
+从 \(u\) 到 \(v\) 的有向边：\(\langle u,v \rangle\)
+有向图：图的所有边都是有向边
+无向图：图的所有边都是无向边
+完全图：每个点都与其他所有顶点连接；对于有向图来说，任意顶点 \(u,v\) 都有边 \(\langle u,v \rangle \langle v,u \rangle\)
+稀疏图/稠密图：边少/多的图
+平凡图：一个点的图
+零图：没有边的图
+度 对于顶点 \(v\) 来说
+入度 \(ID(v)\)：以 \(v\) 为终点的边的个数
+出度 \(OD(v)\)：以 \(v\) 为起点的边的个数
+度 \(D(v)\) = 入度 &#43; 出度'>
 <title>图论基础</title>
 
 <link rel='canonical' href='https://blog.tibrella.top/post/2023-1-15-basic-graph/'>
 
-<link rel="stylesheet" href="/scss/style.min.c8ab8a897338e7deff55c14b521348c524b0e76381ccd55846bb0e7075402432.css"><meta property='og:title' content='图论基础'>
+<link rel="stylesheet" href="/scss/style.min.9b420c4d5524bd3fdfdf876acca8bac566c1b4813d13b39901fea466757c7f1b.css"><meta property='og:title' content='图论基础'>
 <meta property='og:description' content='图论是嗜血分支1，相应的，图论基础并没有什么太多需要思考的东西，只有一堆该死的概念等着记，有如绳之以法抽象了
-基本概念 图 由顶点（点）（Vertex）的集合和边（Edge）的集合组成，记为 $\mathbb{G} = (\mathbb{V}&#43;\mathbb{E})$ 点的集合用 $\mathbb{V(G)}$ 表示，点用 $u,v$ 等符号表示 顶点的数量称为图的“阶”，用 $n$ 表示 边的集合用 $\mathbb{E(G)}$ 表示，边用 $e$ 等符号表示 边的个数称为图的“边数” 感觉说了和没说一样，用 $m$ 表示
-图的种类 从 $u$ 到 $v$ 的无向边： $(u,v)$ 从 $u$ 到 $v$ 的有向边：$\langle u,v \rangle$
-有向图：图的所有边都是有向边 无向图：图的所有边都是无向边 完全图：每个点都与其他所有顶点连接；对于有向图来说，任意顶点 $u,v$ 都有边 $\langle u,v \rangle \langle v,u \rangle$ 稀疏图/稠密图：边少/多的图 平凡图：一个点的图 零图：没有边的图
-度 对于顶点 $v$ 来说 入度 $ID(v)$：以 $v$ 为终点的边的个数 出度 $OD(v)$：以 $v$ 为起点的边的个数 度 $D(v)$ = 入度 &#43; 出度'>
+基本概念 图 由顶点（点）（Vertex）的集合和边（Edge）的集合组成，记为 \(\mathbb{G} = (\mathbb{V}&#43;\mathbb{E})\)
+点的集合用 \(\mathbb{V(G)}\) 表示，点用 \(u,v\) 等符号表示
+顶点的数量称为图的“阶”，用 \(n\) 表示
+边的集合用 \(\mathbb{E(G)}\) 表示，边用 \(e\) 等符号表示
+边的个数称为图的“边数” 感觉说了和没说一样，用 \(m\) 表示
+图的种类 从 \(u\) 到 \(v\) 的无向边： \((u,v)\)
+从 \(u\) 到 \(v\) 的有向边：\(\langle u,v \rangle\)
+有向图：图的所有边都是有向边
+无向图：图的所有边都是无向边
+完全图：每个点都与其他所有顶点连接；对于有向图来说，任意顶点 \(u,v\) 都有边 \(\langle u,v \rangle \langle v,u \rangle\)
+稀疏图/稠密图：边少/多的图
+平凡图：一个点的图
+零图：没有边的图
+度 对于顶点 \(v\) 来说
+入度 \(ID(v)\)：以 \(v\) 为终点的边的个数
+出度 \(OD(v)\)：以 \(v\) 为起点的边的个数
+度 \(D(v)\) = 入度 &#43; 出度'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2023-1-15-basic-graph/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='图论' /><meta property='article:published_time' content='2023-01-15T14:05:20&#43;00:00'/><meta property='article:modified_time' content='2023-01-15T14:05:20&#43;00:00'/><meta property='og:image' content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
 <meta name="twitter:title" content="图论基础">
 <meta name="twitter:description" content="图论是嗜血分支1，相应的，图论基础并没有什么太多需要思考的东西，只有一堆该死的概念等着记，有如绳之以法抽象了
-基本概念 图 由顶点（点）（Vertex）的集合和边（Edge）的集合组成，记为 $\mathbb{G} = (\mathbb{V}&#43;\mathbb{E})$ 点的集合用 $\mathbb{V(G)}$ 表示，点用 $u,v$ 等符号表示 顶点的数量称为图的“阶”，用 $n$ 表示 边的集合用 $\mathbb{E(G)}$ 表示，边用 $e$ 等符号表示 边的个数称为图的“边数” 感觉说了和没说一样，用 $m$ 表示
-图的种类 从 $u$ 到 $v$ 的无向边： $(u,v)$ 从 $u$ 到 $v$ 的有向边：$\langle u,v \rangle$
-有向图：图的所有边都是有向边 无向图：图的所有边都是无向边 完全图：每个点都与其他所有顶点连接；对于有向图来说，任意顶点 $u,v$ 都有边 $\langle u,v \rangle \langle v,u \rangle$ 稀疏图/稠密图：边少/多的图 平凡图：一个点的图 零图：没有边的图
-度 对于顶点 $v$ 来说 入度 $ID(v)$：以 $v$ 为终点的边的个数 出度 $OD(v)$：以 $v$ 为起点的边的个数 度 $D(v)$ = 入度 &#43; 出度"><meta name="twitter:card" content="summary_large_image">
+基本概念 图 由顶点（点）（Vertex）的集合和边（Edge）的集合组成，记为 \(\mathbb{G} = (\mathbb{V}&#43;\mathbb{E})\)
+点的集合用 \(\mathbb{V(G)}\) 表示，点用 \(u,v\) 等符号表示
+顶点的数量称为图的“阶”，用 \(n\) 表示
+边的集合用 \(\mathbb{E(G)}\) 表示，边用 \(e\) 等符号表示
+边的个数称为图的“边数” 感觉说了和没说一样，用 \(m\) 表示
+图的种类 从 \(u\) 到 \(v\) 的无向边： \((u,v)\)
+从 \(u\) 到 \(v\) 的有向边：\(\langle u,v \rangle\)
+有向图：图的所有边都是有向边
+无向图：图的所有边都是无向边
+完全图：每个点都与其他所有顶点连接；对于有向图来说，任意顶点 \(u,v\) 都有边 \(\langle u,v \rangle \langle v,u \rangle\)
+稀疏图/稠密图：边少/多的图
+平凡图：一个点的图
+零图：没有边的图
+度 对于顶点 \(v\) 来说
+入度 \(ID(v)\)：以 \(v\) 为终点的边的个数
+出度 \(OD(v)\)：以 \(v\) 为起点的边的个数
+度 \(D(v)\) = 入度 &#43; 出度"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
     <link rel="shortcut icon" href="/favicon.png" />
 
+<link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
     </head>
     <body class="
     article-page
@@ -253,50 +295,7 @@
     </ol>
 </aside>
 
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ul>
-    <li><a href="#基本概念">基本概念</a>
-      <ul>
-        <li><a href="#图">图</a></li>
-        <li><a href="#图的种类">图的种类</a></li>
-        <li><a href="#度">度</a></li>
-      </ul>
-    </li>
-    <li><a href="#存图">存图</a>
-      <ul>
-        <li><a href="#邻接矩阵">邻接矩阵</a></li>
-        <li><a href="#链式前向星">链式前向星</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
+    
 
             <main class="main full-width">
     <article class="has-image main-article">
@@ -375,36 +374,52 @@
     <section class="article-content">
     
     
-    <p>图论是嗜血分支<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>，相应的，图论基础并没有什么太多需要思考的东西，只有一堆该死的概念等着记，有如绳之以法抽象了</p>
+    <p>图论是嗜血分支<a href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a>，相应的，图论基础并没有什么太多需要思考的东西，只有一堆该死的概念等着记，有如绳之以法抽象了</p>
 <h2 id="基本概念">基本概念</h2>
 <h3 id="图">图</h3>
-<p>由顶点（点）（Vertex）的集合和边（Edge）的集合组成，记为 $\mathbb{G} = (\mathbb{V}+\mathbb{E})$
-点的集合用 $\mathbb{V(G)}$ 表示，点用 $u,v$ 等符号表示
-顶点的数量称为图的“阶”，用 $n$ 表示
-边的集合用 $\mathbb{E(G)}$ 表示，边用 $e$ 等符号表示
-边的个数称为图的“边数” <del>感觉说了和没说一样</del>，用 $m$ 表示</p>
+<p>由顶点（点）（Vertex）的集合和边（Edge）的集合组成，记为 <span
+class="math inline">\(\mathbb{G} =
+(\mathbb{V}+\mathbb{E})\)</span><br />
+点的集合用 <span class="math inline">\(\mathbb{V(G)}\)</span> 表示，点用
+<span class="math inline">\(u,v\)</span> 等符号表示<br />
+顶点的数量称为图的“阶”，用 <span class="math inline">\(n\)</span>
+表示<br />
+边的集合用 <span class="math inline">\(\mathbb{E(G)}\)</span> 表示，边用
+<span class="math inline">\(e\)</span> 等符号表示<br />
+边的个数称为图的“边数” <del>感觉说了和没说一样</del>，用 <span
+class="math inline">\(m\)</span> 表示</p>
 <h3 id="图的种类">图的种类</h3>
-<p>从 $u$ 到 $v$ 的无向边： $(u,v)$
-从 $u$ 到 $v$ 的有向边：$\langle u,v \rangle$</p>
-<p>有向图：图的所有边都是有向边
-无向图：图的所有边都是无向边
-完全图：每个点都与其他所有顶点连接；对于有向图来说，任意顶点 $u,v$ 都有边 $\langle u,v \rangle \langle v,u \rangle$
-稀疏图/稠密图：边少/多的图
-平凡图：一个点的图
+<p>从 <span class="math inline">\(u\)</span> 到 <span
+class="math inline">\(v\)</span> 的无向边： <span
+class="math inline">\((u,v)\)</span><br />
+从 <span class="math inline">\(u\)</span> 到 <span
+class="math inline">\(v\)</span> 的有向边：<span
+class="math inline">\(\langle u,v \rangle\)</span></p>
+<p>有向图：图的所有边都是有向边<br />
+无向图：图的所有边都是无向边<br />
+完全图：每个点都与其他所有顶点连接；对于有向图来说，任意顶点 <span
+class="math inline">\(u,v\)</span> 都有边 <span
+class="math inline">\(\langle u,v \rangle \langle v,u
+\rangle\)</span><br />
+稀疏图/稠密图：边少/多的图<br />
+平凡图：一个点的图<br />
 零图：没有边的图</p>
 <h3 id="度">度</h3>
-<p>对于顶点 $v$ 来说
-入度 $ID(v)$：以 $v$ 为终点的边的个数
-出度 $OD(v)$：以 $v$ 为起点的边的个数
-度 $D(v)$ = 入度 + 出度</p>
+<p>对于顶点 <span class="math inline">\(v\)</span> 来说<br />
+入度 <span class="math inline">\(ID(v)\)</span>：以 <span
+class="math inline">\(v\)</span> 为终点的边的个数<br />
+出度 <span class="math inline">\(OD(v)\)</span>：以 <span
+class="math inline">\(v\)</span> 为起点的边的个数<br />
+度 <span class="math inline">\(D(v)\)</span> = 入度 + 出度</p>
 <p>度为奇数的点为奇点，度为偶数的顶点为偶点</p>
-<p>于是可得：对于图 $\mathbb{G}$ 中所有顶点的度=边数的两倍
+<p>于是可得：对于图 <span class="math inline">\(\mathbb{G}\)</span>
+中所有顶点的度=边数的两倍<br />
 以及推论：一个图中的奇点数量为偶数</p>
-<p>简短证明：</p>
-<ol>
-<li>每条边一定贡献一个出度一个入度共两个度</li>
-<li>度一定是偶数所以奇点的数量为偶数（奇$\times$偶$=$偶）</li>
-</ol>
+<p>简短证明： 1. 每条边一定贡献一个出度一个入度共两个度<br />
+2. 度一定是偶数所以奇点的数量为偶数（奇<span
+class="math inline">\(\times\)</span>偶<span
+class="math inline">\(=\)</span>偶）</p>
 <h2 id="存图">存图</h2>
 <p>无向图可以看作有向图但是两个点之间互相有一条有向边，所以只需要考虑有向图存图</p>
 <h3 id="邻接矩阵">邻接矩阵</h3>
@@ -412,7 +427,7 @@
 <p>比如当前图有四个点，则开数组 <code>g[5][5]</code>，初始化为 0。</p>
 <div class="table-wrapper"><table>
 <thead>
-<tr>
+<tr class="header">
 <th></th>
 <th>1</th>
 <th>2</th>
@@ -421,28 +436,28 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>1</strong></td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>2</strong></td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>3</strong></td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>4</strong></td>
 <td>0</td>
 <td>0</td>
@@ -451,10 +466,11 @@
 </tr>
 </tbody>
 </table></div>
-<p>然后 1 到 2，3 到 1 有一条有向边，边权为 1，则修改 <code>g[1][2]</code> <code>g[3][1]</code> 为 1</p>
+<p>然后 1 到 2，3 到 1 有一条有向边，边权为 1，则修改
+<code>g[1][2]</code> <code>g[3][1]</code> 为 1</p>
 <div class="table-wrapper"><table>
 <thead>
-<tr>
+<tr class="header">
 <th></th>
 <th>1</th>
 <th>2</th>
@@ -463,28 +479,28 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><strong>1</strong></td>
 <td>0</td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>2</strong></td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>3</strong></td>
 <td>1</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>4</strong></td>
 <td>0</td>
 <td>0</td>
@@ -493,27 +509,33 @@
 </tr>
 </tbody>
 </table></div>
-<p>非常容易理解，缺点也显而易见，如果有 114514 个点但是只有 1 条边，那就需要开 114514*114514 的空间但是只有一个位置有数据，显然造成了巨大的浪费（空间早就炸了）
+<p>非常容易理解，缺点也显而易见，如果有 114514 个点但是只有 1
+条边，那就需要开 114514*114514
+的空间但是只有一个位置有数据，显然造成了巨大的浪费（空间早就炸了）<br />
 因此需要寻找一个只存边的存图方案，从而诞生邻接表</p>
 <h3 id="链式前向星">链式前向星</h3>
 <p>用链表实现的邻接表</p>
 <p>先说链表，顾名思义，链状链接的列表</p>
 <p>开一个结构体存链的每一个元素</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> data;
-</span></span><span style="display:flex;"><span>    Node <span style="color:#f92672">*</span>nex;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>显然，把链表每一个部分连接起来的东西就是指针 <code>nex</code>，<code>nex</code> 指向当前元素的下一个元素的地址。
-当然，如果开一个数组存储所有的元素，地址可以改为存储下标，即 <code>nex</code> 可以是一个整数，存储下一个元素在数组里的下标。</p>
-<div class="footnotes" role="doc-endnotes">
-<hr>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Node <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> data<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    Node <span class="op">*</span>nex<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>显然，把链表每一个部分连接起来的东西就是指针
+<code>nex</code>，<code>nex</code>
+指向当前元素的下一个元素的地址。<br />
+当然，如果开一个数组存储所有的元素，地址可以改为存储下标，即
+<code>nex</code> 可以是一个整数，存储下一个元素在数组里的下标。</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
 <ol>
-<li id="fn:1">
-<p>数学，来自 <a class="link" href="https://grainrain.site"  target="_blank" rel="noopener"
-    >GrainRain谷神</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
+<li id="fn1"><p>数学，来自 <a
+href="https://grainrain.site">GrainRain谷神</a><a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</div>
+</section>
 
 </section>
 
@@ -542,31 +564,6 @@
     </footer>
 
 
-    
-        <link 
-                rel="stylesheet" 
-                href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/katex.min.css"crossorigin="anonymous"
-            ><script 
-                src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/katex.min.js"crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/contrib/auto-render.min.js"crossorigin="anonymous"
-                defer
-                >
-            </script><script>
-    window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "\\[", right: "\\]", display: true }
-            ],
-            ignoredClasses: ["gist"]
-        });
-    })
-</script>
     
 </article>
 
@@ -638,82 +635,6 @@
 
 
     
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    
-    <div class="pswp__bg"></div>
-
-    
-    <div class="pswp__scroll-wrap">
-
-        
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                
-                
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div><script 
-                src="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
-                defer
-                >
-            </script><link 
-                rel="stylesheet" 
-                href="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
-            ><link 
-                rel="stylesheet" 
-                href="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
-            >
 
             </main>
         </div>

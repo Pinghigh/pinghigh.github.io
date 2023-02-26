@@ -6,16 +6,19 @@
 
 <link rel='canonical' href='https://blog.tibrella.top/post/2022-9-backpack/'>
 
-<link rel="stylesheet" href="/scss/style.min.c8ab8a897338e7deff55c14b521348c524b0e76381ccd55846bb0e7075402432.css"><meta property='og:title' content='背包DP'>
+<link rel="stylesheet" href="/scss/style.min.9b420c4d5524bd3fdfdf876acca8bac566c1b4813d13b39901fea466757c7f1b.css"><meta property='og:title' content='背包DP'>
 <meta property='og:description' content='目前记录了 01 背包和完全背包，其他的以后会补充的（'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2022-9-backpack/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='DP/动态规划' /><meta property='article:tag' content='背包问题' /><meta property='article:published_time' content='2022-10-23T18:49:29&#43;00:00'/><meta property='article:modified_time' content='2022-10-23T18:49:29&#43;00:00'/><meta property='og:image' content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='DP/动态规划' /><meta property='article:tag' content='背包问题' /><meta property='article:published_time' content='2022-10-23T18:49:29&#43;00:00'/><meta property='article:modified_time' content='2023-01-16T09:01:48&#43;00:00'/><meta property='og:image' content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
 <meta name="twitter:title" content="背包DP">
 <meta name="twitter:description" content="目前记录了 01 背包和完全背包，其他的以后会补充的（"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
     <link rel="shortcut icon" href="/favicon.png" />
 
+<link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
     </head>
     <body class="
     article-page
@@ -241,57 +244,7 @@
     </ol>
 </aside>
 
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ul>
-    <li><a href="#01背包">01背包</a>
-      <ul>
-        <li><a href="#朴素">朴素</a></li>
-        <li><a href="#一维优化">一维优化</a></li>
-      </ul>
-    </li>
-    <li><a href="#完全背包">完全背包</a>
-      <ul>
-        <li><a href="#朴素做法">朴素做法</a></li>
-        <li><a href="#2-维优化">2 维优化</a></li>
-      </ul>
-    </li>
-    <li><a href="#多重背包">多重背包</a>
-      <ul>
-        <li><a href="#朴素-1">朴素</a></li>
-        <li><a href="#二进制优化">二进制优化</a></li>
-      </ul>
-    </li>
-    <li><a href="#分组背包">分组背包</a></li>
-    <li><a href="#依赖背包">依赖背包</a></li>
-  </ul>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
+    
 
             <main class="main full-width">
     <article class="has-image main-article">
@@ -374,258 +327,320 @@
     <section class="article-content">
     
     
-    <p>第一次使用 $\LaTeX$</p>
-<h2 id="01背包">01背包</h2>
+    <p>第一次使用 <span class="math inline">\(\LaTeX\)</span></p>
+<h2 id="背包">01背包</h2>
 <h3 id="朴素">朴素</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define MAXN 1010
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n, m;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> v[MAXN], w[MAXN];
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> f[MAXN][MAXN];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    ios<span style="color:#f92672">::</span>sync_with_stdio(false);
-</span></span><span style="display:flex;"><span>    cin.tie(<span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span>    cout.tie(<span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> v[i] <span style="color:#f92672">&gt;&gt;</span> w[i];
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; j <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>            f[i][j] <span style="color:#f92672">=</span> f[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j];
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&gt;=</span> v[i]) f[i][j] <span style="color:#f92672">=</span> max(f[i][j],f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][j<span style="color:#f92672">-</span>v[i]] <span style="color:#f92672">+</span> w[i]);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> f[n][m];  
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="一维优化">一维优化</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define MAXN 1010
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n,m;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> v[MAXN],w[MAXN];
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> f[MAXN];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> v[i] <span style="color:#f92672">&gt;&gt;</span> w[i];
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>) { <span style="color:#75715e">// 按照物品从头到尾枚举
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> m; j <span style="color:#f92672">&gt;=</span> v[i]; j <span style="color:#f92672">--</span>) { <span style="color:#75715e">// 按照体积从最大体积到当前（第 i 个）物品枚举
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            f[j] <span style="color:#f92672">=</span> max(
-</span></span><span style="display:flex;"><span>                f[j], <span style="color:#75715e">// 此时未更新的 f[j] 是上一次（i-1）枚举的数据，即 f[j] 是不选第 i 个物品的 f[j]
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                f[j <span style="color:#f92672">-</span> v[i]] <span style="color:#f92672">+</span> w[i] 
-</span></span><span style="display:flex;"><span>                );
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> f[m] <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="完全背包">完全背包</h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MAXN </span><span class="dv">1010</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> v<span class="op">[</span>MAXN<span class="op">],</span> w<span class="op">[</span>MAXN<span class="op">];</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> f<span class="op">[</span>MAXN<span class="op">][</span>MAXN<span class="op">];</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    ios<span class="op">::</span>sync_with_stdio<span class="op">(</span><span class="kw">false</span><span class="op">);</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    cin<span class="op">.</span>tie<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    cout<span class="op">.</span>tie<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> v<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;&gt;</span> w<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;=</span> m<span class="op">;</span> j <span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            f<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> f<span class="op">[</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>j <span class="op">&gt;=</span> v<span class="op">[</span>i<span class="op">])</span> f<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> max<span class="op">(</span>f<span class="op">[</span>i<span class="op">][</span>j<span class="op">],</span>f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">][</span>j<span class="op">-</span>v<span class="op">[</span>i<span class="op">]]</span> <span class="op">+</span> w<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> f<span class="op">[</span>n<span class="op">][</span>m<span class="op">];</span>  </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="一维优化">一维优化</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MAXN </span><span class="dv">1010</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span>m<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> v<span class="op">[</span>MAXN<span class="op">],</span>w<span class="op">[</span>MAXN<span class="op">];</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> f<span class="op">[</span>MAXN<span class="op">];</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> v<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;&gt;</span> w<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span> <span class="op">{</span> <span class="co">// 按照物品从头到尾枚举</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> m<span class="op">;</span> j <span class="op">&gt;=</span> v<span class="op">[</span>i<span class="op">];</span> j <span class="op">--)</span> <span class="op">{</span> <span class="co">// 按照体积从最大体积到当前（第 i 个）物品枚举</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            f<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> max<span class="op">(</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                f<span class="op">[</span>j<span class="op">],</span> <span class="co">// 此时未更新的 f[j] 是上一次（i-1）枚举的数据，即 f[j] 是不选第 i 个物品的 f[j]</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                f<span class="op">[</span>j <span class="op">-</span> v<span class="op">[</span>i<span class="op">]]</span> <span class="op">+</span> w<span class="op">[</span>i<span class="op">]</span> </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                <span class="op">);</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> f<span class="op">[</span>m<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="完全背包">完全背包</h2>
 <h3 id="朴素做法">朴素做法</h3>
 <p>即 3 维做法</p>
 <ul>
-<li>状态表示 $f_{i,j}$
+<li>状态表示 <span class="math inline">\(f_{i,j}\)</span>
 <ul>
-<li>集合：所有只考虑前 $i$ 个物品，且总体积不大于 $j$ 的所有选法</li>
-<li>属性：$max$ （最大）</li>
-</ul>
-</li>
+<li>集合：所有只考虑前 <span class="math inline">\(i\)</span>
+个物品，且总体积不大于 <span class="math inline">\(j\)</span>
+的所有选法</li>
+<li>属性：<span class="math inline">\(max\)</span> （最大）</li>
+</ul></li>
 <li>状态计算 -&gt; 即集合的划分
 <ul>
-<li>目前我们要求 $max f_{i,j}$，不容易直接求，就采用类似 01 背包问题的“曲线救国”方法
-<ol>
-<li>去掉 $k$ 个第 $i$ 个物品，变为 $max f_{i-1,j}$</li>
-<li>去掉相应的 $k$ 个第 $i$ 个物品的空间，变为 $max f_{i-1,j-v_ik}$</li>
-<li>求上面的 $max$</li>
-<li>加回 $k$ 个第 $i$ 个物品的价值，变为 $max f_{i-1,j-v_ik} + w_ik$</li>
-</ol>
-</li>
+<li>目前我们要求 <span class="math inline">\(max
+f_{i,j}\)</span>，不容易直接求，就采用类似 01 背包问题的“曲线救国”方法
+<ol type="1">
+<li>去掉 <span class="math inline">\(k\)</span> 个第 <span
+class="math inline">\(i\)</span> 个物品，变为 <span
+class="math inline">\(max f_{i-1,j}\)</span></li>
+<li>去掉相应的 <span class="math inline">\(k\)</span> 个第 <span
+class="math inline">\(i\)</span> 个物品的空间，变为 <span
+class="math inline">\(max f_{i-1,j-v_ik}\)</span></li>
+<li>求上面的 <span class="math inline">\(max\)</span></li>
+<li>加回 <span class="math inline">\(k\)</span> 个第 <span
+class="math inline">\(i\)</span> 个物品的价值，变为 <span
+class="math inline">\(max f_{i-1,j-v_ik} + w_ik\)</span></li>
+</ol></li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">backpack</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#define MAXN 1010
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n,m; <span style="color:#75715e">//! 应当定义在函数外部，原因我不说，因为没人看
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> v[MAXN],w[MAXN];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> f[MAXN][MAXN];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> v[i] <span style="color:#f92672">&gt;&gt;</span> w[i];
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> m; j <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">*</span>v[i] <span style="color:#f92672">&lt;=</span> j; k <span style="color:#f92672">++</span>) 
-</span></span><span style="display:flex;"><span>                f[i][j] <span style="color:#f92672">=</span> max(f[i][j], f[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">-</span> v[i] <span style="color:#f92672">*</span> k] <span style="color:#f92672">+</span> w[i] <span style="color:#f92672">*</span> k);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> f[n][m] <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="2-维优化">2 维优化</h3>
-<p>状态转移方程为 $f_{i,j} = max{f_{i,j}, f_{i-1,j - v_ik} + w_ik}$</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> backpack<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">#define MAXN </span><span class="dv">1010</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span>m<span class="op">;</span> <span class="co">//! 应当定义在函数外部，原因我不说，因为没人看</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> v<span class="op">[</span>MAXN<span class="op">],</span>w<span class="op">[</span>MAXN<span class="op">];</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> f<span class="op">[</span>MAXN<span class="op">][</span>MAXN<span class="op">];</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> v<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;&gt;</span> w<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> m<span class="op">;</span> j <span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">*</span>v<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;=</span> j<span class="op">;</span> k <span class="op">++)</span> </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                f<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> max<span class="op">(</span>f<span class="op">[</span>i<span class="op">][</span>j<span class="op">],</span> f<span class="op">[</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">][</span>j <span class="op">-</span> v<span class="op">[</span>i<span class="op">]</span> <span class="op">*</span> k<span class="op">]</span> <span class="op">+</span> w<span class="op">[</span>i<span class="op">]</span> <span class="op">*</span> k<span class="op">);</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> f<span class="op">[</span>n<span class="op">][</span>m<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="维优化">2 维优化</h3>
+<p>状态转移方程为 <span class="math inline">\(f_{i,j} = max\{f_{i,j},
+f_{i-1,j - v_ik} + w_ik\}\)</span></p>
 <p>因此可得</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span>f[i,j] <span style="color:#f92672">=</span> max(f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j], f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j<span style="color:#f92672">-</span>v] <span style="color:#f92672">+</span> w, f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>v] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>w, f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span><span style="color:#f92672">*</span>v] <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">*</span>w, ...... ) 
-</span></span><span style="display:flex;"><span>f[i,j<span style="color:#f92672">-</span>v] <span style="color:#f92672">=</span> max(        f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j<span style="color:#f92672">-</span>v]    , f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>v] <span style="color:#f92672">+</span>   w, f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span><span style="color:#f92672">*</span>v] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>w, ...... ) 
-</span></span></code></pre></div><p><del>从我这拙劣的对齐</del> 可以看出他们的关系捏</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>f<span class="op">[</span>i<span class="op">,</span>j<span class="op">]</span> <span class="op">=</span> max<span class="op">(</span>f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">,</span>j<span class="op">],</span> f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">,</span>j<span class="op">-</span>v<span class="op">]</span> <span class="op">+</span> w<span class="op">,</span> f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">,</span>j<span class="op">-</span><span class="dv">2</span><span class="op">*</span>v<span class="op">]</span> <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>w<span class="op">,</span> f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">,</span>j<span class="op">-</span><span class="dv">3</span><span class="op">*</span>v<span class="op">]</span> <span class="op">+</span> <span class="dv">3</span><span class="op">*</span>w<span class="op">,</span> <span class="op">......</span> <span class="op">)</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>f<span class="op">[</span>i<span class="op">,</span>j<span class="op">-</span>v<span class="op">]</span> <span class="op">=</span> max<span class="op">(</span>        f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">,</span>j<span class="op">-</span>v<span class="op">]</span>    <span class="op">,</span> f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">,</span>j<span class="op">-</span><span class="dv">2</span><span class="op">*</span>v<span class="op">]</span> <span class="op">+</span>   w<span class="op">,</span> f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">,</span>j<span class="op">-</span><span class="dv">3</span><span class="op">*</span>v<span class="op">]</span> <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>w<span class="op">,</span> <span class="op">......</span> <span class="op">)</span> </span></code></pre></div>
+<p><del>从我这拙劣的对齐</del> 可以看出他们的关系捏</p>
 <p>也就是说 <strong>第一行</strong> 后面的一大坨</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span>f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j<span style="color:#f92672">-</span>v] <span style="color:#f92672">+</span> w, f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>v] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>w, f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span><span style="color:#f92672">*</span>v] <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">*</span>w, ......
-</span></span></code></pre></div><p>等价于</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span>f[i,j<span style="color:#f92672">-</span>v] <span style="color:#f92672">+</span> w
-</span></span></code></pre></div><p>最终我们可以把该节第一行的状态转移方程优化为 $f_{i,j} = max(f_{i-1,j}, f_{i,j-v})$</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">,</span>j<span class="op">-</span>v<span class="op">]</span> <span class="op">+</span> w<span class="op">,</span> f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">,</span>j<span class="op">-</span><span class="dv">2</span><span class="op">*</span>v<span class="op">]</span> <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>w<span class="op">,</span> f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">,</span>j<span class="op">-</span><span class="dv">3</span><span class="op">*</span>v<span class="op">]</span> <span class="op">+</span> <span class="dv">3</span><span class="op">*</span>w<span class="op">,</span> <span class="op">......</span></span></code></pre></div>
+<p>等价于</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>f<span class="op">[</span>i<span class="op">,</span>j<span class="op">-</span>v<span class="op">]</span> <span class="op">+</span> w</span></code></pre></div>
+<p>最终我们可以把该节第一行的状态转移方程优化为 <span
+class="math inline">\(f_{i,j} = max(f_{i-1,j}, f_{i,j-v})\)</span></p>
 <p>代码如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">full_backpack</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#define MAXN 1010
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n,m; <span style="color:#75715e">//! 应当定义在函数外部，原因我不说，因为没人看
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> v[MAXN],w[MAXN];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> f[MAXN][MAXN];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> v[i] <span style="color:#f92672">&gt;&gt;</span> w[i];
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> m; j <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//  原做法
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">//  for (int k = 0; k *v[i] &lt;= j; k ++) 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">//      f[i][j] = max(f[i][j], f[i - 1][j - v[i] * k] + w[i] * k);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            f[i][j] <span style="color:#f92672">=</span> f[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][j];
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (j <span style="color:#f92672">&gt;=</span> v[i]) f[i][j] <span style="color:#f92672">=</span> max(f[i][j], f[i][j<span style="color:#f92672">-</span>v[i]] <span style="color:#f92672">+</span> w[i]);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> f[n][m] <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>然后强删一维，变成一维DP数组捏</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">backpack</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#define MAXN 1010
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n,m; <span style="color:#75715e">//! 应当定义在函数外部，原因我不说，因为没人看
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> v[MAXN],w[MAXN];
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> f[MAXN][MAXN];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> v[i] <span style="color:#f92672">&gt;&gt;</span> w[i];
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> v[i]; j <span style="color:#f92672">&lt;=</span> m; j <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// f[i][j] = f[i - 1][j]; 恒等式直接删除
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// if (j &gt;= v[i]) 直接从 v[i] 开始循环就完事了
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            f[j] <span style="color:#f92672">=</span> max(f[j], f[j<span style="color:#f92672">-</span>v[i]] <span style="color:#f92672">+</span> w[i]);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> f[m] <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="多重背包">多重背包</h2>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> full_backpack<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">#define MAXN </span><span class="dv">1010</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span>m<span class="op">;</span> <span class="co">//! 应当定义在函数外部，原因我不说，因为没人看</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> v<span class="op">[</span>MAXN<span class="op">],</span>w<span class="op">[</span>MAXN<span class="op">];</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> f<span class="op">[</span>MAXN<span class="op">][</span>MAXN<span class="op">];</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> v<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;&gt;</span> w<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> m<span class="op">;</span> j <span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="co">//  原做法</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="co">//  for (int k = 0; k *v[i] &lt;= j; k ++) </span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">//      f[i][j] = max(f[i][j], f[i - 1][j - v[i] * k] + w[i] * k);</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>            f<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> f<span class="op">[</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>j <span class="op">&gt;=</span> v<span class="op">[</span>i<span class="op">])</span> f<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> max<span class="op">(</span>f<span class="op">[</span>i<span class="op">][</span>j<span class="op">],</span> f<span class="op">[</span>i<span class="op">][</span>j<span class="op">-</span>v<span class="op">[</span>i<span class="op">]]</span> <span class="op">+</span> w<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> f<span class="op">[</span>n<span class="op">][</span>m<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>然后强删一维，变成一维DP数组捏</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> backpack<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="pp">#define MAXN </span><span class="dv">1010</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">,</span>m<span class="op">;</span> <span class="co">//! 应当定义在函数外部，原因我不说，因为没人看</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> v<span class="op">[</span>MAXN<span class="op">],</span>w<span class="op">[</span>MAXN<span class="op">];</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> f<span class="op">[</span>MAXN<span class="op">][</span>MAXN<span class="op">];</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> v<span class="op">[</span>i<span class="op">]</span> <span class="op">&gt;&gt;</span> w<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> v<span class="op">[</span>i<span class="op">];</span> j <span class="op">&lt;=</span> m<span class="op">;</span> j <span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>            <span class="co">// f[i][j] = f[i - 1][j]; 恒等式直接删除</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>            <span class="co">// if (j &gt;= v[i]) 直接从 v[i] 开始循环就完事了</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>            f<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> max<span class="op">(</span>f<span class="op">[</span>j<span class="op">],</span> f<span class="op">[</span>j<span class="op">-</span>v<span class="op">[</span>i<span class="op">]]</span> <span class="op">+</span> w<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> f<span class="op">[</span>m<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="多重背包">多重背包</h2>
 <h3 id="朴素-1">朴素</h3>
-<p>$N$ 种物品，背包容量为 $V$，第 $i$ 件物品最多能选 $C_i$ 个，每件物品占空间 $v_i$，价值为 $w_i$</p>
-<p>第一种容易想到的解法是把完全背包的方法拿来用，因为多重背包只是加了 $k$ 的限制
-状态转移方程即 $f_{i,j} = max{f_{i,j}, f_{i-1,j - C_ik} + w_ik 0 | } $</p>
-<p>考虑多重背包和完全背包的区别可以发现，多重背包虽然每种物品不只一种，但是有确定的数量，而完全背包没有数量限制，则可以轻松地在忽略时间复杂度的情况下把多重背包<strong>拆分</strong>成 01 背包，即把 $M_i$ 件第 $i$ 件物品挨个算单个物品再按照 01 背包的方式处理。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span> i) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> m; <span style="color:#f92672">++</span> j) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;=</span> min(c[i],j<span style="color:#f92672">/</span>w[i])<span style="color:#75715e">/* 数量和体积两个都限制数量 */</span>; <span style="color:#f92672">++</span> k) {
-</span></span><span style="display:flex;"><span>            f[i][j] <span style="color:#f92672">=</span> max(f[i][j], f[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][j<span style="color:#f92672">-</span>k<span style="color:#f92672">*</span>v[i]] <span style="color:#f92672">+</span> k<span style="color:#f92672">*</span>w[i]);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="二进制优化">二进制优化</h3>
-<p>这种暴力方式求解比较慢，容易发现，在求解过程中，每个<strong>同种</strong>物品是按照<strong>不同种</strong>物品进行处理的，换句话说，我选第一个 a 物品与选第二个 a 物品，实际上效果都是选 1 个 a 物品，但是这样的情况在上文解法中做了两次决策，显然有一种是多余的。
-也就是说，接下来的优化方向是<strong>减少</strong>每次决策所遇到的<strong>同数量同种</strong>物品，那会联想到什么呢？
-01 背包的决策是 <strong>选</strong> 与 <strong>不选</strong>，因此称为“01”背包，而 01 能够提醒我们利用<strong>二进制</strong>表示<strong>不同的数</strong>（不管想不想到反正这就是优化方法）</p>
-<p>易证，使用 $2^0, 2^1, 2^2, 2^3&hellip; 2^{k-1}$ 能够表示出 $0$ 到 $2^{k-1}$ 之间的所有的数，即二进制计数。也就是说，如果把物品的数量 $C_i$ 拆分成 $2^0, 2^1, 2^2&hellip;2^{k-1} + p,0 \leq p &lt; 2^{k-1}$，由 $p$ 的范围可得，其中 $2^0+&hellip;2^{k-1}$ 能够表示出 $[0,p]$ 的所有整数，然后也能轻松得出 $2^0+&hellip;+2^{k-1}$ 选出若干与 $p$ 相加能表示出 $[p,p+2^k-1]$ 之间所有整数，两个合并即是 $[0,C_i]$</p>
-<p>因此可以将 $C_i$ 拆分为 $k+1$ 种新的物品，每种新物品的体积和价值分别为：
-$$
-2^0 \cdot w[i],2^1 \cdot w[i],2^2 \cdot w[i],&hellip;,2^{k-1} \cdot w[i],p \cdot w[i]\
-2^0 \cdot v[i],2^1 \cdot v[i],2^2 \cdot v[i],&hellip;,2^{k-1} \cdot v[i],p \cdot v[i]
-$$
-拆分完再进行 01 背包即可。</p>
-<p>代码来自 <a class="link" href="https://grainrain.site/2022/10/13/2022.10.13%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"  target="_blank" rel="noopener"
-    >GrainRain &rsquo;s Blog</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">25000</span>;
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 一共有 1000 项，每项最多拆分成 log s 项  
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> M <span style="color:#f92672">=</span> <span style="color:#ae81ff">2010</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n, m;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> v[N], w[N];
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> f[N];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a, b, s;
-</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b <span style="color:#f92672">&gt;&gt;</span> s;
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> s; k <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2</span>) { <span style="color:#75715e">// 从2^0 开始枚举 2 的次幂
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        s <span style="color:#f92672">-=</span> k;
-</span></span><span style="display:flex;"><span>        v[<span style="color:#f92672">++</span> cnt] <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> k;
-</span></span><span style="display:flex;"><span>        w[cnt] <span style="color:#f92672">=</span> b <span style="color:#f92672">*</span> k;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (s <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        v[<span style="color:#f92672">++</span> cnt] <span style="color:#f92672">=</span> a <span style="color:#f92672">*</span> s;
-</span></span><span style="display:flex;"><span>        w[cnt] <span style="color:#f92672">=</span> b <span style="color:#f92672">*</span> s;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>n <span style="color:#f92672">=</span> cnt;
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 二进制拆分读入
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> m; j <span style="color:#f92672">&gt;=</span> v[i]; j <span style="color:#f92672">--</span>)
-</span></span><span style="display:flex;"><span>        f[j] <span style="color:#f92672">=</span> max(f[j], f[j <span style="color:#f92672">-</span> v[i]] <span style="color:#f92672">+</span> w[i]);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>cout <span style="color:#f92672">&lt;&lt;</span> f[m] <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 01背包解题过程
-</span></span></span></code></pre></div><h2 id="分组背包">分组背包</h2>
-<p>$N$ 组物品，第 $i$ 组有 $C_i$ 个物品，第 $i$ 组的第 $j$ 个物品的价值是 $w_{i,j}$，体积为 $v_{i,j}$，背包体积为 $M$，每组物品只能选择 $1$ 个</p>
-<p>直接枚举组时挨个枚举物品就行了。
-按照组划分阶段，第 $i$ 组不选则 $f_{i,j} = f_{i-1,j}$，第 $i$ 组选第 $k$ 个则 $f_{i,j} = f_{i-1,j-v_{i,k}} + w_{i,k}$</p>
+<p><span class="math inline">\(N\)</span> 种物品，背包容量为 <span
+class="math inline">\(V\)</span>，第 <span
+class="math inline">\(i\)</span> 件物品最多能选 <span
+class="math inline">\(C_i\)</span> 个，每件物品占空间 <span
+class="math inline">\(v_i\)</span>，价值为 <span
+class="math inline">\(w_i\)</span></p>
+<p>第一种容易想到的解法是把完全背包的方法拿来用，因为多重背包只是加了
+<span class="math inline">\(k\)</span> 的限制<br />
+状态转移方程即 $f_{i,j} = max{f_{i,j}, f_{i-1,j - C_ik} + w_ik 0 | }
+$</p>
+<p>考虑多重背包和完全背包的区别可以发现，多重背包虽然每种物品不只一种，但是有确定的数量，而完全背包没有数量限制，则可以轻松地在忽略时间复杂度的情况下把多重背包<strong>拆分</strong>成
+01 背包，即把 <span class="math inline">\(M_i\)</span> 件第 <span
+class="math inline">\(i\)</span> 件物品挨个算单个物品再按照 01
+背包的方式处理。</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> <span class="op">++</span> i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;=</span> m<span class="op">;</span> <span class="op">++</span> j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;=</span> min<span class="op">(</span>c<span class="op">[</span>i<span class="op">],</span>j<span class="op">/</span>w<span class="op">[</span>i<span class="op">])</span><span class="co">/* 数量和体积两个都限制数量 */</span><span class="op">;</span> <span class="op">++</span> k<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>            f<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> max<span class="op">(</span>f<span class="op">[</span>i<span class="op">][</span>j<span class="op">],</span> f<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">][</span>j<span class="op">-</span>k<span class="op">*</span>v<span class="op">[</span>i<span class="op">]]</span> <span class="op">+</span> k<span class="op">*</span>w<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="二进制优化">二进制优化</h3>
+<p>这种暴力方式求解比较慢，容易发现，在求解过程中，每个<strong>同种</strong>物品是按照<strong>不同种</strong>物品进行处理的，换句话说，我选第一个
+a 物品与选第二个 a 物品，实际上效果都是选 1 个 a
+物品，但是这样的情况在上文解法中做了两次决策，显然有一种是多余的。<br />
+也就是说，接下来的优化方向是<strong>减少</strong>每次决策所遇到的<strong>同数量同种</strong>物品，那会联想到什么呢？<br />
+01 背包的决策是 <strong>选</strong> 与
+<strong>不选</strong>，因此称为“01”背包，而 01
+能够提醒我们利用<strong>二进制</strong>表示<strong>不同的数</strong>（不管想不想到反正这就是优化方法）</p>
+<p>易证，使用 <span class="math inline">\(2^0, 2^1, 2^2, 2^3...
+2^{k-1}\)</span> 能够表示出 <span class="math inline">\(0\)</span> 到
+<span class="math inline">\(2^{k-1}\)</span>
+之间的所有的数，即二进制计数。也就是说，如果把物品的数量 <span
+class="math inline">\(C_i\)</span> 拆分成 <span
+class="math inline">\(2^0, 2^1, 2^2...2^{k-1} + p,0 \leq p &lt;
+2^{k-1}\)</span>，由 <span class="math inline">\(p\)</span>
+的范围可得，其中 <span class="math inline">\(2^0+...2^{k-1}\)</span>
+能够表示出 <span class="math inline">\([0,p]\)</span>
+的所有整数，然后也能轻松得出 <span
+class="math inline">\(2^0+...+2^{k-1}\)</span> 选出若干与 <span
+class="math inline">\(p\)</span> 相加能表示出 <span
+class="math inline">\([p,p+2^k-1]\)</span> 之间所有整数，两个合并即是
+<span class="math inline">\([0,C_i]\)</span></p>
+<p>因此可以将 <span class="math inline">\(C_i\)</span> 拆分为 <span
+class="math inline">\(k+1\)</span>
+种新的物品，每种新物品的体积和价值分别为： <span class="math display">\[
+2^0 \cdot w[i],2^1 \cdot w[i],2^2 \cdot w[i],...,2^{k-1} \cdot w[i],p
+\cdot w[i]\\
+2^0 \cdot v[i],2^1 \cdot v[i],2^2 \cdot v[i],...,2^{k-1} \cdot v[i],p
+\cdot v[i]
+\]</span> 拆分完再进行 01 背包即可。</p>
+<p>代码来自 <a
+href="https://grainrain.site/2022/10/13/2022.10.13%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">GrainRain
+’s Blog</a></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="dv">25000</span><span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">// 一共有 1000 项，每项最多拆分成 log s 项  </span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> M <span class="op">=</span> <span class="dv">2010</span><span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> v<span class="op">[</span>N<span class="op">],</span> w<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> f<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> cnt <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> s<span class="op">;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b <span class="op">&gt;&gt;</span> s<span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> k <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> k <span class="op">&lt;=</span> s<span class="op">;</span> k <span class="op">*=</span> <span class="dv">2</span><span class="op">)</span> <span class="op">{</span> <span class="co">// 从2^0 开始枚举 2 的次幂</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        s <span class="op">-=</span> k<span class="op">;</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        v<span class="op">[++</span> cnt<span class="op">]</span> <span class="op">=</span> a <span class="op">*</span> k<span class="op">;</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        w<span class="op">[</span>cnt<span class="op">]</span> <span class="op">=</span> b <span class="op">*</span> k<span class="op">;</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>s <span class="op">&gt;</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        v<span class="op">[++</span> cnt<span class="op">]</span> <span class="op">=</span> a <span class="op">*</span> s<span class="op">;</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        w<span class="op">[</span>cnt<span class="op">]</span> <span class="op">=</span> b <span class="op">*</span> s<span class="op">;</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> cnt<span class="op">;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="co">// 二进制拆分读入</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++)</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> m<span class="op">;</span> j <span class="op">&gt;=</span> v<span class="op">[</span>i<span class="op">];</span> j <span class="op">--)</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>        f<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> max<span class="op">(</span>f<span class="op">[</span>j<span class="op">],</span> f<span class="op">[</span>j <span class="op">-</span> v<span class="op">[</span>i<span class="op">]]</span> <span class="op">+</span> w<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>cout <span class="op">&lt;&lt;</span> f<span class="op">[</span>m<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="co">// 01背包解题过程</span></span></code></pre></div>
+<h2 id="分组背包">分组背包</h2>
+<p><span class="math inline">\(N\)</span> 组物品，第 <span
+class="math inline">\(i\)</span> 组有 <span
+class="math inline">\(C_i\)</span> 个物品，第 <span
+class="math inline">\(i\)</span> 组的第 <span
+class="math inline">\(j\)</span> 个物品的价值是 <span
+class="math inline">\(w_{i,j}\)</span>，体积为 <span
+class="math inline">\(v_{i,j}\)</span>，背包体积为 <span
+class="math inline">\(M\)</span>，每组物品只能选择 <span
+class="math inline">\(1\)</span> 个</p>
+<p>直接枚举组时挨个枚举物品就行了。<br />
+按照组划分阶段，第 <span class="math inline">\(i\)</span> 组不选则 <span
+class="math inline">\(f_{i,j} = f_{i-1,j}\)</span>，第 <span
+class="math inline">\(i\)</span> 组选第 <span
+class="math inline">\(k\)</span> 个则 <span
+class="math inline">\(f_{i,j} = f_{i-1,j-v_{i,k}} + w_{i,k}\)</span></p>
 <p>这里直接给出数组删维优化过的代码</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span> i) {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> m; j <span style="color:#f92672">&gt;=</span> m; <span style="color:#f92672">--</span> j) {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; k <span style="color:#f92672">&lt;=</span> c[i]; <span style="color:#f92672">++</span> k) {
-</span></span><span style="display:flex;"><span>			f[i][j] <span style="color:#f92672">=</span> max(f[j], f[j<span style="color:#f92672">-</span>v[i][k]] <span style="color:#f92672">+</span> w[i][k]);
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="依赖背包">依赖背包</h2>
-<p><del>我的 Windows 盘还剩 3 个 G，LLVM 依赖于 MSVC 生成工具，MSVC 占用 2G 磁盘，LLVM 占用 2G 磁盘，问我应该怎么安装收益最大</del>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> <span class="op">++</span> i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> m<span class="op">;</span> j <span class="op">&gt;=</span> m<span class="op">;</span> <span class="op">--</span> j<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> k <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> k <span class="op">&lt;=</span> c<span class="op">[</span>i<span class="op">];</span> <span class="op">++</span> k<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>            f<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> max<span class="op">(</span>f<span class="op">[</span>j<span class="op">],</span> f<span class="op">[</span>j<span class="op">-</span>v<span class="op">[</span>i<span class="op">][</span>k<span class="op">]]</span> <span class="op">+</span> w<span class="op">[</span>i<span class="op">][</span>k<span class="op">]);</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="依赖背包">依赖背包</h2>
+<p><del>我的 Windows 盘还剩 3 个 G，新买的东方冰之勇者记占 2G,LLVM
+依赖于 MSVC 生成工具，MSVC 占用 2G 磁盘，LLVM 占用 2G
+磁盘，问我应该怎么安装收益最大</del><br />
 <del>reboot to archlinux!</del></p>
 <p>A 物品依赖于 B，选 B 物品之前需要先选 A 物品，问最大价值</p>
-<p>容易发现对于任意有依赖关系的物品 A B 来说，一共有以下三种可能的决策
-（A 依赖 B）</p>
-<ol>
-<li>A B 都不选</li>
-<li>选 B 不选 A</li>
-<li>A B 都选</li>
-</ol>
+<p>容易发现对于任意有依赖关系的物品 A B
+来说，一共有以下三种可能的决策<br />
+（A 依赖 B） 1. A B 都不选<br />
+2. 选 B 不选 A<br />
+3. A B 都选</p>
 <p>因为这三种情况只会出现一个，联想分组背包的特征，将这三种情况每个看成一个组里的物品，即转化为了分组背包。</p>
-<p>直接 dfs 就能解决依赖关系，但是这种情况怎么看都是要涉及到树形 DP 或者图论的）</p>
+<p>直接 dfs 就能解决依赖关系，但是这种情况怎么看都是要涉及到树形 DP
+或者图论的）</p>
 
 </section>
 
@@ -653,34 +668,21 @@ $$
 
         <span>Licensed under FDL 1.3</span>
     </section>
-    </footer>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
 
 
-    
-        <link 
-                rel="stylesheet" 
-                href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/katex.min.css"crossorigin="anonymous"
-            ><script 
-                src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/katex.min.js"crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/contrib/auto-render.min.js"crossorigin="anonymous"
-                defer
-                >
-            </script><script>
-    window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "\\[", right: "\\]", display: true }
-            ],
-            ignoredClasses: ["gist"]
-        });
-    })
-</script>
+
+        <span>
+            最后更新于 Jan 16, 2023 09:01 UTC
+        </span>
+    </section></footer>
+
+
     
 </article>
 
@@ -752,82 +754,6 @@ $$
 
 
     
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    
-    <div class="pswp__bg"></div>
-
-    
-    <div class="pswp__scroll-wrap">
-
-        
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                
-                
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div><script 
-                src="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
-                defer
-                >
-            </script><link 
-                rel="stylesheet" 
-                href="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
-            ><link 
-                rel="stylesheet" 
-                href="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
-            >
 
             </main>
         </div>

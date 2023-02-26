@@ -6,7 +6,7 @@
 
 <link rel='canonical' href='https://blog.tibrella.top/post/2022-11-28-zfsbootmenu/'>
 
-<link rel="stylesheet" href="/scss/style.min.c8ab8a897338e7deff55c14b521348c524b0e76381ccd55846bb0e7075402432.css"><meta property='og:title' content='在 UEFI ArchLinux 下使用 ZFSBootMenu 作为引导器（可双启动）'>
+<link rel="stylesheet" href="/scss/style.min.9b420c4d5524bd3fdfdf876acca8bac566c1b4813d13b39901fea466757c7f1b.css"><meta property='og:title' content='在 UEFI ArchLinux 下使用 ZFSBootMenu 作为引导器（可双启动）'>
 <meta property='og:description' content='zstd 下 zfs 根目录压缩率能上 2x，而且对于 gzip 来说性能更好，但是显然 grub 引导不了，其他的不好用，所以折腾了 ZBM'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2022-11-28-zfsbootmenu/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -16,6 +16,9 @@
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/63a8671208b683016397a5d0.jpg' />
     <link rel="shortcut icon" href="/favicon.png" />
 
+<link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
     </head>
     <body class="
     article-page
@@ -241,48 +244,7 @@
     </ol>
 </aside>
 
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ul>
-    <li><a href="#前言">前言</a></li>
-    <li><a href="#zfsbootmenu-介绍">ZFSBootMenu 介绍</a></li>
-    <li><a href="#准备">准备</a>
-      <ul>
-        <li><a href="#挂载-esp-分区">挂载 ESP 分区</a></li>
-        <li><a href="#设置-zfs-hook">设置 ZFS Hook</a></li>
-      </ul>
-    </li>
-    <li><a href="#安装-zfsbootmenu">安装 ZFSBootMenu</a></li>
-    <li><a href="#配置-refind">配置 rEFInd</a></li>
-    <li><a href="#todo">TODO</a></li>
-  </ul>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
+    
 
             <main class="main full-width">
     <article class="has-image main-article">
@@ -366,79 +328,99 @@
     
     
     <h2 id="前言">前言</h2>
-<p>写这篇博客的缘由挺简单的，当时 ClearArch 开发组讨论文件系统应当使用 ZFS 还是 F2FS，由于使用过 F2FS 作为根文件系统（它没有 Windows 下的驱动，透明压缩也不会提供额外的空间），同时查到<a class="link" href="https://qiedd.com/1386.html"  target="_blank" rel="noopener"
-    >企鹅大大的一篇文章</a>，看到近 2x 的压缩率不禁心动，随后走上了 ZFS+zstd 作为根文件系统的折腾之路</p>
-<p>企鹅大大使用 SysLinux 引导，我在服务器尝试安装结果无法启动；看到 <a class="link" href="https://cachyos.org"  target="_blank" rel="noopener"
-    >CachyOS</a> 的仓库中有一个打了 ZFS+zstd 支持补丁的 grub，尝试，启动不了（后来询问了 CachyOS 的开发团队得知那个补丁是不起效果的），随后，我遇到了一个完美的解决方式（指 <a class="link" href="https://github.com/eoli3n/arch-config/blob/master/scripts/zfs/install/02-install.sh"  target="_blank" rel="noopener"
-    >eoli3n 的使用 ZFSBootMenu 的安装脚本</a>）（如果想实机全盘单系统可以直接用他的安装脚本）</p>
-<p>本文的目的是用 ZFSBootMenu 引导 zstd 压缩的 ZFS 文件系统根目录，同时附带双启动教程</p>
+<p>写这篇博客的缘由挺简单的，当时 ClearArch 开发组讨论文件系统应当使用
+ZFS 还是 F2FS，由于使用过 F2FS 作为根文件系统（它没有 Windows
+下的驱动，透明压缩也不会提供额外的空间），同时查到<a
+href="https://qiedd.com/1386.html">企鹅大大的一篇文章</a>，看到近 2x
+的压缩率不禁心动，随后走上了 ZFS+zstd 作为根文件系统的折腾之路</p>
+<p>企鹅大大使用 SysLinux 引导，我在服务器尝试安装结果无法启动；看到 <a
+href="https://cachyos.org">CachyOS</a> 的仓库中有一个打了 ZFS+zstd
+支持补丁的 grub，尝试，启动不了（后来询问了 CachyOS
+的开发团队得知那个补丁是不起效果的），随后，我遇到了一个完美的解决方式（指
+<a
+href="https://github.com/eoli3n/arch-config/blob/master/scripts/zfs/install/02-install.sh">eoli3n
+的使用 ZFSBootMenu
+的安装脚本</a>）（如果想实机全盘单系统可以直接用他的安装脚本）</p>
+<p>本文的目的是用 ZFSBootMenu 引导 zstd 压缩的 ZFS
+文件系统根目录，同时附带双启动教程</p>
 <h2 id="zfsbootmenu-介绍">ZFSBootMenu 介绍</h2>
-<p><a class="link" href="https://github.com/zbm-dev/zfsbootmenu/"  target="_blank" rel="noopener"
-    >官方仓库</a> 介绍：</p>
+<p><a href="https://github.com/zbm-dev/zfsbootmenu/">官方仓库</a>
+介绍：</p>
 <blockquote>
-<p>ZFSBootMenu 是用于 root-on-ZFS 系统的 ZFS 引导加载程序，支持快照和本机全盘加密</p>
+<p>ZFSBootMenu 是用于 root-on-ZFS 系统的 ZFS
+引导加载程序，支持快照和本机全盘加密</p>
 </blockquote>
-<p>其原理比较容易理解，总的来说：</p>
-<ol>
-<li>引导 ZFSBootMenu，他是一个 initramfs 映像</li>
-<li>找到并导入所有的 ZFS 存储池，然后挂载用户选择的根数据集</li>
-<li>用 <code>kexec</code><sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> 将系统内核、initramfs 映像加载到内存中</li>
-<li>卸载所有 ZFS 数据集</li>
-<li>启动最终内核</li>
-</ol>
-<p>总之，它能启动以 ZFS 为根目录的 Linux，速度不慢，适用环境广，是作为本文环境下引导器的不二之选</p>
+<p>其原理比较容易理解，总的来说： 1. 引导 ZFSBootMenu，他是一个
+initramfs 映像 2. 找到并导入所有的 ZFS
+存储池，然后挂载用户选择的根数据集 3. 用 <code>kexec</code><a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a> 将系统内核、initramfs
+映像加载到内存中 4. 卸载所有 ZFS 数据集 5. 启动最终内核</p>
+<p>总之，它能启动以 ZFS 为根目录的
+Linux，速度不慢，适用环境广，是作为本文环境下引导器的不二之选</p>
 <h2 id="准备">准备</h2>
-<p>确保你的电脑为 UEFI 启动，且已经分区完成，建立了根分区相应的子数据集</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#f92672">[</span> -d /sys/firmware/efi<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;&amp;</span> echo UEFI <span style="color:#f92672">||</span> echo BIOS
-</span></span></code></pre></div><p>输入该命令，若输出 <code>UEFI</code>，则可以进行下一步，否则退出本教程。</p>
+<p>确保你的电脑为 UEFI
+启动，且已经分区完成，建立了根分区相应的子数据集</p>
+<pre class="shell"><code>[ -d /sys/firmware/efi] &amp;&amp; echo UEFI || echo BIOS</code></pre>
+<p>输入该命令，若输出
+<code>UEFI</code>，则可以进行下一步，否则退出本教程。</p>
 <h3 id="挂载-esp-分区">挂载 ESP 分区</h3>
-<p>ESP 分区一般是磁盘头部 300M 左右的 FAT16/32 分区，同时有 EFI System 标记，可以通过 <code>fdisk -l</code> 查看各个分区的标记
-此处挂载点绝对不可以是 <code>/boot</code>，一般来说有两个其他选择：<code>/boot/efi</code> 和 <code>/efi</code>，我在这里选择了 <code>/efi</code>
-例如我的 ESP 分区是 /dev/nvme0n1p1
-则</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>mkdir /mnt/efi
-</span></span><span style="display:flex;"><span>mount /dev/nvme0n1p1 /mnt/efi
-</span></span></code></pre></div><h3 id="设置-zfs-hook">设置 ZFS Hook</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#75715e"># 先 arch-chroot</span>
-</span></span><span style="display:flex;"><span>arch-chroot /mnt
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 进入后编辑 /etc/mkinitcpio 加入 zfs 支持，在 HOOKS=(.......) 中加入 zfs</span>
-</span></span><span style="display:flex;"><span>vim /etc/mkinitcpio
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 比如正常安装的 arch 修改后应该长这样，确保其中有 zfs 即可</span>
-</span></span><span style="display:flex;"><span>HOOKS<span style="color:#f92672">=(</span>base udev autodetect modconf block zfs filesystems keyboard fsck<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 编辑后加载</span>
-</span></span><span style="display:flex;"><span>mkinitcpio -P
-</span></span></code></pre></div><h2 id="安装-zfsbootmenu">安装 ZFSBootMenu</h2>
-<p>在这里我们使用预构建好的 EFI 文件<del>因为我没玩明白ZFSBootMenu，经常出现换内核再构建就会炸引导的问题，同时不能做到启动时换内核</del></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#75715e"># /efi 换成你的 ESP 挂载目录</span>
-</span></span><span style="display:flex;"><span>mkdir /efi/EFI
-</span></span><span style="display:flex;"><span>mkdir /efi/EFI/ZBM
-</span></span><span style="display:flex;"><span>wget https://github.com/zbm-dev/zfsbootmenu/releases/download/v2.0.0/zfsbootmenu-release-vmlinuz-x86_64-v2.0.0.EFI -O /efi/EFI/ZBM/zfsbootmenu.efi
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 访问不了可以把 https://github.com/ 换成 https://ghproxy.com/https://github.com/</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配置</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 此处假设你的根目录的数据集为 zroot/ROOT/arch</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 这样可以引导 zroot/ROOT 下的任意子数据集，比如 zroot/ROOT/arch 上安装 arch，zroot/ROOT/void 上安装 voidlinux，这就实现了 Linux 的双启动</span>
-</span></span><span style="display:flex;"><span>zfs set org.zfsbootmenu:commandline<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;rw&#34;</span> zroot/ROOT
-</span></span></code></pre></div><h2 id="配置-refind">配置 rEFInd</h2>
-<p>rEFInd 能够每次开机都搜索 EFI 分区下的 efi 文件，这样就不用更新引导文件了，同时插启动盘的时候也不需要进 bios 里调启动顺序，rEFInd 会自动搜索到</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#75715e"># 假设当前还在 chroot 里</span>
-</span></span><span style="display:flex;"><span>pacman -Sy refind
-</span></span><span style="display:flex;"><span>refind-install
-</span></span></code></pre></div><p>非常简单，这样就实现了 Windows/macOS(HFS+) 与 Linux on ZFS 的双启动</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#75715e"># 安装 nord 主题</span>
-</span></span><span style="display:flex;"><span>pacman -U https://mirror.cachyos.org/repo/x86_64/cachyos/refind-theme-nord-1.1.0-1-any.pkg.tar.zst
-</span></span></code></pre></div><h2 id="todo">TODO</h2>
+<p>ESP 分区一般是磁盘头部 300M 左右的 FAT16/32 分区，同时有 EFI System
+标记，可以通过 <code>fdisk -l</code> 查看各个分区的标记<br />
+此处挂载点绝对不可以是
+<code>/boot</code>，一般来说有两个其他选择：<code>/boot/efi</code> 和
+<code>/efi</code>，我在这里选择了 <code>/efi</code><br />
+例如我的 ESP 分区是 /dev/nvme0n1p1 则</p>
+<pre class="shell"><code>mkdir /mnt/efi
+mount /dev/nvme0n1p1 /mnt/efi</code></pre>
+<h3 id="设置-zfs-hook">设置 ZFS Hook</h3>
+<pre class="shell"><code># 先 arch-chroot
+arch-chroot /mnt
+
+# 进入后编辑 /etc/mkinitcpio 加入 zfs 支持，在 HOOKS=(.......) 中加入 zfs
+vim /etc/mkinitcpio
+# 比如正常安装的 arch 修改后应该长这样，确保其中有 zfs 即可
+HOOKS=(base udev autodetect modconf block zfs filesystems keyboard fsck)
+
+# 编辑后加载
+mkinitcpio -P</code></pre>
+<h2 id="安装-zfsbootmenu">安装 ZFSBootMenu</h2>
+<p>在这里我们使用预构建好的 EFI
+文件<del>因为我没玩明白ZFSBootMenu，经常出现换内核再构建就会炸引导的问题，同时不能做到启动时换内核</del></p>
+<pre class="shell"><code># /efi 换成你的 ESP 挂载目录
+mkdir /efi/EFI
+mkdir /efi/EFI/ZBM
+wget https://github.com/zbm-dev/zfsbootmenu/releases/download/v2.0.0/zfsbootmenu-release-vmlinuz-x86_64-v2.0.0.EFI -O /efi/EFI/ZBM/zfsbootmenu.efi
+# 访问不了可以把 https://github.com/ 换成 https://ghproxy.com/https://github.com/
+
+# 配置
+# 此处假设你的根目录的数据集为 zroot/ROOT/arch
+# 这样可以引导 zroot/ROOT 下的任意子数据集，比如 zroot/ROOT/arch 上安装 arch，zroot/ROOT/void 上安装 voidlinux，这就实现了 Linux 的双启动
+zfs set org.zfsbootmenu:commandline=&quot;rw&quot; zroot/ROOT</code></pre>
+<h2 id="配置-refind">配置 rEFInd</h2>
+<p>rEFInd 能够每次开机都搜索 EFI 分区下的 efi
+文件，这样就不用更新引导文件了，同时插启动盘的时候也不需要进 bios
+里调启动顺序，rEFInd 会自动搜索到</p>
+<pre class="shell"><code># 假设当前还在 chroot 里
+pacman -Sy refind
+refind-install</code></pre>
+<p>非常简单，这样就实现了 Windows/macOS(HFS+) 与 Linux on ZFS
+的双启动</p>
+<pre class="shell"><code># 安装 nord 主题
+pacman -U https://mirror.cachyos.org/repo/x86_64/cachyos/refind-theme-nord-1.1.0-1-any.pkg.tar.zst</code></pre>
+<h2 id="todo">TODO</h2>
 <p>实验并整理整个安装流程</p>
-<div class="footnotes" role="doc-endnotes">
-<hr>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
 <ol>
-<li id="fn:1">
-<p><code>kexec</code> 是 Linux 内核的一种机制，它允许从当前运行的内核启动新内核。<code>kexec</code> 会跳过由系统固件（BIOS 或 UEFI）执行的引导加载程序阶段和硬件初始化阶段，直接将新内核加载到主内存并立即开始执行。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
+<li id="fn1"><p><code>kexec</code> 是 Linux
+内核的一种机制，它允许从当前运行的内核启动新内核。<code>kexec</code>
+会跳过由系统固件（BIOS 或
+UEFI）执行的引导加载程序阶段和硬件初始化阶段，直接将新内核加载到主内存并立即开始执行。<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</div>
+</section>
 
 </section>
 
@@ -471,31 +453,6 @@
     </footer>
 
 
-    
-        <link 
-                rel="stylesheet" 
-                href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/katex.min.css"crossorigin="anonymous"
-            ><script 
-                src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/katex.min.js"crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/contrib/auto-render.min.js"crossorigin="anonymous"
-                defer
-                >
-            </script><script>
-    window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "\\[", right: "\\]", display: true }
-            ],
-            ignoredClasses: ["gist"]
-        });
-    })
-</script>
     
 </article>
 
@@ -595,82 +552,6 @@
 
 
     
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    
-    <div class="pswp__bg"></div>
-
-    
-    <div class="pswp__scroll-wrap">
-
-        
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                
-                
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div><script 
-                src="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
-                defer
-                >
-            </script><link 
-                rel="stylesheet" 
-                href="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
-            ><link 
-                rel="stylesheet" 
-                href="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
-            >
 
             </main>
         </div>

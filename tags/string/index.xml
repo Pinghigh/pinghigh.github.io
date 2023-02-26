@@ -12,138 +12,149 @@
         <pubDate>Mon, 18 Jul 2022 20:24:48 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2022-7-18-oi%E7%AC%94%E8%AE%B0/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 字符数组与字符串 2" /&gt;&lt;h2 id=&#34;string类型字符串wwwacwingcom&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;www.acwing.com&#34; &gt;String类型字符串&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;可变长的字符序列，需要引入头文件&lt;code&gt;&amp;lt;string&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id=&#34;赋值&#34;&gt;赋值&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;(){
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    string s1; &lt;span style=&#34;color:#75715e&#34;&gt;// 默认空字符串
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    string s2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s1; &lt;span style=&#34;color:#75715e&#34;&gt;// string 类型可以互相赋值，无需 memcpy() 或 strcpy() 。 s2 是 s1 的一个副本
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    string s3 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;hiya&amp;#34;&lt;/span&gt;; &lt;span style=&#34;color:#75715e&#34;&gt;// s3 是该字符串(&amp;#34;hiya&amp;#34;)字面值的一个副本（我也不知道是什么，总之 s3 的值是&amp;#34;hiya&amp;#34;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    string s4(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;T&amp;#39;&lt;/span&gt;); &lt;span style=&#34;color:#75715e&#34;&gt;// s4 的内容是“TTTTT” 
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;输入输出&#34;&gt;输入输出&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;cstdio&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;(){
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    string s1, s2;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//读入无空格字符串
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; s1; &lt;span style=&#34;color:#75715e&#34;&gt;// scanf() fgets() 不能读入 string 类型
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//读入一行
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    getline(cin,s2);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//输出
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; s1 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; s2 &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl; 
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;/*
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    printf() 不能直接输出string类型
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    需要写成 printf(&amp;#34;%s&amp;#34;,s1.c_str())
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    这里 s.c_str() 作用是把 string 类型转化为字符数组
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 当然也可以 puts(s1.c_str())
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;后记&#34;&gt;后记&lt;/h4&gt;
-&lt;p&gt;使用 &lt;code&gt;getline(cin,str)&lt;/code&gt; 输入时需要注意回车符
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 字符数组与字符串 2" /&gt;&lt;h2 id=&#34;string类型字符串&#34;&gt;&lt;a
+href=&#34;www.acwing.com&#34;&gt;String类型字符串&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;可变长的字符序列，需要引入头文件&lt;code&gt;&amp;lt;string&amp;gt;&lt;/code&gt; ###
+赋值&lt;/p&gt;
+&lt;div class=&#34;sourceCode&#34; id=&#34;cb1&#34;&gt;&lt;pre
+class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb1-1&#34;&gt;&lt;a href=&#34;#cb1-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-2&#34;&gt;&lt;a href=&#34;#cb1-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;kw&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;kw&#34;&gt;namespace&lt;/span&gt; std&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-3&#34;&gt;&lt;a href=&#34;#cb1-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; main&lt;span class=&#34;op&#34;&gt;(){&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-4&#34;&gt;&lt;a href=&#34;#cb1-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    string s1&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;co&#34;&gt;// 默认空字符串&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-5&#34;&gt;&lt;a href=&#34;#cb1-5&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    string s2 &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; s1&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;co&#34;&gt;// string 类型可以互相赋值，无需 memcpy() 或 strcpy() 。 s2 是 s1 的一个副本&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-6&#34;&gt;&lt;a href=&#34;#cb1-6&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    string s3 &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;st&#34;&gt;&amp;quot;hiya&amp;quot;&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;co&#34;&gt;// s3 是该字符串(&amp;quot;hiya&amp;quot;)字面值的一个副本（我也不知道是什么，总之 s3 的值是&amp;quot;hiya&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-7&#34;&gt;&lt;a href=&#34;#cb1-7&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    string s4&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;dv&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;ch&#34;&gt;&amp;#39;T&amp;#39;&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;co&#34;&gt;// s4 的内容是“TTTTT” &lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-8&#34;&gt;&lt;a href=&#34;#cb1-8&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-9&#34;&gt;&lt;a href=&#34;#cb1-9&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-10&#34;&gt;&lt;a href=&#34;#cb1-10&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;输入输出&#34;&gt;输入输出&lt;/h3&gt;
+&lt;div class=&#34;sourceCode&#34; id=&#34;cb2&#34;&gt;&lt;pre
+class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb2-1&#34;&gt;&lt;a href=&#34;#cb2-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;cstdio&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-2&#34;&gt;&lt;a href=&#34;#cb2-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-3&#34;&gt;&lt;a href=&#34;#cb2-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-4&#34;&gt;&lt;a href=&#34;#cb2-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;kw&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;kw&#34;&gt;namespace&lt;/span&gt; std&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-5&#34;&gt;&lt;a href=&#34;#cb2-5&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; main&lt;span class=&#34;op&#34;&gt;(){&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-6&#34;&gt;&lt;a href=&#34;#cb2-6&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    string s1&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; s2&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-7&#34;&gt;&lt;a href=&#34;#cb2-7&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-8&#34;&gt;&lt;a href=&#34;#cb2-8&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;co&#34;&gt;//读入无空格字符串&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-9&#34;&gt;&lt;a href=&#34;#cb2-9&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    cin &lt;span class=&#34;op&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; s1&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;co&#34;&gt;// scanf() fgets() 不能读入 string 类型&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-10&#34;&gt;&lt;a href=&#34;#cb2-10&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;co&#34;&gt;//读入一行&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-11&#34;&gt;&lt;a href=&#34;#cb2-11&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    getline&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;cin&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt;s2&lt;span class=&#34;op&#34;&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-12&#34;&gt;&lt;a href=&#34;#cb2-12&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;co&#34;&gt;//输出&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-13&#34;&gt;&lt;a href=&#34;#cb2-13&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    cout &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; s1 &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; s2 &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; &lt;/span&gt;
+&lt;span id=&#34;cb2-14&#34;&gt;&lt;a href=&#34;#cb2-14&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;co&#34;&gt;/*&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-15&#34;&gt;&lt;a href=&#34;#cb2-15&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;co&#34;&gt;    printf() 不能直接输出string类型&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-16&#34;&gt;&lt;a href=&#34;#cb2-16&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;co&#34;&gt;    需要写成 printf(&amp;quot;%s&amp;quot;,s1.c_str())&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-17&#34;&gt;&lt;a href=&#34;#cb2-17&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;co&#34;&gt;    这里 s.c_str() 作用是把 string 类型转化为字符数组&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-18&#34;&gt;&lt;a href=&#34;#cb2-18&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;co&#34;&gt;    */&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-19&#34;&gt;&lt;a href=&#34;#cb2-19&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;co&#34;&gt;// 当然也可以 puts(s1.c_str())&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-20&#34;&gt;&lt;a href=&#34;#cb2-20&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-21&#34;&gt;&lt;a href=&#34;#cb2-21&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-22&#34;&gt;&lt;a href=&#34;#cb2-22&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&#34;后记&#34;&gt;后记&lt;/h4&gt;
+&lt;p&gt;使用 &lt;code&gt;getline(cin,str)&lt;/code&gt; 输入时需要注意回车符&lt;br /&gt;
 什么意思呢？举个例子&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;(){
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  string a,b;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; a;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  getline(cin, s);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这时你输入&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-TEXT&#34; data-lang=&#34;TEXT&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;NVIDIA
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;FUCK U
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;程序会在你输入完第一行后直接输出一个&lt;code&gt;NVIDIA&lt;/code&gt;与几个换行符&lt;br&gt;
-原因是cin遇到回车停止，此时getline直接把&lt;code&gt;NVIDIA&lt;/code&gt;后的部分(空)读入然后再次遇到回车符，停止输入。
+&lt;div class=&#34;sourceCode&#34; id=&#34;cb3&#34;&gt;&lt;pre
+class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb3-1&#34;&gt;&lt;a href=&#34;#cb3-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-2&#34;&gt;&lt;a href=&#34;#cb3-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-3&#34;&gt;&lt;a href=&#34;#cb3-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-4&#34;&gt;&lt;a href=&#34;#cb3-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;kw&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;kw&#34;&gt;namespace&lt;/span&gt; std&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-5&#34;&gt;&lt;a href=&#34;#cb3-5&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-6&#34;&gt;&lt;a href=&#34;#cb3-6&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; main&lt;span class=&#34;op&#34;&gt;(){&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-7&#34;&gt;&lt;a href=&#34;#cb3-7&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  string a&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt;b&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-8&#34;&gt;&lt;a href=&#34;#cb3-8&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  cin &lt;span class=&#34;op&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; a&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-9&#34;&gt;&lt;a href=&#34;#cb3-9&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  getline&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;cin&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; s&lt;span class=&#34;op&#34;&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-10&#34;&gt;&lt;a href=&#34;#cb3-10&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  cout &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; a &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; b &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-11&#34;&gt;&lt;a href=&#34;#cb3-11&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-12&#34;&gt;&lt;a href=&#34;#cb3-12&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这时你输入&lt;/p&gt;
+&lt;pre class=&#34;text&#34;&gt;&lt;code&gt;NVIDIA
+FUCK U&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;程序会在你输入完第一行后直接输出一个&lt;code&gt;NVIDIA&lt;/code&gt;与几个换行符&lt;br /&gt;
+原因是cin遇到回车停止，此时getline直接把&lt;code&gt;NVIDIA&lt;/code&gt;后的部分(空)读入然后再次遇到回车符，停止输入。&lt;br /&gt;
 为了避免这种情况，我们需要忽略掉一个回车符，可以使用&lt;code&gt;getchar()&lt;/code&gt;。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;(){
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  string a,b;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; a; &lt;span style=&#34;color:#75715e&#34;&gt;// NVIDIA
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  getchar(); &lt;span style=&#34;color:#75715e&#34;&gt;// \n（跳过一个换行符）
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  getline(cin, s); &lt;span style=&#34;color:#75715e&#34;&gt;// FUCK U
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;常用操作&#34;&gt;常用操作&lt;/h3&gt;
+&lt;div class=&#34;sourceCode&#34; id=&#34;cb5&#34;&gt;&lt;pre
+class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb5-1&#34;&gt;&lt;a href=&#34;#cb5-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-2&#34;&gt;&lt;a href=&#34;#cb5-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-3&#34;&gt;&lt;a href=&#34;#cb5-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-4&#34;&gt;&lt;a href=&#34;#cb5-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;kw&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;kw&#34;&gt;namespace&lt;/span&gt; std&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-5&#34;&gt;&lt;a href=&#34;#cb5-5&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-6&#34;&gt;&lt;a href=&#34;#cb5-6&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; main&lt;span class=&#34;op&#34;&gt;(){&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-7&#34;&gt;&lt;a href=&#34;#cb5-7&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  string a&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt;b&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-8&#34;&gt;&lt;a href=&#34;#cb5-8&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  cin &lt;span class=&#34;op&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; a&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;co&#34;&gt;// NVIDIA&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-9&#34;&gt;&lt;a href=&#34;#cb5-9&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  getchar&lt;span class=&#34;op&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;co&#34;&gt;// \n（跳过一个换行符）&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-10&#34;&gt;&lt;a href=&#34;#cb5-10&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  getline&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;cin&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; s&lt;span class=&#34;op&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;co&#34;&gt;// FUCK U&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-11&#34;&gt;&lt;a href=&#34;#cb5-11&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  cout &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; a &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; b &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-12&#34;&gt;&lt;a href=&#34;#cb5-12&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb5-13&#34;&gt;&lt;a href=&#34;#cb5-13&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&#34;常用操作&#34;&gt;常用操作&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;str.empty()&lt;/code&gt;
 &lt;ul&gt;
 &lt;li&gt;返回一个bool值。&lt;/li&gt;
 &lt;li&gt;如果string为空返回1，非空返回0。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;str.size()&lt;/code&gt; 返回string的长度，等价于 &lt;code&gt;s.length()&lt;/code&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;str.size()&lt;/code&gt; 返回string的长度，等价于
+&lt;code&gt;s.length()&lt;/code&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;strlen()&lt;/code&gt; 需要循环一遍数组，时间复杂度为O(n)。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;str.size()&lt;/code&gt;  不需要循环，时间复杂度为O(1)。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;str.size()&lt;/code&gt; 不需要循环，时间复杂度为O(1)。&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;比较
 &lt;ul&gt;
-&lt;li&gt;string 型之间按字典序比较直接 &lt;code&gt;str1 &amp;lt; str2&lt;/code&gt; 即可，&lt;code&gt;== != &amp;lt;= &amp;gt;= &amp;lt; &amp;gt;&lt;/code&gt;都支持。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
+&lt;li&gt;string 型之间按字典序比较直接 &lt;code&gt;str1 &amp;lt; str2&lt;/code&gt;
+即可，&lt;code&gt;== != &amp;lt;= &amp;gt;= &amp;lt; &amp;gt;&lt;/code&gt;都支持。&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;相加
 &lt;ul&gt;
-&lt;li&gt;string 型之间相加直接 &lt;code&gt;str1 += str2&lt;/code&gt;、&lt;code&gt;str3 = str1 + str2&lt;/code&gt; 这样写即可。&lt;/li&gt;
-&lt;li&gt;与其他类型（字符、字符串）相加时会先把这些类型的量转化为 string 对象，可以直接加这些类型的量，如 &lt;code&gt;str += &#39;a&#39;&lt;/code&gt; 、 &lt;code&gt;str1 = str2 + &amp;quot;abc&amp;quot;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;相加运算时，必须保证等号两边都有 string 型，&lt;code&gt;str1 = str2 + &amp;quot;hello&amp;quot; + &#39;a&#39; &lt;/code&gt;、 &lt;code&gt;str1 += &amp;quot;hello&amp;quot;&lt;/code&gt; 是可以的， 但是 &lt;code&gt;str1 = &amp;quot;hello&amp;quot; + &#39;a&#39;&lt;/code&gt; 会报错。
+&lt;li&gt;string 型之间相加直接
+&lt;code&gt;str1 += str2&lt;/code&gt;、&lt;code&gt;str3 = str1 + str2&lt;/code&gt;
+这样写即可。&lt;/li&gt;
+&lt;li&gt;与其他类型（字符、字符串）相加时会先把这些类型的量转化为 string
+对象，可以直接加这些类型的量，如 &lt;code&gt;str += &#39;a&#39;&lt;/code&gt; 、
+&lt;code&gt;str1 = str2 + &#34;abc&#34;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;相加运算时，必须保证等号两边都有 string
+型，&lt;code&gt;str1 = str2 + &#34;hello&#34; + &#39;a&#39;&lt;/code&gt;、
+&lt;code&gt;str1 += &#34;hello&#34;&lt;/code&gt; 是可以的， 但是
+&lt;code&gt;str1 = &#34;hello&#34; + &#39;a&#39;&lt;/code&gt; 会报错。
 &lt;ul&gt;
-&lt;li&gt;注意运算顺序，如 &lt;code&gt;string s1 = s2 + &amp;quot;abc&amp;quot; + &#39;d&#39;&lt;/code&gt; 正确，因为会先将 s2 与 &amp;ldquo;abc&amp;rdquo; 相加得到另一个 string 对象，再继续运算。而 &lt;code&gt;string s1 = &amp;quot;abc&amp;quot; + &#39;d&#39; + s2&lt;/code&gt; 会报错，因为 &amp;ldquo;abc&amp;rdquo; 和 &amp;rsquo;d&amp;rsquo; 不能相加 （&amp;ldquo;abc&amp;quot;和&amp;quot;cde&amp;quot;也不行）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
+&lt;li&gt;注意运算顺序，如 &lt;code&gt;string s1 = s2 + &#34;abc&#34; + &#39;d&#39;&lt;/code&gt;
+正确，因为会先将 s2 与 “abc” 相加得到另一个 string 对象，再继续运算。而
+&lt;code&gt;string s1 = &#34;abc&#34; + &#39;d&#39; + s2&lt;/code&gt; 会报错，因为 “abc” 和 ‘d’
+不能相加 （“abc”和”cde”也不行）&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;操作单个字符
 &lt;ul&gt;
-&lt;li&gt;可以当作字符数组处理，如 &lt;code&gt;str[0]&lt;/code&gt; , &lt;code&gt;str[3]&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;独特的遍历方式
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;(){
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;So, NVIDIA,&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  string s &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Fuck U&amp;#34;&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;char&lt;/span&gt; c : s) { &lt;span style=&#34;color:#75715e&#34;&gt;// char c可以写作 auto c
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; c &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;输出：
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;So, NVIDIA,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;F
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;u
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;c
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;k
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;U
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;可以当作字符数组处理，如 &lt;code&gt;str[0]&lt;/code&gt; ,
+&lt;code&gt;str[3]&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;独特的遍历方式&lt;/p&gt;
+&lt;div class=&#34;sourceCode&#34; id=&#34;cb6&#34;&gt;&lt;pre
+class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb6-1&#34;&gt;&lt;a href=&#34;#cb6-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb6-2&#34;&gt;&lt;a href=&#34;#cb6-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;pp&#34;&gt;#include &lt;/span&gt;&lt;span class=&#34;im&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb6-3&#34;&gt;&lt;a href=&#34;#cb6-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;kw&#34;&gt;using&lt;/span&gt; &lt;span class=&#34;kw&#34;&gt;namespace&lt;/span&gt; std&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb6-4&#34;&gt;&lt;a href=&#34;#cb6-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; main&lt;span class=&#34;op&#34;&gt;(){&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb6-5&#34;&gt;&lt;a href=&#34;#cb6-5&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  cout &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;st&#34;&gt;&amp;quot;So, NVIDIA,&amp;quot;&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb6-6&#34;&gt;&lt;a href=&#34;#cb6-6&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  string s &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;st&#34;&gt;&amp;quot;Fuck U&amp;quot;&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb6-7&#34;&gt;&lt;a href=&#34;#cb6-7&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  &lt;span class=&#34;cf&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;dt&#34;&gt;char&lt;/span&gt; c &lt;span class=&#34;op&#34;&gt;:&lt;/span&gt; s&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;co&#34;&gt;// char c可以写作 auto c&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb6-8&#34;&gt;&lt;a href=&#34;#cb6-8&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    cout &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; c &lt;span class=&#34;op&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb6-9&#34;&gt;&lt;a href=&#34;#cb6-9&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  &lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb6-10&#34;&gt;&lt;a href=&#34;#cb6-10&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;  &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb6-11&#34;&gt;&lt;a href=&#34;#cb6-11&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;输出：&lt;/p&gt;
+&lt;pre class=&#34;text&#34;&gt;&lt;code&gt;So, NVIDIA,
+F
+u
+c
+k
+
+U&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;str.pop_back()&lt;/code&gt; 删除string型字符串的最后一个字符&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;str.substr(int i,int len)&lt;/code&gt;
 &lt;ul&gt;
 &lt;li&gt;输出字符串str从i开始长度为len的字符串&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
         </item>

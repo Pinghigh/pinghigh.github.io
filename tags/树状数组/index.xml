@@ -12,68 +12,116 @@
         <pubDate>Sun, 29 Jan 2023 14:12:27 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2023-1-29-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 树状数组" /&gt;&lt;p&gt;顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。
-用途是解决大部分区间修改查询问题，复杂度一般是 $\operatorname{O}(\log n)$ ，同时常数小（暗示线段树不行），同时码量小，好理解（暗示*2），但是复杂的区间修改查询问题不能解决，同时区间最大最小值也不能用它处理（后文会说）&lt;/p&gt;
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 树状数组" /&gt;&lt;p&gt;顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。&lt;br /&gt;
+用途是解决大部分区间修改查询问题，复杂度一般是 &lt;span
+class=&#34;math inline&#34;&gt;\(\operatorname{O}(\log n)\)&lt;/span&gt;
+，同时常数小（暗示线段树不行），同时码量小，好理解（暗示*2），但是复杂的区间修改查询问题不能解决，同时区间最大最小值也不能用它处理（后文会说）&lt;/p&gt;
 &lt;h2 id=&#34;基本树状数组&#34;&gt;基本树状数组&lt;/h2&gt;
 &lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
-&lt;p&gt;来自学长的一张图
+&lt;p&gt;来自学长的一张图&lt;br /&gt;
 &lt;strong&gt;注意&lt;/strong&gt;下文基本上所有东西都可以/需要搭配这个图进行理解&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63d613b2face21e9ef36c9df.jpg&#34;
-	
-	
-	
-	loading=&#34;lazy&#34;
-	
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;以求区间和的树状数组为例，树中每一个节点存储一段区间的和，询问时进行前缀和加减即可得出任意区间的和。
-分区间的方法即利用二进制，对于第 $i$ 节点来说，$i$ 的二进制形式中最低一位 &lt;code&gt;1&lt;/code&gt; 的位置为 $x$，那么 $tree_i$ 就存储了 $[i-2^x+1,i]$ 区间的和。
-注意此处 $x$ 从 &lt;code&gt;0&lt;/code&gt; 开始算
-以 $3$ 为例，$3$ 的二进制为 &lt;code&gt;0000 0011&lt;/code&gt;，最低一位 &lt;code&gt;1&lt;/code&gt; 的位置是 0，则 $tree_3$ 存储 $[3-1+1,3]$ 即 $[3,3]$ 的区间和。
-再以 $8$ 为例，$8$ 的二进制为 &lt;code&gt;0000 1000&lt;/code&gt;，最低一位 &lt;code&gt;1&lt;/code&gt; 的位置是 3，则 $tree_8$ 存储 $[8-8+1,8]$ 即 $[1,8]$ 的区间和。&lt;/p&gt;
-&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;&lt;img
+src=&#34;https://pic.imgdb.cn/item/63d613b2face21e9ef36c9df.jpg&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;以求区间和的树状数组为例，树中每一个节点存储一段区间的和，询问时进行前缀和加减即可得出任意区间的和。&lt;br /&gt;
+分区间的方法即利用二进制，对于第 &lt;span class=&#34;math inline&#34;&gt;\(i\)&lt;/span&gt;
+节点来说，&lt;span class=&#34;math inline&#34;&gt;\(i\)&lt;/span&gt; 的二进制形式中最低一位
+&lt;code&gt;1&lt;/code&gt; 的位置为 &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt;，那么
+&lt;span class=&#34;math inline&#34;&gt;\(tree_i\)&lt;/span&gt; 就存储了 &lt;span
+class=&#34;math inline&#34;&gt;\([i-2^x+1,i]\)&lt;/span&gt; 区间的和。&lt;br /&gt;
+注意此处 &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; 从 &lt;code&gt;0&lt;/code&gt;
+开始算&lt;br /&gt;
+以 &lt;span class=&#34;math inline&#34;&gt;\(3\)&lt;/span&gt; 为例，&lt;span
+class=&#34;math inline&#34;&gt;\(3\)&lt;/span&gt; 的二进制为
+&lt;code&gt;0000 0011&lt;/code&gt;，最低一位 &lt;code&gt;1&lt;/code&gt; 的位置是 0，则 &lt;span
+class=&#34;math inline&#34;&gt;\(tree_3\)&lt;/span&gt; 存储 &lt;span
+class=&#34;math inline&#34;&gt;\([3-1+1,3]\)&lt;/span&gt; 即 &lt;span
+class=&#34;math inline&#34;&gt;\([3,3]\)&lt;/span&gt; 的区间和。&lt;br /&gt;
+再以 &lt;span class=&#34;math inline&#34;&gt;\(8\)&lt;/span&gt; 为例，&lt;span
+class=&#34;math inline&#34;&gt;\(8\)&lt;/span&gt; 的二进制为
+&lt;code&gt;0000 1000&lt;/code&gt;，最低一位 &lt;code&gt;1&lt;/code&gt; 的位置是 3，则 &lt;span
+class=&#34;math inline&#34;&gt;\(tree_8\)&lt;/span&gt; 存储 &lt;span
+class=&#34;math inline&#34;&gt;\([8-8+1,8]\)&lt;/span&gt; 即 &lt;span
+class=&#34;math inline&#34;&gt;\([1,8]\)&lt;/span&gt; 的区间和。&lt;br /&gt;
+&lt;!-- TODO: 制作动画 --&gt;&lt;/p&gt;
 &lt;h3 id=&#34;实现&#34;&gt;实现&lt;/h3&gt;
 &lt;h4 id=&#34;建立&#34;&gt;建立&lt;/h4&gt;
-&lt;p&gt;实际上不用特意处理建立，直接在输入过程中每输入一个数就&lt;a class=&#34;link&#34; href=&#34;#%e5%8d%95%e7%82%b9%e4%bf%ae%e6%94%b9&#34; &gt;修改&lt;/a&gt;即可。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; t1; &lt;span style=&#34;color:#75715e&#34;&gt;// tmp
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    modify(i,t1);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;lowbit&#34;&gt;lowbit&lt;/h4&gt;
-&lt;p&gt;本函数实现查找一个数最后一位 $1$ 的位置。&lt;/p&gt;
+&lt;p&gt;实际上不用特意处理建立，直接在输入过程中每输入一个数就&lt;a
+href=&#34;#单点修改&#34;&gt;修改&lt;/a&gt;即可。&lt;/p&gt;
+&lt;div class=&#34;sourceCode&#34; id=&#34;cb1&#34;&gt;&lt;pre
+class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb1-1&#34;&gt;&lt;a href=&#34;#cb1-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;cf&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; i &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; i &lt;span class=&#34;op&#34;&gt;&amp;lt;=&lt;/span&gt; n&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;++&lt;/span&gt;i&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-2&#34;&gt;&lt;a href=&#34;#cb1-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    cin &lt;span class=&#34;op&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; t1&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;co&#34;&gt;// tmp&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-3&#34;&gt;&lt;a href=&#34;#cb1-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    modify&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;i&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt;t1&lt;span class=&#34;op&#34;&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb1-4&#34;&gt;&lt;a href=&#34;#cb1-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&#34;lowbit&#34;&gt;lowbit&lt;/h4&gt;
+&lt;p&gt;本函数实现查找一个数最后一位 &lt;span class=&#34;math inline&#34;&gt;\(1\)&lt;/span&gt;
+的位置。&lt;/p&gt;
 &lt;p&gt;首先声明一个冷知识（大概冷），位运算是针对内存中存储的原数据的运算，换句话说，进行位运算的是补码而不是原码。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;原码&lt;/strong&gt;即一个数本身的二进制表示，&lt;strong&gt;反码&lt;/strong&gt;即在原码的基础上符号位不变其他位取反。
-&lt;strong&gt;补码&lt;/strong&gt;分类来说，正数的补码是它的原码，负数的补码为其反码$+1$。&lt;/p&gt;
-&lt;p&gt;在这里我们只考虑最后一位 &lt;code&gt;1&lt;/code&gt; 及它后面的 &lt;code&gt;0&lt;/code&gt;。
-比如 &lt;code&gt;0011 0100&lt;/code&gt; 这个二进制数，我们先把它变成负数，即按位取反后加一（易证这就是他的相反数），变为 &lt;code&gt;11001011&lt;/code&gt; 再变为 &lt;code&gt;11001100&lt;/code&gt;。
-发现了一件神奇的事情，原来最低一位 &lt;code&gt;1&lt;/code&gt; 竟然回来了！
-显然，这位 &lt;code&gt;1&lt;/code&gt; 前面的所有数字因为被取反所以和原数完全不同；后面的所有数字原来一定是 &lt;code&gt;0&lt;/code&gt; 取反后变成一排 &lt;code&gt;1&lt;/code&gt;，负数的补码是反码$+1$，从而一直进位到原来最后一位 &lt;code&gt;1&lt;/code&gt; 这里，而它们本身变回了 &lt;code&gt;0&lt;/code&gt; ；又因为这位 &lt;code&gt;1&lt;/code&gt; 被取反后是 &lt;code&gt;0&lt;/code&gt; 所以无论如何都不会再向前进位。
-从而保证对于任意一个正数 $x$，$-x$ 与 $x$ 的存储只有 $x$ 本身最后一位 &lt;code&gt;1&lt;/code&gt; 是相同的。
-因此 &lt;code&gt;lowbit()&lt;/code&gt; 的实现就非常简单了，直接用 &lt;code&gt;x&amp;amp;-x&lt;/code&gt;，得到的结果就是&lt;a class=&#34;link&#34; href=&#34;#%e5%8e%9f%e7%90%86&#34; &gt;原理&lt;/a&gt;中所说的 $2^x$，又快又好想，用着还方便。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lowbit&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (x&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;-&lt;/span&gt;x);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;单点修改&#34;&gt;单点修改&lt;/h4&gt;
-&lt;p&gt;假设修改为给第 $x$ 个数增加 $v$，那我们就需要修改所有包含第 $x$ 个元素的节点，则从第 $x$ 个节点寻找父亲节点直到根节点为止（参考上图）。
-$x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层循环实现 $\operatorname{O}(\log(n))$ 修改。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;modify&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; i &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; lowbit(i)) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        tree[i] &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; v;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;区间查询&#34;&gt;区间查询&lt;/h4&gt;
-&lt;p&gt;查询区间为 $[l,r]$ 时，将问题转化为求 $[1,r] - [1,l-1]$ 的值（前缀和知识），因此我们只需要实现查询前缀和的功能即可。
-因为 $i$ 节点存储的是一段长度为 $\operatorname{lowbit}(i)$ 的区间的和，因此取完 $i$ 号点的值后再取 $i-\operatorname{lowbit}(i)$ 号节点的值，直到位置变为 $0$（到头）即可（看不懂就结合上面图）&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; res &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x; i; i &lt;span style=&#34;color:#f92672&#34;&gt;-=&lt;/span&gt; lowbit(i)) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        res &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; tree[i];
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; res;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ans &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; query(r) &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; query(l&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;改区间查单点&#34;&gt;改区间查单点&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;原码&lt;/strong&gt;即一个数本身的二进制表示，&lt;strong&gt;反码&lt;/strong&gt;即在原码的基础上符号位不变其他位取反。&lt;br /&gt;
+&lt;strong&gt;补码&lt;/strong&gt;分类来说，正数的补码是它的原码，负数的补码为其反码&lt;span
+class=&#34;math inline&#34;&gt;\(+1\)&lt;/span&gt;。&lt;/p&gt;
+&lt;p&gt;在这里我们只考虑最后一位 &lt;code&gt;1&lt;/code&gt; 及它后面的
+&lt;code&gt;0&lt;/code&gt;。&lt;br /&gt;
+比如 &lt;code&gt;0011 0100&lt;/code&gt;
+这个二进制数，我们先把它变成负数，即按位取反后加一（易证这就是他的相反数），变为
+&lt;code&gt;11001011&lt;/code&gt; 再变为 &lt;code&gt;11001100&lt;/code&gt;。&lt;br /&gt;
+发现了一件神奇的事情，原来最低一位 &lt;code&gt;1&lt;/code&gt; 竟然回来了！&lt;br /&gt;
+显然，这位 &lt;code&gt;1&lt;/code&gt;
+前面的所有数字因为被取反所以和原数完全不同；后面的所有数字原来一定是
+&lt;code&gt;0&lt;/code&gt; 取反后变成一排 &lt;code&gt;1&lt;/code&gt;，负数的补码是反码&lt;span
+class=&#34;math inline&#34;&gt;\(+1\)&lt;/span&gt;，从而一直进位到原来最后一位
+&lt;code&gt;1&lt;/code&gt; 这里，而它们本身变回了 &lt;code&gt;0&lt;/code&gt; ；又因为这位
+&lt;code&gt;1&lt;/code&gt; 被取反后是 &lt;code&gt;0&lt;/code&gt;
+所以无论如何都不会再向前进位。&lt;br /&gt;
+从而保证对于任意一个正数 &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt;，&lt;span
+class=&#34;math inline&#34;&gt;\(-x\)&lt;/span&gt; 与 &lt;span
+class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; 的存储只有 &lt;span
+class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; 本身最后一位 &lt;code&gt;1&lt;/code&gt;
+是相同的。&lt;br /&gt;
+因此 &lt;code&gt;lowbit()&lt;/code&gt; 的实现就非常简单了，直接用
+&lt;code&gt;x&amp;amp;-x&lt;/code&gt;，得到的结果就是&lt;a href=&#34;#原理&#34;&gt;原理&lt;/a&gt;中所说的
+&lt;span class=&#34;math inline&#34;&gt;\(2^x\)&lt;/span&gt;，又快又好想，用着还方便。&lt;/p&gt;
+&lt;div class=&#34;sourceCode&#34; id=&#34;cb2&#34;&gt;&lt;pre
+class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb2-1&#34;&gt;&lt;a href=&#34;#cb2-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; lowbit&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; x&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-2&#34;&gt;&lt;a href=&#34;#cb2-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;x&lt;span class=&#34;op&#34;&gt;&amp;amp;-&lt;/span&gt;x&lt;span class=&#34;op&#34;&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb2-3&#34;&gt;&lt;a href=&#34;#cb2-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&#34;单点修改&#34;&gt;单点修改&lt;/h4&gt;
+&lt;p&gt;假设修改为给第 &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; 个数增加 &lt;span
+class=&#34;math inline&#34;&gt;\(v\)&lt;/span&gt;，那我们就需要修改所有包含第 &lt;span
+class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; 个元素的节点，则从第 &lt;span
+class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt;
+个节点寻找父亲节点直到根节点为止（参考上图）。&lt;br /&gt;
+&lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; 节点的直接父亲是 &lt;span
+class=&#34;math inline&#34;&gt;\(x+\operatorname{lowbit}(x)\)&lt;/span&gt;，因此直接一层循环实现
+&lt;span class=&#34;math inline&#34;&gt;\(\operatorname{O}(\log(n))\)&lt;/span&gt;
+修改。&lt;/p&gt;
+&lt;div class=&#34;sourceCode&#34; id=&#34;cb3&#34;&gt;&lt;pre
+class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb3-1&#34;&gt;&lt;a href=&#34;#cb3-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;void&lt;/span&gt; modify&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; x&lt;span class=&#34;op&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; v&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-2&#34;&gt;&lt;a href=&#34;#cb3-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; i &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; x&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; i &lt;span class=&#34;op&#34;&gt;&amp;lt;=&lt;/span&gt; n&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; i &lt;span class=&#34;op&#34;&gt;+=&lt;/span&gt; lowbit&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;i&lt;span class=&#34;op&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-3&#34;&gt;&lt;a href=&#34;#cb3-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;        tree&lt;span class=&#34;op&#34;&gt;[&lt;/span&gt;i&lt;span class=&#34;op&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;+=&lt;/span&gt; v&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-4&#34;&gt;&lt;a href=&#34;#cb3-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb3-5&#34;&gt;&lt;a href=&#34;#cb3-5&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&#34;区间查询&#34;&gt;区间查询&lt;/h4&gt;
+&lt;p&gt;查询区间为 &lt;span class=&#34;math inline&#34;&gt;\([l,r]\)&lt;/span&gt;
+时，将问题转化为求 &lt;span class=&#34;math inline&#34;&gt;\([1,r] - [1,l-1]\)&lt;/span&gt;
+的值（前缀和知识），因此我们只需要实现查询前缀和的功能即可。&lt;br /&gt;
+因为 &lt;span class=&#34;math inline&#34;&gt;\(i\)&lt;/span&gt; 节点存储的是一段长度为 &lt;span
+class=&#34;math inline&#34;&gt;\(\operatorname{lowbit}(i)\)&lt;/span&gt;
+的区间的和，因此取完 &lt;span class=&#34;math inline&#34;&gt;\(i\)&lt;/span&gt;
+号点的值后再取 &lt;span
+class=&#34;math inline&#34;&gt;\(i-\operatorname{lowbit}(i)\)&lt;/span&gt;
+号节点的值，直到位置变为 &lt;span
+class=&#34;math inline&#34;&gt;\(0\)&lt;/span&gt;（到头）即可（看不懂就结合上面图）&lt;/p&gt;
+&lt;div class=&#34;sourceCode&#34; id=&#34;cb4&#34;&gt;&lt;pre
+class=&#34;sourceCode c++&#34;&gt;&lt;code class=&#34;sourceCode cpp&#34;&gt;&lt;span id=&#34;cb4-1&#34;&gt;&lt;a href=&#34;#cb4-1&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; query&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; x&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb4-2&#34;&gt;&lt;a href=&#34;#cb4-2&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; res &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;dv&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb4-3&#34;&gt;&lt;a href=&#34;#cb4-3&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;dt&#34;&gt;int&lt;/span&gt; i &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; x&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; i&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt; i &lt;span class=&#34;op&#34;&gt;-=&lt;/span&gt; lowbit&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;i&lt;span class=&#34;op&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb4-4&#34;&gt;&lt;a href=&#34;#cb4-4&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;        res &lt;span class=&#34;op&#34;&gt;+=&lt;/span&gt; tree&lt;span class=&#34;op&#34;&gt;[&lt;/span&gt;i&lt;span class=&#34;op&#34;&gt;];&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb4-5&#34;&gt;&lt;a href=&#34;#cb4-5&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb4-6&#34;&gt;&lt;a href=&#34;#cb4-6&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;    &lt;span class=&#34;cf&#34;&gt;return&lt;/span&gt; res&lt;span class=&#34;op&#34;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb4-7&#34;&gt;&lt;a href=&#34;#cb4-7&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;span class=&#34;op&#34;&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span id=&#34;cb4-8&#34;&gt;&lt;a href=&#34;#cb4-8&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;&lt;/span&gt;
+&lt;span id=&#34;cb4-9&#34;&gt;&lt;a href=&#34;#cb4-9&#34; aria-hidden=&#34;true&#34; tabindex=&#34;-1&#34;&gt;&lt;/a&gt;ans &lt;span class=&#34;op&#34;&gt;=&lt;/span&gt; query&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;r&lt;span class=&#34;op&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;op&#34;&gt;-&lt;/span&gt; query&lt;span class=&#34;op&#34;&gt;(&lt;/span&gt;l&lt;span class=&#34;op&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;dv&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;op&#34;&gt;);&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&#34;改区间查单点&#34;&gt;改区间查单点&lt;/h2&gt;
 &lt;p&gt;上文我们解决了求前缀和的问题，本次需要查询单点，那么很容易联想到&lt;strong&gt;差分&lt;/strong&gt;。更改区间对应改差分数组上的两个点，查询单点对应查询差分数组的前缀和。&lt;/p&gt;
 </description>
         </item>

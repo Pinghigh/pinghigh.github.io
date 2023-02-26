@@ -12,226 +12,256 @@
         <pubDate>Thu, 15 Dec 2022 19:46:43 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2022-12-zfsrootarch/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" alt="Featured image of post 在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动" /&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://pinghigh.github.io/2022/11/28/2022-11-28-ZFSBootMenu/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;前情提要&lt;/a&gt;&lt;/p&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" alt="Featured image of post 在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动" /&gt;&lt;p&gt;&lt;a
+href=&#34;https://pinghigh.github.io/2022/11/28/2022-11-28-ZFSBootMenu/&#34;&gt;前情提要&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;总览&#34;&gt;总览&lt;/h2&gt;
 &lt;p&gt;分区大概长这样&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-TEXT&#34; data-lang=&#34;TEXT&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;分区1 300M FAT16 EFI
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;分区2 128G ZFS   ArchLinux
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;分区3 128G NTFS  Windows
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;分区N **G  **FS  DATA // 其他分区
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后 ZFS 池里面长这样&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-TEXT&#34; data-lang=&#34;TEXT&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zroot
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; ├─ROOT
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; |  ├─voidlinux // 实际上可以在这个池里安装多个 Linux，本处计划把所有 Linux 根分区数据集放在 zroot/ROOT/ 里
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; |  └─archlinux
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; └─data
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    └─home // 存放 /home
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;ZFS池那块看不懂没关系，只需要跟着文章做就行&lt;/p&gt;
+&lt;pre class=&#34;text&#34;&gt;&lt;code&gt;分区1 300M FAT16 EFI
+分区2 128G ZFS   ArchLinux
+分区3 128G NTFS  Windows
+分区N **G  **FS  DATA // 其他分区&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后 ZFS 池里面长这样&lt;/p&gt;
+&lt;pre class=&#34;text&#34;&gt;&lt;code&gt;zroot
+ ├─ROOT
+ |  ├─voidlinux // 实际上可以在这个池里安装多个 Linux，本处计划把所有 Linux 根分区数据集放在 zroot/ROOT/ 里
+ |  └─archlinux
+ └─data
+    └─home // 存放 /home&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;ZFS池那块看不懂没关系，只需要跟着文章做就行&lt;/p&gt;
 &lt;h2 id=&#34;安装前&#34;&gt;安装前&lt;/h2&gt;
-&lt;p&gt;准备一个有 ZFS 支持的 archiso，这里我们提供两个方案&lt;/p&gt;
-&lt;h3 id=&#34;cachyos-livecd推荐&#34;&gt;CachyOS LiveCD（推荐）&lt;/h3&gt;
-&lt;p&gt;从 &lt;a class=&#34;link&#34; href=&#34;https://sourceforge.net/projects/cachyos-arch/files/gui-installer/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;CachyOS 的 Sourceforge 界面&lt;/a&gt; 下载带 GUI 的 LiveCD（它的 CLI 安装器没 ZFS 支持），然后扔进 U 盘重启进入即可&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo modprobe zfs &lt;span style=&#34;color:#75715e&#34;&gt;# 加载 ZFS 模块&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo su &lt;span style=&#34;color:#75715e&#34;&gt;# 切换到 root 用户&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;timedatectl set-ntp true  &lt;span style=&#34;color:#75715e&#34;&gt;# 同步时间&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;vim /etc/pacman.d/mirrorlist &lt;span style=&#34;color:#75715e&#34;&gt;# 改镜像站&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 开头添加&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;archiso-zfs&#34;&gt;archiso-zfs&lt;/h3&gt;
-&lt;p&gt;此处使用 &lt;a class=&#34;link&#34; href=&#34;https://github.com/eoli3n/archiso-zfs&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;eoli3n 的 archiso-zfs&lt;/a&gt; 项目&lt;/p&gt;
-&lt;p&gt;首先下载一个&lt;a class=&#34;link&#34; href=&#34;https://archlinux.org/download/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;官方的 ArchLinux LiveCD&lt;/a&gt;，然后重启进入&lt;/p&gt;
-&lt;h4 id=&#34;联网&#34;&gt;联网&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;iwctl &lt;span style=&#34;color:#75715e&#34;&gt;# 进入 iwctl 命令行界面&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;下面的命令在 &lt;code&gt;iwctl&lt;/code&gt; 中输入&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;device list &lt;span style=&#34;color:#75715e&#34;&gt;# 列出可用设备&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 假设上面列出的设备是 wlan0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;station wlan0 scan
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;station wlan0 connect SSID &lt;span style=&#34;color:#75715e&#34;&gt;# 连接名为 SSID 的网络&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;exit     
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;验证联网&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ping www.baidu.com
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;timedatectl set-ntp true  &lt;span style=&#34;color:#75715e&#34;&gt;# 同步时间&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;加载-zfs-模块&#34;&gt;加载 ZFS 模块&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl -s https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash -x
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果连接 github 有问题，则运行下面的命令替代&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl -s https://ghproxy.com/https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash -x
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行过程因为网络原因会比较慢&lt;/p&gt;
+&lt;p&gt;准备一个有 ZFS 支持的 archiso，这里我们提供两个方案 ### CachyOS
+LiveCD（推荐） 从 &lt;a
+href=&#34;https://sourceforge.net/projects/cachyos-arch/files/gui-installer/&#34;&gt;CachyOS
+的 Sourceforge 界面&lt;/a&gt; 下载带 GUI 的 LiveCD（它的 CLI 安装器没 ZFS
+支持），然后扔进 U 盘重启进入即可&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;sudo modprobe zfs # 加载 ZFS 模块
+
+sudo su # 切换到 root 用户
+
+timedatectl set-ntp true  # 同步时间
+
+vim /etc/pacman.d/mirrorlist # 改镜像站
+# 开头添加
+Server = https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;archiso-zfs&#34;&gt;archiso-zfs&lt;/h3&gt;
+&lt;p&gt;此处使用 &lt;a href=&#34;https://github.com/eoli3n/archiso-zfs&#34;&gt;eoli3n 的
+archiso-zfs&lt;/a&gt; 项目&lt;/p&gt;
+&lt;p&gt;首先下载一个&lt;a href=&#34;https://archlinux.org/download/&#34;&gt;官方的
+ArchLinux LiveCD&lt;/a&gt;，然后重启进入 #### 联网&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;iwctl # 进入 iwctl 命令行界面&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;下面的命令在 &lt;code&gt;iwctl&lt;/code&gt; 中输入&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;device list # 列出可用设备
+# 假设上面列出的设备是 wlan0
+station wlan0 scan
+station wlan0 connect SSID # 连接名为 SSID 的网络
+exit     &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;验证联网&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;ping www.baidu.com
+timedatectl set-ntp true  # 同步时间&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;加载-zfs-模块&#34;&gt;加载 ZFS 模块&lt;/h4&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;curl -s https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash -x&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果连接 github 有问题，则运行下面的命令替代&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;curl -s https://ghproxy.com/https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash -x&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;执行过程因为网络原因会比较慢&lt;/p&gt;
 &lt;h4 id=&#34;改镜像站&#34;&gt;改镜像站&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;vim /etc/pacman.d/mirrorlist
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 开头添加&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Server &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;至此，环境准备完毕，下面的操作不受 livecd 影响&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;vim /etc/pacman.d/mirrorlist
+# 开头添加
+Server = https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;至此，环境准备完毕，下面的操作不受 livecd 影响&lt;/p&gt;
 &lt;h2 id=&#34;格式化&#34;&gt;格式化&lt;/h2&gt;
 &lt;p&gt;此处认为你已经分好区了，总体需要三个分区&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;ESP（EFI） 分区，300M，打了 ESP 标签（可以用 &lt;code&gt;cfdisk&lt;/code&gt; 打），此处举例为 &lt;code&gt;/dev/nvme0n1p1&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Linux 分区（ZFS池），30+G，此处举例为 &lt;code&gt;/dev/nvme0n1p2&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Windows 分区（如果不需要安装 Windows 就不用建），40+G，此处举例为 &lt;code&gt;/dev/nvme0n1p3&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;ESP（EFI） 分区，300M，打了 ESP 标签（可以用 &lt;code&gt;cfdisk&lt;/code&gt;
+打），此处举例为 &lt;code&gt;/dev/nvme0n1p1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Linux 分区（ZFS池），30+G，此处举例为
+&lt;code&gt;/dev/nvme0n1p2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Windows 分区（如果不需要安装 Windows 就不用建），40+G，此处举例为
+&lt;code&gt;/dev/nvme0n1p3&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;创建-zfs-池&#34;&gt;创建 ZFS 池&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;ashift = 12&lt;/code&gt; 代表 4096 字节扇区大小，9 代表 512 扇区大小，13 代表 8192 字节扇区大小，在 4096/8192 扇区大小的 SSD 上设置 9 会导致性能损失，在 512 字节扇区大小的硬盘上设置 12/13会导致容量损失，扇区大小可以通过 fdisk -l（不准）或者 diskgenius 这类工具查看
-&lt;code&gt;dedup=on&lt;/code&gt; 为去重功能，可能会占用较大 RAM，低配机子可以把这行删掉
-&lt;code&gt;compression=zstd&lt;/code&gt; 为压缩功能，zstd 目前来看压缩率和性能损失比较平衡，在意性能可以改为快速压缩算法 lz4（gzip 压缩率和性能都比不上 zstd）
+&lt;p&gt;&lt;code&gt;ashift = 12&lt;/code&gt; 代表 4096 字节扇区大小，9 代表 512
+扇区大小，13 代表 8192 字节扇区大小，在 4096/8192 扇区大小的 SSD 上设置
+9 会导致性能损失，在 512 字节扇区大小的硬盘上设置
+12/13会导致容量损失，扇区大小可以通过 fdisk -l（不准）或者 diskgenius
+这类工具查看&lt;br /&gt;
+&lt;code&gt;dedup=on&lt;/code&gt; 为去重功能，可能会占用较大
+RAM，低配机子可以把这行删掉&lt;br /&gt;
+&lt;code&gt;compression=zstd&lt;/code&gt; 为压缩功能，zstd
+目前来看压缩率和性能损失比较平衡，在意性能可以改为快速压缩算法 lz4（gzip
+压缩率和性能都比不上 zstd）&lt;br /&gt;
 其他照做即可&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zpool create -f -o ashift&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt;           &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             -O acltype&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;posixacl       &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             -O relatime&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;on            &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             -O xattr&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;sa               &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             -O dnodesize&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;legacy       &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             -O normalization&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;formD    &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             -O mountpoint&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;none        &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             -O canmount&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;off           &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             -O devices&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;off            &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             -O compression&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;zstd       &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             -O dedup&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;on               &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             -R /mnt                   &lt;span style=&#34;color:#ae81ff&#34;&gt;\
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;             zroot /dev/nvme0n1p2             
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;创建数据集&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zfs create -o mountpoint&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;none zroot/data
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zfs create -o mountpoint&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;none zroot/ROOT
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zfs create -o mountpoint&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/ -o canmount&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;noauto zroot/ROOT/archlinux
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zfs create -o mountpoint&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/home zroot/data/home
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;测试zpool是否能够导入导出&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zpool export zroot
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zpool import zroot -R /mnt  
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;挂载zpool&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zfs mount zroot/ROOT/archlinux
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zfs mount -a
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;设置启动数据集&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zpool set bootfs&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;zroot/ROOT/archlinux zroot
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;设置zpool缓存&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zpool set cachefile&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/etc/zfs/zpool.cache zroot
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir /mnt/etc
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir /mnt/etc/zfs
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cp /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;查看是否有挂载上&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;df -h
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输出&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-TEXT&#34; data-lang=&#34;TEXT&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zroot/ROOT/archlinux   30G  128K   30G   1% /mnt
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;格式化-efi-分区&#34;&gt;格式化 EFI 分区&lt;/h4&gt;
-&lt;p&gt;注意此处挂载点不可以设置成 &lt;code&gt;/boot&lt;/code&gt;！&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkfs.vfat /dev/nvme0n1p1
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir /mnt/efi
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mount /dev/nvme0n1p1 /mnt/efi 
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
-&lt;p&gt;这部分需要你在 &lt;code&gt;/etc/pacman.conf&lt;/code&gt; 里添加 &lt;a class=&#34;link&#34; href=&#34;https://github.com/archzfs/archzfs/wiki&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;archzfs&lt;/a&gt; 源或者按照&lt;a class=&#34;link&#34; href=&#34;https://blog.yidaozhan.top/2022/08/11/arch-linux-upgrade-to-x86-64-v3-microarchitecture/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;一刀斩的博客&lt;/a&gt;配置 CachyOS 源，此处不再赘述&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;zpool create -f -o ashift=12           \
+             -O acltype=posixacl       \
+             -O relatime=on            \
+             -O xattr=sa               \
+             -O dnodesize=legacy       \
+             -O normalization=formD    \
+             -O mountpoint=none        \
+             -O canmount=off           \
+             -O devices=off            \
+             -O compression=zstd       \
+             -O dedup=on               \
+             -R /mnt                   \
+             zroot /dev/nvme0n1p2             &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;创建数据集&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;zfs create -o mountpoint=none zroot/data
+zfs create -o mountpoint=none zroot/ROOT
+zfs create -o mountpoint=/ -o canmount=noauto zroot/ROOT/archlinux
+zfs create -o mountpoint=/home zroot/data/home&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;测试zpool是否能够导入导出&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;zpool export zroot
+zpool import zroot -R /mnt  &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;挂载zpool&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;zfs mount zroot/ROOT/archlinux
+zfs mount -a&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;设置启动数据集&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;zpool set bootfs=zroot/ROOT/archlinux zroot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;设置zpool缓存&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;zpool set cachefile=/etc/zfs/zpool.cache zroot
+mkdir /mnt/etc
+mkdir /mnt/etc/zfs
+cp /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看是否有挂载上&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;df -h&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输出&lt;/p&gt;
+&lt;pre class=&#34;text&#34;&gt;&lt;code&gt;zroot/ROOT/archlinux   30G  128K   30G   1% /mnt&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;格式化-efi-分区&#34;&gt;格式化 EFI 分区&lt;/h4&gt;
+&lt;p&gt;注意此处挂载点不可以设置成 &lt;code&gt;/boot&lt;/code&gt;！&lt;a href=&#34;#fn1&#34;
+class=&#34;footnote-ref&#34; id=&#34;fnref1&#34; role=&#34;doc-noteref&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;mkfs.vfat /dev/nvme0n1p1
+mkdir /mnt/efi
+mount /dev/nvme0n1p1 /mnt/efi &lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+&lt;p&gt;这部分需要你在 &lt;code&gt;/etc/pacman.conf&lt;/code&gt; 里添加 &lt;a
+href=&#34;https://github.com/archzfs/archzfs/wiki&#34;&gt;archzfs&lt;/a&gt; 源或者按照&lt;a
+href=&#34;https://blog.yidaozhan.top/2022/08/11/arch-linux-upgrade-to-x86-64-v3-microarchitecture/&#34;&gt;一刀斩的博客&lt;/a&gt;配置
+CachyOS 源，此处不再赘述&lt;/p&gt;
 &lt;h4 id=&#34;安装基本软件包&#34;&gt;安装基本软件包&lt;/h4&gt;
-&lt;p&gt;如果是 Intel 的 CPU 就把 &lt;code&gt;amd-ucode&lt;/code&gt; 换成 &lt;code&gt;intel-ucode&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;此处使用 &lt;code&gt;zfs-linux&lt;/code&gt; 包有可能会因为版本不相同然后挂掉，所以如果你添加了 CachyOS 的软件源，那么我推荐你使用 CachyOS 的自定义内核（它的内核和 zfs 模块同时编译打包，就不会出现版本不统一的问题）（最主要还是因为安装 &lt;code&gt;zfs-linux&lt;/code&gt; 还得启用 v3 源），有多种任务调度器可选，比如 BMQ PDS TT 等，还有 LLVM LTO 编译的版本&lt;/p&gt;
-&lt;p&gt;使用 CachyOS 内核的话直接改包即可，比如我想用 &lt;code&gt;linux-cachyos-pds&lt;/code&gt;，那么把下面 &lt;code&gt;linux linux-headers zfs-linux&lt;/code&gt; 换成 &lt;code&gt;linux-cachyos-pds linux-cachyos-pds-headers linux-cachyos-pds-zfs&lt;/code&gt; 即可&lt;/p&gt;
-&lt;p&gt;如果你不想用 CachyOS 的内核，也不想因为 zfs 模块和 linux 内核版本不统一而滚挂，那么可以使用 dkms 模块，把 &lt;code&gt;zfs-linux&lt;/code&gt; 替换为 &lt;code&gt;zfs-dkms&lt;/code&gt; 即可，这个的缺点是构建 dkms 模块时会风扇狂转（理论上任何内核都可以用这个当 zfs 内核模块）&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pacstrap /mnt base linux-firmware linux linux-headers zfs-linux base-devel neovim os-prober amd-ucode openssh wget networkmanager zfs-utils 
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;基础安装&#34;&gt;基础安装&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 配置 /etc/fstab&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;genfstab -U /mnt &amp;gt;&amp;gt; /mnt/etc/fstab
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 验证 /etc/fstab&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cat /mnt/etc/fstab
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# chroot 进 ArchLinux&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;arch-chroot /mnt
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 设置zpool缓存&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zpool set cachefile&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/etc/zfs/zpool.cache zroot
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 设置时区&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;hwclock --systohc
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;date
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 设置语言&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;echo -e &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\nen_US.UTF-8 UTF-8\nzh_CN.UTF-8 UTF-8\nzh_TW.UTF-8 UTF-8&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt; /etc/locale.gen
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 应用配置&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;locale-gen
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 设置默认语言&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;echo -e &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\nLANG=en_US.UTF-8\n&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt; /etc/locale.conf
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 设置root密码&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;passwd
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 添加非 root 用户&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pacman -S fish &lt;span style=&#34;color:#75715e&#34;&gt;# 如果不想用 fish 可以跳过这一步并把下一步的 fish 字段换成 bash&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;useradd -m -G wheel -s /bin/fish user &lt;span style=&#34;color:#75715e&#34;&gt;# user 替换为你的用户名&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;passwd user &lt;span style=&#34;color:#75715e&#34;&gt;# 设置密码&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sed -i &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;s|#%wheel ALL=(ALL) ALL|%wheel ALL=(ALL) ALL|g&amp;#34;&lt;/span&gt; /etc/sudoers &lt;span style=&#34;color:#75715e&#34;&gt;# 添加 sudo 权限&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 添加 multilib 和 archlinuxcn 仓库 &lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;arch&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;$arch&amp;#39;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;echo -e &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n\n[archlinuxcn]\nServer = https://mirrors.bfsu.edu.cn/archlinuxcn/&lt;/span&gt;$arch&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt; /etc/pacman.conf
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;配置内核钩子&#34;&gt;配置内核钩子&lt;/h4&gt;
-&lt;p&gt;重点部分！
-编辑 &lt;code&gt;/etc/mkinitcpio.conf&lt;/code&gt;，直接在 &lt;code&gt;HOOKS=(......)&lt;/code&gt; 里面加上 &lt;code&gt;zfs&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nvim /etc/mkinitcpio.conf
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;HOOKS&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;base udev autodetect modconf block zfs filesystems keyboard fsck&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;编辑完直接借用 ArchLinux 的极为人性化的脚本生成即可&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkinitcpio -P
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;设置-zfs-服务以及网络管理服务&#34;&gt;设置 zfs 服务以及网络管理服务&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;systemctl enable zfs.target
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;systemctl enable zfs-import-cache
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;systemctl enable zfs-mount
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;systemctl enable zfs-import.target
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;systemctl enable sshd
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;systemctl enable NetworkManager
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;配置-zfsbootmenu-引导&#34;&gt;配置 ZFSBootMenu 引导&lt;/h2&gt;
-&lt;p&gt;（需要在 chroot 中完成）
-重点部分！
-详细了解可以看我之前那篇&lt;a class=&#34;link&#34; href=&#34;https://pinghigh.github.io/2022/11/28/2022-11-28-ZFSBootMenu/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;在 UEFI ArchLinux 下使用 ZFSBootMenu 作为引导器（可双启动）&lt;/a&gt;
-在这里我们使用预构建好的 EFI 文件&lt;del&gt;因为我没玩明白ZFSBootMenu，经常出现换内核再构建就会炸引导的问题，同时不能做到启动时换内核&lt;/del&gt;&lt;/p&gt;
-&lt;p&gt;首先下载预构建好的 ZBM efi 引导文件
-（访问不了可以把 &lt;a class=&#34;link&#34; href=&#34;https://github.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/&lt;/a&gt; 换成 &lt;a class=&#34;link&#34; href=&#34;https://ghproxy.com/https://github.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://ghproxy.com/https://github.com/&lt;/a&gt;）&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir /efi/EFI
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir /efi/EFI/ZBM
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;wget https://github.com/zbm-dev/zfsbootmenu/releases/download/v2.0.0/zfsbootmenu-release-vmlinuz-x86_64-v2.0.0.EFI -O /efi/EFI/ZBM/zfsbootmenu.efi
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;再进行一个简单的配置&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zfs set org.zfsbootmenu:commandline&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rw&amp;#34;&lt;/span&gt; zroot/ROOT
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样就做到了启动（如果没有双启动的需求没必要进行下一步了）&lt;/p&gt;
-&lt;h2 id=&#34;配置-refind-以实现与-windows-双启动&#34;&gt;配置 rEFInd 以实现与 Windows 双启动&lt;/h2&gt;
-&lt;p&gt;安装 refind&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pacman -Sy refind git
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;refind-install
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这样重启之后就能双启动了
+&lt;p&gt;如果是 Intel 的 CPU 就把 &lt;code&gt;amd-ucode&lt;/code&gt; 换成
+&lt;code&gt;intel-ucode&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;此处使用 &lt;code&gt;zfs-linux&lt;/code&gt;
+包有可能会因为版本不相同然后挂掉，所以如果你添加了 CachyOS
+的软件源，那么我推荐你使用 CachyOS 的自定义内核（它的内核和 zfs
+模块同时编译打包，就不会出现版本不统一的问题）（最主要还是因为安装
+&lt;code&gt;zfs-linux&lt;/code&gt; 还得启用 v3 源），有多种任务调度器可选，比如 BMQ
+PDS TT 等，还有 LLVM LTO 编译的版本&lt;/p&gt;
+&lt;p&gt;使用 CachyOS 内核的话直接改包即可，比如我想用
+&lt;code&gt;linux-cachyos-pds&lt;/code&gt;，那么把下面
+&lt;code&gt;linux linux-headers zfs-linux&lt;/code&gt; 换成
+&lt;code&gt;linux-cachyos-pds linux-cachyos-pds-headers linux-cachyos-pds-zfs&lt;/code&gt;
+即可&lt;/p&gt;
+&lt;p&gt;如果你不想用 CachyOS 的内核，也不想因为 zfs 模块和 linux
+内核版本不统一而滚挂，那么可以使用 dkms 模块，把 &lt;code&gt;zfs-linux&lt;/code&gt;
+替换为 &lt;code&gt;zfs-dkms&lt;/code&gt; 即可，这个的缺点是构建 dkms
+模块时会风扇狂转（理论上任何内核都可以用这个当 zfs 内核模块）&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;pacstrap /mnt base linux-firmware linux linux-headers zfs-linux base-devel neovim os-prober amd-ucode openssh wget networkmanager zfs-utils &lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;基础安装&#34;&gt;基础安装&lt;/h4&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;# 配置 /etc/fstab
+genfstab -U /mnt &amp;gt;&amp;gt; /mnt/etc/fstab
+# 验证 /etc/fstab
+cat /mnt/etc/fstab
+
+# chroot 进 ArchLinux
+arch-chroot /mnt
+
+# 设置zpool缓存
+zpool set cachefile=/etc/zfs/zpool.cache zroot
+
+# 设置时区
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+hwclock --systohc
+date
+
+# 设置语言
+echo -e &amp;quot;\nen_US.UTF-8 UTF-8\nzh_CN.UTF-8 UTF-8\nzh_TW.UTF-8 UTF-8&amp;quot; &amp;gt;&amp;gt; /etc/locale.gen
+
+# 应用配置
+locale-gen
+
+# 设置默认语言
+echo -e &amp;quot;\nLANG=en_US.UTF-8\n&amp;quot; &amp;gt;&amp;gt; /etc/locale.conf
+
+# 设置root密码
+passwd
+
+# 添加非 root 用户
+pacman -S fish # 如果不想用 fish 可以跳过这一步并把下一步的 fish 字段换成 bash
+useradd -m -G wheel -s /bin/fish user # user 替换为你的用户名
+passwd user # 设置密码
+sed -i &amp;quot;s|#%wheel ALL=(ALL) ALL|%wheel ALL=(ALL) ALL|g&amp;quot; /etc/sudoers # 添加 sudo 权限
+
+
+# 添加 multilib 和 archlinuxcn 仓库 
+arch=&amp;#39;$arch&amp;#39;
+echo -e &amp;quot;\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n\n[archlinuxcn]\nServer = https://mirrors.bfsu.edu.cn/archlinuxcn/$arch&amp;quot; &amp;gt;&amp;gt; /etc/pacman.conf&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;配置内核钩子&#34;&gt;配置内核钩子&lt;/h4&gt;
+&lt;p&gt;重点部分！ 编辑 &lt;code&gt;/etc/mkinitcpio.conf&lt;/code&gt;，直接在
+&lt;code&gt;HOOKS=(......)&lt;/code&gt; 里面加上 &lt;code&gt;zfs&lt;/code&gt;&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;nvim /etc/mkinitcpio.conf
+HOOKS=(base udev autodetect modconf block zfs filesystems keyboard fsck)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;编辑完直接借用 ArchLinux 的极为人性化的脚本生成即可&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;mkinitcpio -P&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;设置-zfs-服务以及网络管理服务&#34;&gt;设置 zfs
+服务以及网络管理服务&lt;/h4&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;systemctl enable zfs.target
+systemctl enable zfs-import-cache
+systemctl enable zfs-mount
+systemctl enable zfs-import.target
+systemctl enable sshd
+systemctl enable NetworkManager&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;配置-zfsbootmenu-引导&#34;&gt;配置 ZFSBootMenu 引导&lt;/h2&gt;
+&lt;p&gt;（需要在 chroot 中完成）&lt;br /&gt;
+重点部分！&lt;br /&gt;
+详细了解可以看我之前那篇&lt;a
+href=&#34;https://pinghigh.github.io/2022/11/28/2022-11-28-ZFSBootMenu/&#34;&gt;在
+UEFI ArchLinux 下使用 ZFSBootMenu 作为引导器（可双启动）&lt;/a&gt;&lt;br /&gt;
+在这里我们使用预构建好的 EFI
+文件&lt;del&gt;因为我没玩明白ZFSBootMenu，经常出现换内核再构建就会炸引导的问题，同时不能做到启动时换内核&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;首先下载预构建好的 ZBM efi 引导文件 （访问不了可以把
+https://github.com/ 换成 https://ghproxy.com/https://github.com/）&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;mkdir /efi/EFI
+mkdir /efi/EFI/ZBM
+wget https://github.com/zbm-dev/zfsbootmenu/releases/download/v2.0.0/zfsbootmenu-release-vmlinuz-x86_64-v2.0.0.EFI -O /efi/EFI/ZBM/zfsbootmenu.efi&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;再进行一个简单的配置&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;zfs set org.zfsbootmenu:commandline=&amp;quot;rw&amp;quot; zroot/ROOT&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这样就做到了启动（如果没有双启动的需求没必要进行下一步了） ## 配置
+rEFInd 以实现与 Windows 双启动 安装 refind&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;pacman -Sy refind git
+refind-install&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这样重启之后就能双启动了&lt;br /&gt;
 但是你还可以美化一下，安装 nord 主题（非必要）&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pacman -U https://mirror.cachyos.org/repo/x86_64/cachyos/refind-theme-nord-1.1.0-1-any.pkg.tar.zst
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;结束&#34;&gt;结束&lt;/h2&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;pacman -U https://mirror.cachyos.org/repo/x86_64/cachyos/refind-theme-nord-1.1.0-1-any.pkg.tar.zst&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;结束&#34;&gt;结束&lt;/h2&gt;
 &lt;p&gt;退出 chroot&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;exit
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;解挂载&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;umount /mnt/efi
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zfs umount zroot/ROOT/archlinux
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zfs umount -a
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;导出 zfs 池&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zpool export zroot
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;（导出没成功也没关系，直接重启即可）
-重启&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;reboot
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后你的 archlinux 就可以正常使用了&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;exit&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;解挂载&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;umount /mnt/efi
+zfs umount zroot/ROOT/archlinux
+zfs umount -a&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;导出 zfs 池&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;zpool export zroot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;（导出没成功也没关系，直接重启即可） 重启&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;reboot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后你的 archlinux 就可以正常使用了&lt;/p&gt;
 &lt;h2 id=&#34;后记&#34;&gt;后记&lt;/h2&gt;
-&lt;p&gt;还是在年前完成了虚拟机上的测试，能够完美安装，原来写的还是有点低级错误的
-Hyper-V 上安装可能会涉及到 pacman 检测不到架构之类的问题，因此启用 archlinuxcn 源需要你在 &lt;code&gt;/etc/pacman.conf&lt;/code&gt; 改 &lt;code&gt;Architecture = auto&lt;/code&gt; 中的 &lt;code&gt;auto&lt;/code&gt; 为你的架构，如 &lt;code&gt;x86_64&lt;/code&gt; &lt;code&gt;x86_64-v3&lt;/code&gt;
-另外不启用 CachyOS-v3 源，只启用 CachyOS 源也可以安装 CachyOS 的优化内核，但是没有 lto 版本
+&lt;p&gt;还是在年前完成了虚拟机上的测试，能够完美安装，原来写的还是有点低级错误的&lt;br /&gt;
+Hyper-V 上安装可能会涉及到 pacman 检测不到架构之类的问题，因此启用
+archlinuxcn 源需要你在 &lt;code&gt;/etc/pacman.conf&lt;/code&gt; 改
+&lt;code&gt;Architecture = auto&lt;/code&gt; 中的 &lt;code&gt;auto&lt;/code&gt; 为你的架构，如
+&lt;code&gt;x86_64&lt;/code&gt; &lt;code&gt;x86_64-v3&lt;/code&gt;&lt;br /&gt;
+另外不启用 CachyOS-v3 源，只启用 CachyOS 源也可以安装 CachyOS
+的优化内核，但是没有 lto 版本&lt;br /&gt;
 以及我个人宣布，这是本博客 2022 年的最佳博文&lt;/p&gt;
-&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
-&lt;hr&gt;
+&lt;section id=&#34;footnotes&#34; class=&#34;footnotes footnotes-end-of-document&#34;
+role=&#34;doc-endnotes&#34;&gt;
+&lt;hr /&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34;&gt;
-&lt;p&gt;原因是 ZFSBootMenu 需要从 &lt;code&gt;/boot&lt;/code&gt; 加载内核，而 ZBM 的 initramfs 启动时大概不会挂载 ESP 分区（我之前这么干寄了&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;原因是 ZFSBootMenu 需要从 &lt;code&gt;/boot&lt;/code&gt;
+加载内核，而 ZBM 的 initramfs 启动时大概不会挂载 ESP
+分区（我之前这么干寄了&lt;a href=&#34;#fnref1&#34; class=&#34;footnote-back&#34;
+role=&#34;doc-backlink&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/div&gt;
+&lt;/section&gt;
 </description>
         </item>
         <item>
@@ -241,79 +271,99 @@ Hyper-V 上安装可能会涉及到 pacman 检测不到架构之类的问题，�
         
         <guid>https://blog.tibrella.top/post/2022-11-28-zfsbootmenu/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/63a8671208b683016397a5d0.jpg" alt="Featured image of post 在 UEFI ArchLinux 下使用 ZFSBootMenu 作为引导器（可双启动）" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
-&lt;p&gt;写这篇博客的缘由挺简单的，当时 ClearArch 开发组讨论文件系统应当使用 ZFS 还是 F2FS，由于使用过 F2FS 作为根文件系统（它没有 Windows 下的驱动，透明压缩也不会提供额外的空间），同时查到&lt;a class=&#34;link&#34; href=&#34;https://qiedd.com/1386.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;企鹅大大的一篇文章&lt;/a&gt;，看到近 2x 的压缩率不禁心动，随后走上了 ZFS+zstd 作为根文件系统的折腾之路&lt;/p&gt;
-&lt;p&gt;企鹅大大使用 SysLinux 引导，我在服务器尝试安装结果无法启动；看到 &lt;a class=&#34;link&#34; href=&#34;https://cachyos.org&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;CachyOS&lt;/a&gt; 的仓库中有一个打了 ZFS+zstd 支持补丁的 grub，尝试，启动不了（后来询问了 CachyOS 的开发团队得知那个补丁是不起效果的），随后，我遇到了一个完美的解决方式（指 &lt;a class=&#34;link&#34; href=&#34;https://github.com/eoli3n/arch-config/blob/master/scripts/zfs/install/02-install.sh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;eoli3n 的使用 ZFSBootMenu 的安装脚本&lt;/a&gt;）（如果想实机全盘单系统可以直接用他的安装脚本）&lt;/p&gt;
-&lt;p&gt;本文的目的是用 ZFSBootMenu 引导 zstd 压缩的 ZFS 文件系统根目录，同时附带双启动教程&lt;/p&gt;
+&lt;p&gt;写这篇博客的缘由挺简单的，当时 ClearArch 开发组讨论文件系统应当使用
+ZFS 还是 F2FS，由于使用过 F2FS 作为根文件系统（它没有 Windows
+下的驱动，透明压缩也不会提供额外的空间），同时查到&lt;a
+href=&#34;https://qiedd.com/1386.html&#34;&gt;企鹅大大的一篇文章&lt;/a&gt;，看到近 2x
+的压缩率不禁心动，随后走上了 ZFS+zstd 作为根文件系统的折腾之路&lt;/p&gt;
+&lt;p&gt;企鹅大大使用 SysLinux 引导，我在服务器尝试安装结果无法启动；看到 &lt;a
+href=&#34;https://cachyos.org&#34;&gt;CachyOS&lt;/a&gt; 的仓库中有一个打了 ZFS+zstd
+支持补丁的 grub，尝试，启动不了（后来询问了 CachyOS
+的开发团队得知那个补丁是不起效果的），随后，我遇到了一个完美的解决方式（指
+&lt;a
+href=&#34;https://github.com/eoli3n/arch-config/blob/master/scripts/zfs/install/02-install.sh&#34;&gt;eoli3n
+的使用 ZFSBootMenu
+的安装脚本&lt;/a&gt;）（如果想实机全盘单系统可以直接用他的安装脚本）&lt;/p&gt;
+&lt;p&gt;本文的目的是用 ZFSBootMenu 引导 zstd 压缩的 ZFS
+文件系统根目录，同时附带双启动教程&lt;/p&gt;
 &lt;h2 id=&#34;zfsbootmenu-介绍&#34;&gt;ZFSBootMenu 介绍&lt;/h2&gt;
-&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/zbm-dev/zfsbootmenu/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;官方仓库&lt;/a&gt; 介绍：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/zbm-dev/zfsbootmenu/&#34;&gt;官方仓库&lt;/a&gt;
+介绍：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;ZFSBootMenu 是用于 root-on-ZFS 系统的 ZFS 引导加载程序，支持快照和本机全盘加密&lt;/p&gt;
+&lt;p&gt;ZFSBootMenu 是用于 root-on-ZFS 系统的 ZFS
+引导加载程序，支持快照和本机全盘加密&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;其原理比较容易理解，总的来说：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;引导 ZFSBootMenu，他是一个 initramfs 映像&lt;/li&gt;
-&lt;li&gt;找到并导入所有的 ZFS 存储池，然后挂载用户选择的根数据集&lt;/li&gt;
-&lt;li&gt;用 &lt;code&gt;kexec&lt;/code&gt;&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; 将系统内核、initramfs 映像加载到内存中&lt;/li&gt;
-&lt;li&gt;卸载所有 ZFS 数据集&lt;/li&gt;
-&lt;li&gt;启动最终内核&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;总之，它能启动以 ZFS 为根目录的 Linux，速度不慢，适用环境广，是作为本文环境下引导器的不二之选&lt;/p&gt;
+&lt;p&gt;其原理比较容易理解，总的来说： 1. 引导 ZFSBootMenu，他是一个
+initramfs 映像 2. 找到并导入所有的 ZFS
+存储池，然后挂载用户选择的根数据集 3. 用 &lt;code&gt;kexec&lt;/code&gt;&lt;a
+href=&#34;#fn1&#34; class=&#34;footnote-ref&#34; id=&#34;fnref1&#34;
+role=&#34;doc-noteref&#34;&gt;&lt;sup&gt;1&lt;/sup&gt;&lt;/a&gt; 将系统内核、initramfs
+映像加载到内存中 4. 卸载所有 ZFS 数据集 5. 启动最终内核&lt;/p&gt;
+&lt;p&gt;总之，它能启动以 ZFS 为根目录的
+Linux，速度不慢，适用环境广，是作为本文环境下引导器的不二之选&lt;/p&gt;
 &lt;h2 id=&#34;准备&#34;&gt;准备&lt;/h2&gt;
-&lt;p&gt;确保你的电脑为 UEFI 启动，且已经分区完成，建立了根分区相应的子数据集&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt; -d /sys/firmware/efi&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; echo UEFI &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; echo BIOS
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输入该命令，若输出 &lt;code&gt;UEFI&lt;/code&gt;，则可以进行下一步，否则退出本教程。&lt;/p&gt;
+&lt;p&gt;确保你的电脑为 UEFI
+启动，且已经分区完成，建立了根分区相应的子数据集&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;[ -d /sys/firmware/efi] &amp;amp;&amp;amp; echo UEFI || echo BIOS&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;输入该命令，若输出
+&lt;code&gt;UEFI&lt;/code&gt;，则可以进行下一步，否则退出本教程。&lt;/p&gt;
 &lt;h3 id=&#34;挂载-esp-分区&#34;&gt;挂载 ESP 分区&lt;/h3&gt;
-&lt;p&gt;ESP 分区一般是磁盘头部 300M 左右的 FAT16/32 分区，同时有 EFI System 标记，可以通过 &lt;code&gt;fdisk -l&lt;/code&gt; 查看各个分区的标记
-此处挂载点绝对不可以是 &lt;code&gt;/boot&lt;/code&gt;，一般来说有两个其他选择：&lt;code&gt;/boot/efi&lt;/code&gt; 和 &lt;code&gt;/efi&lt;/code&gt;，我在这里选择了 &lt;code&gt;/efi&lt;/code&gt;
-例如我的 ESP 分区是 /dev/nvme0n1p1
-则&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir /mnt/efi
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mount /dev/nvme0n1p1 /mnt/efi
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;设置-zfs-hook&#34;&gt;设置 ZFS Hook&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 先 arch-chroot&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;arch-chroot /mnt
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 进入后编辑 /etc/mkinitcpio 加入 zfs 支持，在 HOOKS=(.......) 中加入 zfs&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;vim /etc/mkinitcpio
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 比如正常安装的 arch 修改后应该长这样，确保其中有 zfs 即可&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;HOOKS&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;base udev autodetect modconf block zfs filesystems keyboard fsck&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 编辑后加载&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkinitcpio -P
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;安装-zfsbootmenu&#34;&gt;安装 ZFSBootMenu&lt;/h2&gt;
-&lt;p&gt;在这里我们使用预构建好的 EFI 文件&lt;del&gt;因为我没玩明白ZFSBootMenu，经常出现换内核再构建就会炸引导的问题，同时不能做到启动时换内核&lt;/del&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# /efi 换成你的 ESP 挂载目录&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir /efi/EFI
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir /efi/EFI/ZBM
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;wget https://github.com/zbm-dev/zfsbootmenu/releases/download/v2.0.0/zfsbootmenu-release-vmlinuz-x86_64-v2.0.0.EFI -O /efi/EFI/ZBM/zfsbootmenu.efi
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 访问不了可以把 https://github.com/ 换成 https://ghproxy.com/https://github.com/&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 配置&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 此处假设你的根目录的数据集为 zroot/ROOT/arch&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 这样可以引导 zroot/ROOT 下的任意子数据集，比如 zroot/ROOT/arch 上安装 arch，zroot/ROOT/void 上安装 voidlinux，这就实现了 Linux 的双启动&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zfs set org.zfsbootmenu:commandline&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rw&amp;#34;&lt;/span&gt; zroot/ROOT
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;配置-refind&#34;&gt;配置 rEFInd&lt;/h2&gt;
-&lt;p&gt;rEFInd 能够每次开机都搜索 EFI 分区下的 efi 文件，这样就不用更新引导文件了，同时插启动盘的时候也不需要进 bios 里调启动顺序，rEFInd 会自动搜索到&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 假设当前还在 chroot 里&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pacman -Sy refind
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;refind-install
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;非常简单，这样就实现了 Windows/macOS(HFS+) 与 Linux on ZFS 的双启动&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 安装 nord 主题&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pacman -U https://mirror.cachyos.org/repo/x86_64/cachyos/refind-theme-nord-1.1.0-1-any.pkg.tar.zst
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;todo&#34;&gt;TODO&lt;/h2&gt;
+&lt;p&gt;ESP 分区一般是磁盘头部 300M 左右的 FAT16/32 分区，同时有 EFI System
+标记，可以通过 &lt;code&gt;fdisk -l&lt;/code&gt; 查看各个分区的标记&lt;br /&gt;
+此处挂载点绝对不可以是
+&lt;code&gt;/boot&lt;/code&gt;，一般来说有两个其他选择：&lt;code&gt;/boot/efi&lt;/code&gt; 和
+&lt;code&gt;/efi&lt;/code&gt;，我在这里选择了 &lt;code&gt;/efi&lt;/code&gt;&lt;br /&gt;
+例如我的 ESP 分区是 /dev/nvme0n1p1 则&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;mkdir /mnt/efi
+mount /dev/nvme0n1p1 /mnt/efi&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;设置-zfs-hook&#34;&gt;设置 ZFS Hook&lt;/h3&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;# 先 arch-chroot
+arch-chroot /mnt
+
+# 进入后编辑 /etc/mkinitcpio 加入 zfs 支持，在 HOOKS=(.......) 中加入 zfs
+vim /etc/mkinitcpio
+# 比如正常安装的 arch 修改后应该长这样，确保其中有 zfs 即可
+HOOKS=(base udev autodetect modconf block zfs filesystems keyboard fsck)
+
+# 编辑后加载
+mkinitcpio -P&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;安装-zfsbootmenu&#34;&gt;安装 ZFSBootMenu&lt;/h2&gt;
+&lt;p&gt;在这里我们使用预构建好的 EFI
+文件&lt;del&gt;因为我没玩明白ZFSBootMenu，经常出现换内核再构建就会炸引导的问题，同时不能做到启动时换内核&lt;/del&gt;&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;# /efi 换成你的 ESP 挂载目录
+mkdir /efi/EFI
+mkdir /efi/EFI/ZBM
+wget https://github.com/zbm-dev/zfsbootmenu/releases/download/v2.0.0/zfsbootmenu-release-vmlinuz-x86_64-v2.0.0.EFI -O /efi/EFI/ZBM/zfsbootmenu.efi
+# 访问不了可以把 https://github.com/ 换成 https://ghproxy.com/https://github.com/
+
+# 配置
+# 此处假设你的根目录的数据集为 zroot/ROOT/arch
+# 这样可以引导 zroot/ROOT 下的任意子数据集，比如 zroot/ROOT/arch 上安装 arch，zroot/ROOT/void 上安装 voidlinux，这就实现了 Linux 的双启动
+zfs set org.zfsbootmenu:commandline=&amp;quot;rw&amp;quot; zroot/ROOT&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;配置-refind&#34;&gt;配置 rEFInd&lt;/h2&gt;
+&lt;p&gt;rEFInd 能够每次开机都搜索 EFI 分区下的 efi
+文件，这样就不用更新引导文件了，同时插启动盘的时候也不需要进 bios
+里调启动顺序，rEFInd 会自动搜索到&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;# 假设当前还在 chroot 里
+pacman -Sy refind
+refind-install&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;非常简单，这样就实现了 Windows/macOS(HFS+) 与 Linux on ZFS
+的双启动&lt;/p&gt;
+&lt;pre class=&#34;shell&#34;&gt;&lt;code&gt;# 安装 nord 主题
+pacman -U https://mirror.cachyos.org/repo/x86_64/cachyos/refind-theme-nord-1.1.0-1-any.pkg.tar.zst&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;todo&#34;&gt;TODO&lt;/h2&gt;
 &lt;p&gt;实验并整理整个安装流程&lt;/p&gt;
-&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
-&lt;hr&gt;
+&lt;section id=&#34;footnotes&#34; class=&#34;footnotes footnotes-end-of-document&#34;
+role=&#34;doc-endnotes&#34;&gt;
+&lt;hr /&gt;
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34;&gt;
-&lt;p&gt;&lt;code&gt;kexec&lt;/code&gt; 是 Linux 内核的一种机制，它允许从当前运行的内核启动新内核。&lt;code&gt;kexec&lt;/code&gt; 会跳过由系统固件（BIOS 或 UEFI）执行的引导加载程序阶段和硬件初始化阶段，直接将新内核加载到主内存并立即开始执行。&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;li id=&#34;fn1&#34;&gt;&lt;p&gt;&lt;code&gt;kexec&lt;/code&gt; 是 Linux
+内核的一种机制，它允许从当前运行的内核启动新内核。&lt;code&gt;kexec&lt;/code&gt;
+会跳过由系统固件（BIOS 或
+UEFI）执行的引导加载程序阶段和硬件初始化阶段，直接将新内核加载到主内存并立即开始执行。&lt;a
+href=&#34;#fnref1&#34; class=&#34;footnote-back&#34; role=&#34;doc-backlink&#34;&gt;↩︎&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/div&gt;
+&lt;/section&gt;
 </description>
         </item>
         

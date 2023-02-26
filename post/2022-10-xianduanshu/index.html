@@ -6,16 +6,19 @@
 
 <link rel='canonical' href='https://blog.tibrella.top/post/2022-10-xianduanshu/'>
 
-<link rel="stylesheet" href="/scss/style.min.c8ab8a897338e7deff55c14b521348c524b0e76381ccd55846bb0e7075402432.css"><meta property='og:title' content='线段树'>
+<link rel="stylesheet" href="/scss/style.min.9b420c4d5524bd3fdfdf876acca8bac566c1b4813d13b39901fea466757c7f1b.css"><meta property='og:title' content='线段树'>
 <meta property='og:description' content='当时只听了半个小时线段树，query() 函数甚至只听了原理，CSP-S2022 T2 就考了一个RMQ，拿了 40 分'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2022-10-xianduanshu/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='线段树' /><meta property='article:tag' content='数据结构' /><meta property='article:published_time' content='2022-10-27T14:22:33&#43;00:00'/><meta property='article:modified_time' content='2022-10-27T14:22:33&#43;00:00'/><meta property='og:image' content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='线段树' /><meta property='article:tag' content='数据结构' /><meta property='article:published_time' content='2022-10-27T14:22:33&#43;00:00'/><meta property='article:modified_time' content='2023-01-29T17:00:26&#43;00:00'/><meta property='og:image' content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
 <meta name="twitter:title" content="线段树">
 <meta name="twitter:description" content="当时只听了半个小时线段树，query() 函数甚至只听了原理，CSP-S2022 T2 就考了一个RMQ，拿了 40 分"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
     <link rel="shortcut icon" href="/favicon.png" />
 
+<link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
     </head>
     <body class="
     article-page
@@ -241,50 +244,7 @@
     </ol>
 </aside>
 
-    <aside class="sidebar right-sidebar sticky">
-        
-            
-                
-    <section class="widget archives">
-        <div class="widget-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z"/>
-  <line x1="5" y1="9" x2="19" y2="9" />
-  <line x1="5" y1="15" x2="19" y2="15" />
-  <line x1="11" y1="4" x2="7" y2="20" />
-  <line x1="17" y1="4" x2="13" y2="20" />
-</svg>
-
-
-
-        </div>
-        <h2 class="widget-title section-title">目录</h2>
-        
-        <div class="widget--toc">
-            <nav id="TableOfContents">
-  <ul>
-    <li><a href="#基本线段树">基本线段树</a>
-      <ul>
-        <li><a href="#操作">操作</a></li>
-        <li><a href="#原理">原理</a></li>
-        <li><a href="#存储节点">存储节点</a></li>
-        <li><a href="#建立线段树">建立线段树</a></li>
-        <li><a href="#查询">查询</a></li>
-        <li><a href="#从子节点推出父节点数据">从子节点推出父节点数据</a></li>
-        <li><a href="#修改区间值">修改区间值</a></li>
-        <li><a href="#完整实现">完整实现</a></li>
-      </ul>
-    </li>
-    <li><a href="#区间加乘同时存在">区间加乘同时存在</a></li>
-  </ul>
-</nav>
-        </div>
-    </section>
-
-            
-        
-    </aside>
-
+    
 
             <main class="main full-width">
     <article class="has-image main-article">
@@ -372,251 +332,279 @@
 <h3 id="操作">操作</h3>
 <p><code>push_up()</code> 通过子区间计算父区间的数据</p>
 <p><code>build()</code> 将一段区间初始化成线段树</p>
-<p><code>modify()</code></p>
-<ul>
-<li>修改单点数据</li>
-<li>修改区间数据 (即 <code>push_down()</code>)</li>
-</ul>
+<p><code>modify()</code> * 修改单点数据 * 修改区间数据 (即
+<code>push_down()</code>)</p>
 <p><code>query()</code> 查询</p>
 <p><code>push_down()</code> 修改区间数据并递归修改子区间的数据</p>
 <h3 id="原理">原理</h3>
 <p>还是用图理解</p>
-<p><img src="https://pic.imgdb.cn/item/63d63113face21e9ef80106d.jpg"
-	
-	
-	
-	loading="lazy"
-	
-	
-></p>
-<p>简单来说就是把一个区间整成类似上图的完全二叉树，父节点（区间）的数据可以由子节点（区间）的数据推出（如区间最大值，区间和等），同时父节点的更改可以推到子节点里。
+<p><img
+src="https://pic.imgdb.cn/item/63d63113face21e9ef80106d.jpg" /></p>
+<p>简单来说就是把一个区间整成类似上图的完全二叉树，父节点（区间）的数据可以由子节点（区间）的数据推出（如区间最大值，区间和等），同时父节点的更改可以推到子节点里。<br />
 可能有点抽象，但是把操作挨个解释就比较易懂了。</p>
 <h3 id="存储节点">存储节点</h3>
 <p>使用结构体感觉比较清晰，配上指针就能脱离中括号的束缚了</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> u;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> v;
-</span></span><span style="display:flex;"><span>    Node <span style="color:#f92672">*</span>lc, <span style="color:#f92672">*</span>rc;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> l, r, mid;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> lazy;  <span style="color:#75715e">// 懒标记
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(<span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
-</span></span><span style="display:flex;"><span>        l <span style="color:#f92672">=</span> L;
-</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> R;
-</span></span><span style="display:flex;"><span>        mid <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> r <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>} tr[N <span style="color:#f92672">*</span> <span style="color:#ae81ff">4</span>];
-</span></span></code></pre></div><p>同时 <code>mid</code> 是需要用到的变量，我这里选择直接存在里面，同时写一个初始化函数，直接传进去区间的左右端点，非常方便。</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Node <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> u<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> v<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    Node <span class="op">*</span>lc<span class="op">,</span> <span class="op">*</span>rc<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> l<span class="op">,</span> r<span class="op">,</span> mid<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> lazy<span class="op">;</span>  <span class="co">// 懒标记</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> init<span class="op">(</span><span class="dt">int</span> L<span class="op">,</span> <span class="dt">int</span> R<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        l <span class="op">=</span> L<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> R<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        mid <span class="op">=</span> l <span class="op">+</span> r <span class="op">&gt;&gt;</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="fu">tr</span><span class="op">[</span>N <span class="op">*</span> <span class="dv">4</span><span class="op">];</span></span></code></pre></div>
+<p>同时 <code>mid</code>
+是需要用到的变量，我这里选择直接存在里面，同时写一个初始化函数，直接传进去区间的左右端点，非常方便。</p>
 <h3 id="建立线段树">建立线段树</h3>
-<p>第一层区间为 $[l,r]$</p>
-<p>取 $mid = \lfloor \frac{l+r}{2} \rfloor $</p>
-<p>则第二层的区间分别是 $[l,mid], [mid+1,r]$</p>
-<p>目前节点为 $u$，线段树数组为 $tr$，<code>build()</code> 函数如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build</span>(Node<span style="color:#f92672">*</span> nod, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>init(L, R); <span style="color:#75715e">// 记录区间范围
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">==</span> R) { <span style="color:#75715e">// 到达叶子节点就回溯
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        nod<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">=</span> ori[L];
-</span></span><span style="display:flex;"><span>        nod<span style="color:#f92672">-&gt;</span>lc <span style="color:#f92672">=</span> nod<span style="color:#f92672">-&gt;</span>rc <span style="color:#f92672">=</span> tr; <span style="color:#75715e">// 防止空指针，左右儿子指向第一个空节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>lc <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>tail; <span style="color:#75715e">// tail 是一个指向最后创建的节点的指针，这样是一个类似动态开点的操作
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    nod<span style="color:#f92672">-&gt;</span>rc <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>tail;
-</span></span><span style="display:flex;"><span>    build(nod<span style="color:#f92672">-&gt;</span>lc, L, nod<span style="color:#f92672">-&gt;</span>mid);
-</span></span><span style="display:flex;"><span>    build(nod<span style="color:#f92672">-&gt;</span>rc, nod<span style="color:#f92672">-&gt;</span>mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, R);
-</span></span><span style="display:flex;"><span>    push_up(nod);
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="查询">查询</h3>
+<p>第一层区间为 <span class="math inline">\([l,r]\)</span></p>
+<p>取 $mid = $</p>
+<p>则第二层的区间分别是 <span class="math inline">\([l,mid],
+[mid+1,r]\)</span></p>
+<p>目前节点为 <span class="math inline">\(u\)</span>，线段树数组为 <span
+class="math inline">\(tr\)</span>，<code>build()</code> 函数如下</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> build<span class="op">(</span>Node<span class="op">*</span> nod<span class="op">,</span> <span class="dt">int</span> L<span class="op">,</span> <span class="dt">int</span> R<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>init<span class="op">(</span>L<span class="op">,</span> R<span class="op">);</span> <span class="co">// 记录区间范围</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>L <span class="op">==</span> R<span class="op">)</span> <span class="op">{</span> <span class="co">// 到达叶子节点就回溯</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        nod<span class="op">-&gt;</span>v <span class="op">=</span> ori<span class="op">[</span>L<span class="op">];</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        nod<span class="op">-&gt;</span>lc <span class="op">=</span> nod<span class="op">-&gt;</span>rc <span class="op">=</span> <span class="fu">tr</span><span class="op">;</span> <span class="co">// 防止空指针，左右儿子指向第一个空节点</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>lc <span class="op">=</span> <span class="op">++</span>tail<span class="op">;</span> <span class="co">// tail 是一个指向最后创建的节点的指针，这样是一个类似动态开点的操作</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>rc <span class="op">=</span> <span class="op">++</span>tail<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    build<span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">,</span> L<span class="op">,</span> nod<span class="op">-&gt;</span>mid<span class="op">);</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    build<span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">,</span> nod<span class="op">-&gt;</span>mid <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> R<span class="op">);</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    push_up<span class="op">(</span>nod<span class="op">);</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="查询">查询</h3>
 <p>以区间和为例</p>
-<p>设查询的区间为 $[l,r]$，目前节点区间为 $[T_l,T_r]$</p>
+<p>设查询的区间为 <span
+class="math inline">\([l,r]\)</span>，目前节点区间为 <span
+class="math inline">\([T_l,T_r]\)</span></p>
 <p>则有二种情况</p>
-<ol>
-<li>$[l,r] \ni [T_l,T_r]$ 查询区间包含目前节点区间（因为每次查询都可能把查询区间切割开再下传，所以这种情况可视为严格包含）</li>
-<li>$[l,r]\cap[T_l,T_r] \neq \varnothing$</li>
-<li>$[l,r]\not\ni[T_l,T_r]$ （不存在）</li>
+<ol type="1">
+<li><span class="math inline">\([l,r] \ni [T_l,T_r]\)</span>
+查询区间包含目前节点区间（因为每次查询都可能把查询区间切割开再下传，所以这种情况可视为严格包含）</li>
+<li><span class="math inline">\([l,r]\cap[T_l,T_r] \neq
+\varnothing\)</span></li>
+<li><span class="math inline">\([l,r]\not\ni[T_l,T_r]\)</span>
+（不存在）</li>
 </ol>
 <p>把第二种情况还需要再分开成三种情况</p>
-<ol>
-<li>$[l,r] \in [lc_l,lc_r]$ 即被左儿子区间包含</li>
-<li>$[l,r] \in [rc_l,rc_r]$ 即被右儿子区间包含</li>
-<li>$l \leqslant mid , r &gt; mid$ 即左右区间都不能单独覆盖查询区间，这种情况把查询区间从 mid 劈成两半再分别在左右儿子区间查询即可。</li>
+<ol type="1">
+<li><span class="math inline">\([l,r] \in [lc_l,lc_r]\)</span>
+即被左儿子区间包含</li>
+<li><span class="math inline">\([l,r] \in [rc_l,rc_r]\)</span>
+即被右儿子区间包含</li>
+<li><span class="math inline">\(l \leqslant mid , r &gt; mid\)</span>
+即左右区间都不能单独覆盖查询区间，这种情况把查询区间从 mid
+劈成两半再分别在左右儿子区间查询即可。</li>
 </ol>
 <p>所以只用处理相应的情况就可以了</p>
 <p>这里直接给出一个维护区间最大值的查询函数</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(Node<span style="color:#f92672">*</span> nod, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
-</span></span><span style="display:flex;"><span>    push_down(nod);
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>r <span style="color:#f92672">==</span> R <span style="color:#f92672">&amp;&amp;</span> nod<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">==</span> L) { <span style="color:#75715e">// 严格覆盖
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> nod<span style="color:#f92672">-&gt;</span>v;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>r <span style="color:#f92672">&gt;=</span> R) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> query(nod<span style="color:#f92672">-&gt;</span>lc, L, R);
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">&lt;=</span> L) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> query(nod<span style="color:#f92672">-&gt;</span>rc, L, R);
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> query(nod<span style="color:#f92672">-&gt;</span>lc, L, nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>r) <span style="color:#f92672">+</span> query(nod<span style="color:#f92672">-&gt;</span>rc, nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>l, R);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="从子节点推出父节点数据">从子节点推出父节点数据</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> query<span class="op">(</span>Node<span class="op">*</span> nod<span class="op">,</span> <span class="dt">int</span> L<span class="op">,</span> <span class="dt">int</span> R<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    push_down<span class="op">(</span>nod<span class="op">);</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>r <span class="op">==</span> R <span class="op">&amp;&amp;</span> nod<span class="op">-&gt;</span>l <span class="op">==</span> L<span class="op">)</span> <span class="op">{</span> <span class="co">// 严格覆盖</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> nod<span class="op">-&gt;</span>v<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>r <span class="op">&gt;=</span> R<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> query<span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">,</span> L<span class="op">,</span> R<span class="op">);</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>l <span class="op">&lt;=</span> L<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> query<span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">,</span> L<span class="op">,</span> R<span class="op">);</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> query<span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">,</span> L<span class="op">,</span> nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>r<span class="op">)</span> <span class="op">+</span> query<span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">,</span> nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>l<span class="op">,</span> R<span class="op">);</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="从子节点推出父节点数据">从子节点推出父节点数据</h3>
 <p>还是以区间和为例，父区间最大值为两个子区间最大值中的最大值。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(Node<span style="color:#f92672">*</span> nod) {
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">=</span> nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">+</span> nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>v;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="修改区间值">修改区间值</h3>
-<p>理解起来其实挺简单的，比如给区间 $[L,R]$ 都加一个数 $x$，朴素写法直接用类似<a class="link" href="#%e6%9f%a5%e8%af%a2" >查询</a>的方法递归到底部回溯的时候一个一个更新即可。
-但是显然这样做效率很低，对于长度为 $n$ 的一个区间，最坏情况下它对应 $\log n$ 个极大区间（这些区间不存在可以合并的两个）；对于每一个极大区间来说修改它和它所有子区间的值的时间复杂度显然是他的长度，即 $\operatorname{O}(len)$。则如上朴素写法每次修改的时间复杂度最坏为 $\operatorname{O}(n\log n)$，属于是飞慢了。
-优化的方式很容易想到，就是每次修改只需要保证需要用到的节点是正确的，其他节点先不管，需要用到的时候再更改。这种方式很像前端里面的一个优化“懒加载”，即一个网页如果有很多元素，一次全部加载完可能会缓慢，所以设备显示到哪里就只加载哪里的元素，看不到的元素能不加载就不加载。同样的，这种优化方式需要打标记，同时能不下放就不下放，子节点能不修改就不修改，被称为“懒标记”。
-也就是说若一个节点拥有懒标记，那么该节点的子节点们都不知道这个懒标记的存在，同时也就表明该节点的叶子节点存储的信息均不是真实信息。如果需要用到当前拥有懒标记的节点的真实信息，就需要把懒标记下放到子节点，通过懒标记更改子节点数据，然后处理子节点更改造成的数据更改即可（直接 <code>push_up</code>）</p>
-<p>假设目前要求维护区间和的同时处理区间加的操作，对于每一个节点来说，我们需要维护一个懒标记 $lazy$ ，代表“当前区间的子区间需要加一个 $lazy$ ”。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">modify</span>(Node<span style="color:#f92672">*</span> nod, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, <span style="color:#66d9ef">int</span> v) { <span style="color:#75715e">// 给 [L,R] 每个数加 v
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">==</span> nod<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">==</span> nod<span style="color:#f92672">-&gt;</span>r) { <span style="color:#75715e">// 包含了
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        nod<span style="color:#f92672">-&gt;</span>lazy <span style="color:#f92672">+=</span> v; <span style="color:#75715e">// 该区间的每个子区间都需要加 v
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        nod<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">+=</span> (nod<span style="color:#f92672">-&gt;</span>r <span style="color:#f92672">-</span> nod<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> v; <span style="color:#75715e">// 当前区间一共有 R-L+1 个元素（因为严格包含所以 L 和 R 就是区间的左右端点）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// 用不上子区间的数据，不下传懒标记直接结束
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        push_down(nod);
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        判断三种情况
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">        */</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>r <span style="color:#f92672">&gt;=</span> R) {
-</span></span><span style="display:flex;"><span>            modify(nod<span style="color:#f92672">-&gt;</span>lc, L, R, v);
-</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">&lt;=</span> L) {
-</span></span><span style="display:flex;"><span>            modify(nod<span style="color:#f92672">-&gt;</span>rc, L, R, v);
-</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            modify(nod<span style="color:#f92672">-&gt;</span>lc, L, nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>r, v);
-</span></span><span style="display:flex;"><span>            modify(nod<span style="color:#f92672">-&gt;</span>rc, nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>l, R, v);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        push_down(nod);
-</span></span><span style="display:flex;"><span>        push_up(nod);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_down</span>(Node<span style="color:#f92672">*</span> nod) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>lazy <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>lc) nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>lazy <span style="color:#f92672">+=</span> nod<span style="color:#f92672">-&gt;</span>lazy;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>rc) nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>lazy <span style="color:#f92672">+=</span> nod<span style="color:#f92672">-&gt;</span>lazy;
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">+=</span> (nod<span style="color:#f92672">-&gt;</span>mid <span style="color:#f92672">-</span> nod<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> nod<span style="color:#f92672">-&gt;</span>lazy;
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">+=</span> (nod<span style="color:#f92672">-&gt;</span>r <span style="color:#f92672">-</span> nod<span style="color:#f92672">-&gt;</span>mid) <span style="color:#f92672">*</span> nod<span style="color:#f92672">-&gt;</span>lazy;
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>lazy <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>值得注意的是，加上懒标记之后，为了保证查询时访问的节点数据正确，需要在查询时添加 <code>push_down()</code> 操作（上文已加）。</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> push_up<span class="op">(</span>Node<span class="op">*</span> nod<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>v <span class="op">=</span> nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>v <span class="op">+</span> nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>v<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h3 id="修改区间值">修改区间值</h3>
+<p>理解起来其实挺简单的，比如给区间 <span
+class="math inline">\([L,R]\)</span> 都加一个数 <span
+class="math inline">\(x\)</span>，朴素写法直接用类似<a
+href="#查询">查询</a>的方法递归到底部回溯的时候一个一个更新即可。</p>
+<p>但是显然这样做效率很低，对于长度为 <span
+class="math inline">\(n\)</span> 的一个区间，最坏情况下它对应 <span
+class="math inline">\(\log n\)</span>
+个极大区间（这些区间不存在可以合并的两个）；对于每一个极大区间来说修改它和它所有子区间的值的时间复杂度显然是他的长度，即
+<span
+class="math inline">\(\operatorname{O}(len)\)</span>。则如上朴素写法每次修改的时间复杂度最坏为
+<span class="math inline">\(\operatorname{O}(n\log
+n)\)</span>，属于是飞慢了。</p>
+<p>优化的方式很容易想到，就是每次修改只需要保证需要用到的节点是正确的，其他节点先不管，需要用到的时候再更改。这种方式很像前端里面的一个优化“懒加载”，即一个网页如果有很多元素，一次全部加载完可能会缓慢，所以设备显示到哪里就只加载哪里的元素，看不到的元素能不加载就不加载。同样的，这种优化方式需要打标记，同时能不下放就不下放，子节点能不修改就不修改，被称为“懒标记”。</p>
+<p>也就是说若一个节点拥有懒标记，那么该节点的子节点们都不知道这个懒标记的存在，同时也就表明该节点的叶子节点存储的信息均不是真实信息。如果需要用到当前拥有懒标记的节点的真实信息，就需要把懒标记下放到子节点，通过懒标记更改子节点数据，然后处理子节点更改造成的数据更改即可（直接
+<code>push_up</code>）</p>
+<p>假设目前要求维护区间和的同时处理区间加的操作，对于每一个节点来说，我们需要维护一个懒标记
+<span class="math inline">\(lazy\)</span>
+，代表“当前区间的子区间需要加一个 <span
+class="math inline">\(lazy\)</span> ”。</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> modify<span class="op">(</span>Node<span class="op">*</span> nod<span class="op">,</span> <span class="dt">int</span> L<span class="op">,</span> <span class="dt">int</span> R<span class="op">,</span> <span class="dt">int</span> v<span class="op">)</span> <span class="op">{</span> <span class="co">// 给 [L,R] 每个数加 v</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>L <span class="op">==</span> nod<span class="op">-&gt;</span>l <span class="op">&amp;&amp;</span> R <span class="op">==</span> nod<span class="op">-&gt;</span>r<span class="op">)</span> <span class="op">{</span> <span class="co">// 包含了</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        nod<span class="op">-&gt;</span>lazy <span class="op">+=</span> v<span class="op">;</span> <span class="co">// 该区间的每个子区间都需要加 v</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        nod<span class="op">-&gt;</span>v <span class="op">+=</span> <span class="op">(</span>nod<span class="op">-&gt;</span>r <span class="op">-</span> nod<span class="op">-&gt;</span>l <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">*</span> v<span class="op">;</span> <span class="co">// 当前区间一共有 R-L+1 个元素（因为严格包含所以 L 和 R 就是区间的左右端点）</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 用不上子区间的数据，不下传懒标记直接结束</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        push_down<span class="op">(</span>nod<span class="op">);</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">/*</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">        判断三种情况</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">        */</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>r <span class="op">&gt;=</span> R<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>            modify<span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">,</span> L<span class="op">,</span> R<span class="op">,</span> v<span class="op">);</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>l <span class="op">&lt;=</span> L<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            modify<span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">,</span> L<span class="op">,</span> R<span class="op">,</span> v<span class="op">);</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>            modify<span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">,</span> L<span class="op">,</span> nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>r<span class="op">,</span> v<span class="op">);</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>            modify<span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">,</span> nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>l<span class="op">,</span> R<span class="op">,</span> v<span class="op">);</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        push_down<span class="op">(</span>nod<span class="op">);</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        push_up<span class="op">(</span>nod<span class="op">);</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> push_down<span class="op">(</span>Node<span class="op">*</span> nod<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>lazy <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">)</span> nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>lazy <span class="op">+=</span> nod<span class="op">-&gt;</span>lazy<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">)</span> nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>lazy <span class="op">+=</span> nod<span class="op">-&gt;</span>lazy<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>v <span class="op">+=</span> <span class="op">(</span>nod<span class="op">-&gt;</span>mid <span class="op">-</span> nod<span class="op">-&gt;</span>l <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">*</span> nod<span class="op">-&gt;</span>lazy<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>v <span class="op">+=</span> <span class="op">(</span>nod<span class="op">-&gt;</span>r <span class="op">-</span> nod<span class="op">-&gt;</span>mid<span class="op">)</span> <span class="op">*</span> nod<span class="op">-&gt;</span>lazy<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>lazy <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>值得注意的是，加上懒标记之后，为了保证查询时访问的节点数据正确，需要在查询时添加
+<code>push_down()</code> 操作（上文已加）。</p>
 <h3 id="完整实现">完整实现</h3>
 <p>区间加修改&amp;求区间和</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#define int long long
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define N 1000150
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> u;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> v;
-</span></span><span style="display:flex;"><span>    Node <span style="color:#f92672">*</span>lc, <span style="color:#f92672">*</span>rc;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> l, r, mid;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> lazy;  <span style="color:#75715e">// 懒标记
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(<span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
-</span></span><span style="display:flex;"><span>        l <span style="color:#f92672">=</span> L;
-</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> R;
-</span></span><span style="display:flex;"><span>        mid <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> r <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>} tr[N <span style="color:#f92672">*</span> <span style="color:#ae81ff">4</span>];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n, m;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> x, y, k;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> ori[N];
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> beh;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> t1, t2, t3;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
-</span></span><span style="display:flex;"><span>Node<span style="color:#f92672">*</span> tail <span style="color:#f92672">=</span> tr;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_up</span>(Node<span style="color:#f92672">*</span> nod) {
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">=</span> nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">+</span> nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>v;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build</span>(Node<span style="color:#f92672">*</span> nod, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>init(L, R);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">==</span> R) {
-</span></span><span style="display:flex;"><span>        nod<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">=</span> ori[L];
-</span></span><span style="display:flex;"><span>        nod<span style="color:#f92672">-&gt;</span>lc <span style="color:#f92672">=</span> nod<span style="color:#f92672">-&gt;</span>rc <span style="color:#f92672">=</span> tr;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>lc <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>tail;
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>rc <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>tail;
-</span></span><span style="display:flex;"><span>    build(nod<span style="color:#f92672">-&gt;</span>lc, L, nod<span style="color:#f92672">-&gt;</span>mid);
-</span></span><span style="display:flex;"><span>    build(nod<span style="color:#f92672">-&gt;</span>rc, nod<span style="color:#f92672">-&gt;</span>mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, R);
-</span></span><span style="display:flex;"><span>    push_up(nod);
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push_down</span>(Node<span style="color:#f92672">*</span> nod) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>lazy <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>lc) nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>lazy <span style="color:#f92672">+=</span> nod<span style="color:#f92672">-&gt;</span>lazy;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>rc) nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>lazy <span style="color:#f92672">+=</span> nod<span style="color:#f92672">-&gt;</span>lazy;
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">+=</span> (nod<span style="color:#f92672">-&gt;</span>mid <span style="color:#f92672">-</span> nod<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> nod<span style="color:#f92672">-&gt;</span>lazy;
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">+=</span> (nod<span style="color:#f92672">-&gt;</span>r <span style="color:#f92672">-</span> nod<span style="color:#f92672">-&gt;</span>mid) <span style="color:#f92672">*</span> nod<span style="color:#f92672">-&gt;</span>lazy;
-</span></span><span style="display:flex;"><span>    nod<span style="color:#f92672">-&gt;</span>lazy <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">modify</span>(Node<span style="color:#f92672">*</span> nod, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R, <span style="color:#66d9ef">int</span> v) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (L <span style="color:#f92672">==</span> nod<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">&amp;&amp;</span> R <span style="color:#f92672">==</span> nod<span style="color:#f92672">-&gt;</span>r) {
-</span></span><span style="display:flex;"><span>        nod<span style="color:#f92672">-&gt;</span>lazy <span style="color:#f92672">+=</span> v;
-</span></span><span style="display:flex;"><span>        nod<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">+=</span> (nod<span style="color:#f92672">-&gt;</span>r <span style="color:#f92672">-</span> nod<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> v;
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        push_down(nod);
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>r <span style="color:#f92672">&gt;=</span> R) {
-</span></span><span style="display:flex;"><span>            modify(nod<span style="color:#f92672">-&gt;</span>lc, L, R, v);
-</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">&lt;=</span> L) {
-</span></span><span style="display:flex;"><span>            modify(nod<span style="color:#f92672">-&gt;</span>rc, L, R, v);
-</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            modify(nod<span style="color:#f92672">-&gt;</span>lc, L, nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>r, v);
-</span></span><span style="display:flex;"><span>            modify(nod<span style="color:#f92672">-&gt;</span>rc, nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>l, R, v);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        push_down(nod);
-</span></span><span style="display:flex;"><span>        push_up(nod);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(Node<span style="color:#f92672">*</span> nod, <span style="color:#66d9ef">int</span> L, <span style="color:#66d9ef">int</span> R) {
-</span></span><span style="display:flex;"><span>    push_down(nod);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>r <span style="color:#f92672">==</span> R <span style="color:#f92672">&amp;&amp;</span> nod<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">==</span> L) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> nod<span style="color:#f92672">-&gt;</span>v;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>r <span style="color:#f92672">&gt;=</span> R) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> query(nod<span style="color:#f92672">-&gt;</span>lc, L, R);
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>l <span style="color:#f92672">&lt;=</span> L) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> query(nod<span style="color:#f92672">-&gt;</span>rc, L, R);
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> query(nod<span style="color:#f92672">-&gt;</span>lc, L, nod<span style="color:#f92672">-&gt;</span>lc<span style="color:#f92672">-&gt;</span>r) <span style="color:#f92672">+</span> query(nod<span style="color:#f92672">-&gt;</span>rc, nod<span style="color:#f92672">-&gt;</span>rc<span style="color:#f92672">-&gt;</span>l, R);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">signed</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    ios<span style="color:#f92672">::</span>sync_with_stdio(<span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span>    cin.tie(<span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span>    cout.tie(<span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i) {
-</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> ori[i];
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    build(<span style="color:#f92672">++</span>tail, <span style="color:#ae81ff">1</span>, n);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (m<span style="color:#f92672">--</span>) {
-</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> beh;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (beh <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;1&#39;</span>) {
-</span></span><span style="display:flex;"><span>            cin <span style="color:#f92672">&gt;&gt;</span> t1 <span style="color:#f92672">&gt;&gt;</span> t2 <span style="color:#f92672">&gt;&gt;</span> t3;
-</span></span><span style="display:flex;"><span>            modify(tr <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, t1, t2, t3);
-</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            cin <span style="color:#f92672">&gt;&gt;</span> t1 <span style="color:#f92672">&gt;&gt;</span> t2;
-</span></span><span style="display:flex;"><span>            cout <span style="color:#f92672">&lt;&lt;</span> query(tr <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, t1, t2) <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="区间加乘同时存在">区间加乘同时存在</h2>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#define int </span><span class="dt">long</span><span class="pp"> </span><span class="dt">long</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#define N </span><span class="dv">1000150</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Node <span class="op">{</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> u<span class="op">;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> v<span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    Node <span class="op">*</span>lc<span class="op">,</span> <span class="op">*</span>rc<span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> l<span class="op">,</span> r<span class="op">,</span> mid<span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> lazy<span class="op">;</span>  <span class="co">// 懒标记</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> init<span class="op">(</span><span class="dt">int</span> L<span class="op">,</span> <span class="dt">int</span> R<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        l <span class="op">=</span> L<span class="op">;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        r <span class="op">=</span> R<span class="op">;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        mid <span class="op">=</span> l <span class="op">+</span> r <span class="op">&gt;&gt;</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="fu">tr</span><span class="op">[</span>N <span class="op">*</span> <span class="dv">4</span><span class="op">];</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> x<span class="op">,</span> y<span class="op">,</span> k<span class="op">;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> ori<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="dt">char</span> beh<span class="op">;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> t1<span class="op">,</span> t2<span class="op">,</span> t3<span class="op">;</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> cnt <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>Node<span class="op">*</span> tail <span class="op">=</span> <span class="fu">tr</span><span class="op">;</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> push_up<span class="op">(</span>Node<span class="op">*</span> nod<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>v <span class="op">=</span> nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>v <span class="op">+</span> nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>v<span class="op">;</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> build<span class="op">(</span>Node<span class="op">*</span> nod<span class="op">,</span> <span class="dt">int</span> L<span class="op">,</span> <span class="dt">int</span> R<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>init<span class="op">(</span>L<span class="op">,</span> R<span class="op">);</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>L <span class="op">==</span> R<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>        nod<span class="op">-&gt;</span>v <span class="op">=</span> ori<span class="op">[</span>L<span class="op">];</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>        nod<span class="op">-&gt;</span>lc <span class="op">=</span> nod<span class="op">-&gt;</span>rc <span class="op">=</span> <span class="fu">tr</span><span class="op">;</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>lc <span class="op">=</span> <span class="op">++</span>tail<span class="op">;</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>rc <span class="op">=</span> <span class="op">++</span>tail<span class="op">;</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    build<span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">,</span> L<span class="op">,</span> nod<span class="op">-&gt;</span>mid<span class="op">);</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    build<span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">,</span> nod<span class="op">-&gt;</span>mid <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> R<span class="op">);</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    push_up<span class="op">(</span>nod<span class="op">);</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> push_down<span class="op">(</span>Node<span class="op">*</span> nod<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>lazy <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">)</span> nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>lazy <span class="op">+=</span> nod<span class="op">-&gt;</span>lazy<span class="op">;</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">)</span> nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>lazy <span class="op">+=</span> nod<span class="op">-&gt;</span>lazy<span class="op">;</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>v <span class="op">+=</span> <span class="op">(</span>nod<span class="op">-&gt;</span>mid <span class="op">-</span> nod<span class="op">-&gt;</span>l <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">*</span> nod<span class="op">-&gt;</span>lazy<span class="op">;</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>v <span class="op">+=</span> <span class="op">(</span>nod<span class="op">-&gt;</span>r <span class="op">-</span> nod<span class="op">-&gt;</span>mid<span class="op">)</span> <span class="op">*</span> nod<span class="op">-&gt;</span>lazy<span class="op">;</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    nod<span class="op">-&gt;</span>lazy <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> modify<span class="op">(</span>Node<span class="op">*</span> nod<span class="op">,</span> <span class="dt">int</span> L<span class="op">,</span> <span class="dt">int</span> R<span class="op">,</span> <span class="dt">int</span> v<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>L <span class="op">==</span> nod<span class="op">-&gt;</span>l <span class="op">&amp;&amp;</span> R <span class="op">==</span> nod<span class="op">-&gt;</span>r<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>        nod<span class="op">-&gt;</span>lazy <span class="op">+=</span> v<span class="op">;</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>        nod<span class="op">-&gt;</span>v <span class="op">+=</span> <span class="op">(</span>nod<span class="op">-&gt;</span>r <span class="op">-</span> nod<span class="op">-&gt;</span>l <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">*</span> v<span class="op">;</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>        push_down<span class="op">(</span>nod<span class="op">);</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>r <span class="op">&gt;=</span> R<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>            modify<span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">,</span> L<span class="op">,</span> R<span class="op">,</span> v<span class="op">);</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>l <span class="op">&lt;=</span> L<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>            modify<span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">,</span> L<span class="op">,</span> R<span class="op">,</span> v<span class="op">);</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>            modify<span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">,</span> L<span class="op">,</span> nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>r<span class="op">,</span> v<span class="op">);</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>            modify<span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">,</span> nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>l<span class="op">,</span> R<span class="op">,</span> v<span class="op">);</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>        push_down<span class="op">(</span>nod<span class="op">);</span></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>        push_up<span class="op">(</span>nod<span class="op">);</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> query<span class="op">(</span>Node<span class="op">*</span> nod<span class="op">,</span> <span class="dt">int</span> L<span class="op">,</span> <span class="dt">int</span> R<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>    push_down<span class="op">(</span>nod<span class="op">);</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>r <span class="op">==</span> R <span class="op">&amp;&amp;</span> nod<span class="op">-&gt;</span>l <span class="op">==</span> L<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> nod<span class="op">-&gt;</span>v<span class="op">;</span></span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>r <span class="op">&gt;=</span> R<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> query<span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">,</span> L<span class="op">,</span> R<span class="op">);</span></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>l <span class="op">&lt;=</span> L<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> query<span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">,</span> L<span class="op">,</span> R<span class="op">);</span></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> query<span class="op">(</span>nod<span class="op">-&gt;</span>lc<span class="op">,</span> L<span class="op">,</span> nod<span class="op">-&gt;</span>lc<span class="op">-&gt;</span>r<span class="op">)</span> <span class="op">+</span> query<span class="op">(</span>nod<span class="op">-&gt;</span>rc<span class="op">,</span> nod<span class="op">-&gt;</span>rc<span class="op">-&gt;</span>l<span class="op">,</span> R<span class="op">);</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a><span class="dt">signed</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>    ios<span class="op">::</span>sync_with_stdio<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>    cin<span class="op">.</span>tie<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>    cout<span class="op">.</span>tie<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> ori<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>    build<span class="op">(++</span>tail<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> n<span class="op">);</span></span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>m<span class="op">--)</span> <span class="op">{</span></span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> beh<span class="op">;</span></span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>beh <span class="op">==</span> <span class="ch">&#39;1&#39;</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>            cin <span class="op">&gt;&gt;</span> t1 <span class="op">&gt;&gt;</span> t2 <span class="op">&gt;&gt;</span> t3<span class="op">;</span></span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>            modify<span class="op">(</span><span class="fu">tr</span> <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> t1<span class="op">,</span> t2<span class="op">,</span> t3<span class="op">);</span></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>            cin <span class="op">&gt;&gt;</span> t1 <span class="op">&gt;&gt;</span> t2<span class="op">;</span></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>            cout <span class="op">&lt;&lt;</span> query<span class="op">(</span><span class="fu">tr</span> <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> t1<span class="op">,</span> t2<span class="op">)</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="区间加乘同时存在">区间加乘同时存在</h2>
 <p>上文介绍了加法的懒标记，如果是单独乘法的懒标记也很好实现。但是如果需要同时处理加法、乘法两个区间操作该怎么办捏？</p>
 <p>只需要使用一下分配律即可。</p>
-<p>$(nod_cnod_v + nod_a) \cdot d=d \cdot nod_cnod_v+d \cdot nod_a$</p>
-<p>$nod_c$ 即乘法懒标记， $nod_a$ 即加法懒标记，$d$ 是需要乘的数（操作数）</p>
+<p><span class="math inline">\((nod_cnod_v + nod_a) \cdot d=d \cdot
+nod_cnod_v+d \cdot nod_a\)</span></p>
+<p><span class="math inline">\(nod_c\)</span> 即乘法懒标记， <span
+class="math inline">\(nod_a\)</span> 即加法懒标记，<span
+class="math inline">\(d\)</span> 是需要乘的数（操作数）</p>
 
 </section>
 
@@ -644,34 +632,21 @@
 
         <span>Licensed under FDL 1.3</span>
     </section>
-    </footer>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
 
 
-    
-        <link 
-                rel="stylesheet" 
-                href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/katex.min.css"crossorigin="anonymous"
-            ><script 
-                src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/katex.min.js"crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/contrib/auto-render.min.js"crossorigin="anonymous"
-                defer
-                >
-            </script><script>
-    window.addEventListener("DOMContentLoaded", () => {
-        renderMathInElement(document.querySelector(`.article-content`), {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "$", right: "$", display: false },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "\\[", right: "\\]", display: true }
-            ],
-            ignoredClasses: ["gist"]
-        });
-    })
-</script>
+
+        <span>
+            最后更新于 Jan 29, 2023 17:00 UTC
+        </span>
+    </section></footer>
+
+
     
 </article>
 
@@ -809,82 +784,6 @@
 
 
     
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-    
-    <div class="pswp__bg"></div>
-
-    
-    <div class="pswp__scroll-wrap">
-
-        
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-
-        
-        <div class="pswp__ui pswp__ui--hidden">
-
-            <div class="pswp__top-bar">
-
-                
-
-                <div class="pswp__counter"></div>
-
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-
-                
-                
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                        <div class="pswp__preloader__cut">
-                            <div class="pswp__preloader__donut"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div>
-            </div>
-
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div><script 
-                src="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
-                defer
-                >
-            </script><script 
-                src="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
-                defer
-                >
-            </script><link 
-                rel="stylesheet" 
-                href="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
-            ><link 
-                rel="stylesheet" 
-                href="https://unpkg.zhimg.com/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
-            >
 
             </main>
         </div>
