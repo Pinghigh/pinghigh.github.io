@@ -412,7 +412,7 @@ C++ 中模运算可能结果是负数。当 $n&lt;0$ 时，模运算结果满足
 <p>回想辗转相除法，$\gcd(a,b) = \gcd(b,a\bmod b)$ 即<strong>缩小问题规模</strong>，当 $b\mid a$ 时，问题解决</p>
 <p>可得 $ax+by= \gcd(a,b) \Leftrightarrow bx&rsquo; + (a\bmod b)y&rsquo; = \gcd(b,a\bmod b)$</p>
 <p>即当 $b\mid a$ 时，问题解决，$x&rsquo; = 1, y&rsquo; = 0 $</p>
-<p>$\begin{aligned} ax+by &amp;= bx&rsquo;+(a\bmod b)y&rsquo; \ &amp;=bx&rsquo;+(a-a/b\cdot b)y&rsquo;=b(x&rsquo;-a/b\cdot y&rsquo;) + ay&rsquo; \end{aligned}$</p>
+<p>$\begin{aligned} ax+by &amp;= bx&rsquo;+(a\bmod b)y&rsquo; \\ &amp;=bx&rsquo;+(a-a/b\cdot b)y&rsquo;=b(x&rsquo;-a/b\cdot y&rsquo;) + ay&rsquo; \end{aligned}$</p>
 <p>即每层递归结束时，$ x=y&rsquo;, y=x&rsquo;-a/b\cdot y'$</p>
 <h4 id="实现">实现</h4>
 <ul>

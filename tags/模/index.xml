@@ -59,7 +59,7 @@ C++ 中模运算可能结果是负数。当 $n&amp;lt;0$ 时，模运算结果�
 &lt;p&gt;回想辗转相除法，$\gcd(a,b) = \gcd(b,a\bmod b)$ 即&lt;strong&gt;缩小问题规模&lt;/strong&gt;，当 $b\mid a$ 时，问题解决&lt;/p&gt;
 &lt;p&gt;可得 $ax+by= \gcd(a,b) \Leftrightarrow bx&amp;rsquo; + (a\bmod b)y&amp;rsquo; = \gcd(b,a\bmod b)$&lt;/p&gt;
 &lt;p&gt;即当 $b\mid a$ 时，问题解决，$x&amp;rsquo; = 1, y&amp;rsquo; = 0 $&lt;/p&gt;
-&lt;p&gt;$\begin{aligned} ax+by &amp;amp;= bx&amp;rsquo;+(a\bmod b)y&amp;rsquo; \ &amp;amp;=bx&amp;rsquo;+(a-a/b\cdot b)y&amp;rsquo;=b(x&amp;rsquo;-a/b\cdot y&amp;rsquo;) + ay&amp;rsquo; \end{aligned}$&lt;/p&gt;
+&lt;p&gt;$\begin{aligned} ax+by &amp;amp;= bx&amp;rsquo;+(a\bmod b)y&amp;rsquo; \\ &amp;amp;=bx&amp;rsquo;+(a-a/b\cdot b)y&amp;rsquo;=b(x&amp;rsquo;-a/b\cdot y&amp;rsquo;) + ay&amp;rsquo; \end{aligned}$&lt;/p&gt;
 &lt;p&gt;即每层递归结束时，$ x=y&amp;rsquo;, y=x&amp;rsquo;-a/b\cdot y&#39;$&lt;/p&gt;
 &lt;h4 id=&#34;实现&#34;&gt;实现&lt;/h4&gt;
 &lt;ul&gt;
