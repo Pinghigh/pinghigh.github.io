@@ -8,10 +8,10 @@
         <language>zh-cn</language>
         <lastBuildDate>Mon, 24 Oct 2022 09:10:49 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E6%95%B0%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>初级数论</title>
-        <link>https://blog.tibrella.top/post/2022-10-math/</link>
+        <link>https://blog.tibrella.top/post/2022-10-basic-math/</link>
         <pubDate>Mon, 24 Oct 2022 09:10:49 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-10-math/</guid>
+        <guid>https://blog.tibrella.top/post/2022-10-basic-math/</guid>
         <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 初级数论" /&gt;&lt;h2 id=&#34;-模运算相关&#34;&gt;&lt;del&gt;%%%&lt;/del&gt; 模运算相关&lt;/h2&gt;
 &lt;p&gt;首先，存在唯一的整数 $q,r$ 满足 $n=qm+r, 0\leqslant r&amp;lt;m$，$q$ 就是商，$r$ 就是余数。 &lt;br&gt;
 C++ 中模运算可能结果是负数。当 $n&amp;lt;0$ 时，模运算结果满足 $-m&amp;lt;r \leqslant 0$。 &lt;br&gt;
@@ -38,26 +38,36 @@ C++ 中模运算可能结果是负数。当 $n&amp;lt;0$ 时，模运算结果�
 &lt;p&gt;$a\bmod m = b \bmod m$ 则称 $a,b$ 对于模 $m$ 同余，记为 $a \equiv b \pmod m$&lt;/p&gt;
 &lt;p&gt;等价于 $m$ 整除 $(a-b)$，即 $m\mid(a-b)$&lt;/p&gt;
 &lt;h3 id=&#34;同余方程&#34;&gt;同余方程&lt;/h3&gt;
-&lt;p&gt;$ax \equiv b \pmod n$&lt;/p&gt;
+&lt;p&gt;$ax \equiv b \pmod m$&lt;/p&gt;
 &lt;p&gt;已知 $a,b,n$，求解 $x$。&lt;br&gt;
 当且仅当 $b$ 能被 $a$ 和 $n$ 的最大公约数整除时此方程有解&lt;br&gt;
-若 $x_0$ 是方程的一个解，那么所有的解就是 ${x_0+k\cdot n/\gcd(a,n) | k\in \mathbf{Z}}$&lt;/p&gt;
+若 $x_0$ 是方程的一个解，那么所有的解就是 ${ x_0+km/\gcd(a,m) | k\in \mathbf{Z} }$&lt;/p&gt;
+&lt;p&gt;有解证明：&lt;/p&gt;
+&lt;p&gt;对于线性同余方程 $ax \equiv b\pmod m$ 可以转换为 $ax+km=b,k\in \mathbf{Z}$&lt;/p&gt;
+&lt;p&gt;设 $d=\gcd(a,m)$，若方程有解为 $c$， 则 $m \mid (ac-b)$ ，从而 $d\mid(ac-b)$，又因为 $d\mid a$，即 $d\mid ac$，于是有 $d\mid b$，即 $\gcd(a,m)\mid b$&lt;/p&gt;
 &lt;h3 id=&#34;扩展欧几里得算法&#34;&gt;扩展欧几里得算法&lt;/h3&gt;
-&lt;h4 id=&#34;裴蜀定理&#34;&gt;裴蜀定理&lt;/h4&gt;
-&lt;p&gt;对于任意 $a,b$ $\exists x,y,ax+by=\gcd(a,b)$&lt;br&gt;
-即 $ax\equiv \gcd(a,b)\pmod b$&lt;/p&gt;
+&lt;h4 id=&#34;前置知识&#34;&gt;前置知识&lt;/h4&gt;
+&lt;h5 id=&#34;裴蜀定理&#34;&gt;裴蜀定理&lt;/h5&gt;
+&lt;p&gt;$$
+\forall a,b, \exists x,y,ax+by=\gcd(a,b)
+$$&lt;/p&gt;
+&lt;p&gt;即 $ax\equiv \gcd(a,b)\pmod b$&lt;/p&gt;
 &lt;h4 id=&#34;用途&#34;&gt;用途&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;求解同余方程 $ax \equiv \gcd(a,n) \pmod n$
 &lt;ul&gt;
-&lt;li&gt;对任意 $a,b$，存在$x,y$满足 $ax+by=\gcd(a,b)$ (裴蜀定理)&lt;br&gt;
+&lt;li&gt;$\forall a,b,\exists x,y,ax+by=\gcd(a,b)$ (裴蜀定理)&lt;br&gt;
 即 $ax\equiv \gcd(a,b) \pmod b$。而 $x,y$ 可以用扩展欧几里得算法求出&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;原理&#34;&gt;原理&lt;/h4&gt;
 &lt;p&gt;回想辗转相除法，$\gcd(a,b) = \gcd(b,a\bmod b)$ 即&lt;strong&gt;缩小问题规模&lt;/strong&gt;，当 $b\mid a$ 时，问题解决&lt;/p&gt;
-&lt;p&gt;可得 $ax+by= \gcd(a,b) \Leftrightarrow bx&amp;rsquo; + (a\bmod b)y&amp;rsquo; = \gcd(b,a\bmod b)$&lt;/p&gt;
+&lt;p&gt;设&lt;/p&gt;
+&lt;p&gt;$$
+ax_1+by_1= \gcd(a,b) \\
+bx_2 + (a\bmod b)y_2 = \gcd(b,a\bmod b)
+$$&lt;/p&gt;
 &lt;p&gt;即当 $b\mid a$ 时，问题解决，$x&amp;rsquo; = 1, y&amp;rsquo; = 0 $&lt;/p&gt;
 &lt;p&gt;$\begin{aligned} ax+by &amp;amp;= bx&amp;rsquo;+(a\bmod b)y&amp;rsquo; \\ &amp;amp;=bx&amp;rsquo;+(a-a/b\cdot b)y&amp;rsquo;=b(x&amp;rsquo;-a/b\cdot y&amp;rsquo;) + ay&amp;rsquo; \end{aligned}$&lt;/p&gt;
 &lt;p&gt;即每层递归结束时，$ x=y&amp;rsquo;, y=x&amp;rsquo;-a/b\cdot y&#39;$&lt;/p&gt;
