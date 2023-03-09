@@ -183,7 +183,7 @@
 &lt;h3 id=&#34;朴素-1&#34;&gt;朴素&lt;/h3&gt;
 &lt;p&gt;$N$ 种物品，背包容量为 $V$，第 $i$ 件物品最多能选 $C_i$ 个，每件物品占空间 $v_i$，价值为 $w_i$&lt;/p&gt;
 &lt;p&gt;第一种容易想到的解法是把完全背包的方法拿来用，因为多重背包只是加了 $k$ 的限制&lt;br&gt;
-状态转移方程即 $f_{i,j} = max{f_{i,j}, f_{i-1,j - C_ik} + w_ik 0 | } $&lt;/p&gt;
+状态转移方程即 $f_{i,j} = \max{f_{i,j}, f_{i-1,j - C_ik} + w_ik 0} $&lt;/p&gt;
 &lt;p&gt;考虑多重背包和完全背包的区别可以发现，多重背包虽然每种物品不只一种，但是有确定的数量，而完全背包没有数量限制，则可以轻松地在忽略时间复杂度的情况下把多重背包&lt;strong&gt;拆分&lt;/strong&gt;成 01 背包，即把 $M_i$ 件第 $i$ 件物品挨个算单个物品再按照 01 背包的方式处理。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; i) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; m; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; j) {
