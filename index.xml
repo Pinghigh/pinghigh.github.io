@@ -6,7 +6,87 @@
         <description>Recent content on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 24 Feb 2023 21:40:29 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 12 Mar 2023 19:00:58 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>杂基础图论（1）</title>
+        <link>https://blog.tibrella.top/post/2023-3-12-misc-graph-1/</link>
+        <pubDate>Sun, 12 Mar 2023 19:00:58 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2023-3-12-misc-graph-1/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 杂基础图论（1）" /&gt;&lt;h2 id=&#34;分层图&#34;&gt;分层图&lt;/h2&gt;
+&lt;p&gt;相当于一个建图的技巧，对于一个图求解时按照题目加入一个特殊操作，通过这个特殊操作能进入下一层图。&lt;/p&gt;
+&lt;p&gt;建议配合例题理解&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.luogu.com.cn/problem/P4822&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;又是一道琪露诺的题目捏&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;给定 $n$ 点 $m$ 边的有向带权图，可以使用一张符卡 &lt;del&gt;「完美冻结」&lt;/del&gt; 使你通过一条边时只需要一半时间，一共有 $k$ 张符卡，求最短路。&lt;/p&gt;
+&lt;p&gt;只需要建立 $k-1$ 层原图，对于每一层原图中间使用一半边权的边连接在一起，然后直接求最短路即可。&lt;/p&gt;
+&lt;p&gt;显然时间复杂度较高，但是本题数据较小 $k,n \leqslant 50, m\leqslant 1000$ ，所以问题不大，足够切掉本题。&lt;/p&gt;
+&lt;h2 id=&#34;同余最短路&#34;&gt;同余最短路&lt;/h2&gt;
+&lt;p&gt;题型大概是若干个正整数（无限次使用次数）拼凑出某个数&lt;/p&gt;
+&lt;h2 id=&#34;匹配&#34;&gt;匹配&lt;/h2&gt;
+&lt;h3 id=&#34;定义&#34;&gt;定义&lt;/h3&gt;
+&lt;p&gt;给定一张图，选定一个边的集合使得其包含的边最大，要求每个点只出现一次&lt;/p&gt;
+&lt;h3 id=&#34;todo&#34;&gt;TODO&lt;/h3&gt;
+</description>
+        </item>
+        <item>
+        <title>有向图中的强连通分量</title>
+        <link>https://blog.tibrella.top/post/2023-2-27-s-connected-component/</link>
+        <pubDate>Mon, 27 Feb 2023 19:52:58 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2023-2-27-s-connected-component/</guid>
+        <description>&lt;h2 id=&#34;定义&#34;&gt;定义&lt;/h2&gt;
+&lt;h3 id=&#34;分量相关&#34;&gt;分量相关&lt;/h3&gt;
+&lt;p&gt;分量：一个图的子图&lt;/p&gt;
+&lt;p&gt;连通分量：在一个分量中对于任意两点 $u,v$ 均能互相到达&lt;/p&gt;
+&lt;p&gt;强连通分量：再加入母图的任意分量外一点都会导致强连通分量不再是连通分量&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63fc9e3bf144a0100720ecfe.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;如上图，红线圈住的部分是强连通分量，因为很显然该子图中再加入 $0,5,4,6$ 任意一个点都会导致它不能再做到任意两点互相到达。&lt;/p&gt;
+&lt;h3 id=&#34;边相关&#34;&gt;边相关&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63fca8e3f144a0100738bf9f.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;如上图是张有向连通图&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63fca96af144a010073a1186.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;上图标注出了该图的 DFS 搜索树（即按照深度优先遍历所走过的边）&lt;/p&gt;
+&lt;p&gt;图中的每一条红边都被称作树枝边&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://i.328888.xyz/2023/02/27/eXNmH.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;eXNmH.png&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;上图中新标出的的黄 蓝 绿三个边明显与红边的性质不同&lt;/p&gt;
+&lt;p&gt;黄边：搜到黄边时发现下一个点是之前搜索的其他子树的点，该边称为横叉边&lt;br&gt;
+蓝边：搜完 2-&amp;gt;5-&amp;gt;8 后搜蓝边，发现 8 点已经被标记过，该边称为前向边&lt;br&gt;
+绿边：指向了当前子树之前搜索过的点，称为后向边&lt;/p&gt;
+&lt;p&gt;这些概念用处不大，有点印象即可&lt;/p&gt;
+&lt;h2 id=&#34;tarjan-求强连通分量&#34;&gt;Tarjan 求强连通分量&lt;/h2&gt;
+</description>
+        </item>
+        <item>
         <title>更改博客主题之后的一些破事</title>
         <link>https://blog.tibrella.top/post/2023-2-24-move-to-hugo/</link>
         <pubDate>Fri, 24 Feb 2023 21:40:29 +0000</pubDate>
@@ -2620,6 +2700,40 @@ $$
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;g++ test.cxx -o test -mcmodel=large
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;del&gt;其实换 clang++ 编译有的时候就能过&lt;/del&gt;
 &lt;del&gt;但是测评机肯定还是 gcc ，所以应该考虑下自己是不是写错数了&lt;/del&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Hello World</title>
+        <link>https://blog.tibrella.top/post/hello-world/</link>
+        <pubDate>Thu, 01 Jan 1970 00:00:00 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/hello-world/</guid>
+        <description>&lt;p&gt;这是一个测试页&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;cout;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define endl &amp;#39;\n&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;ios&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;sync_with_stdio(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cout.tie(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Hello World!&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;$Test Math$ &lt;del&gt;好吧，数学好像还不支持&lt;/del&gt; 添加了支持&lt;br&gt;
+$$ Test $$&lt;/p&gt;
+&lt;p&gt;&lt;del&gt;这个代码块目测有点丑，还得改改&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/del&gt; 改了一下，感觉好点了&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;注释测试&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
 </description>
         </item>
         <item>
