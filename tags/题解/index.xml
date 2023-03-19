@@ -12,8 +12,8 @@
         <pubDate>Thu, 23 Feb 2023 14:11:18 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2023-2-26-s2oj-184/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg" alt="Featured image of post 细菌 题解" /&gt;&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
-&lt;p&gt;一张有向无环带权图，有一个初始值 $k$，从入口进入后每过一条边 $i$ 则 $k = k \times 2+w_i$（$w_i$ 为边权，有正有负），要求到出口时 $k&amp;gt;0$，求使方案存在的最小初始值 $k$。&lt;/p&gt;
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 细菌 题解" /&gt;&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;一张有向无环带权图，有一个初始值 $k$，从入口进入后每过一条边 $i$ 则 $k = k \times 2+w_i$（$w_i$ 为边权，有正有负），要求从入口到出口的过程中始终 $k&amp;gt;0$，求使方案存在的最小初始值 $k$。&lt;/p&gt;
 &lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
 &lt;p&gt;&lt;del&gt;之前什么答辩题面&lt;/del&gt;&lt;/p&gt;
 &lt;p&gt;先忽略 $k$ 经过一条边时翻倍，只考虑加边权，如何求出答案？由于图带边权，保证不出现环，同时判断一个 $k$ 值是否合法的方式实际上是计算一条路径边权和并与 $k$ 比较，联想到最短/长路。&lt;/p&gt;

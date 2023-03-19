@@ -10,10 +10,10 @@
 <meta property='og:description' content='二分没过于是按照某篇题解提到的 SPFA 思路切了'>
 <meta property='og:url' content='https://blog.tibrella.top/post/2023-2-26-s2oj-184/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='题解' /><meta property='article:tag' content='SPFA' /><meta property='article:published_time' content='2023-02-23T14:11:18&#43;00:00'/><meta property='article:modified_time' content='2023-02-23T14:11:18&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='题解' /><meta property='article:tag' content='SPFA' /><meta property='article:published_time' content='2023-02-23T14:11:18&#43;00:00'/><meta property='article:modified_time' content='2023-02-23T14:11:18&#43;00:00'/><meta property='og:image' content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
 <meta name="twitter:title" content="细菌 题解">
 <meta name="twitter:description" content="二分没过于是按照某篇题解提到的 SPFA 思路切了"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg' />
+    <meta name="twitter:image" content='http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG' />
     <link rel="shortcut icon" href="/favicon.png" />
 <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
 <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
@@ -284,7 +284,7 @@
         <div class="article-image">
             <a href="/post/2023-2-26-s2oj-184/">
                 
-                    <img src="https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg" loading="lazy" alt="Featured image of post 细菌 题解" />
+                    <img src="http://mms1.baidu.com/it/u=1792239625,2233250434&amp;fm=253&amp;app=138&amp;f=JPEG" loading="lazy" alt="Featured image of post 细菌 题解" />
                 
             </a>
         </div>
@@ -360,7 +360,7 @@
     
     
     <h2 id="题意">题意</h2>
-<p>一张有向无环带权图，有一个初始值 $k$，从入口进入后每过一条边 $i$ 则 $k = k \times 2+w_i$（$w_i$ 为边权，有正有负），要求到出口时 $k&gt;0$，求使方案存在的最小初始值 $k$。</p>
+<p>一张有向无环带权图，有一个初始值 $k$，从入口进入后每过一条边 $i$ 则 $k = k \times 2+w_i$（$w_i$ 为边权，有正有负），要求从入口到出口的过程中始终 $k&gt;0$，求使方案存在的最小初始值 $k$。</p>
 <h2 id="思路">思路</h2>
 <p><del>之前什么答辩题面</del></p>
 <p>先忽略 $k$ 经过一条边时翻倍，只考虑加边权，如何求出答案？由于图带边权，保证不出现环，同时判断一个 $k$ 值是否合法的方式实际上是计算一条路径边权和并与 $k$ 比较，联想到最短/长路。</p>

@@ -114,8 +114,8 @@ $$&lt;/p&gt;
         <pubDate>Thu, 23 Feb 2023 14:11:18 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2023-2-26-s2oj-184/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg" alt="Featured image of post 细菌 题解" /&gt;&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
-&lt;p&gt;一张有向无环带权图，有一个初始值 $k$，从入口进入后每过一条边 $i$ 则 $k = k \times 2+w_i$（$w_i$ 为边权，有正有负），要求到出口时 $k&amp;gt;0$，求使方案存在的最小初始值 $k$。&lt;/p&gt;
+        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 细菌 题解" /&gt;&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;一张有向无环带权图，有一个初始值 $k$，从入口进入后每过一条边 $i$ 则 $k = k \times 2+w_i$（$w_i$ 为边权，有正有负），要求从入口到出口的过程中始终 $k&amp;gt;0$，求使方案存在的最小初始值 $k$。&lt;/p&gt;
 &lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
 &lt;p&gt;&lt;del&gt;之前什么答辩题面&lt;/del&gt;&lt;/p&gt;
 &lt;p&gt;先忽略 $k$ 经过一条边时翻倍，只考虑加边权，如何求出答案？由于图带边权，保证不出现环，同时判断一个 $k$ 值是否合法的方式实际上是计算一条路径边权和并与 $k$ 比较，联想到最短/长路。&lt;/p&gt;
@@ -1569,7 +1569,7 @@ C++ 中模运算可能结果是负数。当 $n&amp;lt;0$ 时，模运算结果�
 &lt;p&gt;$ax \equiv b \pmod m$&lt;/p&gt;
 &lt;p&gt;已知 $a,b,n$，求解 $x$。&lt;br&gt;
 当且仅当 $b$ 能被 $a$ 和 $n$ 的最大公约数整除时此方程有解&lt;br&gt;
-若 $x_0$ 是方程的一个解，那么所有的解就是 ${ x_0+km/\gcd(a,m) | k\in \mathbf{Z} }$&lt;/p&gt;
+若 $x_0$ 是方程的一个解，解集即为 ${ x_0+km /\gcd(a,m) | k\in \mathbf{Z} }$&lt;/p&gt;
 &lt;p&gt;有解证明：&lt;/p&gt;
 &lt;p&gt;对于线性同余方程 $ax \equiv b\pmod m$ 可以转换为 $ax+km=b,k\in \mathbf{Z}$&lt;/p&gt;
 &lt;p&gt;设 $d=\gcd(a,m)$，若方程有解为 $c$， 则 $m \mid (ac-b)$ ，从而 $d\mid(ac-b)$，又因为 $d\mid a$，即 $d\mid ac$，于是有 $d\mid b$，即 $\gcd(a,m)\mid b$&lt;/p&gt;
@@ -1590,15 +1590,45 @@ $$&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;原理&#34;&gt;原理&lt;/h4&gt;
-&lt;p&gt;回想辗转相除法，$\gcd(a,b) = \gcd(b,a\bmod b)$ 即&lt;strong&gt;缩小问题规模&lt;/strong&gt;，当 $b\mid a$ 时，问题解决&lt;/p&gt;
-&lt;p&gt;设&lt;/p&gt;
+&lt;p&gt;对于方程 $ax_1+by_1=\gcd (a,b)$，由裴蜀定理可得一定存在一组 $x_1,y_1$ 使得等式成立&lt;/p&gt;
+&lt;p&gt;于是分两类讨论&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;$b = 0$ 时，$ax_1+by_1=a$，显然 $x_1 = 1, y_1 \in \mathbf R$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;$b \neq 0$ 时，利用四个未知量 $x_1,y_1,x_2,y_2$ 列出两个方程&lt;/p&gt;
 &lt;p&gt;$$
-ax_1+by_1= \gcd(a,b) \\
-bx_2 + (a\bmod b)y_2 = \gcd(b,a\bmod b)
+\begin{cases}
+ax_1+by_1 = \gcd(a,b) = \gcd(b, a\bmod b) ① \\
+bx_2+(a\bmod b)y_2 = \gcd(b, a \bmod b) = \gcd(a,b) = ax_1+by_1 ②
+\end{cases}
 $$&lt;/p&gt;
-&lt;p&gt;即当 $b\mid a$ 时，问题解决，$x&amp;rsquo; = 1, y&amp;rsquo; = 0 $&lt;/p&gt;
-&lt;p&gt;$\begin{aligned} ax+by &amp;amp;= bx&amp;rsquo;+(a\bmod b)y&amp;rsquo; \\ &amp;amp;=bx&amp;rsquo;+(a-a/b\cdot b)y&amp;rsquo;=b(x&amp;rsquo;-a/b\cdot y&amp;rsquo;) + ay&amp;rsquo; \end{aligned}$&lt;/p&gt;
-&lt;p&gt;即每层递归结束时，$ x=y&amp;rsquo;, y=x&amp;rsquo;-a/b\cdot y&#39;$&lt;/p&gt;
+&lt;p&gt;易得&lt;/p&gt;
+&lt;p&gt;$$
+a \bmod b = a-\lfloor\frac{a}{b}\rfloor b
+$$&lt;/p&gt;
+&lt;p&gt;由此我们可以继续展开推导 $②$ 式&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+bx_2+(a\bmod b)y_2 &amp;amp;= ax_1+by_1 \\
+bx_2+(a-\lfloor \dfrac{a}{b}\rfloor b)y_2 &amp;amp;= ax_1+by_1 \\
+ay_2+b(x_2-\lfloor \dfrac{a}{b} \rfloor y_2) &amp;amp;= ax_1+by_1
+\end{aligned}
+$$&lt;/p&gt;
+&lt;p&gt;$x_2,y_2$ 只是两个表示未知量的符号，所以我们可以把它们两个互换一下，得到&lt;/p&gt;
+&lt;p&gt;$$
+ax_2+b(y_2-\lfloor \dfrac{a}{b} \rfloor x_2) = ax_1+by_1
+$$&lt;/p&gt;
+&lt;p&gt;因此&lt;/p&gt;
+&lt;p&gt;$$
+\begin{cases}
+x_1 = x_2 \\
+y_1 = y_2-\lfloor \dfrac{a}{b} \rfloor x_2
+\end{cases}
+$$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h4 id=&#34;实现&#34;&gt;实现&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;算法：函数 &lt;code&gt;ex_gcd(a,b)&lt;/code&gt;
