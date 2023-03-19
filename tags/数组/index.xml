@@ -12,7 +12,7 @@
         <pubDate>Fri, 15 Jul 2022 11:36:49 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2022-7-15-oi%E7%AC%94%E8%AE%B0/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 埃氏筛 &amp; cstring 部分函数" /&gt;&lt;p&gt;浮点数比较要容忍误差（精度问题导致后几位出现误差）&lt;/p&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 埃氏筛 &amp; cstring 部分函数" /&gt;&lt;p&gt;浮点数比较要容忍误差（精度问题导致后几位出现误差）&lt;/p&gt;
 &lt;h2 id=&#34;数组httpswwwacwingcom&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.acwing.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;数组&lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;高精度竖式算除法，试商时可以使用二分查找（非重点）&lt;/p&gt;

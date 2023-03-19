@@ -12,7 +12,7 @@
         <pubDate>Sun, 29 Jan 2023 14:12:27 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2023-1-29-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 树状数组" /&gt;&lt;p&gt;顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。&lt;br&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 树状数组" /&gt;&lt;p&gt;顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。&lt;br&gt;
 用途是解决大部分区间修改查询问题，复杂度一般是 $\operatorname{O}(\log n)$ ，同时常数小（暗示线段树不行），同时码量小，好理解（暗示*2），但是复杂的区间修改查询问题不能解决，同时区间最大最小值也不能用它处理（后文会说）&lt;/p&gt;
 &lt;h2 id=&#34;基本树状数组&#34;&gt;基本树状数组&lt;/h2&gt;
 &lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;

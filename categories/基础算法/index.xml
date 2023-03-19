@@ -12,7 +12,7 @@
         <pubDate>Sun, 07 Aug 2022 21:50:20 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2022-8-7-oi%E7%AC%94%E8%AE%B0/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 搜索" /&gt;&lt;h2 id=&#34;dfs与bfs&#34;&gt;DFS与BFS&lt;/h2&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 搜索" /&gt;&lt;h2 id=&#34;dfs与bfs&#34;&gt;DFS与BFS&lt;/h2&gt;
 &lt;p&gt;深度优先搜索： 一棵树从一个枝向下搜索，搜到头之后回溯，继续搜下一个枝&lt;br&gt;
 宽度优先搜索（Breath First Search不是Brain Fuck Scheduler）（后者已经停止维护了）： 一层一层搜到底部&lt;/p&gt;
 &lt;table&gt;

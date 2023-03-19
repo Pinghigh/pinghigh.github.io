@@ -12,7 +12,7 @@
         <pubDate>Thu, 14 Jul 2022 11:36:49 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2022-7-14-oi%E7%AC%94%E8%AE%B0/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post gcd 最大公约数" /&gt;&lt;h2 id=&#34;最大公约数&#34;&gt;最大公约数&lt;/h2&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post gcd 最大公约数" /&gt;&lt;h2 id=&#34;最大公约数&#34;&gt;最大公约数&lt;/h2&gt;
 &lt;h3 id=&#34;辗转相除法求最大公约数&#34;&gt;辗转相除法求最大公约数&lt;/h3&gt;
 &lt;p&gt;例：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;70 % 50 = 20

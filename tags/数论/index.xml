@@ -12,7 +12,7 @@
         <pubDate>Mon, 24 Oct 2022 09:10:49 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2022-10-basic-math/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 初级数论" /&gt;&lt;h2 id=&#34;-模运算相关&#34;&gt;&lt;del&gt;%%%&lt;/del&gt; 模运算相关&lt;/h2&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 初级数论" /&gt;&lt;h2 id=&#34;-模运算相关&#34;&gt;&lt;del&gt;%%%&lt;/del&gt; 模运算相关&lt;/h2&gt;
 &lt;p&gt;首先，存在唯一的整数 $q,r$ 满足 $n=qm+r, 0\leqslant r&amp;lt;m$，$q$ 就是商，$r$ 就是余数。 &lt;br&gt;
 C++ 中模运算可能结果是负数。当 $n&amp;lt;0$ 时，模运算结果满足 $-m&amp;lt;r \leqslant 0$。 &lt;br&gt;
 因此可以使用&lt;/p&gt;

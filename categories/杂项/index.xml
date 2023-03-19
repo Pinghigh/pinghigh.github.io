@@ -12,7 +12,7 @@
         <pubDate>Fri, 24 Feb 2023 21:40:29 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2023-2-24-move-to-hugo/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 更改博客主题之后的一些破事" /&gt;&lt;p&gt;最近因为原来 &lt;a class=&#34;link&#34; href=&#34;https://github.com/pinghigh/hexo-theme-butterfly/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 更改博客主题之后的一些破事" /&gt;&lt;p&gt;最近因为原来 &lt;a class=&#34;link&#34; href=&#34;https://github.com/pinghigh/hexo-theme-butterfly/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;我的 butterfly 主题 fork&lt;/a&gt; 实在改不动了（实际上因为我水平太差），对于 pug 什么的也不太懂，同时由于界面过于花哨看腻了，想换点动态效果少的而又相对简单的博客主题。
 又因为之前就观察过 hugo 的主题列表，hugo 的特点是快，大部分的 hugo 主题也非常简洁（比如 &lt;a class=&#34;link&#34; href=&#34;https://c4096.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;c4096 的博客&lt;/a&gt;所采用的主题），因此我又双叒叕去 hugo theme 列表挑了个非常符合我审美（大概）的主题，即 &lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

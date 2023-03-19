@@ -11,7 +11,7 @@
         <pubDate>Sun, 23 Oct 2022 18:49:29 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2022-9-backpack/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 背包DP" /&gt;&lt;p&gt;第一次使用 $\LaTeX$&lt;/p&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 背包DP" /&gt;&lt;p&gt;第一次使用 $\LaTeX$&lt;/p&gt;
 &lt;h2 id=&#34;01背包&#34;&gt;01背包&lt;/h2&gt;
 &lt;h3 id=&#34;朴素&#34;&gt;朴素&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;

@@ -96,7 +96,7 @@ $$&lt;/p&gt;
         <pubDate>Thu, 02 Feb 2023 21:27:12 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2023-2-2-lca/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 倍增求LCA/最近共同祖先" /&gt;&lt;p&gt;倍增求 LCA 是一种高效的求 LCA 算法，时间复杂度为 $\operatorname{O}(\log{n})$&lt;/p&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 倍增求LCA/最近共同祖先" /&gt;&lt;p&gt;倍增求 LCA 是一种高效的求 LCA 算法，时间复杂度为 $\operatorname{O}(\log{n})$&lt;/p&gt;
 &lt;h2 id=&#34;原理&#34;&gt;原理&lt;/h2&gt;
 &lt;h3 id=&#34;初始&#34;&gt;初始&lt;/h3&gt;
 &lt;p&gt;维护一个 $fa_{i,x}$ 表示 $x$ 往根节点走 $2^i$ 步到达的节点。&lt;/p&gt;
@@ -124,7 +124,7 @@ $$&lt;/p&gt;
         <pubDate>Tue, 31 Jan 2023 20:27:12 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2023-1-31-manacher/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post Manacher" /&gt;&lt;p&gt;求一个字符串最长的回文子串。
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post Manacher" /&gt;&lt;p&gt;求一个字符串最长的回文子串。
 字面意思，回文就是一个串正着读倒着读一样，子串就是一个连续的子序列。&lt;/p&gt;
 &lt;h2 id=&#34;预处理&#34;&gt;预处理&lt;/h2&gt;
 &lt;p&gt;不难发现对于一个回文字串，有两种情况：&lt;/p&gt;

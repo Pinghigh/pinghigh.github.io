@@ -12,7 +12,7 @@
         <pubDate>Sun, 29 Jan 2023 14:12:27 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2023-1-29-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 树状数组" /&gt;&lt;p&gt;顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。&lt;br&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 树状数组" /&gt;&lt;p&gt;顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。&lt;br&gt;
 用途是解决大部分区间修改查询问题，复杂度一般是 $\operatorname{O}(\log n)$ ，同时常数小（暗示线段树不行），同时码量小，好理解（暗示*2），但是复杂的区间修改查询问题不能解决，同时区间最大最小值也不能用它处理（后文会说）&lt;/p&gt;
 &lt;h2 id=&#34;基本树状数组&#34;&gt;基本树状数组&lt;/h2&gt;
 &lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
@@ -83,7 +83,7 @@ $x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层�
         <pubDate>Fri, 27 Jan 2023 14:22:33 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2023-1-28-rmq/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post RMQ/ST表" /&gt;&lt;p&gt;目标是解决 RMQ 问题，即对于一个大区间，短时间内查询一个小区间的最大最小值&lt;/p&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post RMQ/ST表" /&gt;&lt;p&gt;目标是解决 RMQ 问题，即对于一个大区间，短时间内查询一个小区间的最大最小值&lt;/p&gt;
 &lt;p&gt;下文以最大值为例说明&lt;/p&gt;
 &lt;p&gt;ST 表本质上是一个动态规划（倍增的）&lt;/p&gt;
 &lt;p&gt;先利用倍增（二进制拆分）预处理然后 $\operatorname{O}(1)$ 查询，比线段树快，但是只支持静态区间&lt;/p&gt;
@@ -184,7 +184,7 @@ $$&lt;/p&gt;
         <pubDate>Tue, 17 Jan 2023 15:11:36 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2022-1-17-%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 并查集" /&gt;&lt;p&gt;今天讲的最短路啥的感觉有点费劲，先把并查集的东西写了&lt;/p&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 并查集" /&gt;&lt;p&gt;今天讲的最短路啥的感觉有点费劲，先把并查集的东西写了&lt;/p&gt;
 &lt;h2 id=&#34;用途&#34;&gt;用途&lt;/h2&gt;
 &lt;p&gt;基本上用来处理 &lt;strong&gt;关系&lt;/strong&gt;&lt;br&gt;
 什么是关系？比如一个人和他的表弟是亲戚，亲戚的关系可以人为理清，
@@ -348,7 +348,7 @@ $$&lt;/p&gt;
         <pubDate>Thu, 27 Oct 2022 14:22:33 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/post/2022-10-xianduanshu/</guid>
-        <description>&lt;img src="http://mms1.baidu.com/it/u=1792239625,2233250434&fm=253&app=138&f=JPEG" alt="Featured image of post 线段树" /&gt;&lt;p&gt;&lt;del&gt;闪击线段树&lt;/del&gt;&lt;/p&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 线段树" /&gt;&lt;p&gt;&lt;del&gt;闪击线段树&lt;/del&gt;&lt;/p&gt;
 &lt;h2 id=&#34;基本线段树&#34;&gt;基本线段树&lt;/h2&gt;
 &lt;h3 id=&#34;操作&#34;&gt;操作&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;push_up()&lt;/code&gt; 通过子区间计算父区间的数据&lt;/p&gt;
