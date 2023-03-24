@@ -470,7 +470,7 @@ $$</p>
 所以原方程一解 $x_0=x&rsquo;(b/d)$，通解 $x_0+k(n/d), k\in \mathbf{Z}$</li>
 </ul>
 <h4 id="代码">代码</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;algorithm&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">ex_gcd</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>x, <span style="color:#66d9ef">int</span> <span style="color:#f92672">&amp;</span>y) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>v) {
 </span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
@@ -478,8 +478,9 @@ $$</p>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> xx, yy;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> g <span style="color:#f92672">=</span> ex_gcd(v, u<span style="color:#f92672">%</span>v, xx ,yy);
-</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> yy; y <span style="color:#f92672">=</span> xx <span style="color:#f92672">-</span> u<span style="color:#f92672">/</span>v<span style="color:#f92672">*</span>yy;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> g <span style="color:#f92672">=</span> ex_gcd(v, u <span style="color:#f92672">%</span> v, xx ,yy);
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> yy;
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">    </span>y <span style="color:#f92672">=</span> xx <span style="color:#f92672">-</span> u <span style="color:#f92672">/</span> v <span style="color:#f92672">*</span> yy;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> g;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
