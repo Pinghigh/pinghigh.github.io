@@ -6,7 +6,43 @@
         <description>Recent content on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 12 Mar 2023 19:00:58 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 28 Mar 2023 22:12:58 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>NOI Linux 指北</title>
+        <link>https://blog.tibrella.top/post/2023-3-28-noi-linux/</link>
+        <pubDate>Tue, 28 Mar 2023 22:12:58 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/post/2023-3-28-noi-linux/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post NOI Linux 指北" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;现今 Windows 作为国外闭源系统随时可能被美方禁止使用却大行其道占据大陆巨额市场，可能操作系统真的引不起重视，就像光刻机一样，事情到了无可挽回的地步才开始用力建设吗？&lt;/p&gt;
+&lt;p&gt;写本文的起因是我一同学（实际上不止一个）并不会 NOI Linux 的基本使用，而这玩意是中国大陆 OI 中比较重要的环境之一，因此写一份基础教程&lt;/p&gt;
+&lt;h2 id=&#34;从终端开始&#34;&gt;从终端开始&lt;/h2&gt;
+&lt;h3 id=&#34;什么是终端&#34;&gt;什么是终端？&lt;/h3&gt;
+&lt;p&gt;对于一个计算机来说，输入输出设备显然不是必需品（脱离使用的范畴，没有输入输出设备它也能通电成为一个吉祥物），而最初人们为了与计算机互动，发明了终端，即人类用户与计算机交互的设备。&lt;/p&gt;
+&lt;p&gt;对于一个计算机操作系统，其运行过程中本身并没有显示任何东西，所谓桌面环境之类在显示器上显示的东西都是后话，最简单的输入输出方式即“我输入文字，计算机输出文字”，于是引入今天我们所要遇到的第一个概念，我称其为“文字终端”，即你输入文字，计算机输出文字的地方。&lt;/p&gt;
+&lt;p&gt;对于现在来说，以往奢侈的图形显示现在已经满地都是，但是为了还能用上简单快捷的文字终端的功能，出现了“终端模拟器”，实际上就是开一个小黑窗口，里面能够输入输出（类比 CMD）。&lt;/p&gt;
+&lt;h3 id=&#34;打开终端&#34;&gt;打开终端&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/6422f9eca682492fcc1a0d39.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在桌面或者文件管理器中右键，点击“在终端中打开”&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/6422fa27a682492fcc1a9748.jpg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;于是出现了一个如上的窗口，这就是一个终端模拟器，里面运行一个被称为“Shell”的进程，这里不多作介绍，理解它能够输入输出文字就行。&lt;/p&gt;
+&lt;p&gt;在这里你可以输入命令，做到创建文件，修改文件，删除文件等基本上你在图形界面下能做的所有事情。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>杂基础图论（1）</title>
         <link>https://blog.tibrella.top/post/2023-3-12-misc-graph-1/</link>
         <pubDate>Sun, 12 Mar 2023 19:00:58 +0800</pubDate>

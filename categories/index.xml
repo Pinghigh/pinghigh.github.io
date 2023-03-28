@@ -6,7 +6,15 @@
         <description>Recent content in Categories on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sun, 12 Mar 2023 19:00:58 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 28 Mar 2023 22:12:58 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Linux</title>
+        <link>https://blog.tibrella.top/categories/linux/</link>
+        <pubDate>Tue, 28 Mar 2023 22:12:58 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/categories/linux/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>图论</title>
         <link>https://blog.tibrella.top/categories/%E5%9B%BE%E8%AE%BA/</link>
         <pubDate>Sun, 12 Mar 2023 19:00:58 +0800</pubDate>
