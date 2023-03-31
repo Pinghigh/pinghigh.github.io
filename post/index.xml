@@ -40,6 +40,137 @@
 &gt;&lt;/p&gt;
 &lt;p&gt;于是出现了一个如上的窗口，这就是一个终端模拟器，里面运行一个被称为“Shell”的进程，这里不多作介绍，理解它能够输入输出文字就行。&lt;/p&gt;
 &lt;p&gt;在这里你可以输入命令，做到创建文件，修改文件，删除文件等基本上你在图形界面下能做的所有事情。&lt;/p&gt;
+&lt;h3 id=&#34;先管理文件&#34;&gt;先&amp;hellip;管理文件？&lt;/h3&gt;
+&lt;p&gt;在 Shell 中，&lt;code&gt;.&lt;/code&gt; 表示当前目录，&lt;code&gt;..&lt;/code&gt; 表示当前目录的父目录，&lt;code&gt;/&lt;/code&gt; 表示根目录&lt;/p&gt;
+&lt;p&gt;Linux 下只有一个根目录，不会像 Windows 一样不同的盘有不同的根目录&lt;/p&gt;
+&lt;p&gt;也就是如下&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Windows:
+C:-
+  |- Windows
+  |- Program Files
+  |_ Users
+
+D:-
+  |- Software
+  |- Documents
+  |_ Steam
+
+Linux:
+/ -
+  |- usr
+  |- bin
+  |- home
+  |- dev
+  |- etc
+  |.....
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;绝对路径：能唯一确定的路径，也就是说从根目录表示的确定的位置，比如 &lt;code&gt;/usr/local/bin&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;相对路径：相对于某一目录的位置，比如当前目录是 &lt;code&gt;/usr/local/&lt;/code&gt; 则上面的路径可以表示为 &lt;code&gt;bin&lt;/code&gt; 或 &lt;code&gt;./bin&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;先提供相应的命令：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 这是一条注释，SHELL 中使用井号做单行注释&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 创建文件夹&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir folder_name
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 创建一个 modmodwhr 文件夹&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mkdir modmodwhr
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 创建空文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;touch filename
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 创建一个名为 whrakioi 文件夹&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;touch whrakioi
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 进入一个目录&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd folder_name
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 当前目录下有一个 hhyakioi 文件夹，进入该文件夹&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd hhyakioi
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 或者 . 代表当前目录，./hhyakioi 相当于进入当前目录下的 hhyakioi 文件夹&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd ./hhyakioi
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 进入上一级文件夹&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd ..
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 进入根目录&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd /
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 进入某绝对路径&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd /usr/share
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 最后一个杠加不加无所谓&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd /usr/share/
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 复制一个文件到另一个位置&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cp /path/to/file /path/to/direction
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 把 1.cpp 复制到 gjxakioi 文件夹&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cp 1.cpp gjxakioi/1.cpp
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 复制文件夹需要添加 -r 参数&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cp folder_name gjxakioi/folder_name -r
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 移动一个文件到另一个位置，同时可以当重命名用&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mv path1 path2
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 重命名 1.cpp 为 2.cpp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mv 1.cpp 2.cpp
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 移动 2.cpp 到 gjxakioi 文件夹&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;mv 1.cpp gjxakioi/1.cpp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;NOI Linux 2 的比赛环境下默认给你挂载 noip 文件夹并在 Linux 桌面上创建快捷方式，因此如果你在桌面上进入终端，则可以通过下面的命令进入 noip 文件夹&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd noip
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd ./noip
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;开始写代码吧&#34;&gt;开始写代码吧！&lt;/h2&gt;
+&lt;h3 id=&#34;想编辑下文件&#34;&gt;想编辑下文件？&lt;/h3&gt;
+&lt;p&gt;如果你在 Windows 下写好了代码想要粘贴到 Linux 的文件里，则可以&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 新建 a.cpp 文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;touch a.cpp
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 使用 nano 编辑器编辑 a.cpp 文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nano a.cpp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;nano 是 GNU 的一款简易终端文本编辑器，相对于 Vi/Vim 来说更适合新手使用&lt;/p&gt;
+&lt;p&gt;复制了 Windows 的代码之后，确保 VMware 的共享剪贴板已经打开，然后按下 &lt;code&gt;Ctrl&lt;/code&gt; + &lt;code&gt;Shift&lt;/code&gt; + &lt;code&gt;V&lt;/code&gt; 粘贴，然后按下 &lt;code&gt;Ctrl&lt;/code&gt; + &lt;code&gt;S&lt;/code&gt; 保存，&lt;code&gt;Ctrl&lt;/code&gt; + &lt;code&gt;X&lt;/code&gt; 退出。&lt;/p&gt;
+&lt;p&gt;当然，有图形化编辑器供你使用&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 使用闭源 Visual Studio Code 编辑 a.cpp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;code a.cpp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在此之后你可以通过 &lt;code&gt;cat&lt;/code&gt; 命令&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;验证文件内容&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cat a.cpp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;编译-c-源码&#34;&gt;编译 C++ 源码&lt;/h3&gt;
+&lt;h4 id=&#34;gnu-编译套件&#34;&gt;GNU 编译套件&lt;/h4&gt;
+&lt;p&gt;GNU Compile Collection 是 GNU 开发的一套编译器，在这里我们只使用 GNU C 编译器部分。&lt;/p&gt;
+&lt;p&gt;另：GNU 计划的目标是开发出一款完全自由的操作系统和软件生态，自由软件运动致力于推进全部软件的隐私保护以及自由化，自由软件属于全人类，自由软件开发者们留下的作品与学习资料是不朽的！如果你对自由软件运动有疑问或有兴趣，可前往 &lt;a class=&#34;link&#34; href=&#34;https://www.gnu.org&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;www.gnu.org&lt;/a&gt; 了解更多相关内容。&lt;/p&gt;
+&lt;h4 id=&#34;开始编译&#34;&gt;开始编译&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ grainrainisgod.cpp
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个命令会在当前目录下编译 grainrainisgod.cpp 文件，然后默认输出一个 a.out 可执行文件&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;p&gt;可是我懒得重命名文件，所以如何执行输出可执行文件的位置和名称呢？只需要加 &lt;code&gt;-o /path/to/direction&lt;/code&gt; 即可&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ grainrainisgod.cpp -o grainrainisgod
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;当然，你也可以加入其他比赛要求的编译选项，比如说吸个氧（加 &lt;code&gt;-O2&lt;/code&gt; 参数）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ grainrainisgod.cpp -o grainrainisgod -O2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;开启编译警告&#34;&gt;开启编译警告&lt;/h4&gt;
+&lt;p&gt;编译警告在编译的编译阶段和警告阶段发出，能帮你发现一些低级问题和简单 UB，比如著名 UB（但是萌妹 OPTIM 还是犯了这个问题）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;a;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;编译器会发出警告&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-log&#34; data-lang=&#34;log&#34;&gt;warning: multiple unsequenced modifications to &amp;#39;a&amp;#39; [-Wunsequenced]
+    cout &amp;lt;&amp;lt; a++ + ++a &amp;lt;&amp;lt; endl;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这样的警告对于比赛选手来说肯定是越多越好越全越好，所以需要开启全部警告，即添加 &lt;code&gt;-Wall&lt;/code&gt; 参数&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ grainrainisgod.cpp -o grainrainisgod -O2 -Wall
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;检查内存错误以及未定义行为&#34;&gt;检查内存错误以及未定义行为&lt;/h4&gt;
+&lt;p&gt;Sanitizer 是谷歌开发的一个检测程序问题的开源套件，一般集成在 gcc 以及 clang 编译器中。相应的，MinGW-W64 并没有为 Sanitizer 做 Windows 兼容，因而无法在比赛环境 Windows 使用（LLVM/Clang 编译器包含的 Sanitizer 支持 Windows，MSVC 的也支持但是只有 AddressSanitizer）（但是显然比赛环境没有这两个编译器），所以显得 Linux 环境非常重要。&lt;/p&gt;
+&lt;p&gt;Address Sanitizer 用于检测程序的内存错误，比如爆栈等问题。使用方法是添加 &lt;code&gt;-fsanitize=address&lt;/code&gt; 选项&lt;/p&gt;
+&lt;p&gt;Undefined Behaviour Sanitizer 用于检测程序的未定义行为，比如访问空指针，数组越界访问等问题，使用方法是添加 &lt;code&gt;-fsanitize=undefined&lt;/code&gt; 选项。&lt;/p&gt;
+&lt;p&gt;值得注意的是，这两个 Sanitizer 会显著拖慢程序运行速度，所以添加这两个编译选项编译出来的程序在运行时间和内存占用上参考意义不大。同时如果动态分配内存过多可能 Address Sanitizer 会抽风，UBSanitizer 倒是问题不大。所以酌情使用。&lt;/p&gt;
+&lt;h4 id=&#34;总结&#34;&gt;总结：&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ grainrainisgod.cpp -o grainrainisgod -O2 -Wall -fsanitize&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;address -fsanitize&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;undefined
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如上是我赛时经常使用的编译命令。&lt;/p&gt;
+&lt;h3 id=&#34;执行可执行文件&#34;&gt;执行可执行文件&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;./grainrainisgod
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;.&lt;/code&gt; （当前目录）+ &lt;code&gt;/&lt;/code&gt; （目录分隔符）+ &lt;code&gt;grainrainisgod&lt;/code&gt; 可执行文件名称&lt;/p&gt;
+&lt;p&gt;然后就可以快乐地输入了。&lt;/p&gt;
+&lt;p&gt;注意：在这个终端中复制使用 &lt;code&gt;Ctrl&lt;/code&gt;+&lt;code&gt;Shift&lt;/code&gt;+ &lt;code&gt;C&lt;/code&gt;，粘贴使用 &lt;code&gt;Ctrl&lt;/code&gt;+&lt;code&gt;Shift&lt;/code&gt;+&lt;code&gt; V&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Ctrl&lt;/code&gt; + &lt;code&gt;C&lt;/code&gt; 用于终止当前正在运行的程序，也可以在输入命令打错字时 &lt;code&gt;Ctrl&lt;/code&gt; + &lt;code&gt;C&lt;/code&gt; 重开一行。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;&lt;code&gt;cat filename&lt;/code&gt; 即输出 &lt;code&gt;filename&lt;/code&gt; 文件的内容&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;Linux 下文件类型的判断与  Windows/DOS 略有不同。众所周知，Windows 下操作系统通过扩展名判断文件类型，也就是说无论你把什么文件改成 &lt;code&gt;.docx&lt;/code&gt; 扩展名，Windows 都会用 Word 打开它。但是 Linux 一般通过文件头判断文件类型，也就是说无论你把可执行文件命名成 &lt;code&gt;a.out&lt;/code&gt; 还是 &lt;code&gt;a.docx&lt;/code&gt; 还是 &lt;code&gt;a.jpg&lt;/code&gt; 甚至没有扩展名，输入 &lt;code&gt;.\a.jpg&lt;/code&gt; 或相应命令之后终端都会把它当作可执行文件执行。&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
 </description>
         </item>
         <item>
