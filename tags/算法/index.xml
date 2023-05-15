@@ -8,10 +8,10 @@
         <language>zh-cn</language>
         <lastBuildDate>Thu, 02 Feb 2023 21:27:12 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>倍增求LCA/最近共同祖先</title>
-        <link>https://blog.tibrella.top/post/2023-2-2-lca/</link>
+        <link>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%80%8D%E5%A2%9E%E6%B3%95%E6%B1%82-lca/</link>
         <pubDate>Thu, 02 Feb 2023 21:27:12 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2023-2-2-lca/</guid>
+        <guid>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%80%8D%E5%A2%9E%E6%B3%95%E6%B1%82-lca/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 倍增求LCA/最近共同祖先" /&gt;&lt;p&gt;倍增求 LCA 是一种高效的求 LCA 算法，时间复杂度为 $\operatorname{O}(\log{n})$&lt;/p&gt;
 &lt;h2 id=&#34;原理&#34;&gt;原理&lt;/h2&gt;
 &lt;h3 id=&#34;初始&#34;&gt;初始&lt;/h3&gt;
@@ -36,10 +36,10 @@
         </item>
         <item>
         <title>Manacher</title>
-        <link>https://blog.tibrella.top/post/2023-1-31-manacher/</link>
+        <link>https://blog.tibrella.top/notes/%E4%B8%B2/%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2manacher/</link>
         <pubDate>Tue, 31 Jan 2023 20:27:12 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2023-1-31-manacher/</guid>
+        <guid>https://blog.tibrella.top/notes/%E4%B8%B2/%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2manacher/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post Manacher" /&gt;&lt;p&gt;求一个字符串最长的回文子串。
 字面意思，回文就是一个串正着读倒着读一样，子串就是一个连续的子序列。&lt;/p&gt;
 &lt;h2 id=&#34;预处理&#34;&gt;预处理&lt;/h2&gt;

@@ -8,12 +8,12 @@
         <language>zh-cn</language>
         <lastBuildDate>Thu, 15 Dec 2022 19:46:43 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/zfsbootmenu/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动</title>
-        <link>https://blog.tibrella.top/post/2022-12-zfsrootarch/</link>
+        <link>https://blog.tibrella.top/notes/linux/%E5%9C%A8%E5%90%AF%E7%94%A8-zstd-%E5%8E%8B%E7%BC%A9%E7%9A%84-zfs-%E6%A0%B9%E5%88%86%E5%8C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-archlinux-%E5%B9%B6%E9%85%8D%E7%BD%AE-windows-%E5%8F%8C%E5%90%AF%E5%8A%A8/</link>
         <pubDate>Thu, 15 Dec 2022 19:46:43 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-12-zfsrootarch/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" alt="Featured image of post 在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动" /&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://pinghigh.github.io/2022/11/28/2022-11-28-ZFSBootMenu/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;前情提要&lt;/a&gt;&lt;/p&gt;
+        <guid>https://blog.tibrella.top/notes/linux/%E5%9C%A8%E5%90%AF%E7%94%A8-zstd-%E5%8E%8B%E7%BC%A9%E7%9A%84-zfs-%E6%A0%B9%E5%88%86%E5%8C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-archlinux-%E5%B9%B6%E9%85%8D%E7%BD%AE-windows-%E5%8F%8C%E5%90%AF%E5%8A%A8/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" alt="Featured image of post 在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动" /&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/linux/zfsbootmenu-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/&#34; &gt;ZFSBootMenu 基础使用&lt;/a&gt; 和这篇文章的最后部分相同。
+本方案已经被实际测试过，完全可用，但是建议在有 Linux 基础的情况下折腾 ZFS，因为没准有某个地方我会忘记修改&amp;hellip;&lt;/p&gt;
 &lt;h2 id=&#34;总览&#34;&gt;总览&lt;/h2&gt;
 &lt;p&gt;分区大概长这样&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-TEXT&#34; data-lang=&#34;TEXT&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;分区1 300M FAT16 EFI
@@ -236,10 +236,10 @@ Hyper-V 上安装可能会涉及到 pacman 检测不到架构之类的问题，�
         </item>
         <item>
         <title>在 UEFI ArchLinux 下使用 ZFSBootMenu 作为引导器（可双启动）</title>
-        <link>https://blog.tibrella.top/post/2022-11-28-zfsbootmenu/</link>
+        <link>https://blog.tibrella.top/notes/linux/zfsbootmenu-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</link>
         <pubDate>Mon, 28 Nov 2022 16:32:35 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-11-28-zfsbootmenu/</guid>
+        <guid>https://blog.tibrella.top/notes/linux/zfsbootmenu-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/63a8671208b683016397a5d0.jpg" alt="Featured image of post 在 UEFI ArchLinux 下使用 ZFSBootMenu 作为引导器（可双启动）" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 &lt;p&gt;写这篇博客的缘由挺简单的，当时 ClearArch 开发组讨论文件系统应当使用 ZFS 还是 F2FS，由于使用过 F2FS 作为根文件系统（它没有 Windows 下的驱动，透明压缩也不会提供额外的空间），同时查到&lt;a class=&#34;link&#34; href=&#34;https://qiedd.com/1386.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;企鹅大大的一篇文章&lt;/a&gt;，看到近 2x 的压缩率不禁心动，随后走上了 ZFS+zstd 作为根文件系统的折腾之路&lt;/p&gt;

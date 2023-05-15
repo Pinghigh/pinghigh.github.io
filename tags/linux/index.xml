@@ -8,10 +8,10 @@
         <language>zh-cn</language>
         <lastBuildDate>Tue, 28 Mar 2023 22:12:58 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/linux/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>NOI Linux 指北</title>
-        <link>https://blog.tibrella.top/post/2023-3-28-noi-linux/</link>
+        <link>https://blog.tibrella.top/notes/linux/noi-linux-%E7%9B%B8%E5%85%B3/</link>
         <pubDate>Tue, 28 Mar 2023 22:12:58 +0800</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2023-3-28-noi-linux/</guid>
+        <guid>https://blog.tibrella.top/notes/linux/noi-linux-%E7%9B%B8%E5%85%B3/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post NOI Linux 指北" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 &lt;p&gt;现今 Windows 作为国外闭源系统随时可能被美方禁止使用却大行其道占据大陆巨额市场，可能操作系统真的引不起重视，就像光刻机一样，事情到了无可挽回的地步才开始用力建设吗？&lt;/p&gt;
 &lt;p&gt;写本文的起因是我一同学（实际上不止一个）并不会 NOI Linux 的基本使用，而这玩意是中国大陆 OI 中比较重要的环境之一，因此写一份基础教程&lt;/p&gt;
@@ -64,7 +64,7 @@ Linux:
   |- etc
   |.....
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;绝对路径：能唯一确定的路径，也就是说从根目录表示的确定的位置，比如 &lt;code&gt;/usr/local/bin&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;相对路径：相对于某一目录的位置，比如当前目录是 &lt;code&gt;/usr/local/&lt;/code&gt; 则上面的路径可以表示为 &lt;code&gt;bin&lt;/code&gt; 或 &lt;code&gt;./bin&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;相对路径：相对于某一目录的位置，比如当前目录是 &lt;code&gt;/usr/local/&lt;/code&gt;， 则上面的路径可以表示为 &lt;code&gt;bin&lt;/code&gt; 或 &lt;code&gt;./bin&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;先提供相应的命令：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 这是一条注释，SHELL 中使用井号做单行注释&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
@@ -76,13 +76,13 @@ Linux:
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 创建空文件&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;touch filename
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 创建一个名为 whrakioi 文件夹&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 创建一个名为 whrakioi 的空文件&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;touch whrakioi
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 进入一个目录&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd folder_name
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 当前目录下有一个 hhyakioi 文件夹，进入该文件夹&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 如果当前目录下有一个 hhyakioi 文件夹，则可以通过这个命令进入该文件夹&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd hhyakioi
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 或者 . 代表当前目录，./hhyakioi 相当于进入当前目录下的 hhyakioi 文件夹&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd ./hhyakioi
@@ -171,6 +171,35 @@ Linux:
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
+</description>
+        </item>
+        <item>
+        <title>钛合金伞的垃圾场</title>
+        <link>https://blog.tibrella.top/notes/%E9%92%9B%E5%90%88%E9%87%91%E4%BC%9E%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9C%BA/</link>
+        <pubDate>Fri, 24 Feb 2023 21:40:29 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E9%92%9B%E5%90%88%E9%87%91%E4%BC%9E%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9C%BA/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 钛合金伞的垃圾场" /&gt;&lt;h2 id=&#34;archlinux-添加证书感谢-marisahttpsyjacksgithubio&#34;&gt;ArchLinux 添加证书（感谢 &lt;a class=&#34;link&#34; href=&#34;https://yjacks.github.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Marisa&lt;/a&gt;）&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo trust anchor --store myCA.crt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;grub-提示-usrsharegrubgrub-mkconfig_lib-第-237-行printf-无效格式字符&#34;&gt;Grub 提示 &lt;code&gt;/usr/share/grub/grub-mkconfig_lib: 第 237 行：printf: “$”：无效格式字符&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;在英文环境下 &lt;code&gt;grub-mkconfig&lt;/code&gt; 即可&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;env LANG&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;en_US.UTF-8 sudo grub-mkconfig -o /boot/grub/grub.cfg
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;gcc-编译提示-编译器内部错误file-size-limit-exceeded-signal-terminated-program-as&#34;&gt;gcc 编译提示 &lt;code&gt;编译器内部错误：File size limit exceeded signal terminated program as&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;编译的时候爆内存了&lt;/p&gt;
+&lt;p&gt;可能是你用了形如&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; a[&lt;span style=&#34;color:#ae81ff&#34;&gt;100000010&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;的语句进行初始化。&lt;br&gt;
+这个语句虽然只会给你的 $a_0, a_1$ 赋值，但是在编译预处理和程序运行的过程时，它都会将数组全部展开再进行赋值/初始化&lt;/p&gt;
+&lt;p&gt;所以还是老老实实赋值吧&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; a[&lt;span style=&#34;color:#ae81ff&#34;&gt;100000010&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;a[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;gcc-编译提示-relocation-truncated-to-fit-r_x86_64_pc32-against-bss&#34;&gt;gcc 编译提示 &lt;code&gt;relocation truncated to fit: R_X86_64_PC32 against &#39;.bss&#39;&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;静态数组爆内存了，一般的解决方法是加编译选项&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ test.cxx -o test -mcmodel&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;medium
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;或者&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;g++ test.cxx -o test -mcmodel&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;large
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;del&gt;其实换 clang++ 编译有的时候就能过&lt;/del&gt; &lt;del&gt;但是测评机肯定还是 gcc ，所以应该考虑下自己是不是写错数了&lt;/del&gt;&lt;/p&gt;
 </description>
         </item>
         

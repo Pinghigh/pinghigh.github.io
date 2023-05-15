@@ -8,12 +8,11 @@
         <language>zh-cn</language>
         <lastBuildDate>Thu, 14 Jul 2022 22:01:08 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E8%AF%BB%E5%85%A5/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>读入未知数量的数据</title>
-        <link>https://blog.tibrella.top/post/2022-7-14-read-unknown-length/</link>
+        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E8%AF%BB%E5%85%A5%E6%9C%AA%E7%9F%A5%E6%95%B0%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE/</link>
         <pubDate>Thu, 14 Jul 2022 22:01:08 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-7-14-read-unknown-length/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 读入未知数量的数据" /&gt;&lt;h2 id=&#34;读入未知数量的数据&#34;&gt;读入未知数量的数据&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E8%AF%BB%E5%85%A5%E6%9C%AA%E7%9F%A5%E6%95%B0%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 读入未知数量的数据" /&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;stdio.h&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k,sum&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (scanf(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;%d&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;k) &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; EOF)   &lt;span style=&#34;color:#75715e&#34;&gt;// EOF是读取结束标识

@@ -7,12 +7,12 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <lastBuildDate>Tue, 19 Jul 2022 14:34:12 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E7%BB%93%E6%9E%84%E4%BD%93/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>类、结构体</title>
-        <link>https://blog.tibrella.top/post/2022-7-19-oi%E7%AC%94%E8%AE%B0/</link>
+        <title>类</title>
+        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E7%B1%BB/</link>
         <pubDate>Tue, 19 Jul 2022 14:34:12 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-7-19-oi%E7%AC%94%E8%AE%B0/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 类、结构体" /&gt;&lt;h2 id=&#34;类-class-与-结构体-struct&#34;&gt;类 (class) 与 结构体 (struct)&lt;/h2&gt;
+        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E7%B1%BB/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 类" /&gt;&lt;h2 id=&#34;类-class-与-结构体-struct&#34;&gt;类 (class) 与 结构体 (struct)&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt; {
@@ -36,7 +36,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;(){
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Person pinghigh();
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Person persons; &lt;span style=&#34;color:#75715e&#34;&gt;// 可以定义一个 Person 类的数组
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Person persons[&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;]; &lt;span style=&#34;color:#75715e&#34;&gt;// 可以定义一个 Person 类的数组
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    pinghigh.name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Tibrella&amp;#34;&lt;/span&gt;; &lt;span style=&#34;color:#75715e&#34;&gt;// name 是公有变量，外部可以访问
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//  pinghigh.age = 15;    //!错误， age 是私有变量，外部不可访问
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    pinghigh.add_money(&lt;span style=&#34;color:#ae81ff&#34;&gt;12345&lt;/span&gt;);

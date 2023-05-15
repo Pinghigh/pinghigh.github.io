@@ -7,12 +7,12 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <lastBuildDate>Thu, 02 Feb 2023 21:06:12 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>语言特性杂谈与常数优化</title>
-        <link>https://blog.tibrella.top/post/2023-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/</link>
+        <title>C&#43;&#43; 语言特性杂谈与常数优化</title>
+        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/c&#43;&#43;-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/</link>
         <pubDate>Thu, 02 Feb 2023 21:06:12 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2023-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 语言特性杂谈与常数优化" /&gt;&lt;p&gt;起因是发现很多同学对常数优化和语句的执行效率有误解（我肯定也有，但是我尽量把我知道的正确的写出来），因此写一篇杂谈做一个说明，同时介绍一些比较新的好用的语言特性（C++14）&lt;/p&gt;
+        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/c&#43;&#43;-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post C&#43;&#43; 语言特性杂谈与常数优化" /&gt;&lt;p&gt;起因是发现很多同学对常数优化和语句的执行效率有误解（我肯定也有，但是我尽量把我知道的正确的写出来），因此写一篇杂谈做一个说明，同时介绍一些比较新的好用的语言特性（C++14）&lt;/p&gt;
 &lt;h2 id=&#34;template-模板函数&#34;&gt;&lt;code&gt;template&lt;/code&gt; 模板函数&lt;/h2&gt;
 &lt;h3 id=&#34;基本&#34;&gt;基本&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;template&lt;/code&gt; 顾名思义是用来做模板的，那是做什么的模板呢？

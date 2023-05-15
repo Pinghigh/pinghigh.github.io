@@ -6,12 +6,166 @@
         <description>Recent content in 数学 on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Thu, 14 Jul 2022 11:36:49 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E6%95%B0%E5%AD%A6/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 30 Apr 2023 18:29:32 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E6%95%B0%E5%AD%A6/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>组合数学基础</title>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/</link>
+        <pubDate>Sun, 30 Apr 2023 18:29:32 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 组合数学基础" /&gt;&lt;h2 id=&#34;基础组合计数&#34;&gt;基础组合计数&lt;/h2&gt;
+&lt;p&gt;$n$ 个不同的人选 $m$ 个人排队的方案：排列数公式：$A_n^m = \cfrac{n!}{(n-m)!}$&lt;br&gt;
+$n$ 个不同的苹果选 $m$ 个装箱：$\tbinom{n}{m}:=C_n^m=\cfrac{A_n^m}{m!}=\cfrac{n!}{m!(n-m)!}$&lt;/p&gt;
+&lt;h3 id=&#34;预处理组合数&#34;&gt;预处理组合数&lt;/h3&gt;
+&lt;h4 id=&#34;递推法&#34;&gt;递推法&lt;/h4&gt;
+&lt;p&gt;组合数递推：$\tbinom{n}{m} = \tbinom{n-1}{m-1} + \tbinom{n-1}{m}$&lt;br&gt;
+证明：对于还需要选 $j$ 个，还剩 $i$ 个没选的情况，则对于一个苹果来说，不选它的方案数为 $\tbinom{i-1}{j}$，选它的方案数为 $\tbinom{i-1}{j-1}$。&lt;/p&gt;
+&lt;h4 id=&#34;阶乘法&#34;&gt;阶乘法&lt;/h4&gt;
+&lt;p&gt;问题：给定 $p$ 与多组 $a,b$ ，求 $\tbinom{a}{b} \bmod p$。&lt;/p&gt;
+&lt;p&gt;设 $fact_i = i! \bmod p,infact_i = fact_i^{-1}\pmod p$，根据&lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E9%80%86%E5%85%83/&#34; &gt;逆元&lt;/a&gt;的性质可得&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+\binom{a}{b} &amp;amp;= \frac{a!}{b!(a-b)!}\\
+&amp;amp;= \frac{form_a \cdot inform_b}{(a-b)!}\\
+&amp;amp;= form_a \cdot inform_b \cdot inform_{a-b}
+\end{aligned}
+$$&lt;/p&gt;
+&lt;h4 id=&#34;二项式定理&#34;&gt;二项式定理&lt;/h4&gt;
+&lt;p&gt;二项式就是只有两个项的多项式，如 $a+b$&lt;/p&gt;
+&lt;p&gt;二项式定理如下：&lt;/p&gt;
+&lt;p&gt;$$
+(x+y)^n = \sum^n_{k=0} \binom nk x^{n-k}y^k
+$$&lt;/p&gt;
+&lt;p&gt;可以利用组合方法证明：&lt;br&gt;
+假设有 $n$ 个 $(x+y)$ 相乘，由多项式乘法的法则可以知道，对于 $x^ky^{n-k}$ 这一项来说（容易想到 $x,y$ 的指数和为 $n$），它来自于 $n$ 个括号中的 $k$ 个 $x$ 与剩下 $n-k$ 个括号中的 $n-k$ 个 $y$，也就是说“$n$ 个括号中选 $k$ 个 $x$ 的方案数”就是该项的系数，即 $\binom nk$。&lt;/p&gt;
+&lt;h4 id=&#34;卢卡斯定理&#34;&gt;卢卡斯定理&lt;/h4&gt;
+&lt;p&gt;下方 $p$ 均为质数&lt;/p&gt;
+&lt;p&gt;$$
+\binom nm \bmod p = \binom { \lfloor n/p \rfloor } {\lfloor m/p \rfloor} \binom {n\bmod p}{m \bmod p}\bmod p
+$$&lt;/p&gt;
+&lt;h5 id=&#34;定理-1&#34;&gt;定理 1&lt;/h5&gt;
+&lt;p&gt;$$
+(a+b)^p \equiv a^p+b^p \pmod p
+$$&lt;/p&gt;
+&lt;p&gt;证明：考虑 $\tbinom pk$ ，易得到$\binom pk = \frac{p!}{n!(p-n)!}$，这玩意 $\bmod p$ 基本上是 $0$ ，于是我们开始把它扔到上面 &lt;a class=&#34;link&#34; href=&#34;#二项式定理&#34; &gt;#二项式定理&lt;/a&gt; 里面想。&lt;br&gt;
+分两种情况&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$n \neq p$ 且 $n\neq1$
+此时 $p$ 没法被分母任何一个因数整除，因此一定会在值中被保留下来，则该式被 $p$ 整除&lt;/li&gt;
+&lt;li&gt;$n=p$ 或 $n=1$
+容易得到此时该式值为 $1$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;于是我们就把二项式定理中的所有项讨论完了。&lt;/p&gt;
+&lt;p&gt;$$
+(x+y)^p = \binom p 0 x^p + \binom p1 x^{p-1}y^1 + \dots + \binom {p}{p-1}x^{p-(p-1)}y^{p-1} + \binom pp y^p
+$$&lt;/p&gt;
+&lt;p&gt;根据上面的讨论，左右两边的两项系数为 $1$，其余被 $p$ 整除，也就是被模掉了，于是最后剩下：&lt;/p&gt;
+&lt;p&gt;$$
+(x+y)^p=x^p+y^p
+$$&lt;/p&gt;
+&lt;h5 id=&#34;证明&#34;&gt;证明&lt;/h5&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;#定理-1&#34; &gt;#定理 1&lt;/a&gt; 推导的过程中没有任何限制，于是我们可以把它用在多项式身上&lt;/p&gt;
+&lt;p&gt;考虑一个二项式 $(1+x)^n \bmod p$，设 $n = kp+r$，则在 $\bmod p$ 意义下有：&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+(1+x)^n &amp;amp;= (1+x)^{kp}(1+x)^r \\
+&amp;amp;= (1+x^p)^k(1+x)^r \\
+&amp;amp;= (1+x^p)^{\lfloor n/p \rfloor}(1+x)^{n\bmod p}
+\end{aligned}
+$$&lt;/p&gt;
+&lt;p&gt;用二项式定理拆开的话，可以观察一下这个式子的内部结构&lt;/p&gt;
+&lt;p&gt;$$
+(1+x)^n = \binom n0 x^1 + \binom{n}{1}x^2+\dots+\binom n{n-1}x^{n-1} + \binom nn x^n
+$$&lt;/p&gt;
+&lt;p&gt;现在我们的目标是求 $\binom nm$，实际上在上面的式子里就是 $x^m$ 的系数。&lt;br&gt;
+想办法从前面推导出来的东西表示 $x^m$ 的系数，这里采用类似的办法，把 $m$ 拆开为 $\lfloor m/p \rfloor p + (m \bmod p)$，于是目标转化为&lt;strong&gt;如何在最上面的式子中找到 $x$ 相乘表示出左侧的次数&lt;/strong&gt;。&lt;br&gt;
+分开考虑贡献，$\lfloor m/p \rfloor p$ 只能从 $(1+x^p)^{\lfloor n/p \rfloor}$ 处得到贡献，因为这玩意显然是个 $p$ 的倍数，而另外半边式子中 $n \bmod p$ 绝对小于 $p$。&lt;br&gt;
+于是我们也就考虑到了 $m\bmod p$ 的贡献应当从 $n \bmod p$ 中来，因为 $\lfloor n/p \rfloor &amp;gt; p$。&lt;br&gt;
+这样就找到了对 $\binom nm$ 的总贡献，从 $n \bmod p$ 中选 $m \bmod p$ 个，另外半边同理，则为&lt;/p&gt;
+&lt;p&gt;$$
+\binom nm \bmod p = \binom { \lfloor n/p \rfloor } {\lfloor m/p \rfloor} \binom {n\bmod p}{m \bmod p}\bmod p
+$$&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>质数筛法</title>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E8%B4%A8%E6%95%B0%E7%AD%9B%E6%B3%95/</link>
+        <pubDate>Sat, 08 Oct 2022 11:36:49 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E8%B4%A8%E6%95%B0%E7%AD%9B%E6%B3%95/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 质数筛法" /&gt;&lt;h2 id=&#34;埃氏筛&#34;&gt;埃氏筛&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2 3 4 5 6 7 8 9
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2 3 ~~4~~ 5 ~~6~~ 7 ~~8~~ 9 //筛掉2的倍数
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2 3 5 7 ~~9~~ //筛掉3的倍数
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;cstdio&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;cmath&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt; b[&lt;span style=&#34;color:#ae81ff&#34;&gt;100000005&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    scanf(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;%d&amp;#34;&lt;/span&gt;,&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;n);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; sqrt(n); i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) { &lt;span style=&#34;color:#75715e&#34;&gt;// 注意枚举质数的范围
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;b[i]){ &lt;span style=&#34;color:#75715e&#34;&gt;// b[i]值为0表示i为质数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;i; j&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) { &lt;span style=&#34;color:#75715e&#34;&gt;// 筛掉i的倍数
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                b[i&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;j]&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; i &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;b[i]){
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            printf(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;%d &amp;#34;&lt;/span&gt;,i);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;11 行处为一个小优化：$i$ 的倍数从 $i^2$ 开始枚举 （考虑 $j = k\cdot i&amp;lt;i\cdot i$， $j$ 一定会被 $k$ 的质因数筛去）&lt;/p&gt;
+&lt;p&gt;举个例子：筛 $2$ 的倍数时，被打标记的数字分别是&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-TEXT&#34; data-lang=&#34;TEXT&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2*2,2*3,2*4......2*n/2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;那么我们筛 $i$ 的倍数时，无优化算法被打标记的数分别是&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;i*2,i*3,i*4.......i*n/i
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以发现，$2i$ 和 $4i$ (即 $2\cdot 2i$)在枚举 $2$ 的倍数时已经被打过标记了&lt;br&gt;
+其他任意一个 $k\cdot i, 2\leqslant k&amp;lt; i$ 都同理。&lt;/p&gt;
+&lt;h2 id=&#34;线性筛httpsblogcsdnnetqq_41653433articledetails88976544-转载&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_41653433/article/details/88976544&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;线性筛&lt;/a&gt; (转载)&lt;/h2&gt;
+&lt;p&gt;初始时，假设全部都是素数，当找到一个素数时，显然这个素数乘上另外一个数之后都是合数。如果按照埃氏筛做法枚举每个质数的倍数，会造成重复筛除，影响效率。&lt;/p&gt;
+&lt;p&gt;例如 $30=5\times 3\times 2$，它被 $2\times 15$ 筛了一次，又被 $3\times 10$ 筛了一次，为了解决这个问题，线性筛应运而生：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; mark[MAXN];  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; prime[MAXN];  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//判断是否是一个素数  Mark 标记数组 index 素数个数  
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Prime&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n){  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; index &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; n; i&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;){  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;//如果未标记则得到一个素数  
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(mark[i] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) prime[&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;index] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;//标记目前得到的素数的i倍为非素数  
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; index &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; prime[j] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; n; j&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;){  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            mark[i &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; prime[j]] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(i &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; prime[j] &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; index;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;利用了每个合数必有一个最小素因子。每个合数仅被它的最小素因子筛去正好一次。所以为线性时间。&lt;br&gt;
+代码中体现在：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(i&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;prime[j]&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;$prime$ 数组中的素数是递增的,当 $i$ 能整除 $prime_j$，那么 $i\cdot prime_{j+1}$ 这个合数肯定也可以被 $prime_j$ 筛掉，因为 $i$ 中含有 $prime_j$, $prime_j$ 比 $prime_{j+1}$ 小。&lt;/p&gt;
+&lt;p&gt;接下去的素数同理，所以不用筛下去了。 &lt;br&gt;
+在满足 $i\  \bmod \ prime_j = 0$ 这个条件之前以及第一次满足该条件时,$prime_j$ 必定是 $prime_j\cdot i$ 的最小因子&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;版权声明：本文为lyf_018原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。
+本文链接：https://blog.csdn.net/qq_41653433/article/details/88976544&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        <item>
         <title>gcd 最大公约数</title>
-        <link>https://blog.tibrella.top/post/2022-7-14-oi%E7%AC%94%E8%AE%B0/</link>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/</link>
         <pubDate>Thu, 14 Jul 2022 11:36:49 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-7-14-oi%E7%AC%94%E8%AE%B0/</guid>
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post gcd 最大公约数" /&gt;&lt;h2 id=&#34;最大公约数&#34;&gt;最大公约数&lt;/h2&gt;
 &lt;h3 id=&#34;辗转相除法求最大公约数&#34;&gt;辗转相除法求最大公约数&lt;/h3&gt;
 &lt;p&gt;例：&lt;/p&gt;
@@ -30,13 +184,6 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; r;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在实际应用中可以直接用 &lt;code&gt;__gcd()&lt;/code&gt; 函数&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;algorithm&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; std&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;__gcd(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;更相减损术求最大公约数&#34;&gt;更相减损术求最大公约数&lt;/h3&gt;

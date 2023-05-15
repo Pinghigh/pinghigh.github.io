@@ -6,7 +6,55 @@
         <description>Recent content in Tags on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 28 Mar 2023 22:12:58 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sun, 30 Apr 2023 23:51:12 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>数学，概率论</title>
+        <link>https://blog.tibrella.top/tags/%E6%95%B0%E5%AD%A6%E6%A6%82%E7%8E%87%E8%AE%BA/</link>
+        <pubDate>Sun, 30 Apr 2023 23:51:12 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/tags/%E6%95%B0%E5%AD%A6%E6%A6%82%E7%8E%87%E8%AE%BA/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>数学</title>
+        <link>https://blog.tibrella.top/tags/%E6%95%B0%E5%AD%A6/</link>
+        <pubDate>Sun, 30 Apr 2023 18:29:32 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/tags/%E6%95%B0%E5%AD%A6/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>组合数学</title>
+        <link>https://blog.tibrella.top/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/</link>
+        <pubDate>Sun, 30 Apr 2023 18:29:32 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>数论</title>
+        <link>https://blog.tibrella.top/tags/%E6%95%B0%E8%AE%BA/</link>
+        <pubDate>Sat, 29 Apr 2023 19:24:23 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/tags/%E6%95%B0%E8%AE%BA/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>同余</title>
+        <link>https://blog.tibrella.top/tags/%E5%90%8C%E4%BD%99/</link>
+        <pubDate>Sat, 29 Apr 2023 19:24:23 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/tags/%E5%90%8C%E4%BD%99/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>大步小步</title>
+        <link>https://blog.tibrella.top/tags/%E5%A4%A7%E6%AD%A5%E5%B0%8F%E6%AD%A5/</link>
+        <pubDate>Fri, 28 Apr 2023 18:12:32 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/tags/%E5%A4%A7%E6%AD%A5%E5%B0%8F%E6%AD%A5/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Linux</title>
         <link>https://blog.tibrella.top/tags/linux/</link>
         <pubDate>Tue, 28 Mar 2023 22:12:58 +0800</pubDate>
@@ -28,6 +76,14 @@
         <pubDate>Sun, 12 Mar 2023 19:00:58 +0800</pubDate>
         
         <guid>https://blog.tibrella.top/tags/%E5%9B%BE%E8%AE%BA/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>note</title>
+        <link>https://blog.tibrella.top/tags/note/</link>
+        <pubDate>Fri, 24 Feb 2023 21:40:29 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/tags/note/</guid>
         <description></description>
         </item>
         <item>
@@ -191,27 +247,19 @@
         <description></description>
         </item>
         <item>
-        <title>数论</title>
-        <link>https://blog.tibrella.top/tags/%E6%95%B0%E8%AE%BA/</link>
-        <pubDate>Mon, 24 Oct 2022 09:10:49 +0000</pubDate>
-        
-        <guid>https://blog.tibrella.top/tags/%E6%95%B0%E8%AE%BA/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>同余</title>
-        <link>https://blog.tibrella.top/tags/%E5%90%8C%E4%BD%99/</link>
-        <pubDate>Mon, 24 Oct 2022 09:10:49 +0000</pubDate>
-        
-        <guid>https://blog.tibrella.top/tags/%E5%90%8C%E4%BD%99/</guid>
-        <description></description>
-        </item>
-        <item>
         <title>背包问题</title>
         <link>https://blog.tibrella.top/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</link>
         <pubDate>Sun, 23 Oct 2022 18:49:29 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>动态规划</title>
+        <link>https://blog.tibrella.top/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+        <pubDate>Sun, 23 Oct 2022 18:49:29 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
         <description></description>
         </item>
         <item>
@@ -263,14 +311,6 @@
         <description></description>
         </item>
         <item>
-        <title>埃氏筛</title>
-        <link>https://blog.tibrella.top/tags/%E5%9F%83%E6%B0%8F%E7%AD%9B/</link>
-        <pubDate>Fri, 15 Jul 2022 11:36:49 +0000</pubDate>
-        
-        <guid>https://blog.tibrella.top/tags/%E5%9F%83%E6%B0%8F%E7%AD%9B/</guid>
-        <description></description>
-        </item>
-        <item>
         <title>数组</title>
         <link>https://blog.tibrella.top/tags/%E6%95%B0%E7%BB%84/</link>
         <pubDate>Fri, 15 Jul 2022 11:36:49 +0000</pubDate>
@@ -287,27 +327,11 @@
         <description></description>
         </item>
         <item>
-        <title>数学</title>
-        <link>https://blog.tibrella.top/tags/%E6%95%B0%E5%AD%A6/</link>
-        <pubDate>Thu, 14 Jul 2022 11:36:49 +0000</pubDate>
-        
-        <guid>https://blog.tibrella.top/tags/%E6%95%B0%E5%AD%A6/</guid>
-        <description></description>
-        </item>
-        <item>
         <title>最大公约数</title>
         <link>https://blog.tibrella.top/tags/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/</link>
         <pubDate>Thu, 14 Jul 2022 11:36:49 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/tags/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>DP/动态规划</title>
-        <link>https://blog.tibrella.top/tags/dp/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
-        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-        
-        <guid>https://blog.tibrella.top/tags/dp/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
         <description></description>
         </item>
         

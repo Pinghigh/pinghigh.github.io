@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='基础组合计数 $n$ 个不同的人选 $m$ 个人排队的方案：排列数公式：$A_n^m = \cfrac{n!}{(n-m)!}$ $n$ 个不同的苹果选 $m$ 个装箱：$\tbinom{n}{m}:=C_n^m=\cfrac{A_n^m}{m!}=\cfrac{n!}{m!(n-m)!}$
+预处理组合数 递推法 组合数递推：$\tbinom{n}{m} = \tbinom{n-1}{m-1} &#43; \tbinom{n-1}{m}$
+证明：对于还需要选 $j$ 个，还剩 $i$ 个没选的情况，则对于一个苹果来说，不选它的方案数为 $\tbinom{i-1}{j}$，选它的方案数为 $\tbinom{i-1}{j-1}$。
+阶乘法 问题：给定 $p$ 与多组 $a,b$ ，求 $\tbinom{a}{b} \bmod p$。
+设 $fact_i = i! \bmod p,infact_i = fact_i^{-1}\pmod p$，根据notes/数学/逆元的性质可得 $$ \begin{aligned} \binom{a}{b} &amp;amp;= \frac{a!}{b!(a-b)!}\ &amp;amp;= \frac{form_a \cdot inform_b}{(a-b)!}\ &amp;amp;= form_a \cdot inform_b \cdot inform_{a-b} \end{aligned} $$
+二项式定理 二项式就是只有两个项的多项式，如 $a&#43;b$ 二项式定理如下： $$ (x&#43;y)^n = \sum^n_{k=0} \binom nk x^{n-k}y^k $$ 可以利用组合方法证明： 假设有 $n$ 个 $(x&#43;y)$ 相乘，由多项式乘法的法则可以知道，对于 $x^ky^{n-k}$ 这一项来说（容易想到 $x,y$ 的指数和为 $n$），它来自于 $n$ 个括号中的 $k$ 个 $x$ 与剩下 $n-k$ 个括号中的 $n-k$ 个 $y$，也就是说“$n$ 个括号中选 $k$ 个 $x$ 的方案数”就是该项的系数，即 $\binom nk$。'>
+<title>组合数学基础</title>
+
+<link rel='canonical' href='https://blog.tibrella.top/note/notes/%E6%95%B0%E5%AD%A6/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/'>
+
+<link rel="stylesheet" href="/scss/style.min.62e3391d7205d6af61d4f49b7959fc644355a296889dce17125d3da1fe0df115.css"><meta property='og:title' content='组合数学基础'>
+<meta property='og:description' content='基础组合计数 $n$ 个不同的人选 $m$ 个人排队的方案：排列数公式：$A_n^m = \cfrac{n!}{(n-m)!}$ $n$ 个不同的苹果选 $m$ 个装箱：$\tbinom{n}{m}:=C_n^m=\cfrac{A_n^m}{m!}=\cfrac{n!}{m!(n-m)!}$
+预处理组合数 递推法 组合数递推：$\tbinom{n}{m} = \tbinom{n-1}{m-1} &#43; \tbinom{n-1}{m}$
+证明：对于还需要选 $j$ 个，还剩 $i$ 个没选的情况，则对于一个苹果来说，不选它的方案数为 $\tbinom{i-1}{j}$，选它的方案数为 $\tbinom{i-1}{j-1}$。
+阶乘法 问题：给定 $p$ 与多组 $a,b$ ，求 $\tbinom{a}{b} \bmod p$。
+设 $fact_i = i! \bmod p,infact_i = fact_i^{-1}\pmod p$，根据notes/数学/逆元的性质可得 $$ \begin{aligned} \binom{a}{b} &amp;amp;= \frac{a!}{b!(a-b)!}\ &amp;amp;= \frac{form_a \cdot inform_b}{(a-b)!}\ &amp;amp;= form_a \cdot inform_b \cdot inform_{a-b} \end{aligned} $$
+二项式定理 二项式就是只有两个项的多项式，如 $a&#43;b$ 二项式定理如下： $$ (x&#43;y)^n = \sum^n_{k=0} \binom nk x^{n-k}y^k $$ 可以利用组合方法证明： 假设有 $n$ 个 $(x&#43;y)$ 相乘，由多项式乘法的法则可以知道，对于 $x^ky^{n-k}$ 这一项来说（容易想到 $x,y$ 的指数和为 $n$），它来自于 $n$ 个括号中的 $k$ 个 $x$ 与剩下 $n-k$ 个括号中的 $n-k$ 个 $y$，也就是说“$n$ 个括号中选 $k$ 个 $x$ 的方案数”就是该项的系数，即 $\binom nk$。'>
+<meta property='og:url' content='https://blog.tibrella.top/note/notes/%E6%95%B0%E5%AD%A6/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/'>
+<meta property='og:site_name' content='钛合金伞的隙间'>
+<meta property='og:type' content='article'><meta property='article:section' content='Note' /><meta property='article:tag' content='数学' /><meta property='article:tag' content='组合数学' /><meta property='article:published_time' content='2023-04-30T18:29:32&#43;00:00'/><meta property='article:modified_time' content='2023-04-30T18:29:32&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
+<meta name="twitter:title" content="组合数学基础">
+<meta name="twitter:description" content="基础组合计数 $n$ 个不同的人选 $m$ 个人排队的方案：排列数公式：$A_n^m = \cfrac{n!}{(n-m)!}$ $n$ 个不同的苹果选 $m$ 个装箱：$\tbinom{n}{m}:=C_n^m=\cfrac{A_n^m}{m!}=\cfrac{n!}{m!(n-m)!}$
+预处理组合数 递推法 组合数递推：$\tbinom{n}{m} = \tbinom{n-1}{m-1} &#43; \tbinom{n-1}{m}$
+证明：对于还需要选 $j$ 个，还剩 $i$ 个没选的情况，则对于一个苹果来说，不选它的方案数为 $\tbinom{i-1}{j}$，选它的方案数为 $\tbinom{i-1}{j-1}$。
+阶乘法 问题：给定 $p$ 与多组 $a,b$ ，求 $\tbinom{a}{b} \bmod p$。
+设 $fact_i = i! \bmod p,infact_i = fact_i^{-1}\pmod p$，根据notes/数学/逆元的性质可得 $$ \begin{aligned} \binom{a}{b} &amp;amp;= \frac{a!}{b!(a-b)!}\ &amp;amp;= \frac{form_a \cdot inform_b}{(a-b)!}\ &amp;amp;= form_a \cdot inform_b \cdot inform_{a-b} \end{aligned} $$
+二项式定理 二项式就是只有两个项的多项式，如 $a&#43;b$ 二项式定理如下： $$ (x&#43;y)^n = \sum^n_{k=0} \binom nk x^{n-k}y^k $$ 可以利用组合方法证明： 假设有 $n$ 个 $(x&#43;y)$ 相乘，由多项式乘法的法则可以知道，对于 $x^ky^{n-k}$ 这一项来说（容易想到 $x,y$ 的指数和为 $n$），它来自于 $n$ 个括号中的 $k$ 个 $x$ 与剩下 $n-k$ 个括号中的 $n-k$ 个 $y$，也就是说“$n$ 个括号中选 $k$ 个 $x$ 的方案数”就是该项的系数，即 $\binom nk$。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
+    <link rel="shortcut icon" href="/favicon.png" />
+<link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="/img/avatar.jpg" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">🌂</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
+            <h2 class="site-description">将梦想化为残机，我们就仍能飞翔</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:pinghigh24678@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/pinghigh'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/@pinghigh24678'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>文章</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础组合计数">基础组合计数</a>
+      <ul>
+        <li><a href="#预处理组合数">预处理组合数</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/note/notes/%E6%95%B0%E5%AD%A6/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" alt="Featured image of post 组合数学基础" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%95%B0%E5%AD%A6/" >
+                数学
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/note/notes/%E6%95%B0%E5%AD%A6/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/">组合数学基础</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Apr 30, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="基础组合计数">基础组合计数</h2>
+<p>$n$ 个不同的人选 $m$ 个人排队的方案：排列数公式：$A_n^m = \cfrac{n!}{(n-m)!}$
+$n$ 个不同的苹果选 $m$ 个装箱：$\tbinom{n}{m}:=C_n^m=\cfrac{A_n^m}{m!}=\cfrac{n!}{m!(n-m)!}$</p>
+<h3 id="预处理组合数">预处理组合数</h3>
+<h4 id="递推法">递推法</h4>
+<p>组合数递推：$\tbinom{n}{m} = \tbinom{n-1}{m-1} + \tbinom{n-1}{m}$<br>
+证明：对于还需要选 $j$ 个，还剩 $i$ 个没选的情况，则对于一个苹果来说，不选它的方案数为 $\tbinom{i-1}{j}$，选它的方案数为 $\tbinom{i-1}{j-1}$。</p>
+<h4 id="阶乘法">阶乘法</h4>
+<p>问题：给定 $p$ 与多组 $a,b$ ，求 $\tbinom{a}{b} \bmod p$。</p>
+<p>设 $fact_i = i! \bmod p,infact_i = fact_i^{-1}\pmod p$，根据<a class="link" href="" >notes/数学/逆元</a>的性质可得
+$$
+\begin{aligned}
+\binom{a}{b} &amp;= \frac{a!}{b!(a-b)!}\
+&amp;= \frac{form_a \cdot inform_b}{(a-b)!}\
+&amp;= form_a \cdot inform_b \cdot inform_{a-b}
+\end{aligned}
+$$</p>
+<h4 id="二项式定理">二项式定理</h4>
+<p>二项式就是只有两个项的多项式，如 $a+b$
+二项式定理如下：
+$$
+(x+y)^n = \sum^n_{k=0} \binom nk x^{n-k}y^k
+$$
+可以利用组合方法证明：
+假设有 $n$ 个 $(x+y)$ 相乘，由多项式乘法的法则可以知道，对于 $x^ky^{n-k}$ 这一项来说（容易想到 $x,y$ 的指数和为 $n$），它来自于 $n$ 个括号中的 $k$ 个 $x$ 与剩下 $n-k$ 个括号中的 $n-k$ 个 $y$，也就是说“$n$ 个括号中选 $k$ 个 $x$ 的方案数”就是该项的系数，即 $\binom nk$。</p>
+<h4 id="卢卡斯定理">卢卡斯定理</h4>
+<p>下方 $p$ 均为质数</p>
+<p>$$
+\binom nm \bmod p = \binom { \lfloor n/p \rfloor } {\lfloor m/p \rfloor} \binom {n\bmod p}{m \bmod p}\bmod p
+$$</p>
+<h5 id="定理-1">定理 1</h5>
+<p>$$
+(a+b)^p \equiv a^p+b^p \pmod p
+$$</p>
+<p>证明：考虑 $\tbinom pk$ ，易得到$\binom pk = \frac{p!}{n!(p-n)!}$，这玩意 $\bmod p$ 基本上是 $0$ ，于是我们开始把它扔到上面 <a class="link" href="#二项式定理" >#二项式定理</a> 里面想。
+分两种情况</p>
+<ul>
+<li>$n \neq p$ 且 $n\neq1$
+此时 $p$ 没法被分母任何一个因数整除，因此一定会在值中被保留下来，则该式被 $p$ 整除</li>
+<li>$n=p$ 或 $n=1$
+容易得到此时该式值为 $1$
+于是我们就把二项式定理中的所有项讨论完了。
+$$
+(x+y)^p = \binom p 0 x^p + \binom p1 x^{p-1}y^1 + \dots + \binom {p}{p-1}x^{p-(p-1)}y^{p-1}</li>
+</ul>
+<ul>
+<li>\binom pp y^p $$
+根据上面的讨论，左右两边的两项系数为 $1$，其余被 $p$ 整除，也就是被模掉了，于是最后剩下：
+$$
+(x+y)^p=x^p+y^p
+$$</li>
+</ul>
+<h5 id="证明">证明</h5>
+<p><a class="link" href="#定理-1" >#定理 1</a> 推导的过程中没有任何限制，于是我们可以把它用在多项式身上</p>
+<p>考虑一个二项式 $(1+x)^n \bmod p$，设 $n = kp+r$，则在 $\bmod p$ 意义下有：
+$$
+\begin{aligned}
+(1+x)^n &amp;= (1+x)^{kp}(1+x)^r \
+&amp;= (1+x^p)^k(1+x)^r \
+&amp;= (1+x^p)^{\lfloor n/p \rfloor}(1+x)^{n\bmod p}
+\end{aligned}
+$$
+用二项式定理拆开的话，可以观察一下这个式子的内部结构
+$$
+(1+x)^n = \binom n0 x^1 + \binom{n}{1}x^2+\dots+\binom n{n-1}x^{n-1} + \binom nn x^n
+$$
+现在我们的目标是求 $\binom nm$，实际上在上面的式子里就是 $x^m$ 的系数。
+想办法从前面推导出来的东西表示 $x^m$ 的系数，这里采用类似的办法，把 $m$ 拆开为 $\lfloor m/p \rfloor p + (m \bmod p)$，于是目标转化为<strong>如何在最上面的式子中找到 $x$ 相乘表示出左侧的次数</strong>。
+分开考虑贡献，$\lfloor m/p \rfloor p$ 只能从 $(1+x^p)^{\lfloor n/p \rfloor}$ 处得到贡献，因为这玩意显然是个 $p$ 的倍数，而另外半边式子中 $n \bmod p$ 绝对小于 $p$。
+于是我们也就考虑到了 $m\bmod p$ 的贡献应当从 $n \bmod p$ 中来，因为 $\lfloor n/p \rfloor &gt; p$。
+这样就找到了对 $\binom nm$ 的总贡献，从 $n \bmod p$ 中选 $m \bmod p$ 个，另外半边同理，则为</p>
+<p>$$
+\binom nm \bmod p = \binom { \lfloor n/p \rfloor } {\lfloor m/p \rfloor} \binom {n\bmod p}{m \bmod p}\bmod p
+$$</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
+        
+            <a href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/">组合数学</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" transform="rotate(180)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under FDL 1.3</span>
+    </section>
+    </footer>
+
+
+    
+        <script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    };
+
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += 'has-jax'
+        })
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/note/notes/%E6%95%B0%E5%AD%A6/%E8%B4%A8%E6%95%B0%E7%AD%9B%E6%B3%95/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">质数筛法</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/note/notes/%E6%95%B0%E5%AD%A6/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">gcd 最大公约数</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/note/notes/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E5%9F%BA%E7%A1%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">线性代数</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/note/notes/%E6%95%B0%E5%AD%A6/%E6%A6%82%E7%8E%87%E8%AE%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">概率论基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/note/notes/%E6%95%B0%E5%AD%A6/%E9%80%86%E5%85%83/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">模意义下的乘法逆元</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.10/twikoo.all.min.js"></script>
+<div id="tcomment"></div>
+<style>
+    .twikoo {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    :root[data-scheme="dark"] {
+        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+    }
+    .twikoo .el-input-group__prepend,
+    .twikoo .tk-action-icon,
+    .twikoo .tk-time,
+    .twikoo .tk-comments-count {
+        color: var(--twikoo-body-text-color);
+    }
+    .twikoo .el-input__inner,
+    .twikoo .el-textarea__inner,
+    .twikoo .tk-preview-container,
+    .twikoo .tk-content,
+    .twikoo .tk-nick,
+    .twikoo .tk-send {
+        color: var(--twikoo-body-text-color-main);
+    }
+    .twikoo .el-button{
+        color: var(--twikoo-body-text-color)!important;
+    }
+    .OwO .OwO-body {
+        background-color: var(--body-background) !important;
+        color: var(--body-text-color) !important;
+    }
+</style><script>
+    twikoo.init({
+        envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+        GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+        el: '#tcomment',lang: 'zh-cn',})
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        <p style="display:inline-block; transform: rotatey(180deg);">&copy;</p> 
+        
+            2020 - 
+        
+        2023 钛合金伞的隙间
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://icp.gov.moe/?keyword=20220284" rel="external nofollow noreferrer" target="_blank">萌ICP备20220284号</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://unpkg.com/node-vibrant@latest/dist/vibrant.min.js"crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    </body>
+</html>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='想学一个比较简单的暴力求解方式，于是找到了模拟退火'>
+<meta name="keywords" content="模拟退火，热力学，随机化，随机"><title>模拟退火</title>
+
+<link rel='canonical' href='https://blog.tibrella.top/note/notes/%E6%9D%82%E7%AE%97%E6%B3%95/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/'>
+
+<link rel="stylesheet" href="/scss/style.min.62e3391d7205d6af61d4f49b7959fc644355a296889dce17125d3da1fe0df115.css"><meta property='og:title' content='模拟退火'>
+<meta property='og:description' content='想学一个比较简单的暴力求解方式，于是找到了模拟退火'>
+<meta property='og:url' content='https://blog.tibrella.top/note/notes/%E6%9D%82%E7%AE%97%E6%B3%95/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/'>
+<meta property='og:site_name' content='钛合金伞的隙间'>
+<meta property='og:type' content='article'><meta property='article:section' content='Note' /><meta property='article:tag' content='模拟退火' /><meta property='article:tag' content='随机化算法' /><meta property='article:published_time' content='2023-02-23T14:11:18&#43;00:00'/><meta property='article:modified_time' content='2023-02-23T14:11:18&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg' />
+<meta name="twitter:title" content="模拟退火">
+<meta name="twitter:description" content="想学一个比较简单的暴力求解方式，于是找到了模拟退火"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg' />
+    <link rel="shortcut icon" href="/favicon.png" />
+<link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css" rel="stylesheet">
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="/img/avatar.jpg" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">🌂</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
+            <h2 class="site-description">将梦想化为残机，我们就仍能飞翔</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:pinghigh24678@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/pinghigh'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/@pinghigh24678'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>文章</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#基本原理">基本原理</a></li>
+    <li><a href="#算法过程">算法过程</a></li>
+    <li><a href="#例题">例题</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#提示">提示</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/note/notes/%E6%9D%82%E7%AE%97%E6%B3%95/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/">
+                
+                    <img src="https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg" loading="lazy" alt="Featured image of post 模拟退火" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E7%AE%97%E6%B3%95/" >
+                算法
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/note/notes/%E6%9D%82%E7%AE%97%E6%B3%95/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/">模拟退火</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            想学一个比较简单的暴力求解方式，于是找到了模拟退火
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 23, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 1 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>模拟退火不是模拟题意，也不会让你退火（可能会让你上火），顾名思义，这个算法模拟的是“退火” 的过程。</p>
+<h2 id="基本原理">基本原理</h2>
+<p>退火即晶体冷却的过程，将一个物体加热到一定温度后使其逐渐降温。而在物理中，物体内能越高，其粒子随机运动就更剧烈，状态也就越不稳定。物体温度高时，状态最不稳定。使降温，粒子运动变慢，状态就趋于稳定。当降温速度过快，会导致粒子来不及排列成稳定的原有的结构，从而形成能量高不稳定的非晶体。相对的，如果降温速度足够慢，粒子会渐趋有序，直至内能减为最小，此时物体呈现为晶体。</p>
+<p>上面两段所说的“非晶体”可以看作“局部最优解”，而变回原有结构的晶体则可以看作“最优解”。</p>
+<p>大体来说，模拟退火就是随机跳解，接受更优的解，同时为了防止局部最优解的陷阱，概率性接受不优的解，后者相当于物理过程中粒子的随机跳动，它带来了晶体降温结果的随机性。而跳随机解的次数多少，则相当于降温的速度，降温的速度越慢，晶体回到原有结构的可能性更高，也就相当于跳解的次数越多，跑出最优解的可能性更高。</p>
+<p>先放一张图感性理解一下</p>
+<p><img src="https://pic.imgdb.cn/item/63f75151f144a01007973ad6.webp"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>有一个比较有趣的比喻</p>
+<p>爬山算法：一个兔子从一个点往高爬，爬到了一个山顶，但是不知道这个山顶是不是珠穆朗玛峰<br>
+模拟退火：一个兔子喝醉了乱跳，跳到了某个山顶也要继续跳到别的山坡，但是它逐渐清醒，向最高点跳去</p>
+<p>感性理解后我们详细讲解一下算法过程。</p>
+<h2 id="算法过程">算法过程</h2>
+<p>设定好“初始解”，“初始温度”与“下降速度”，每一次“降温”都得到一个新解，于是出现两种情况，即新解优于旧解或不优于旧解。优于旧解显然是要接受的，但是只接受优解可能只能找到局部最优，与爬山算法无异，因而我们对于一个不优的解还需要进一步处理。</p>
+<p>而这一步处理（可能是）模拟退火的精髓所在，是把这个随机化算法和热力学/统计力学等连接起来的部分，即接受这个不优解的概率。</p>
+<p>摘自维基百科</p>
+<blockquote>
+<p>玻尔兹曼分布是状态能量与系统温度的概率分布函数，给出了粒子处于特定状态下的概率</p>
+</blockquote>
+<p>公式即为</p>
+<p>$$
+p_i = \frac{1}{Q} e^{\frac{-\epsilon_i}{kT}}
+$$</p>
+<p>此处 $p_i$ 是状态 $i$ 的概率，$\epsilon_i$ 为状态 $i$ 的能量，$k$ 为 Boltzmann 常数，$T$ 为温度</p>
+<p>啊当然这个并不是我们接下来需要用到的准则，只是引入一个热力学常量，即 Boltzmann 常数。同时下面的准则很大程度基于上面的玻尔兹曼分布（可能是，我目测的</p>
+<blockquote>
+<p>1953 年 Metropolis 提出了这样一个重要性采样的方法，即设从当前状态 $i$ 生成新状态 $j$，若新状态的内能小于状态 $i$ 的内能，即 $E_j&lt;E_i$，则接受新状态 $j$ 作为新的当前状态；否则，以概率 $\exp(\frac{-(E_j-E_i)}{kT})$ 接受状态 $j$，其中 $k$ 为 Boltzmann 常数。</p>
+</blockquote>
+<p>上面的概率公式中 $\exp$ 即 $e$ 的指数函数，同时两个状态能量的差 $E_j - E_i$ 可以表示为 $\Delta E$，则可以写出一个（我）更容易理解的表达方式，即</p>
+<p>$$
+p_j = e^\frac{-\Delta E}{kT}
+$$</p>
+<p>总的来说，概率 $p_{new}$ 可以表示为</p>
+<p>$$
+p_{new} =
+\begin{cases}
+1, &amp; \text{if } \operatorname{E}(x_{new}) &lt; \operatorname{E}(x_{old}) \\
+e^\frac{-\Delta E}{kT} &amp; \text{if } \operatorname{E}(x_{new}) \geqslant \operatorname{E}(x_{old})
+\end{cases}
+$$</p>
+<p>概率处理完了，主要算法部分也基本上结束了，下面我们引入一道例题。</p>
+<h2 id="例题">例题</h2>
+<h4 id="tjoi2010分金币">[TJOI2010]分金币</h4>
+<h5 id="题目描述">题目描述</h5>
+<p>现在有 $n$ 枚金币，它们可能会有不同的价值，第 $i$ 枚金币的价值为 $v_i$。</p>
+<p>现在要把它们分成两部分，要求这两部分金币数目之差不超过 $1$，问这样分成的两部分金币的价值之差最小是多少？</p>
+<h5 id="输入格式">输入格式</h5>
+<p><strong>本题单个测试点内有多组测试数据</strong>。</p>
+<p>输入的第一行是一个正整数 $T$，表示该测试点内数据组数。</p>
+<p>对于每组测试数据的格式为：</p>
+<p>每组测试数据占两行。</p>
+<p>第一行是一个整数 $n$，表示金币的个数。</p>
+<p>第二行有 $n$ 个整数，第 $i$ 个整数表示第 $i$ 个金币的价值 $v_i$。</p>
+<h5 id="输出格式">输出格式</h5>
+<p>对于每组数据输出一行一个整数表示答案。</p>
+<h4 id="样例-1">样例 #1</h4>
+<h6 id="样例输入-1">样例输入 #1</h6>
+<pre tabindex="0"><code>2
+3
+2 2 4
+4
+1 2 3 6
+</code></pre><h6 id="样例输出-1">样例输出 #1</h6>
+<pre tabindex="0"><code>0
+2
+</code></pre><h2 id="提示">提示</h2>
+<h4 id="数据规模与约定">数据规模与约定</h4>
+<ul>
+<li>对 $30%$ 的数据，保证 $1 \leq v_i \leq 1000$</li>
+<li>对于 $100%$ 的数据，保证 $1 \leq T \leq 20$，$1 \leq n \leq 30$，$1 \leq v_i \leq 2^{30}$。</li>
+</ul>
+<p>TODO</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/">模拟退火</a>
+        
+            <a href="/tags/%E9%9A%8F%E6%9C%BA%E5%8C%96%E7%AE%97%E6%B3%95/">随机化算法</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" transform="rotate(180)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under FDL 1.3</span>
+    </section>
+    </footer>
+
+
+    
+        <script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    };
+
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += 'has-jax'
+        })
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/note/notes/%E5%9B%BE%E8%AE%BA/%E5%80%8D%E5%A2%9E%E6%B3%95%E6%B1%82-lca/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">倍增求LCA/最近共同祖先</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/note/notes/%E4%B8%B2/%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2manacher/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Manacher</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.10/twikoo.all.min.js"></script>
+<div id="tcomment"></div>
+<style>
+    .twikoo {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    :root[data-scheme="dark"] {
+        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+    }
+    .twikoo .el-input-group__prepend,
+    .twikoo .tk-action-icon,
+    .twikoo .tk-time,
+    .twikoo .tk-comments-count {
+        color: var(--twikoo-body-text-color);
+    }
+    .twikoo .el-input__inner,
+    .twikoo .el-textarea__inner,
+    .twikoo .tk-preview-container,
+    .twikoo .tk-content,
+    .twikoo .tk-nick,
+    .twikoo .tk-send {
+        color: var(--twikoo-body-text-color-main);
+    }
+    .twikoo .el-button{
+        color: var(--twikoo-body-text-color)!important;
+    }
+    .OwO .OwO-body {
+        background-color: var(--body-background) !important;
+        color: var(--body-text-color) !important;
+    }
+</style><script>
+    twikoo.init({
+        envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+        GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+        el: '#tcomment',lang: 'zh-cn',})
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        <p style="display:inline-block; transform: rotatey(180deg);">&copy;</p> 
+        
+            2020 - 
+        
+        2023 钛合金伞的隙间
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://icp.gov.moe/?keyword=20220284" rel="external nofollow noreferrer" target="_blank">萌ICP备20220284号</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://unpkg.com/node-vibrant@latest/dist/vibrant.min.js"crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    </body>
+</html>

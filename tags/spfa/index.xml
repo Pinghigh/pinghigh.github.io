@@ -8,10 +8,10 @@
         <language>zh-cn</language>
         <lastBuildDate>Thu, 23 Feb 2023 14:11:18 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/spfa/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>细菌 题解</title>
-        <link>https://blog.tibrella.top/post/2023-2-26-s2oj-184/</link>
+        <link>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E7%BB%86%E8%8F%8C-%E9%A2%98%E8%A7%A3/</link>
         <pubDate>Thu, 23 Feb 2023 14:11:18 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2023-2-26-s2oj-184/</guid>
+        <guid>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E7%BB%86%E8%8F%8C-%E9%A2%98%E8%A7%A3/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 细菌 题解" /&gt;&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
 &lt;p&gt;一张有向无环带权图，有一个初始值 $k$，从入口进入后每过一条边 $i$ 则 $k = k \times 2+w_i$（$w_i$ 为边权，有正有负），要求从入口到出口的过程中始终 $k&amp;gt;0$，求使方案存在的最小初始值 $k$。&lt;/p&gt;
 &lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;

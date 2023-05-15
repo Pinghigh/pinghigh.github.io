@@ -7,12 +7,12 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <lastBuildDate>Sun, 23 Oct 2022 18:49:29 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>背包DP</title>
-        <link>https://blog.tibrella.top/post/2022-9-backpack/</link>
+        <title>背包 DP</title>
+        <link>https://blog.tibrella.top/notes/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/%E8%83%8C%E5%8C%85-dp/</link>
         <pubDate>Sun, 23 Oct 2022 18:49:29 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-9-backpack/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 背包DP" /&gt;&lt;p&gt;第一次使用 $\LaTeX$&lt;/p&gt;
+        <guid>https://blog.tibrella.top/notes/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/%E8%83%8C%E5%8C%85-dp/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 背包 DP" /&gt;&lt;p&gt;第一次使用 $\LaTeX$&lt;/p&gt;
 &lt;h2 id=&#34;01背包&#34;&gt;01背包&lt;/h2&gt;
 &lt;h3 id=&#34;朴素&#34;&gt;朴素&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
@@ -79,26 +79,22 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;完全背包&#34;&gt;完全背包&lt;/h2&gt;
 &lt;h3 id=&#34;朴素做法&#34;&gt;朴素做法&lt;/h3&gt;
 &lt;p&gt;即 3 维做法&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;先考虑状态，容易想到选到某个位置后，其特征有空间，物品种类和价值。价值是要求的，所以我们可以开二维状态，分别表示空间和物品种类。即 $f_{i,j}$ 表示从前 $i$ 种物品里选，占了 $j$ 单位空间的最大收益。&lt;br&gt;
+参考 lzp 大佬博客中的要求，这个状态是否能保证唯一且可递推呢？&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;状态表示 $f_{i,j}$
-&lt;ul&gt;
-&lt;li&gt;集合：所有只考虑前 $i$ 个物品，且总体积不大于 $j$ 的所有选法&lt;/li&gt;
-&lt;li&gt;属性：$max$ （最大）&lt;/li&gt;
+&lt;li&gt;唯一：选物品的范围确定，所占用的空间确定，在所有方案中存储最大收益的方案。由于空间确定，因此不会影响后面决策，此时一定能保证最优且唯一。&lt;/li&gt;
+&lt;li&gt;可递推：前面最优，容易想到通过枚举新拿的物品数量求得当前最优方案（后面讲）&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;状态计算 -&amp;gt; 即集合的划分
-&lt;ul&gt;
-&lt;li&gt;目前我们要求 $max f_{i,j}$，不容易直接求，就采用类似 01 背包问题的“曲线救国”方法
-&lt;ol&gt;
-&lt;li&gt;去掉 $k$ 个第 $i$ 个物品，变为 $max f_{i-1,j}$&lt;/li&gt;
-&lt;li&gt;去掉相应的 $k$ 个第 $i$ 个物品的空间，变为 $max f_{i-1,j-v_ik}$&lt;/li&gt;
-&lt;li&gt;求上面的 $max$&lt;/li&gt;
-&lt;li&gt;加回 $k$ 个第 $i$ 个物品的价值，变为 $max f_{i-1,j-v_ik} + w_ik$&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;接下来讲递推过程：&lt;br&gt;
+前面 0/1 背包我们只需要考虑一个物品&lt;strong&gt;是否选&lt;/strong&gt;，但是现在还需要考虑&lt;strong&gt;选多少&lt;/strong&gt;。&lt;br&gt;
+考虑是否选择时，我们直接枚举当前物品的状态，即 0/1，选或不选。 &lt;br&gt;
+放到现在这个题目中，把刚才 0/1 背包枚举&lt;strong&gt;选或不选&lt;/strong&gt;的过程看作枚举&lt;strong&gt;物品数量&lt;/strong&gt;，即选 $1$ 个或选 $0$ 个，这启发我们可以通过枚举物品数量来解决&lt;strong&gt;选多少&lt;/strong&gt;的问题。&lt;br&gt;
+状态转移方程就自然而然地出来了：
+$$
+f_{i,j} - \max { f_{i-1,j-v_ik} + w_ik }
+$$&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;backpack&lt;/span&gt;() {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;#define MAXN 1010
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
@@ -115,57 +111,98 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; i &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; m; j &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; k &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;v[i] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; j; k &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; k &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; v[i] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; j; k &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) 
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                f[i][j] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(f[i][j], f[i &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;][j &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; v[i] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; k] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; w[i] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; k);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; f[n][m] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;2-维优化&#34;&gt;2 维优化&lt;/h3&gt;
-&lt;p&gt;状态转移方程为 $f_{i,j} = max{f_{i,j}, f_{i-1,j - v_ik} + w_ik}$&lt;/p&gt;
-&lt;p&gt;因此可得&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;f[i,j] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(f[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,j], f[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;v] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; w, f[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;v] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;w, f[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;v] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;w, ...... ) 
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;f[i,j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;v] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(        f[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;v]    , f[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;v] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;   w, f[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;v] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;w, ...... ) 
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;del&gt;从我这拙劣的对齐&lt;/del&gt; 可以看出他们的关系捏&lt;/p&gt;
-&lt;p&gt;也就是说 &lt;strong&gt;第一行&lt;/strong&gt; 后面的一大坨&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;f[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;v] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; w, f[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;v] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;w, f[i&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;,j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;v] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;w, ......
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;等价于&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;f[i,j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;v] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; w
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;最终我们可以把该节第一行的状态转移方程优化为 $f_{i,j} = max(f_{i-1,j}, f_{i,j-v})$&lt;/p&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;上面的转移有三维！太慢了！想办法如何减去一个维度。&lt;/p&gt;
+&lt;p&gt;状态方面，没有办法再降了，因为去掉任意一维都会导致无法表示唯一的状态。&lt;br&gt;
+那就考虑优化递推的过程。想一想是否有哪些状态能够转移到当前状态但是没考虑到？答案是有的。&lt;br&gt;
+考虑递推过程的第二层、第三层循环，对于每一个体积 $j$，$k$ 都需要从 $1$ 枚举到 $j/v_ik$ ，形象点来说大概长这样&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;1&lt;/th&gt;
+&lt;th&gt;2&lt;/th&gt;
+&lt;th&gt;3&lt;/th&gt;
+&lt;th&gt;4&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;td&gt;-&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;于是新的递推方式就显而易见了，设当前状态为 $f_{i,j}$，我既可以选物品 $i$，也可以不选物品 $i$，从 $f_{i-1,j}$ 转移过来。&lt;br&gt;
+状态转移方程：
+$$
+f_{i,j} =
+\max
+\begin{cases}
+f_{i-1,j} \\
+f_{i,j-v_i} + w_i,\ j\geqslant v_i
+\end{cases}
+$$&lt;/p&gt;
 &lt;p&gt;代码如下&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;full_backpack&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;#define MAXN 1010
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define MAXN 1010
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n,m; &lt;span style=&#34;color:#75715e&#34;&gt;//! 应当定义在函数外部，原因我不说，因为没人看
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v[MAXN],w[MAXN];
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; f[MAXN][MAXN];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n,m;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v[MAXN],w[MAXN];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; f[MAXN][MAXN];
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; m;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; i &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; v[i] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; w[i];
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; i &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; m; j &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;//  原做法
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;//  for (int k = 0; k *v[i] &amp;lt;= j; k ++) 
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;//      f[i][j] = max(f[i][j], f[i - 1][j - v[i] * k] + w[i] * k);
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            f[i][j] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; f[i &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;][j];
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; v[i]) f[i][j] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(f[i][j], f[i][j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;v[i]] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; w[i]);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; f[n][m] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; m;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; i &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; v[i] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; w[i];
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后强删一维，变成一维DP数组捏&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;backpack&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;#define MAXN 1010
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; i &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; m; j &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;//  原做法
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;//  for (int k = 0; k *v[i] &amp;lt;= j; k ++) 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#75715e&#34;&gt;//      f[i][j] = max(f[i][j], f[i - 1][j - v[i] * k] + w[i] * k);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		f[i][j] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; f[i &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;][j];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; v[i]) f[i][j] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; max(f[i][j], f[i][j&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;v[i]] &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; w[i]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; f[n][m] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;滚动数组优化&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define MAXN 1010
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n,m; &lt;span style=&#34;color:#75715e&#34;&gt;//! 应当定义在函数外部，原因我不说，因为没人看
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v[MAXN],w[MAXN];
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; f[MAXN][MAXN];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; n,m;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v[MAXN],w[MAXN];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; f[MAXN][MAXN];
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;backpack&lt;/span&gt;() {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; m;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; i &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; v[i] &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; w[i];
@@ -182,9 +219,12 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;多重背包&#34;&gt;多重背包&lt;/h2&gt;
 &lt;h3 id=&#34;朴素-1&#34;&gt;朴素&lt;/h3&gt;
 &lt;p&gt;$N$ 种物品，背包容量为 $V$，第 $i$ 件物品最多能选 $C_i$ 个，每件物品占空间 $v_i$，价值为 $w_i$&lt;/p&gt;
-&lt;p&gt;第一种容易想到的解法是把完全背包的方法拿来用，因为多重背包只是加了 $k$ 的限制&lt;br&gt;
-状态转移方程即 $f_{i,j} = \max{f_{i,j}, f_{i-1,j - C_ik} + w_ik 0} $&lt;/p&gt;
-&lt;p&gt;考虑多重背包和完全背包的区别可以发现，多重背包虽然每种物品不只一种，但是有确定的数量，而完全背包没有数量限制，则可以轻松地在忽略时间复杂度的情况下把多重背包&lt;strong&gt;拆分&lt;/strong&gt;成 01 背包，即把 $M_i$ 件第 $i$ 件物品挨个算单个物品再按照 01 背包的方式处理。&lt;/p&gt;
+&lt;p&gt;第一种容易想到的解法是把完全背包的方法拿来用，因为多重背包只是加了 $k$ 的限制。
+状态转移方程：
+$$
+f_{i,j} = \max{f_{i,j}, f_{i-1,j - C_ik} + w_ik}
+$$&lt;/p&gt;
+&lt;p&gt;考虑多重背包和完全背包的区别可以发现，多重背包虽然每种物品不只一种，但是有确定的数量，而完全背包没有数量限制，则可以轻松地在&lt;del&gt;忽略时间复杂度的情况下&lt;/del&gt;把多重背包&lt;strong&gt;拆分&lt;/strong&gt;成 01 背包，即把 $M_i$ 件第 $i$ 件物品挨个算单个物品再按照 01 背包的方式处理。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; i) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; j &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; j &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; m; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; j) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; k &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; min(c[i],j&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;w[i])&lt;span style=&#34;color:#75715e&#34;&gt;/* 数量和体积两个都限制数量 */&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; k) {
@@ -195,12 +235,14 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;二进制优化&#34;&gt;二进制优化&lt;/h3&gt;
 &lt;p&gt;这种暴力方式求解比较慢，容易发现，在求解过程中，每个&lt;strong&gt;同种&lt;/strong&gt;物品是按照&lt;strong&gt;不同种&lt;/strong&gt;物品进行处理的，换句话说，我选第一个 a 物品与选第二个 a 物品，实际上效果都是选 1 个 a 物品，但是这样的情况在上文解法中做了两次决策，显然有一种是多余的。&lt;br&gt;
 也就是说，接下来的优化方向是&lt;strong&gt;减少&lt;/strong&gt;每次决策所遇到的&lt;strong&gt;同数量同种&lt;/strong&gt;物品，那会联想到什么呢？&lt;br&gt;
-01 背包的决策是 &lt;strong&gt;选&lt;/strong&gt; 与 &lt;strong&gt;不选&lt;/strong&gt;，因此称为“01”背包，而 01 能够提醒我们利用&lt;strong&gt;二进制&lt;/strong&gt;表示&lt;strong&gt;不同的数&lt;/strong&gt;（不管想不想到反正这就是优化方法）&lt;/p&gt;
+想办法把物品分为多个组，使这些组的不同组合能表示出所有数量，于是想到进制，这里采用二进制拆分。&lt;/p&gt;
 &lt;p&gt;易证，使用 $2^0, 2^1, 2^2, 2^3&amp;hellip; 2^{k-1}$ 能够表示出 $0$ 到 $2^{k-1}$ 之间的所有的数，即二进制计数。也就是说，如果把物品的数量 $C_i$ 拆分成 $2^0, 2^1, 2^2&amp;hellip;2^{k-1} + p,0 \leq p &amp;lt; 2^{k-1}$，由 $p$ 的范围可得，其中 $2^0+&amp;hellip;2^{k-1}$ 能够表示出 $[0,p]$ 的所有整数，然后也能轻松得出 $2^0+&amp;hellip;+2^{k-1}$ 选出若干与 $p$ 相加能表示出 $[p,p+2^k-1]$ 之间所有整数，两个合并即是 $[0,C_i]$&lt;/p&gt;
 &lt;p&gt;因此可以将 $C_i$ 拆分为 $k+1$ 种新的物品，每种新物品的体积和价值分别为：
 $$
-2^0 \cdot w[i],2^1 \cdot w[i],2^2 \cdot w[i],&amp;hellip;,2^{k-1} \cdot w[i],p \cdot w[i] \\
-2^0 \cdot v[i],2^1 \cdot v[i],2^2 \cdot v[i],&amp;hellip;,2^{k-1} \cdot v[i],p \cdot v[i]
+\begin{aligned}
+&amp;amp;2^0 \cdot w_i,2^1 \cdot w_i,2^2 \cdot w_i,\dots,2^{k-1} \cdot w_i,p \cdot w_i \\
+&amp;amp;2^0 \cdot v_i,2^1 \cdot v_i,2^2 \cdot v_i,\dots,2^{k-1} \cdot v_i,p \cdot v_i
+\end{aligned}
 $$
 拆分完再进行 01 背包即可。&lt;/p&gt;
 &lt;p&gt;代码来自 &lt;a class=&#34;link&#34; href=&#34;https://grainrain.site/2022/10/13/2022.10.13%20-%20%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -252,7 +294,7 @@ $$
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;依赖背包&#34;&gt;依赖背包&lt;/h2&gt;
-&lt;p&gt;&lt;del&gt;我的 Windows 盘还剩 3 个 G，新买的东方冰之勇者记占 2G,LLVM 依赖于 MSVC 生成工具，MSVC 占用 2G 磁盘，LLVM 占用 2G 磁盘，问我应该怎么安装收益最大&lt;/del&gt;&lt;br&gt;
+&lt;p&gt;&lt;del&gt;我的 Windows 盘还剩 5 个 G，新买的东方冰之勇者记占 2G,LLVM 依赖于 MSVC 生成工具，MSVC 占用 2G 磁盘，LLVM 占用 2G 磁盘，问我应该怎么安装收益最大&lt;/del&gt;&lt;br&gt;
 &lt;del&gt;reboot to archlinux!&lt;/del&gt;&lt;/p&gt;
 &lt;p&gt;A 物品依赖于 B，选 B 物品之前需要先选 A 物品，问最大价值&lt;/p&gt;
 &lt;p&gt;容易发现对于任意有依赖关系的物品 A B 来说，一共有以下三种可能的决策 &lt;br&gt;
@@ -263,7 +305,7 @@ $$
 &lt;li&gt;A B 都选&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;因为这三种情况只会出现一个，联想分组背包的特征，将这三种情况每个看成一个组里的物品，即转化为了分组背包。&lt;/p&gt;
-&lt;p&gt;直接 dfs 就能解决依赖关系，但是这种情况怎么看都是要涉及到树形 DP 或者图论的）&lt;/p&gt;
+&lt;p&gt;这东西是树形 DP&amp;hellip;&lt;/p&gt;
 </description>
         </item>
         

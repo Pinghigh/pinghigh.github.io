@@ -8,12 +8,12 @@
         <language>zh-cn</language>
         <lastBuildDate>Sun, 29 Jan 2023 14:12:27 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>树状数组</title>
-        <link>https://blog.tibrella.top/post/2023-1-29-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</link>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</link>
         <pubDate>Sun, 29 Jan 2023 14:12:27 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2023-1-29-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</guid>
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 树状数组" /&gt;&lt;p&gt;顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。&lt;br&gt;
-用途是解决大部分区间修改查询问题，复杂度一般是 $\operatorname{O}(\log n)$ ，同时常数小（暗示线段树不行），同时码量小，好理解（暗示*2），但是复杂的区间修改查询问题不能解决，同时区间最大最小值也不能用它处理（后文会说）&lt;/p&gt;
+用途是解决大部分区间修改查询问题，复杂度一般是 $\operatorname{O}(\log n)$ ，同时常数小（暗示 &lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%BA%BF%E6%AE%B5%E6%A0%91/&#34; &gt;线段树&lt;/a&gt; 不行），同时码量小，好理解（暗示 * 2），但是复杂的区间修改查询问题不能解决，同时区间最大最小值也不能用它处理（后文会说）&lt;/p&gt;
 &lt;h2 id=&#34;基本树状数组&#34;&gt;基本树状数组&lt;/h2&gt;
 &lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
 &lt;p&gt;来自学长的一张图&lt;br&gt;
@@ -55,7 +55,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;单点修改&#34;&gt;单点修改&lt;/h4&gt;
 &lt;p&gt;假设修改为给第 $x$ 个数增加 $v$，那我们就需要修改所有包含第 $x$ 个元素的节点，则从第 $x$ 个节点寻找父亲节点直到根节点为止（参考上图）。&lt;br&gt;
-$x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层循环实现 $\operatorname{O}(\log(n))$ 修改。&lt;/p&gt;
+$x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层循环实现 $\operatorname{O}(\log n)$ 修改。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;modify&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; i &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; lowbit(i)) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        tree[i] &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; v;

@@ -8,16 +8,16 @@
         <language>zh-cn</language>
         <lastBuildDate>Fri, 24 Feb 2023 21:40:29 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/%E6%9D%82%E9%A1%B9/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>更改博客主题之后的一些破事</title>
-        <link>https://blog.tibrella.top/post/2023-2-24-move-to-hugo/</link>
+        <link>https://blog.tibrella.top/notes/%E8%BF%81%E7%A7%BB%E8%87%B3-hugo-%E6%A1%86%E6%9E%B6%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%B4%E4%BA%8B/</link>
         <pubDate>Fri, 24 Feb 2023 21:40:29 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2023-2-24-move-to-hugo/</guid>
+        <guid>https://blog.tibrella.top/notes/%E8%BF%81%E7%A7%BB%E8%87%B3-hugo-%E6%A1%86%E6%9E%B6%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A0%B4%E4%BA%8B/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 更改博客主题之后的一些破事" /&gt;&lt;p&gt;最近因为原来 &lt;a class=&#34;link&#34; href=&#34;https://github.com/pinghigh/hexo-theme-butterfly/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;我的 butterfly 主题 fork&lt;/a&gt; 实在改不动了（实际上因为我水平太差），对于 pug 什么的也不太懂，同时由于界面过于花哨看腻了，想换点动态效果少的而又相对简单的博客主题。
 又因为之前就观察过 hugo 的主题列表，hugo 的特点是快，大部分的 hugo 主题也非常简洁（比如 &lt;a class=&#34;link&#34; href=&#34;https://c4096.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;c4096 的博客&lt;/a&gt;所采用的主题），因此我又双叒叕去 hugo theme 列表挑了个非常符合我审美（大概）的主题，即 &lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;stack&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;最一开始用 test 界面测试主题功能的时候 hugo 的速度就惊艳我了，实在是过于迅速，和我之前所用的 hexo+butterfly 的速度相比，hugo 让我感觉到构建了又好像没构建的构建过程。同时它的即时修改即时预览功能也很好用（有的时候并不能做到完全应用新修改）。
+&lt;p&gt;最一开始用 test 界面测试主题功能的时候 hugo 的速度就惊艳我了，实在是过于迅速，和我之前所用的 hexo+butterfly 的速度相比，hugo 让我感觉到构建了又好像没构建的构建过程。同时它的即时修改即时预览功能也很好用（但是有的时候并不能做到完全应用新修改）。
 但是一起到来的问题也很多，比如 stack 主题的文档并不是很完善，相对于我看过的大部分 hexo 主题来说可能是最不完善的（中英文倒是无所谓），因此我需要一边看文档一边看源码，还得看主题的示例站点的配置文件才让我的博客跑出正常的样子。&lt;/p&gt;
 &lt;p&gt;主题配置问题还算好解决，对于我这个&lt;del&gt;啥都不懂还贼挑的&lt;/del&gt;人来说，改动主题是必须有的部分，但是 hugo 的编写修改维护主题的文档和教程更是少之又少了&amp;hellip;因此研究了好久也没研究出来怎么改代码块样式，改配色也没成功，但是把深浅色代码块背景宽度不统一的问题倒是解决了，还得对这个进行进一步更改。当然，主题克隆下来的第一步就是 copyright-&amp;gt;copyleft，然后给 &lt;code&gt;&amp;amp;copy&lt;/code&gt; 掉个头，文章许可证改为 FDL 1.3 才继续做接下来的修改。&lt;/p&gt;
 &lt;p&gt;关于写配置，我最开始采用的是网上得到大部分好评的 toml 格式，据说比 yaml 新还好用，在此之前因为 yaml 的缩进问题我痛苦了很长时间，但是折腾了好久 toml 之后感觉 toml 更不容易被人类理解（可能只有我不理解），然后用工具回到了 yaml 的怀抱，在此之前为了研究 toml 的 map 映射语法之类的东西已经折腾不动了&amp;hellip;&lt;/p&gt;

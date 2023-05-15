@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>大步小步 on 钛合金伞的隙间</title>
+        <link>https://blog.tibrella.top/tags/%E5%A4%A7%E6%AD%A5%E5%B0%8F%E6%AD%A5/</link>
+        <description>Recent content in 大步小步 on 钛合金伞的隙间</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Fri, 28 Apr 2023 18:12:32 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E5%A4%A7%E6%AD%A5%E5%B0%8F%E6%AD%A5/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>离散对数</title>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0/</link>
+        <pubDate>Fri, 28 Apr 2023 18:12:32 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 离散对数" /&gt;&lt;p&gt;离散对数问题，即已知 $a,b,p$，求方程 $a^x \equiv b \pmod p$ 最小非负整数解。&lt;/p&gt;
+&lt;h2 id=&#34;bsgs-算法&#34;&gt;BSGS 算法&lt;/h2&gt;
+&lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
+&lt;p&gt;思考暴力做法，即枚举 $x$ 直到满足方程，复杂度 $\operatorname{O}(p)$&lt;/p&gt;
+&lt;p&gt;BSGS 类似一种分块思想，也有点像折半搜索（&lt;/p&gt;
+&lt;p&gt;首先把 $x$ 拆开，拆成 $km - r$ ，然后进行变换：
+$$
+\begin{aligned}
+a^x &amp;amp;\equiv b \pmod p \\
+a^{km-r} &amp;amp;\equiv b \pmod p \\
+\frac {a^{km}}{a^r} &amp;amp; \equiv b \pmod p \\
+a^{km} &amp;amp; \equiv ba^r \pmod p
+\end{aligned}
+$$
+这里的 $m$ 我们设为一个固定值，然后分别枚举等式两边的 $k,r$，存哈希表（映射），然后匹配即可，其中 $k \in [0, \cfrac pm], r \in [0,m]$ ，复杂度 $\operatorname{O}(\max(m,\cfrac pm))$ ，则 $m=\sqrt p$ 时最优，复杂度是一个根号。&lt;/p&gt;
+&lt;h3 id=&#34;实现&#34;&gt;实现&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;read(n, p);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (b &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; p) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (n &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; p) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (b &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (n &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) output(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	failed();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (n &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	output(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (b &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	failed();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i128 m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sqrt(p), z &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; n;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i128 i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; m; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	mp[z] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i; &lt;span style=&#34;color:#75715e&#34;&gt;// 存储的实际上是模数所对应的最大 r（从小到大枚举，挨个覆盖）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	z &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; z &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;z &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; binpow(b, m);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i128 i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, pian &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; z; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; m &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; it &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; mp.find(z);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (it &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; mp.end()) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		output(m &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; it&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;second);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	z &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; z &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; pian &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;failed();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        </item>
+        
+    </channel>
+</rss>

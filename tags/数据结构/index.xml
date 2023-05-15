@@ -8,12 +8,12 @@
         <language>zh-cn</language>
         <lastBuildDate>Sun, 29 Jan 2023 14:12:27 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>树状数组</title>
-        <link>https://blog.tibrella.top/post/2023-1-29-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</link>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</link>
         <pubDate>Sun, 29 Jan 2023 14:12:27 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2023-1-29-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</guid>
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 树状数组" /&gt;&lt;p&gt;顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。&lt;br&gt;
-用途是解决大部分区间修改查询问题，复杂度一般是 $\operatorname{O}(\log n)$ ，同时常数小（暗示线段树不行），同时码量小，好理解（暗示*2），但是复杂的区间修改查询问题不能解决，同时区间最大最小值也不能用它处理（后文会说）&lt;/p&gt;
+用途是解决大部分区间修改查询问题，复杂度一般是 $\operatorname{O}(\log n)$ ，同时常数小（暗示 &lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%BA%BF%E6%AE%B5%E6%A0%91/&#34; &gt;线段树&lt;/a&gt; 不行），同时码量小，好理解（暗示 * 2），但是复杂的区间修改查询问题不能解决，同时区间最大最小值也不能用它处理（后文会说）&lt;/p&gt;
 &lt;h2 id=&#34;基本树状数组&#34;&gt;基本树状数组&lt;/h2&gt;
 &lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
 &lt;p&gt;来自学长的一张图&lt;br&gt;
@@ -55,7 +55,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;单点修改&#34;&gt;单点修改&lt;/h4&gt;
 &lt;p&gt;假设修改为给第 $x$ 个数增加 $v$，那我们就需要修改所有包含第 $x$ 个元素的节点，则从第 $x$ 个节点寻找父亲节点直到根节点为止（参考上图）。&lt;br&gt;
-$x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层循环实现 $\operatorname{O}(\log(n))$ 修改。&lt;/p&gt;
+$x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层循环实现 $\operatorname{O}(\log n)$ 修改。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;modify&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; i &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; lowbit(i)) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        tree[i] &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; v;
@@ -79,10 +79,10 @@ $x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层�
         </item>
         <item>
         <title>RMQ/ST表</title>
-        <link>https://blog.tibrella.top/post/2023-1-28-rmq/</link>
+        <link>https://blog.tibrella.top/notes/%E6%9D%82%E7%AE%97%E6%B3%95/rmq-%E9%97%AE%E9%A2%98/</link>
         <pubDate>Fri, 27 Jan 2023 14:22:33 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2023-1-28-rmq/</guid>
+        <guid>https://blog.tibrella.top/notes/%E6%9D%82%E7%AE%97%E6%B3%95/rmq-%E9%97%AE%E9%A2%98/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post RMQ/ST表" /&gt;&lt;p&gt;目标是解决 RMQ 问题，即对于一个大区间，短时间内查询一个小区间的最大最小值&lt;/p&gt;
 &lt;p&gt;下文以最大值为例说明&lt;/p&gt;
 &lt;p&gt;ST 表本质上是一个动态规划（倍增的）&lt;/p&gt;
@@ -180,10 +180,10 @@ $$&lt;/p&gt;
         </item>
         <item>
         <title>并查集</title>
-        <link>https://blog.tibrella.top/post/2022-1-17-%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
+        <link>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
         <pubDate>Tue, 17 Jan 2023 15:11:36 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-1-17-%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
+        <guid>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 并查集" /&gt;&lt;p&gt;今天讲的最短路啥的感觉有点费劲，先把并查集的东西写了&lt;/p&gt;
 &lt;h2 id=&#34;用途&#34;&gt;用途&lt;/h2&gt;
 &lt;p&gt;基本上用来处理 &lt;strong&gt;关系&lt;/strong&gt;&lt;br&gt;
@@ -344,10 +344,10 @@ $$&lt;/p&gt;
         </item>
         <item>
         <title>线段树</title>
-        <link>https://blog.tibrella.top/post/2022-10-xianduanshu/</link>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%BA%BF%E6%AE%B5%E6%A0%91/</link>
         <pubDate>Thu, 27 Oct 2022 14:22:33 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-10-xianduanshu/</guid>
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%BA%BF%E6%AE%B5%E6%A0%91/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 线段树" /&gt;&lt;p&gt;&lt;del&gt;闪击线段树&lt;/del&gt;&lt;/p&gt;
 &lt;h2 id=&#34;基本线段树&#34;&gt;基本线段树&lt;/h2&gt;
 &lt;h3 id=&#34;操作&#34;&gt;操作&lt;/h3&gt;
@@ -425,7 +425,7 @@ $$&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    push_down(nod);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; L) { &lt;span style=&#34;color:#75715e&#34;&gt;// 严格覆盖
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;mark&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;mark&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; L) { &lt;span style=&#34;color:#75715e&#34;&gt;// 严格覆盖
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
@@ -449,7 +449,7 @@ $$&lt;/p&gt;
 &lt;p&gt;也就是说若一个节点拥有懒标记，那么该节点的子节点们都不知道这个懒标记的存在，同时也就表明该节点的叶子节点存储的信息均不是真实信息。如果需要用到当前拥有懒标记的节点的真实信息，就需要把懒标记下放到子节点，通过懒标记更改子节点数据，然后处理子节点更改造成的数据更改即可（直接 &lt;code&gt;push_up&lt;/code&gt;）&lt;/p&gt;
 &lt;p&gt;假设目前要求维护区间和的同时处理区间加的操作，对于每一个节点来说，我们需要维护一个懒标记 $lazy$ ，代表“当前区间的子区间需要加一个 $lazy$ ”。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;modify&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v) { &lt;span style=&#34;color:#75715e&#34;&gt;// 给 [L,R] 每个数加 v
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (L &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r) { &lt;span style=&#34;color:#75715e&#34;&gt;// 包含了
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (L &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;mark&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;mark&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r) { &lt;span style=&#34;color:#75715e&#34;&gt;// 包含了
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; v; &lt;span style=&#34;color:#75715e&#34;&gt;// 该区间的每个子区间都需要加 v
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; v; &lt;span style=&#34;color:#75715e&#34;&gt;// 当前区间一共有 R-L+1 个元素（因为严格包含所以 L 和 R 就是区间的左右端点）
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// 用不上子区间的数据，不下传懒标记直接结束
@@ -485,8 +485,7 @@ $$&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define int long long
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define N 1000150
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define N 1000150
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Node&lt;/span&gt; {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; u;
@@ -537,7 +536,7 @@ $$&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;modify&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (L &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (L &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;mark&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;mark&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;lazy &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; v;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; v;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
@@ -557,7 +556,7 @@ $$&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt;(Node&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; nod, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; L, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; R) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    push_down(nod);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; L) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;r &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;mark&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; R &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;l &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/&lt;/span&gt;mark&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; L) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; nod&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;v;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;

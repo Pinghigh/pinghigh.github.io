@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="终于填上这个坑了！为了 zfs 折腾了好久！(经过虚拟机实验，完美安装)" />
+<title>在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动</title>
+
+<link rel="canonical" href="https://blog.tibrella.top/notes/linux/%E5%9C%A8%E5%90%AF%E7%94%A8-zstd-%E5%8E%8B%E7%BC%A9%E7%9A%84-zfs-%E6%A0%B9%E5%88%86%E5%8C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-archlinux-%E5%B9%B6%E9%85%8D%E7%BD%AE-windows-%E5%8F%8C%E5%90%AF%E5%8A%A8/" />
+
+<link rel="stylesheet" href="/scss/style.min.19d3e9dbcdfe52220c83a8060da22e16c36e030b9e930048778c3de944edb23b.css"><meta property='og:title' content='在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动'>
+<meta property='og:description' content='终于填上这个坑了！为了 zfs 折腾了好久！(经过虚拟机实验，完美安装)'>
+<meta property='og:url' content='https://blog.tibrella.top/notes/linux/%E5%9C%A8%E5%90%AF%E7%94%A8-zstd-%E5%8E%8B%E7%BC%A9%E7%9A%84-zfs-%E6%A0%B9%E5%88%86%E5%8C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-archlinux-%E5%B9%B6%E9%85%8D%E7%BD%AE-windows-%E5%8F%8C%E5%90%AF%E5%8A%A8/'>
+<meta property='og:site_name' content='钛合金伞的隙间'>
+<meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='ZFSBootMenu' /><meta property='article:tag' content='ArchLinux' /><meta property='article:tag' content='ZFS' /><meta property='article:published_time' content='2022-12-15T19:46:43&#43;00:00'/><meta property='article:modified_time' content='2022-12-15T19:46:43&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg' />
+<meta name="twitter:title" content="在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动">
+<meta name="twitter:description" content="终于填上这个坑了！为了 zfs 折腾了好久！(经过虚拟机实验，完美安装)"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg' />
+<link rel="shortcut icon" href="/favicon.png" />
+<link
+  href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css"
+  rel="stylesheet"
+/>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+  hljs.highlightAll();
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="/img/avatar.jpg" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">🌂</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
+            <h2 class="site-description">将梦想化为残机，我们就仍能飞翔</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:pinghigh24678@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/pinghigh'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/@pinghigh24678'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#总览">总览</a></li>
+    <li><a href="#安装前">安装前</a>
+      <ul>
+        <li><a href="#cachyos-livecd推荐">CachyOS LiveCD（推荐）</a></li>
+        <li><a href="#archiso-zfs">archiso-zfs</a></li>
+      </ul>
+    </li>
+    <li><a href="#格式化">格式化</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#安装">安装</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#配置-zfsbootmenu-引导">配置 ZFSBootMenu 引导</a></li>
+    <li><a href="#配置-refind-以实现与-windows-双启动">配置 rEFInd 以实现与 Windows 双启动</a></li>
+    <li><a href="#结束">结束</a></li>
+    <li><a href="#后记">后记</a></li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/notes/linux/%E5%9C%A8%E5%90%AF%E7%94%A8-zstd-%E5%8E%8B%E7%BC%A9%E7%9A%84-zfs-%E6%A0%B9%E5%88%86%E5%8C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-archlinux-%E5%B9%B6%E9%85%8D%E7%BD%AE-windows-%E5%8F%8C%E5%90%AF%E5%8A%A8/">
+                
+                    <img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" loading="lazy" alt="Featured image of post 在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/linux/" >
+                Linux
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/notes/linux/%E5%9C%A8%E5%90%AF%E7%94%A8-zstd-%E5%8E%8B%E7%BC%A9%E7%9A%84-zfs-%E6%A0%B9%E5%88%86%E5%8C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-archlinux-%E5%B9%B6%E9%85%8D%E7%BD%AE-windows-%E5%8F%8C%E5%90%AF%E5%8A%A8/">在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            终于填上这个坑了！为了 zfs 折腾了好久！(经过虚拟机实验，完美安装)
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 15, 2022</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p><a class="link" href="https://blog.tibrella.top/notes/linux/zfsbootmenu-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" >ZFSBootMenu 基础使用</a> 和这篇文章的最后部分相同。
+本方案已经被实际测试过，完全可用，但是建议在有 Linux 基础的情况下折腾 ZFS，因为没准有某个地方我会忘记修改&hellip;</p>
+<h2 id="总览">总览</h2>
+<p>分区大概长这样</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-TEXT" data-lang="TEXT"><span style="display:flex;"><span>分区1 300M FAT16 EFI
+</span></span><span style="display:flex;"><span>分区2 128G ZFS   ArchLinux
+</span></span><span style="display:flex;"><span>分区3 128G NTFS  Windows
+</span></span><span style="display:flex;"><span>分区N **G  **FS  DATA // 其他分区
+</span></span></code></pre></div><p>然后 ZFS 池里面长这样</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-TEXT" data-lang="TEXT"><span style="display:flex;"><span>zroot
+</span></span><span style="display:flex;"><span> ├─ROOT
+</span></span><span style="display:flex;"><span> |  ├─voidlinux // 实际上可以在这个池里安装多个 Linux，本处计划把所有 Linux 根分区数据集放在 zroot/ROOT/ 里
+</span></span><span style="display:flex;"><span> |  └─archlinux
+</span></span><span style="display:flex;"><span> └─data
+</span></span><span style="display:flex;"><span>    └─home // 存放 /home
+</span></span></code></pre></div><p>ZFS池那块看不懂没关系，只需要跟着文章做就行</p>
+<h2 id="安装前">安装前</h2>
+<p>准备一个有 ZFS 支持的 archiso，这里我们提供两个方案</p>
+<h3 id="cachyos-livecd推荐">CachyOS LiveCD（推荐）</h3>
+<p>从 <a class="link" href="https://sourceforge.net/projects/cachyos-arch/files/gui-installer/"  target="_blank" rel="noopener"
+    >CachyOS 的 Sourceforge 界面</a> 下载带 GUI 的 LiveCD（它的 CLI 安装器没 ZFS 支持），然后扔进 U 盘重启进入即可</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>sudo modprobe zfs <span style="color:#75715e"># 加载 ZFS 模块</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo su <span style="color:#75715e"># 切换到 root 用户</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>timedatectl set-ntp true  <span style="color:#75715e"># 同步时间</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vim /etc/pacman.d/mirrorlist <span style="color:#75715e"># 改镜像站</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 开头添加</span>
+</span></span><span style="display:flex;"><span>Server <span style="color:#f92672">=</span> https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
+</span></span></code></pre></div><h3 id="archiso-zfs">archiso-zfs</h3>
+<p>此处使用 <a class="link" href="https://github.com/eoli3n/archiso-zfs"  target="_blank" rel="noopener"
+    >eoli3n 的 archiso-zfs</a> 项目</p>
+<p>首先下载一个<a class="link" href="https://archlinux.org/download/"  target="_blank" rel="noopener"
+    >官方的 ArchLinux LiveCD</a>，然后重启进入</p>
+<h4 id="联网">联网</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>iwctl <span style="color:#75715e"># 进入 iwctl 命令行界面</span>
+</span></span></code></pre></div><p>下面的命令在 <code>iwctl</code> 中输入</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>device list <span style="color:#75715e"># 列出可用设备</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 假设上面列出的设备是 wlan0</span>
+</span></span><span style="display:flex;"><span>station wlan0 scan
+</span></span><span style="display:flex;"><span>station wlan0 connect SSID <span style="color:#75715e"># 连接名为 SSID 的网络</span>
+</span></span><span style="display:flex;"><span>exit     
+</span></span></code></pre></div><p>验证联网</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>ping www.baidu.com
+</span></span><span style="display:flex;"><span>timedatectl set-ntp true  <span style="color:#75715e"># 同步时间</span>
+</span></span></code></pre></div><h4 id="加载-zfs-模块">加载 ZFS 模块</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>curl -s https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash -x
+</span></span></code></pre></div><p>如果连接 github 有问题，则运行下面的命令替代</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>curl -s https://ghproxy.com/https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash -x
+</span></span></code></pre></div><p>执行过程因为网络原因会比较慢</p>
+<h4 id="改镜像站">改镜像站</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>vim /etc/pacman.d/mirrorlist
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 开头添加</span>
+</span></span><span style="display:flex;"><span>Server <span style="color:#f92672">=</span> https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
+</span></span></code></pre></div><p>至此，环境准备完毕，下面的操作不受 livecd 影响</p>
+<h2 id="格式化">格式化</h2>
+<p>此处认为你已经分好区了，总体需要三个分区</p>
+<ul>
+<li>ESP（EFI） 分区，300M，打了 ESP 标签（可以用 <code>cfdisk</code> 打），此处举例为 <code>/dev/nvme0n1p1</code></li>
+<li>Linux 分区（ZFS池），30+G，此处举例为 <code>/dev/nvme0n1p2</code></li>
+<li>Windows 分区（如果不需要安装 Windows 就不用建），40+G，此处举例为 <code>/dev/nvme0n1p3</code></li>
+</ul>
+<h4 id="创建-zfs-池">创建 ZFS 池</h4>
+<p><code>ashift = 12</code> 代表 4096 字节扇区大小，9 代表 512 扇区大小，13 代表 8192 字节扇区大小，在 4096/8192 扇区大小的 SSD 上设置 9 会导致性能损失，在 512 字节扇区大小的硬盘上设置 12/13会导致容量损失，扇区大小可以通过 fdisk -l（不准）或者 diskgenius 这类工具查看<br>
+<code>dedup=on</code> 为去重功能，可能会占用较大 RAM，低配机子可以把这行删掉<br>
+<code>compression=zstd</code> 为压缩功能，zstd 目前来看压缩率和性能损失比较平衡，在意性能可以改为快速压缩算法 lz4（gzip 压缩率和性能都比不上 zstd）<br>
+其他照做即可</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zpool create -f -o ashift<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>           <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O acltype<span style="color:#f92672">=</span>posixacl       <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O relatime<span style="color:#f92672">=</span>on            <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O xattr<span style="color:#f92672">=</span>sa               <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O dnodesize<span style="color:#f92672">=</span>legacy       <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O normalization<span style="color:#f92672">=</span>formD    <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O mountpoint<span style="color:#f92672">=</span>none        <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O canmount<span style="color:#f92672">=</span>off           <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O devices<span style="color:#f92672">=</span>off            <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O compression<span style="color:#f92672">=</span>zstd       <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O dedup<span style="color:#f92672">=</span>on               <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -R /mnt                   <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             zroot /dev/nvme0n1p2             
+</span></span></code></pre></div><p>创建数据集</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zfs create -o mountpoint<span style="color:#f92672">=</span>none zroot/data
+</span></span><span style="display:flex;"><span>zfs create -o mountpoint<span style="color:#f92672">=</span>none zroot/ROOT
+</span></span><span style="display:flex;"><span>zfs create -o mountpoint<span style="color:#f92672">=</span>/ -o canmount<span style="color:#f92672">=</span>noauto zroot/ROOT/archlinux
+</span></span><span style="display:flex;"><span>zfs create -o mountpoint<span style="color:#f92672">=</span>/home zroot/data/home
+</span></span></code></pre></div><p>测试zpool是否能够导入导出</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zpool export zroot
+</span></span><span style="display:flex;"><span>zpool import zroot -R /mnt  
+</span></span></code></pre></div><p>挂载zpool</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zfs mount zroot/ROOT/archlinux
+</span></span><span style="display:flex;"><span>zfs mount -a
+</span></span></code></pre></div><p>设置启动数据集</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zpool set bootfs<span style="color:#f92672">=</span>zroot/ROOT/archlinux zroot
+</span></span></code></pre></div><p>设置zpool缓存</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zpool set cachefile<span style="color:#f92672">=</span>/etc/zfs/zpool.cache zroot
+</span></span><span style="display:flex;"><span>mkdir /mnt/etc
+</span></span><span style="display:flex;"><span>mkdir /mnt/etc/zfs
+</span></span><span style="display:flex;"><span>cp /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache
+</span></span></code></pre></div><p>查看是否有挂载上</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>df -h
+</span></span></code></pre></div><p>输出</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-TEXT" data-lang="TEXT"><span style="display:flex;"><span>zroot/ROOT/archlinux   30G  128K   30G   1% /mnt
+</span></span></code></pre></div><h4 id="格式化-efi-分区">格式化 EFI 分区</h4>
+<p>注意此处挂载点不可以设置成 <code>/boot</code>！<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>mkfs.vfat /dev/nvme0n1p1
+</span></span><span style="display:flex;"><span>mkdir /mnt/efi
+</span></span><span style="display:flex;"><span>mount /dev/nvme0n1p1 /mnt/efi 
+</span></span></code></pre></div><h2 id="安装">安装</h2>
+<p>这部分需要你在 <code>/etc/pacman.conf</code> 里添加 <a class="link" href="https://github.com/archzfs/archzfs/wiki"  target="_blank" rel="noopener"
+    >archzfs</a> 源或者按照<a class="link" href="https://blog.yidaozhan.top/2022/08/11/arch-linux-upgrade-to-x86-64-v3-microarchitecture/"  target="_blank" rel="noopener"
+    >一刀斩的博客</a>配置 CachyOS 源，此处不再赘述</p>
+<h4 id="安装基本软件包">安装基本软件包</h4>
+<p>如果是 Intel 的 CPU 就把 <code>amd-ucode</code> 换成 <code>intel-ucode</code></p>
+<p>此处使用 <code>zfs-linux</code> 包有可能会因为版本不相同然后挂掉，所以如果你添加了 CachyOS 的软件源，那么我推荐你使用 CachyOS 的自定义内核（它的内核和 zfs 模块同时编译打包，就不会出现版本不统一的问题）（最主要还是因为安装 <code>zfs-linux</code> 还得启用 v3 源），有多种任务调度器可选，比如 BMQ PDS TT 等，还有 LLVM LTO 编译的版本</p>
+<p>使用 CachyOS 内核的话直接改包即可，比如我想用 <code>linux-cachyos-pds</code>，那么把下面 <code>linux linux-headers zfs-linux</code> 换成 <code>linux-cachyos-pds linux-cachyos-pds-headers linux-cachyos-pds-zfs</code> 即可</p>
+<p>如果你不想用 CachyOS 的内核，也不想因为 zfs 模块和 linux 内核版本不统一而滚挂，那么可以使用 dkms 模块，把 <code>zfs-linux</code> 替换为 <code>zfs-dkms</code> 即可，这个的缺点是构建 dkms 模块时会风扇狂转（理论上任何内核都可以用这个当 zfs 内核模块）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>pacstrap /mnt base linux-firmware linux linux-headers zfs-linux base-devel neovim os-prober amd-ucode openssh wget networkmanager zfs-utils 
+</span></span></code></pre></div><h4 id="基础安装">基础安装</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#75715e"># 配置 /etc/fstab</span>
+</span></span><span style="display:flex;"><span>genfstab -U /mnt &gt;&gt; /mnt/etc/fstab
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 验证 /etc/fstab</span>
+</span></span><span style="display:flex;"><span>cat /mnt/etc/fstab
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># chroot 进 ArchLinux</span>
+</span></span><span style="display:flex;"><span>arch-chroot /mnt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置zpool缓存</span>
+</span></span><span style="display:flex;"><span>zpool set cachefile<span style="color:#f92672">=</span>/etc/zfs/zpool.cache zroot
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置时区</span>
+</span></span><span style="display:flex;"><span>ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</span></span><span style="display:flex;"><span>hwclock --systohc
+</span></span><span style="display:flex;"><span>date
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置语言</span>
+</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#34;\nen_US.UTF-8 UTF-8\nzh_CN.UTF-8 UTF-8\nzh_TW.UTF-8 UTF-8&#34;</span> &gt;&gt; /etc/locale.gen
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 应用配置</span>
+</span></span><span style="display:flex;"><span>locale-gen
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置默认语言</span>
+</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#34;\nLANG=en_US.UTF-8\n&#34;</span> &gt;&gt; /etc/locale.conf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置root密码</span>
+</span></span><span style="display:flex;"><span>passwd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加非 root 用户</span>
+</span></span><span style="display:flex;"><span>pacman -S fish <span style="color:#75715e"># 如果不想用 fish 可以跳过这一步并把下一步的 fish 字段换成 bash</span>
+</span></span><span style="display:flex;"><span>useradd -m -G wheel -s /bin/fish user <span style="color:#75715e"># user 替换为你的用户名</span>
+</span></span><span style="display:flex;"><span>passwd user <span style="color:#75715e"># 设置密码</span>
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;s|#%wheel ALL=(ALL) ALL|%wheel ALL=(ALL) ALL|g&#34;</span> /etc/sudoers <span style="color:#75715e"># 添加 sudo 权限</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加 multilib 和 archlinuxcn 仓库 </span>
+</span></span><span style="display:flex;"><span>arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;$arch&#39;</span>
+</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#34;\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n\n[archlinuxcn]\nServer = https://mirrors.bfsu.edu.cn/archlinuxcn/</span>$arch<span style="color:#e6db74">&#34;</span> &gt;&gt; /etc/pacman.conf
+</span></span></code></pre></div><h4 id="配置内核钩子">配置内核钩子</h4>
+<p>重点部分！
+编辑 <code>/etc/mkinitcpio.conf</code>，直接在 <code>HOOKS=(......)</code> 里面加上 <code>zfs</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>nvim /etc/mkinitcpio.conf
+</span></span><span style="display:flex;"><span>HOOKS<span style="color:#f92672">=(</span>base udev autodetect modconf block zfs filesystems keyboard fsck<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>编辑完直接借用 ArchLinux 的极为人性化的脚本生成即可</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>mkinitcpio -P
+</span></span></code></pre></div><h4 id="设置-zfs-服务以及网络管理服务">设置 zfs 服务以及网络管理服务</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>systemctl enable zfs.target
+</span></span><span style="display:flex;"><span>systemctl enable zfs-import-cache
+</span></span><span style="display:flex;"><span>systemctl enable zfs-mount
+</span></span><span style="display:flex;"><span>systemctl enable zfs-import.target
+</span></span><span style="display:flex;"><span>systemctl enable sshd
+</span></span><span style="display:flex;"><span>systemctl enable NetworkManager
+</span></span></code></pre></div><h2 id="配置-zfsbootmenu-引导">配置 ZFSBootMenu 引导</h2>
+<p>（需要在 chroot 中完成）<br>
+重点部分！<br>
+详细了解可以看我之前那篇<a class="link" href="https://pinghigh.github.io/2022/11/28/2022-11-28-ZFSBootMenu/"  target="_blank" rel="noopener"
+    >在 UEFI ArchLinux 下使用 ZFSBootMenu 作为引导器（可双启动）</a><br>
+在这里我们使用预构建好的 EFI 文件<del>因为我没玩明白ZFSBootMenu，经常出现换内核再构建就会炸引导的问题，同时不能做到启动时换内核</del></p>
+<p>首先下载预构建好的 ZBM efi 引导文件
+（访问不了可以把 <a class="link" href="https://github.com/"  target="_blank" rel="noopener"
+    >https://github.com/</a> 换成 <a class="link" href="https://ghproxy.com/https://github.com/"  target="_blank" rel="noopener"
+    >https://ghproxy.com/https://github.com/</a>）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>mkdir /efi/EFI
+</span></span><span style="display:flex;"><span>mkdir /efi/EFI/ZBM
+</span></span><span style="display:flex;"><span>wget https://github.com/zbm-dev/zfsbootmenu/releases/download/v2.0.0/zfsbootmenu-release-vmlinuz-x86_64-v2.0.0.EFI -O /efi/EFI/ZBM/zfsbootmenu.efi
+</span></span></code></pre></div><p>再进行一个简单的配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zfs set org.zfsbootmenu:commandline<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;rw&#34;</span> zroot/ROOT
+</span></span></code></pre></div><p>这样就做到了启动（如果没有双启动的需求没必要进行下一步了）</p>
+<h2 id="配置-refind-以实现与-windows-双启动">配置 rEFInd 以实现与 Windows 双启动</h2>
+<p>安装 refind</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>pacman -Sy refind git
+</span></span><span style="display:flex;"><span>refind-install
+</span></span></code></pre></div><p>这样重启之后就能双启动了<br>
+但是你还可以美化一下，安装 nord 主题（非必要）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>pacman -U https://mirror.cachyos.org/repo/x86_64/cachyos/refind-theme-nord-1.1.0-1-any.pkg.tar.zst
+</span></span></code></pre></div><h2 id="结束">结束</h2>
+<p>退出 chroot</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>exit
+</span></span></code></pre></div><p>解挂载</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>umount /mnt/efi
+</span></span><span style="display:flex;"><span>zfs umount zroot/ROOT/archlinux
+</span></span><span style="display:flex;"><span>zfs umount -a
+</span></span></code></pre></div><p>导出 zfs 池</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zpool export zroot
+</span></span></code></pre></div><p>（导出没成功也没关系，直接重启即可）
+重启</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>reboot
+</span></span></code></pre></div><p>然后你的 archlinux 就可以正常使用了</p>
+<h2 id="后记">后记</h2>
+<p>还是在年前完成了虚拟机上的测试，能够完美安装，原来写的还是有点低级错误的<br>
+Hyper-V 上安装可能会涉及到 pacman 检测不到架构之类的问题，因此启用 archlinuxcn 源需要你在 <code>/etc/pacman.conf</code> 改 <code>Architecture = auto</code> 中的 <code>auto</code> 为你的架构，如 <code>x86_64</code> <code>x86_64-v3</code><br>
+另外不启用 CachyOS-v3 源，只启用 CachyOS 源也可以安装 CachyOS 的优化内核，但是没有 lto 版本<br>
+以及我个人宣布，这是本博客 2022 年的最佳博文</p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>原因是 ZFSBootMenu 需要从 <code>/boot</code> 加载内核，而 ZBM 的 initramfs 启动时大概不会挂载 ESP 分区（我之前这么干寄了&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/zfsbootmenu/">ZFSBootMenu</a>
+        
+            <a href="/tags/archlinux/">ArchLinux</a>
+        
+            <a href="/tags/zfs/">ZFS</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" transform="rotate(180)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under FDL 1.3</span>
+    </section>
+    </footer>
+
+
+    
+        <script>
+    MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+        }
+    };
+
+    window.addEventListener('load', (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += 'has-jax'
+        })
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/notes/linux/zfsbootmenu-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/63a8671208b683016397a5d0.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/63a8671208b683016397a5d0.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">在 UEFI ArchLinux 下使用 ZFSBootMenu 作为引导器（可双启动）</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/linux/%E9%9D%A2%E5%90%91%E6%96%B0%E6%89%8B%E7%9A%84-arch-linux-%E4%BD%9C%E4%B8%BA%E7%AC%AC%E4%BA%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">面向新手的 Arch Linux 作为第二系统的安装指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/linux/noi-linux-%E7%9B%B8%E5%85%B3/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">NOI Linux 指北</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/%E9%92%9B%E5%90%88%E9%87%91%E4%BC%9E%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9C%BA/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">钛合金伞的垃圾场</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.10/twikoo.all.min.js"></script>
+<div id="tcomment"></div>
+<style>
+    .twikoo {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+    }
+    :root[data-scheme="dark"] {
+        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+    }
+    .twikoo .el-input-group__prepend,
+    .twikoo .tk-action-icon,
+    .twikoo .tk-time,
+    .twikoo .tk-comments-count {
+        color: var(--twikoo-body-text-color);
+    }
+    .twikoo .el-input__inner,
+    .twikoo .el-textarea__inner,
+    .twikoo .tk-preview-container,
+    .twikoo .tk-content,
+    .twikoo .tk-nick,
+    .twikoo .tk-send {
+        color: var(--twikoo-body-text-color-main);
+    }
+    .twikoo .el-button{
+        color: var(--twikoo-body-text-color)!important;
+    }
+    .OwO .OwO-body {
+        background-color: var(--body-background) !important;
+        color: var(--body-text-color) !important;
+    }
+</style><script>
+    twikoo.init({
+        envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+        GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+        el: '#tcomment',lang: 'zh-cn',})
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        <p style="display:inline-block; transform: rotatey(180deg);">&copy;</p> 
+        
+            2020 - 
+        
+        2023 钛合金伞的隙间
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://icp.gov.moe/?keyword=20220284" rel="external nofollow noreferrer" target="_blank">萌ICP备20220284号</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://unpkg.com/node-vibrant@latest/dist/vibrant.min.js"crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    </body>
+</html>

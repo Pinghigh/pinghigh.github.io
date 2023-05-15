@@ -6,26 +6,315 @@
         <description>Recent content in 同余 on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 24 Oct 2022 09:10:49 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E5%90%8C%E4%BD%99/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 29 Apr 2023 19:24:23 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E5%90%8C%E4%BD%99/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>模意义下的乘法逆元</title>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E9%80%86%E5%85%83/</link>
+        <pubDate>Sat, 29 Apr 2023 19:24:23 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E9%80%86%E5%85%83/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 模意义下的乘法逆元" /&gt;&lt;p&gt;自学逆元&amp;hellip;&lt;/p&gt;
+&lt;h2 id=&#34;定义&#34;&gt;定义&lt;/h2&gt;
+&lt;p&gt;OI 中常用“逆元”作“模意义下的乘法逆元”。
+$$
+ax\equiv 1 \pmod b
+$$
+则 $x$ 为模 $b$ 意义下的 $a$ 的逆元，记作 $a^{-1}$ 。&lt;br&gt;
+通俗来讲，$a\cdot a^{-1} \bmod b = 1$&lt;/p&gt;
+&lt;h2 id=&#34;用途&#34;&gt;用途&lt;/h2&gt;
+&lt;p&gt;&lt;del&gt;先讲用途再说求法？&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;对于 $\frac ab$，想要对结果取模，但是实际上 $\frac ab \bmod p \neq \frac {a\bmod p}{b \bmod p}$&lt;br&gt;
+难道没有办法了吗？&lt;br&gt;
+并不是。&lt;/p&gt;
+&lt;p&gt;设 $b^{-1}$ 为 $b \bmod p$ 意义下的逆元，则有
+$$
+\frac ab \bmod p = a\cdot b^{-1}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;求单个逆元&#34;&gt;求单个逆元&lt;/h2&gt;
+&lt;h3 id=&#34;扩展欧几里得算法&#34;&gt;扩展欧几里得算法&lt;/h3&gt;
+&lt;p&gt;此法相对于快速幂来说，限制少，常数小，因此比较优，不再写快速幂法。&lt;del&gt;实际上是我不会快速幂法&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;容易发现乘法逆元定义式就是一个普普通通的同余方程&lt;br&gt;
+于是可以轻松使用扩欧求解&lt;br&gt;
+详见 &lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E5%90%8C%E4%BD%99%E6%96%B9%E7%A8%8B%E4%B8%8E%E4%BA%8C%E5%85%83%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%AE%9A%E6%96%B9%E7%A8%8B/&#34; &gt;同余方程与二元一次不定方程&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;线性求逆元&#34;&gt;线性求逆元&lt;/h2&gt;
+&lt;p&gt;由于线性求任意多个数逆元过于简单，所以直接记录这个解法。&lt;/p&gt;
+&lt;p&gt;考虑逆元的定义，容易想到对于 $a^{-1}b^{-1}$ 来说，乘 $a$ 即可消除 $a^{-1}$ 的影响，即
+$$
+a\cdot a^{-1}b^{-1} \bmod p = (a\cdot a^{-1} \bmod p)b^{-1} = b^{-1}
+$$
+与此同时，两个数积的逆元等于两个数逆元的积&lt;br&gt;
+证明：
+$$
+\begin{aligned}
+aa^{-1} \bmod p &amp;amp;= 1\\
+bb^{-1} \bmod p &amp;amp;= 1\\
+aa^{-1} \cdot bb^{-1} \bmod p &amp;amp;= 1 \\
+ab \cdot a^{-1}b^{-1} \bmod p &amp;amp;= 1 \\
+\therefore (ab)^{-1} = a^{-1}b^{-1}
+\end{aligned}
+$$
+因此对于任意数列 $a_1 \dots a_n$ ，可以先求出其前缀积 $s_i$ ，然后利用扩展欧几里得求累积的逆元 $f_n = s_n^{-1}$，然后从后往前线性复杂度求出前缀积的逆元 $f_{i-1} = f_ia_i \bmod p$    ，最后从前往后扫一遍求出每个数的逆元 $inv_i = s_{i-1}f_i$ 即可。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i32 tmp;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;exgcd&lt;/span&gt;(i32 a, i32 b, i32&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; x, i64&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; y) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;b) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    exgcd(b, a &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; b, x, y);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    tmp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; y;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; tmp &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; (a &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; b) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; y;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define N 5000001
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i32 a[N], s[N], f[N];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i64 n, p, k, ans, ktmp, y;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    read(n, p, k);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    s[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i32 i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        read(a[i]), s[i] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s[i &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; a[i] &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    exgcd(s[n], p, f[n], y);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// write(p, &amp;#39;\n&amp;#39;);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i32 i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i; &lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        f[i] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; f[i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; a[i &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    f[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;%=&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ans &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; f[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ktmp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i32 i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        f[i] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; s[i &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; f[i] &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ktmp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (ktmp &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; k) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ans &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ((ans &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; ktmp &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; f[i]) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; p) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    write(ans, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>同余方程组</title>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E5%90%8C%E4%BD%99%E6%96%B9%E7%A8%8B%E7%BB%84/</link>
+        <pubDate>Sat, 29 Apr 2023 11:54:32 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E5%90%8C%E4%BD%99%E6%96%B9%E7%A8%8B%E7%BB%84/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 同余方程组" /&gt;&lt;p&gt;同余方程组形式如下：
+$$
+\begin{cases}
+x \equiv a_1 \pmod {n_1} \\
+x \equiv a_2 \pmod {n_2} \\
+\dots \\
+x \equiv a_k \pmod {n_k}
+\end{cases}
+$$&lt;/p&gt;
+&lt;h2 id=&#34;中国剩余定理&#34;&gt;中国剩余定理&lt;/h2&gt;
+&lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
+&lt;p&gt;本算法用于所有 $n_i$ 两两互质的情况。&lt;/p&gt;
+&lt;p&gt;实际上类似构造，先把 $n_1$ 累积起来
+$$
+M = \prod_{i=1}^k n_i
+$$
+$$
+M_i = \frac M{n_i}
+$$&lt;/p&gt;
+&lt;p&gt;先考虑如何构造出一个同余方程的特解，设 $M_i ^{-1}$ 为 $M_i$ 在 $\bmod n_i$ 意义下的逆元,想到 $M_iM_i^{-1} = 1\pmod {n_i}$，于是有 $x = a_i M_i M_i^{-1}$ 满足方程 $x \equiv a_i \pmod {n_i}$ 。&lt;br&gt;
+这实际上就是上面定义 $M_i$ 为质数的原因：需要保证有逆元存在。&lt;/p&gt;
+&lt;p&gt;至于解的合并，把 $x$ 相加即可。即 $\sum_{i=1}^k a_iM_iM_i^{-1}$。通解即为 $nM+ \sum_{i=1}^k a_iM_iM_i^{-1}, n\in \mathbf Z$ 。为什么能这样合并？因为对于 $i,j,i\neq j$ 来说，必然存在 $n_j \mid M_i$，因为 $n_i$ 两两互质，$M_i$ 的因子包含 $n_j$，因此不会对已经推出来的解造成任何影响。&lt;/p&gt;
+&lt;p&gt;通解方面：容易想到，加减 $nM$ 也不会对解的可行性造成任何影响。&lt;/p&gt;
+&lt;h3 id=&#34;实现&#34;&gt;实现&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;llint &lt;span style=&#34;color:#a6e22e&#34;&gt;ex_gcd&lt;/span&gt;(llint u, llint v, llint&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; x, llint&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; y) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;v) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; u;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    llint g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ex_gcd(v, u &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; v, x, y);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    llint temp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x;     
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; y;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; temp &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; u &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; y;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; g;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;llint &lt;span style=&#34;color:#a6e22e&#34;&gt;crt&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    llint tmp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, ans &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; i) tmp &lt;span style=&#34;color:#f92672&#34;&gt;*=&lt;/span&gt; b[i];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt; i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        llint m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; tmp &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; b[i], x, y;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ex_gcd(m, a[i], x, y);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ans &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (ans &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; n[i] &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; m &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; tmp) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; tmp;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; (ans &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; tmp &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; tmp) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; tmp;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;扩展中国剩余定理同余方程合并&#34;&gt;扩展中国剩余定理/同余方程合并&lt;/h2&gt;
+&lt;h3 id=&#34;原理-1&#34;&gt;原理&lt;/h3&gt;
+&lt;p&gt;当 $n_i$ 不互质的时候，上面做法就不再适用（不能保证逆元存在），此时我们考虑逐一合并同余方程组。&lt;br&gt;
+方法是使用 $ex_gcd$&lt;/p&gt;
+&lt;p&gt;假设方程组只有两个方程&lt;/p&gt;
+&lt;p&gt;$$
+\begin{cases}
+x \equiv a_1 \pmod{n_1} \\
+x \equiv a_2 \pmod{n_2} \\
+\end{cases}
+$$&lt;/p&gt;
+&lt;p&gt;可以写作&lt;/p&gt;
+&lt;p&gt;$$
+\begin{cases}
+x = a_1 + k_1n_1 \\
+x = a_2 + k_2n_2
+\end{cases}
+$$
+则 $a_1 + k_1n_1 = a_2 + k_2n_2$。&lt;br&gt;
+移项，得 $k_1n_1 - k_2n_2 = a_2-a_1$ ，接下来按照扩展欧几里得的思路推导。&lt;br&gt;
+设 $g = \gcd(n_1,n_2)$，若使用扩展欧几里得算法，可以求出 $n_1k_1 + n_2(-k_2) = \gcd(n_1,n_2)$ 的一组特解 $k_1, k_2$，即
+$$
+\begin{aligned}
+n_1k_1 + n_2(-k_2) &amp;amp;= g \\
+(k_1 \cdot \frac{a_2-a_1}{g})n_1 + (-k_2 \cdot \frac{a_2-a_1}{g})n_2 &amp;amp;= a_2-a_1
+\end{aligned}
+$$
+抽出刚才表示 $x$ 的方程组的一条，得到 $x_0 = a_1 + k_1n_1$，$k_1$ 的通解为 $k_1 + \cfrac{n_2}gp, p\in \mathbf Z$，则
+$$
+\begin{aligned}
+x &amp;amp;= a_1 + (k_1+\cfrac{n_2}gp)n_1 \\
+&amp;amp;= n_1k_1 + a_1 + \cfrac{n_1n_2}gp \\
+&amp;amp;= n_1k_1 + a_1 + \operatorname{lcm}(n_1,n_2)\cdot p
+\end{aligned}
+$$
+显然我们可以把这个等式写成同余式的形式（没必要）&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+x_0 &amp;amp;\equiv x \pmod {\operatorname{lcm}(n_1,n_2)} \\
+x&amp;amp;\equiv n_1k_1 + a_1  \pmod {\operatorname{lcm}(n_1,n_2)}
+\end{aligned}
+$$
+$\operatorname{lcm}(n_1,n_2),n_1k_1+a_1$ 都是已知的，因此方程可解，合并完成。&lt;/p&gt;
+&lt;h3 id=&#34;实现-1&#34;&gt;实现&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#define N 100005
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i128 &lt;span style=&#34;color:#a6e22e&#34;&gt;ex_gcd&lt;/span&gt;(i128 a, i128 b, i128&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; x, i128&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; y) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (b) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        i128 tmp;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        i128 g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ex_gcd(b, a &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; b, x, y);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        tmp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; y;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; tmp &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; y;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; g;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; a;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i64 n;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i128 a[N], m[N];  &lt;span style=&#34;color:#75715e&#34;&gt;// a === x (mod m)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i128 &lt;span style=&#34;color:#a6e22e&#34;&gt;ex_crt&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    i128 k1, k2, a1, m1, a2, m2, c, gc, g;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    a1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;], m1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; m[&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;];
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i64 i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        a2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a[i], m2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; m[i], c &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ((a2 &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; a1) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; m2 &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; m2) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; m2;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ex_gcd(m1, m2, k1, k2);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        gc &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; m2 &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; g;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        k1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; k1 &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; gc &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; ((c &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; g) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; gc) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; gc;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        a1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; k1 &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; m1 &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; a1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        m1 &lt;span style=&#34;color:#f92672&#34;&gt;*=&lt;/span&gt; gc;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        a1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (a1 &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; m1 &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; m1) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; m1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; a1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    read(n);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i64 i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        read(m[i], a[i]);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    write(ex_crt(), &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>离散对数</title>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0/</link>
+        <pubDate>Fri, 28 Apr 2023 18:12:32 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 离散对数" /&gt;&lt;p&gt;离散对数问题，即已知 $a,b,p$，求方程 $a^x \equiv b \pmod p$ 最小非负整数解。&lt;/p&gt;
+&lt;h2 id=&#34;bsgs-算法&#34;&gt;BSGS 算法&lt;/h2&gt;
+&lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
+&lt;p&gt;思考暴力做法，即枚举 $x$ 直到满足方程，复杂度 $\operatorname{O}(p)$&lt;/p&gt;
+&lt;p&gt;BSGS 类似一种分块思想，也有点像折半搜索（&lt;/p&gt;
+&lt;p&gt;首先把 $x$ 拆开，拆成 $km - r$ ，然后进行变换：
+$$
+\begin{aligned}
+a^x &amp;amp;\equiv b \pmod p \\
+a^{km-r} &amp;amp;\equiv b \pmod p \\
+\frac {a^{km}}{a^r} &amp;amp; \equiv b \pmod p \\
+a^{km} &amp;amp; \equiv ba^r \pmod p
+\end{aligned}
+$$
+这里的 $m$ 我们设为一个固定值，然后分别枚举等式两边的 $k,r$，存哈希表（映射），然后匹配即可，其中 $k \in [0, \cfrac pm], r \in [0,m]$ ，复杂度 $\operatorname{O}(\max(m,\cfrac pm))$ ，则 $m=\sqrt p$ 时最优，复杂度是一个根号。&lt;/p&gt;
+&lt;h3 id=&#34;实现&#34;&gt;实现&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;read(n, p);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (b &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; p) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;n &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (n &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; p) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (b &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (n &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) output(&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	failed();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (n &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	output(&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (b &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	failed();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i128 m &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; sqrt(p), z &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; n;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i128 i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; m; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	mp[z] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; i; &lt;span style=&#34;color:#75715e&#34;&gt;// 存储的实际上是模数所对应的最大 r（从小到大枚举，挨个覆盖）
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	z &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; z &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;z &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; binpow(b, m);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i128 i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, pian &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; z; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; p &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; m &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;auto&lt;/span&gt; it &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; mp.find(z);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (it &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; mp.end()) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		output(m &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; it&lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;second);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	z &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; z &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; pian &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; p;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;failed();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        </item>
+        <item>
         <title>初级数论</title>
-        <link>https://blog.tibrella.top/post/2022-10-basic-math/</link>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/</link>
         <pubDate>Mon, 24 Oct 2022 09:10:49 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-10-basic-math/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 初级数论" /&gt;&lt;h2 id=&#34;-模运算相关&#34;&gt;&lt;del&gt;%%%&lt;/del&gt; 模运算相关&lt;/h2&gt;
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 初级数论" /&gt;&lt;h2 id=&#34;质数相关&#34;&gt;质数相关&lt;/h2&gt;
+&lt;p&gt;质数即一个数的因数只包含 $1$ 和自己。&lt;br&gt;
+筛法请见：&lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E8%B4%A8%E6%95%B0%E7%AD%9B%E6%B3%95/&#34; &gt;质数筛法&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;模运算相关&#34;&gt;模运算相关&lt;/h2&gt;
 &lt;p&gt;首先，存在唯一的整数 $q,r$ 满足 $n=qm+r, 0\leqslant r&amp;lt;m$，$q$ 就是商，$r$ 就是余数。 &lt;br&gt;
 C++ 中模运算可能结果是负数。当 $n&amp;lt;0$ 时，模运算结果满足 $-m&amp;lt;r \leqslant 0$。 &lt;br&gt;
 因此可以使用&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;((n&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;m)&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;m)&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;m
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(n &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; m &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; m) &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; m
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;进行取余操作。&lt;/p&gt;
-&lt;h2 id=&#34;辗转相除法httpspinghighgithubio202207142022-7-14-oie7ac94e8aeb0e69c80e5a4a7e585ace7baa6e695b0&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://pinghigh.github.io/2022/07/14/2022-7-14-OI%E7%AC%94%E8%AE%B0/#%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;辗转相除法&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;求最大公约数hahahugoshortcodes1hbhb&#34;&gt;求&lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/&#34; &gt;最大公约数&lt;/a&gt;&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; a,b,r;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cin &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; b;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (a &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (a &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; b) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        r &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; b;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        a &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; b;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        b &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; r;
@@ -33,7 +322,17 @@ C++ 中模运算可能结果是负数。当 $n&amp;lt;0$ 时，模运算结果�
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    cout &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; endl;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;同余&#34;&gt;同余&lt;/h2&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;同余方程相关&#34;&gt;同余方程相关&lt;/h2&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E5%90%8C%E4%BD%99%E6%96%B9%E7%A8%8B%E4%B8%8E%E4%BA%8C%E5%85%83%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%AE%9A%E6%96%B9%E7%A8%8B/&#34; &gt;同余方程与二元一次不定方程&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>同余方程与二元一次不定方程</title>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E5%90%8C%E4%BD%99%E6%96%B9%E7%A8%8B%E4%B8%8E%E4%BA%8C%E5%85%83%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%AE%9A%E6%96%B9%E7%A8%8B/</link>
+        <pubDate>Mon, 24 Oct 2022 09:10:49 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E5%90%8C%E4%BD%99%E6%96%B9%E7%A8%8B%E4%B8%8E%E4%BA%8C%E5%85%83%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%AE%9A%E6%96%B9%E7%A8%8B/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 同余方程与二元一次不定方程" /&gt;&lt;h2 id=&#34;同余&#34;&gt;同余&lt;/h2&gt;
 &lt;h3 id=&#34;定义&#34;&gt;定义&lt;/h3&gt;
 &lt;p&gt;$a\bmod m = b \bmod m$ 则称 $a,b$ 对于模 $m$ 同余，记为 $a \equiv b \pmod m$&lt;/p&gt;
 &lt;p&gt;等价于 $m$ 整除 $(a-b)$，即 $m\mid(a-b)$&lt;/p&gt;
@@ -61,6 +360,7 @@ $$&lt;/p&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;同时,&lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E9%80%86%E5%85%83/&#34; &gt;逆元&lt;/a&gt;的定义也是一个同余方程,也就是说该法可以求模意义下的逆元&lt;/p&gt;
 &lt;h4 id=&#34;原理&#34;&gt;原理&lt;/h4&gt;
 &lt;p&gt;对于方程 $ax_1+by_1=\gcd (a,b)$，由裴蜀定理可得一定存在一组 $x_1,y_1$ 使得等式成立&lt;/p&gt;
 &lt;p&gt;于是分两类讨论&lt;/p&gt;
@@ -69,66 +369,176 @@ $$&lt;/p&gt;
 &lt;p&gt;$b = 0$ 时，$ax_1+by_1=a$，显然 $x_1 = 1, y_1 \in \mathbf R$&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;$b \neq 0$ 时，利用四个未知量 $x_1,y_1,x_2,y_2$ 列出两个方程&lt;/p&gt;
-&lt;p&gt;$$
+&lt;p&gt;$b \neq 0$ 时，利用四个未知量 $x_1,y_1,x_2,y_2$ 列出两个方程
+$$
 \begin{cases}
 ax_1+by_1 = \gcd(a,b) = \gcd(b, a\bmod b) ① \\
 bx_2+(a\bmod b)y_2 = \gcd(b, a \bmod b) = \gcd(a,b) = ax_1+by_1 ②
 \end{cases}
-$$&lt;/p&gt;
-&lt;p&gt;易得&lt;/p&gt;
-&lt;p&gt;$$
+$$
+易得
+$$
 a \bmod b = a-\lfloor\frac{a}{b}\rfloor b
-$$&lt;/p&gt;
-&lt;p&gt;由此我们可以继续展开推导 $②$ 式&lt;/p&gt;
-&lt;p&gt;$$
+$$
+由此我们可以继续展开推导 $②$ 式
+$$
 \begin{aligned}
 bx_2+(a\bmod b)y_2 &amp;amp;= ax_1+by_1 \\
 bx_2+(a-\lfloor \dfrac{a}{b}\rfloor b)y_2 &amp;amp;= ax_1+by_1 \\
 ay_2+b(x_2-\lfloor \dfrac{a}{b} \rfloor y_2) &amp;amp;= ax_1+by_1
 \end{aligned}
 $$&lt;/p&gt;
-&lt;p&gt;$x_2,y_2$ 只是两个表示未知量的符号，所以我们可以把它们两个互换一下，得到&lt;/p&gt;
-&lt;p&gt;$$
-ax_2+b(y_2-\lfloor \dfrac{a}{b} \rfloor x_2) = ax_1+by_1
-$$&lt;/p&gt;
-&lt;p&gt;因此&lt;/p&gt;
-&lt;p&gt;$$
+&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;p&gt;因此
+$$
 \begin{cases}
-x_1 = x_2 \\
-y_1 = y_2-\lfloor \dfrac{a}{b} \rfloor x_2
+x_1 = y_2 \\
+y_1 = x_2-\lfloor \dfrac{a}{b} \rfloor y_2
 \end{cases}
 $$&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;实现&#34;&gt;实现&lt;/h4&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;!-- raw HTML omitted --&gt;
+&lt;h5 id=&#34;运算符-operatornameexgcdabxy&#34;&gt;运算符 $\operatorname{exgcd}(a,b,x,y)$&lt;/h5&gt;
+&lt;p&gt;采用递归实现，因此先判定递归边界，则 $b=0$ 时到达边界，此时 $x = 1, y = 0$&lt;/p&gt;
+&lt;p&gt;未到边界，则先继续调用 $\operatorname{exgcd}(b, a\bmod b, x, y)$ ，然后根据递归回溯得到的 $x,y$ 得到 $x_1, y_1$，即&lt;/p&gt;
+&lt;p&gt;$$
+\begin{cases}
+x_1 = y \\
+y_1 = x-\lfloor \dfrac{a}{b} \rfloor y
+\end{cases}
+$$&lt;/p&gt;
+&lt;p&gt;返回到头为止。&lt;/p&gt;
+&lt;h5 id=&#34;求解-ax--by--c-即-a-equiv-c-pmod-b&#34;&gt;求解 $ax + by = c$ ，即 $a \equiv c \pmod b$&lt;/h5&gt;
+&lt;p&gt;先判断是否有解，若 $\gcd(a,b) \mid c$ 则有解（&lt;a class=&#34;link&#34; href=&#34;#裴蜀定理&#34; &gt;#裴蜀定理&lt;/a&gt;）
+然后利用 $\operatorname{exgcd}$ 求解 $ax_1 + by_1 = \gcd (a,b)$
+即得到一份特解 $x = x_1 \times \frac{c}{\gcd(a,b)}, y = y_1 \times \frac{c}{\gcd(a,b)}$&lt;/p&gt;
+&lt;p&gt;求通解，实质上是使 $x,y$ 进行一定变换但等式依然成立。
+易想到 $x$ 下降时 $y$ 上升，因此设：$g = \gcd(a,b), i&amp;gt;j$&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+ax_i+by_i&amp;amp;=c \\
+ax_j + by_j &amp;amp;= c
+\end{aligned} \\
+$$&lt;/p&gt;
+&lt;p&gt;导一下式子，得&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+ax_i+by_i &amp;amp;= ax_j + by_j \\
+a(x_i - x_j) &amp;amp;= b(y_j - y_i) \\
+\frac ag (x_i - x_j) &amp;amp;= \frac bg (y_j - y_i)
+\end{aligned} \\
+$$&lt;/p&gt;
+&lt;p&gt;因为 $g$ 是最大公因数，所以 $\frac ag$ 与 $\frac bg$ 互质。又因为方程中每一个字母都是整数，所以易得：$\frac bg$ 是 $x_i-x_j$ 的倍数，而 $\frac ag$ 是 $y_j - y_i$ 的倍数（即 $- \frac ag$ 是 $y_i - y_j$ 的倍数）&lt;/p&gt;
+&lt;p&gt;于是通解就推出来了&lt;/p&gt;
+&lt;p&gt;$$
+\begin{cases}
+\mathbf X = {x+\cfrac bg k \mid k\in\mathbf Z} \\
+\mathbf Y = {y-\cfrac ag k \mid k\in\mathbf Z}
+\end{cases}
+$$&lt;/p&gt;
+&lt;p&gt;关于最小正整数 $x$，求法如下：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;算法：函数 &lt;code&gt;ex_gcd(a,b)&lt;/code&gt;
+&lt;li&gt;情况 1：$\gcd(a,b) = 1$
 &lt;ul&gt;
-&lt;li&gt;若 &lt;code&gt;b=0&lt;/code&gt;，&lt;code&gt;ax+by=gcd(a,b)&lt;/code&gt; 的解是 &lt;code&gt;x=1&lt;/code&gt;, &lt;code&gt;y=0&lt;/code&gt;，直接返回&lt;/li&gt;
-&lt;li&gt;否则递归调用 &lt;code&gt;ex_gcd(b,a%b)&lt;/code&gt;，求解 &lt;code&gt;bx&#39;+(a%b)y&#39;=gcd(b,a%b)&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;用上一步解的 &lt;code&gt;x&#39;,y&#39;&lt;/code&gt;，令 &lt;code&gt;x=y&#39;，y=x&#39;-a/b*y&#39;&lt;/code&gt;，&lt;code&gt;x&lt;/code&gt;和&lt;code&gt;y&lt;/code&gt;就是当前方程的解&lt;/li&gt;
-&lt;li&gt;返回&lt;code&gt;x,y&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;此时 $\frac bg = 1$ ，则 $x_{min} = x \bmod b$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;对于任意同余方程 $ax\equiv b \pmod n$，只要满足 $\gcd(a,n)\mid b$&lt;br&gt;
-就可以先用扩欧求出 $ax&amp;rsquo;\equiv \gcd(a,n)\ \pmod n$&lt;br&gt;
-即 $d=\gcd(a,n)$，得到 $ax&amp;rsquo;(b/d)\equiv b\ \pmod n$&lt;br&gt;
-所以原方程一解 $x_0=x&amp;rsquo;(b/d)$，通解 $x_0+k(n/d), k\in \mathbf{Z}$&lt;/li&gt;
+&lt;li&gt;情况 2：$\gcd(a,b)=g\neq 1$
+&lt;ul&gt;
+&lt;li&gt;想办法列出新方程（$x,y$ 不变）$a_1x+b_1y=c_1,\gcd(a_1,b_1)=1$，即 $a_1,b_1$ 互质&lt;/li&gt;
+&lt;li&gt;容易想到 $a_1 = \frac ag, b_1 = \frac bg$，然后为了保证等式成立，$c_1 = \frac cg$&lt;/li&gt;
+&lt;li&gt;显然直接化为了第一种情况，于是 $x_{min} = x \bmod \frac b{\gcd(a,b)}$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4 id=&#34;代码&#34;&gt;代码&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;algorithm&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ex_gcd&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; u, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; v, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;x, &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;y) {
+&lt;h5 id=&#34;题目描述&#34;&gt;题目描述&lt;/h5&gt;
+&lt;p&gt;给定不定方程
+$$ax+by=c$$
+若该方程无整数解，输出 $-1$。&lt;br&gt;
+若该方程有整数解，且有正整数解，则输出其&lt;strong&gt;正整数&lt;/strong&gt;解的数量，所有&lt;strong&gt;正整数&lt;/strong&gt;解中 $x$ 的最小值，所有&lt;strong&gt;正整数&lt;/strong&gt;解中 $y$ 的最小值，所有&lt;strong&gt;正整数&lt;/strong&gt;解中 $x$ 的最大值，以及所有&lt;strong&gt;正整数&lt;/strong&gt;解中 $y$ 的最大值。&lt;br&gt;
+若方程有整数解，但没有正整数解，你需要输出所有&lt;strong&gt;整数解&lt;/strong&gt;中 $x$ 的最小正整数值， $y$ 的最小正整数值。&lt;/p&gt;
+&lt;p&gt;正整数解即为 $x, y$ 均为正整数的解，$\boldsymbol{0}$ &lt;strong&gt;不是正整数&lt;/strong&gt;。&lt;br&gt;
+整数解即为 $x,y$ 均为整数的解。&lt;br&gt;
+$x$ 的最小正整数值即所有 $x$ 为正整数的整数解中 $x$ 的最小值，$y$ 同理。&lt;/p&gt;
+&lt;h6 id=&#34;输入格式&#34;&gt;输入格式&lt;/h6&gt;
+&lt;p&gt;第一行一个正整数 $T$，代表数据组数。&lt;/p&gt;
+&lt;p&gt;接下来 $T$ 行，每行三个由空格隔开的正整数 $a, b, c$。&lt;/p&gt;
+&lt;h6 id=&#34;输出格式&#34;&gt;输出格式&lt;/h6&gt;
+&lt;p&gt;$T$ 行。&lt;/p&gt;
+&lt;p&gt;若该行对应的询问无整数解，一个数字 $-1$。&lt;br&gt;
+若该行对应的询问有整数解但无正整数解，包含 $2$ 个由空格隔开的数字，依次代表整数解中，$x$ 的最小正整数值，$y$ 的最小正整数值。&lt;br&gt;
+否则包含 $5$ 个由空格隔开的数字，依次代表正整数解的数量，正整数解中，$x$ 的最小值，$y$ 的最小值，$x$ 的最大值，$y$ 的最大值。&lt;/p&gt;
+&lt;h5 id=&#34;实现-1&#34;&gt;实现&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i64 &lt;span style=&#34;color:#a6e22e&#34;&gt;ex_gcd&lt;/span&gt;(i64 u, i64 v, i64&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; x, i64&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt; y) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#f92672&#34;&gt;!&lt;/span&gt;v) {
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; u;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; xx, yy;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ex_gcd(v, u &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; v, xx ,yy);
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; yy;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;    &lt;/span&gt;y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; xx &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; u &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; yy;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    i64 g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ex_gcd(v, u &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; v, x, y);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    i64 temp &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    x &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; y;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    y &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; temp &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; u &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; v &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; y;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; g;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i64 a, b, c, g, x, y, ga, gb, maxx, maxy, minx, miny;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i64 t;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;i64 k;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    read(t);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;while&lt;/span&gt; (t&lt;span style=&#34;color:#f92672&#34;&gt;--&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        read(a, b, c);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// if (a &amp;lt; b) std::swap(a, b);
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        g &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ex_gcd(a, b, x, y);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        x &lt;span style=&#34;color:#f92672&#34;&gt;*=&lt;/span&gt; c &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; g, y &lt;span style=&#34;color:#f92672&#34;&gt;*=&lt;/span&gt; c &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; g;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (c &lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt; g) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            puts(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;-1&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            ga &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; a &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; g;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            gb &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; b &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; g;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;/*
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;            此处先把 x 的最小正整数值求出来，容易想到 x 最小时 y 最大
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;            x &amp;gt; 1 时，直接往小取就行
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;            x &amp;lt;= 1 时，求 1 和 x 的差值然后把差值向上取整地消掉即可
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;            y 同理
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;            */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (x &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (x &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; gb;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                minx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; gb;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                maxy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; ga;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ceil((&lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; x) &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; gb);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                minx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; gb;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                maxy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; ga;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (y &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; (y &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; ga;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                miny &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; ga;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                maxx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; gb;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                k &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; ceil((&lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; y) &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; ga);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                miny &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; y &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; ga;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                maxx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; x &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; k &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; gb;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// 如果 x, y 的最大值不是正整数，那么无正整数解，最小正整数 x, y 就是上面所求
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (maxy &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;||&lt;/span&gt; maxx &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                write(minx, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;, miny, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            } &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#75715e&#34;&gt;// 此处算个数的时候需要注意要算自身，所以 + 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                write((i64)ceil(maxy &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1.0&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt; ga &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;, minx, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;, miny, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;, maxx, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; &amp;#39;&lt;/span&gt;, maxy, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;\n&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         </item>

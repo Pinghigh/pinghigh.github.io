@@ -8,10 +8,10 @@
         <language>zh-cn</language>
         <lastBuildDate>Tue, 17 Jan 2023 15:11:36 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E5%B9%B6%E6%9F%A5%E9%9B%86/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>并查集</title>
-        <link>https://blog.tibrella.top/post/2022-1-17-%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
+        <link>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
         <pubDate>Tue, 17 Jan 2023 15:11:36 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-1-17-%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
+        <guid>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 并查集" /&gt;&lt;p&gt;今天讲的最短路啥的感觉有点费劲，先把并查集的东西写了&lt;/p&gt;
 &lt;h2 id=&#34;用途&#34;&gt;用途&lt;/h2&gt;
 &lt;p&gt;基本上用来处理 &lt;strong&gt;关系&lt;/strong&gt;&lt;br&gt;

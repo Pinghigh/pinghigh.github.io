@@ -8,10 +8,10 @@
         <language>zh-cn</language>
         <lastBuildDate>Tue, 31 Jan 2023 20:27:12 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>Manacher</title>
-        <link>https://blog.tibrella.top/post/2023-1-31-manacher/</link>
+        <link>https://blog.tibrella.top/notes/%E4%B8%B2/%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2manacher/</link>
         <pubDate>Tue, 31 Jan 2023 20:27:12 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2023-1-31-manacher/</guid>
+        <guid>https://blog.tibrella.top/notes/%E4%B8%B2/%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2manacher/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post Manacher" /&gt;&lt;p&gt;求一个字符串最长的回文子串。
 字面意思，回文就是一个串正着读倒着读一样，子串就是一个连续的子序列。&lt;/p&gt;
 &lt;h2 id=&#34;预处理&#34;&gt;预处理&lt;/h2&gt;
@@ -202,13 +202,12 @@
 </description>
         </item>
         <item>
-        <title>字符数组与字符串 2</title>
-        <link>https://blog.tibrella.top/post/2022-7-18-oi%E7%AC%94%E8%AE%B0/</link>
+        <title>STL string</title>
+        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/stl-string/</link>
         <pubDate>Mon, 18 Jul 2022 20:24:48 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-7-18-oi%E7%AC%94%E8%AE%B0/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 字符数组与字符串 2" /&gt;&lt;h2 id=&#34;string类型字符串wwwacwingcom&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;www.acwing.com&#34; &gt;String类型字符串&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;可变长的字符序列，需要引入头文件&lt;code&gt;&amp;lt;string&amp;gt;&lt;/code&gt;&lt;/p&gt;
+        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/stl-string/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post STL string" /&gt;&lt;p&gt;可变长的字符序列，需要引入头文件 &lt;code&gt;&amp;lt;string&amp;gt;&lt;/code&gt;&lt;/p&gt;
 &lt;h3 id=&#34;赋值&#34;&gt;赋值&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-C++&#34; data-lang=&#34;C++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;using&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;namespace&lt;/span&gt; std;
@@ -343,12 +342,12 @@
 </description>
         </item>
         <item>
-        <title>字符数组与字符串 1</title>
-        <link>https://blog.tibrella.top/post/2022-7-17-oi%E7%AC%94%E8%AE%B0/</link>
+        <title>字符数组</title>
+        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84/</link>
         <pubDate>Sun, 17 Jul 2022 19:20:54 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/post/2022-7-17-oi%E7%AC%94%E8%AE%B0/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 字符数组与字符串 1" /&gt;&lt;h2 id=&#34;字符串wwwacwingcom&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;www.acwing.com&#34; &gt;字符串&lt;/a&gt;&lt;/h2&gt;
+        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 字符数组" /&gt;&lt;h2 id=&#34;字符数组&#34;&gt;字符数组&lt;/h2&gt;
 &lt;h3 id=&#34;输出&#34;&gt;输出&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c++&#34; data-lang=&#34;c++&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;cstdio&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;
