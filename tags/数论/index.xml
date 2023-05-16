@@ -226,7 +226,7 @@ $$&lt;/p&gt;
 &lt;/div&gt;&lt;h2 id=&#34;扩展中国剩余定理同余方程合并&#34;&gt;扩展中国剩余定理/同余方程合并&lt;/h2&gt;
 &lt;h3 id=&#34;原理-1&#34;&gt;原理&lt;/h3&gt;
 &lt;p&gt;当 $n_i$ 不互质的时候，上面做法就不再适用（不能保证逆元存在），此时我们考虑逐一合并同余方程组。&lt;br&gt;
-方法是使用 $ex_gcd$&lt;/p&gt;
+方法是使用 $\operatorname{ex_gcd}$&lt;/p&gt;
 &lt;p&gt;假设方程组只有两个方程&lt;/p&gt;
 &lt;p&gt;$$
 \begin{cases}

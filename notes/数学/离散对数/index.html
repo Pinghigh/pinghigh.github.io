@@ -9,7 +9,7 @@ BSGS 类似一种分块思想，也有点像折半搜索（
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%A6%BB%E6%95%A3%E5%AF%B9%E6%95%B0/" />
 
-<link rel="stylesheet" href="/scss/style.min.19141c9b37505d645762341cbf1095f5c3d6004ebe07bec05233306118e4f2c0.css"><meta property='og:title' content='离散对数'>
+<link rel="stylesheet" href="/scss/style.min.d3196a0161f90199ebaf9b1e5613d8bc745547a1624416fa1d245c239f141671.css"><meta property='og:title' content='离散对数'>
 <meta property='og:description' content='离散对数问题，即已知 $a,b,p$，求方程 $a^x \equiv b \pmod p$ 最小非负整数解。
 BSGS 算法 原理 思考暴力做法，即枚举 $x$ 直到满足方程，复杂度 $\operatorname{O}(p)$
 BSGS 类似一种分块思想，也有点像折半搜索（
@@ -24,10 +24,7 @@ BSGS 类似一种分块思想，也有点像折半搜索（
 首先把 $x$ 拆开，拆成 $km - r$ ，然后进行变换： $$ \begin{aligned} a^x &amp;amp;\equiv b \pmod p \\ a^{km-r} &amp;amp;\equiv b \pmod p \\ \frac {a^{km}}{a^r} &amp;amp; \equiv b \pmod p \\ a^{km} &amp;amp; \equiv ba^r \pmod p \end{aligned} $$ 这里的 $m$ 我们设为一个固定值，然后分别枚举等式两边的 $k,r$，存哈希表（映射），然后匹配即可，其中 $k \in [0, \cfrac pm], r \in [0,m]$ ，复杂度 $\operatorname{O}(\max(m,\cfrac pm))$ ，则 $m=\sqrt p$ 时最优，复杂度是一个根号。"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
-
-
-
-
+<script src="/js/prism.js"></script>
 
     </head>
     <body class="
