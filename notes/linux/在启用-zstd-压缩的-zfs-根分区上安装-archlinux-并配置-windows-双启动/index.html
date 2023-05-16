@@ -6,7 +6,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/linux/%E5%9C%A8%E5%90%AF%E7%94%A8-zstd-%E5%8E%8B%E7%BC%A9%E7%9A%84-zfs-%E6%A0%B9%E5%88%86%E5%8C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-archlinux-%E5%B9%B6%E9%85%8D%E7%BD%AE-windows-%E5%8F%8C%E5%90%AF%E5%8A%A8/" />
 
-<link rel="stylesheet" href="/scss/style.min.19d3e9dbcdfe52220c83a8060da22e16c36e030b9e930048778c3de944edb23b.css"><meta property='og:title' content='在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动'>
+<link rel="stylesheet" href="/scss/style.min.19141c9b37505d645762341cbf1095f5c3d6004ebe07bec05233306118e4f2c0.css"><meta property='og:title' content='在启用 ZSTD 压缩的 ZFS 根分区上安装 ArchLinux 并配置 Windows 双启动'>
 <meta property='og:description' content='终于填上这个坑了！为了 zfs 折腾了好久！(经过虚拟机实验，完美安装)'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/linux/%E5%9C%A8%E5%90%AF%E7%94%A8-zstd-%E5%8E%8B%E7%BC%A9%E7%9A%84-zfs-%E6%A0%B9%E5%88%86%E5%8C%BA%E4%B8%8A%E5%AE%89%E8%A3%85-archlinux-%E5%B9%B6%E9%85%8D%E7%BD%AE-windows-%E5%8F%8C%E5%90%AF%E5%8A%A8/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,14 +15,10 @@
 <meta name="twitter:description" content="终于填上这个坑了！为了 zfs 折腾了好久！(经过虚拟机实验，完美安装)"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
-<link
-  href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css"
-  rel="stylesheet"
-/>
-<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-<script>
-  hljs.highlightAll();
-</script>
+
+
+
+
 
     </head>
     <body class="
@@ -289,29 +285,47 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ul>
+  <ol>
     <li><a href="#总览">总览</a></li>
     <li><a href="#安装前">安装前</a>
-      <ul>
+      <ol>
         <li><a href="#cachyos-livecd推荐">CachyOS LiveCD（推荐）</a></li>
-        <li><a href="#archiso-zfs">archiso-zfs</a></li>
-      </ul>
+        <li><a href="#archiso-zfs">archiso-zfs</a>
+          <ol>
+            <li><a href="#联网">联网</a></li>
+            <li><a href="#加载-zfs-模块">加载 ZFS 模块</a></li>
+            <li><a href="#改镜像站">改镜像站</a></li>
+          </ol>
+        </li>
+      </ol>
     </li>
     <li><a href="#格式化">格式化</a>
-      <ul>
-        <li></li>
-      </ul>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#创建-zfs-池">创建 ZFS 池</a></li>
+            <li><a href="#格式化-efi-分区">格式化 EFI 分区</a></li>
+          </ol>
+        </li>
+      </ol>
     </li>
     <li><a href="#安装">安装</a>
-      <ul>
-        <li></li>
-      </ul>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#安装基本软件包">安装基本软件包</a></li>
+            <li><a href="#基础安装">基础安装</a></li>
+            <li><a href="#配置内核钩子">配置内核钩子</a></li>
+            <li><a href="#设置-zfs-服务以及网络管理服务">设置 zfs 服务以及网络管理服务</a></li>
+          </ol>
+        </li>
+      </ol>
     </li>
     <li><a href="#配置-zfsbootmenu-引导">配置 ZFSBootMenu 引导</a></li>
     <li><a href="#配置-refind-以实现与-windows-双启动">配置 rEFInd 以实现与 Windows 双启动</a></li>
     <li><a href="#结束">结束</a></li>
     <li><a href="#后记">后记</a></li>
-  </ul>
+  </ol>
 </nav>
         </div>
     </section>
@@ -406,58 +420,144 @@
 本方案已经被实际测试过，完全可用，但是建议在有 Linux 基础的情况下折腾 ZFS，因为没准有某个地方我会忘记修改&hellip;</p>
 <h2 id="总览">总览</h2>
 <p>分区大概长这样</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-TEXT" data-lang="TEXT"><span style="display:flex;"><span>分区1 300M FAT16 EFI
-</span></span><span style="display:flex;"><span>分区2 128G ZFS   ArchLinux
-</span></span><span style="display:flex;"><span>分区3 128G NTFS  Windows
-</span></span><span style="display:flex;"><span>分区N **G  **FS  DATA // 其他分区
-</span></span></code></pre></div><p>然后 ZFS 池里面长这样</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-TEXT" data-lang="TEXT"><span style="display:flex;"><span>zroot
-</span></span><span style="display:flex;"><span> ├─ROOT
-</span></span><span style="display:flex;"><span> |  ├─voidlinux // 实际上可以在这个池里安装多个 Linux，本处计划把所有 Linux 根分区数据集放在 zroot/ROOT/ 里
-</span></span><span style="display:flex;"><span> |  └─archlinux
-</span></span><span style="display:flex;"><span> └─data
-</span></span><span style="display:flex;"><span>    └─home // 存放 /home
-</span></span></code></pre></div><p>ZFS池那块看不懂没关系，只需要跟着文章做就行</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-TEXT" data-lang="TEXT"><span class="line"><span class="cl">分区1 300M FAT16 EFI
+</span></span><span class="line"><span class="cl">分区2 128G ZFS   ArchLinux
+</span></span><span class="line"><span class="cl">分区3 128G NTFS  Windows
+</span></span><span class="line"><span class="cl">分区N **G  **FS  DATA // 其他分区
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后 ZFS 池里面长这样</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-TEXT" data-lang="TEXT"><span class="line"><span class="cl">zroot
+</span></span><span class="line"><span class="cl"> ├─ROOT
+</span></span><span class="line"><span class="cl"> |  ├─voidlinux // 实际上可以在这个池里安装多个 Linux，本处计划把所有 Linux 根分区数据集放在 zroot/ROOT/ 里
+</span></span><span class="line"><span class="cl"> |  └─archlinux
+</span></span><span class="line"><span class="cl"> └─data
+</span></span><span class="line"><span class="cl">    └─home // 存放 /home
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ZFS池那块看不懂没关系，只需要跟着文章做就行</p>
 <h2 id="安装前">安装前</h2>
 <p>准备一个有 ZFS 支持的 archiso，这里我们提供两个方案</p>
 <h3 id="cachyos-livecd推荐">CachyOS LiveCD（推荐）</h3>
 <p>从 <a class="link" href="https://sourceforge.net/projects/cachyos-arch/files/gui-installer/"  target="_blank" rel="noopener"
     >CachyOS 的 Sourceforge 界面</a> 下载带 GUI 的 LiveCD（它的 CLI 安装器没 ZFS 支持），然后扔进 U 盘重启进入即可</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>sudo modprobe zfs <span style="color:#75715e"># 加载 ZFS 模块</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>sudo su <span style="color:#75715e"># 切换到 root 用户</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>timedatectl set-ntp true  <span style="color:#75715e"># 同步时间</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>vim /etc/pacman.d/mirrorlist <span style="color:#75715e"># 改镜像站</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 开头添加</span>
-</span></span><span style="display:flex;"><span>Server <span style="color:#f92672">=</span> https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
-</span></span></code></pre></div><h3 id="archiso-zfs">archiso-zfs</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">sudo modprobe zfs <span class="c1"># 加载 ZFS 模块</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo su <span class="c1"># 切换到 root 用户</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">timedatectl set-ntp <span class="nb">true</span>  <span class="c1"># 同步时间</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">vim /etc/pacman.d/mirrorlist <span class="c1"># 改镜像站</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 开头添加</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Server</span> <span class="o">=</span> https://mirrors.bfsu.edu.cn/archlinux/<span class="nv">$repo</span>/os/<span class="nv">$arch</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="archiso-zfs">archiso-zfs</h3>
 <p>此处使用 <a class="link" href="https://github.com/eoli3n/archiso-zfs"  target="_blank" rel="noopener"
     >eoli3n 的 archiso-zfs</a> 项目</p>
 <p>首先下载一个<a class="link" href="https://archlinux.org/download/"  target="_blank" rel="noopener"
     >官方的 ArchLinux LiveCD</a>，然后重启进入</p>
 <h4 id="联网">联网</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>iwctl <span style="color:#75715e"># 进入 iwctl 命令行界面</span>
-</span></span></code></pre></div><p>下面的命令在 <code>iwctl</code> 中输入</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>device list <span style="color:#75715e"># 列出可用设备</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 假设上面列出的设备是 wlan0</span>
-</span></span><span style="display:flex;"><span>station wlan0 scan
-</span></span><span style="display:flex;"><span>station wlan0 connect SSID <span style="color:#75715e"># 连接名为 SSID 的网络</span>
-</span></span><span style="display:flex;"><span>exit     
-</span></span></code></pre></div><p>验证联网</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>ping www.baidu.com
-</span></span><span style="display:flex;"><span>timedatectl set-ntp true  <span style="color:#75715e"># 同步时间</span>
-</span></span></code></pre></div><h4 id="加载-zfs-模块">加载 ZFS 模块</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>curl -s https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash -x
-</span></span></code></pre></div><p>如果连接 github 有问题，则运行下面的命令替代</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>curl -s https://ghproxy.com/https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init | bash -x
-</span></span></code></pre></div><p>执行过程因为网络原因会比较慢</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">iwctl <span class="c1"># 进入 iwctl 命令行界面</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>下面的命令在 <code>iwctl</code> 中输入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">device list <span class="c1"># 列出可用设备</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 假设上面列出的设备是 wlan0</span>
+</span></span><span class="line"><span class="cl">station wlan0 scan
+</span></span><span class="line"><span class="cl">station wlan0 connect SSID <span class="c1"># 连接名为 SSID 的网络</span>
+</span></span><span class="line"><span class="cl"><span class="nb">exit</span>     
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>验证联网</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">ping www.baidu.com
+</span></span><span class="line"><span class="cl">timedatectl set-ntp <span class="nb">true</span>  <span class="c1"># 同步时间</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="加载-zfs-模块">加载 ZFS 模块</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">curl -s https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init <span class="p">|</span> bash -x
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果连接 github 有问题，则运行下面的命令替代</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">curl -s https://ghproxy.com/https://raw.githubusercontent.com/eoli3n/archiso-zfs/master/init <span class="p">|</span> bash -x
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行过程因为网络原因会比较慢</p>
 <h4 id="改镜像站">改镜像站</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>vim /etc/pacman.d/mirrorlist
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 开头添加</span>
-</span></span><span style="display:flex;"><span>Server <span style="color:#f92672">=</span> https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
-</span></span></code></pre></div><p>至此，环境准备完毕，下面的操作不受 livecd 影响</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">vim /etc/pacman.d/mirrorlist
+</span></span><span class="line"><span class="cl"><span class="c1"># 开头添加</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Server</span> <span class="o">=</span> https://mirrors.bfsu.edu.cn/archlinux/<span class="nv">$repo</span>/os/<span class="nv">$arch</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>至此，环境准备完毕，下面的操作不受 livecd 影响</p>
 <h2 id="格式化">格式化</h2>
 <p>此处认为你已经分好区了，总体需要三个分区</p>
 <ul>
@@ -470,47 +570,132 @@
 <code>dedup=on</code> 为去重功能，可能会占用较大 RAM，低配机子可以把这行删掉<br>
 <code>compression=zstd</code> 为压缩功能，zstd 目前来看压缩率和性能损失比较平衡，在意性能可以改为快速压缩算法 lz4（gzip 压缩率和性能都比不上 zstd）<br>
 其他照做即可</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zpool create -f -o ashift<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>           <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O acltype<span style="color:#f92672">=</span>posixacl       <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O relatime<span style="color:#f92672">=</span>on            <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O xattr<span style="color:#f92672">=</span>sa               <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O dnodesize<span style="color:#f92672">=</span>legacy       <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O normalization<span style="color:#f92672">=</span>formD    <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O mountpoint<span style="color:#f92672">=</span>none        <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O canmount<span style="color:#f92672">=</span>off           <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O devices<span style="color:#f92672">=</span>off            <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O compression<span style="color:#f92672">=</span>zstd       <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -O dedup<span style="color:#f92672">=</span>on               <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             -R /mnt                   <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>             zroot /dev/nvme0n1p2             
-</span></span></code></pre></div><p>创建数据集</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zfs create -o mountpoint<span style="color:#f92672">=</span>none zroot/data
-</span></span><span style="display:flex;"><span>zfs create -o mountpoint<span style="color:#f92672">=</span>none zroot/ROOT
-</span></span><span style="display:flex;"><span>zfs create -o mountpoint<span style="color:#f92672">=</span>/ -o canmount<span style="color:#f92672">=</span>noauto zroot/ROOT/archlinux
-</span></span><span style="display:flex;"><span>zfs create -o mountpoint<span style="color:#f92672">=</span>/home zroot/data/home
-</span></span></code></pre></div><p>测试zpool是否能够导入导出</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zpool export zroot
-</span></span><span style="display:flex;"><span>zpool import zroot -R /mnt  
-</span></span></code></pre></div><p>挂载zpool</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zfs mount zroot/ROOT/archlinux
-</span></span><span style="display:flex;"><span>zfs mount -a
-</span></span></code></pre></div><p>设置启动数据集</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zpool set bootfs<span style="color:#f92672">=</span>zroot/ROOT/archlinux zroot
-</span></span></code></pre></div><p>设置zpool缓存</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zpool set cachefile<span style="color:#f92672">=</span>/etc/zfs/zpool.cache zroot
-</span></span><span style="display:flex;"><span>mkdir /mnt/etc
-</span></span><span style="display:flex;"><span>mkdir /mnt/etc/zfs
-</span></span><span style="display:flex;"><span>cp /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache
-</span></span></code></pre></div><p>查看是否有挂载上</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>df -h
-</span></span></code></pre></div><p>输出</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-TEXT" data-lang="TEXT"><span style="display:flex;"><span>zroot/ROOT/archlinux   30G  128K   30G   1% /mnt
-</span></span></code></pre></div><h4 id="格式化-efi-分区">格式化 EFI 分区</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">zpool create -f -o <span class="nv">ashift</span><span class="o">=</span><span class="m">12</span>           <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             -O <span class="nv">acltype</span><span class="o">=</span>posixacl       <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             -O <span class="nv">relatime</span><span class="o">=</span>on            <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             -O <span class="nv">xattr</span><span class="o">=</span>sa               <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             -O <span class="nv">dnodesize</span><span class="o">=</span>legacy       <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             -O <span class="nv">normalization</span><span class="o">=</span>formD    <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             -O <span class="nv">mountpoint</span><span class="o">=</span>none        <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             -O <span class="nv">canmount</span><span class="o">=</span>off           <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             -O <span class="nv">devices</span><span class="o">=</span>off            <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             -O <span class="nv">compression</span><span class="o">=</span>zstd       <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             -O <span class="nv">dedup</span><span class="o">=</span>on               <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             -R /mnt                   <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>             zroot /dev/nvme0n1p2             
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>创建数据集</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">zfs create -o <span class="nv">mountpoint</span><span class="o">=</span>none zroot/data
+</span></span><span class="line"><span class="cl">zfs create -o <span class="nv">mountpoint</span><span class="o">=</span>none zroot/ROOT
+</span></span><span class="line"><span class="cl">zfs create -o <span class="nv">mountpoint</span><span class="o">=</span>/ -o <span class="nv">canmount</span><span class="o">=</span>noauto zroot/ROOT/archlinux
+</span></span><span class="line"><span class="cl">zfs create -o <span class="nv">mountpoint</span><span class="o">=</span>/home zroot/data/home
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>测试zpool是否能够导入导出</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">zpool <span class="nb">export</span> zroot
+</span></span><span class="line"><span class="cl">zpool import zroot -R /mnt  
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>挂载zpool</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">zfs mount zroot/ROOT/archlinux
+</span></span><span class="line"><span class="cl">zfs mount -a
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>设置启动数据集</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">zpool <span class="nb">set</span> <span class="nv">bootfs</span><span class="o">=</span>zroot/ROOT/archlinux zroot
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>设置zpool缓存</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">zpool <span class="nb">set</span> <span class="nv">cachefile</span><span class="o">=</span>/etc/zfs/zpool.cache zroot
+</span></span><span class="line"><span class="cl">mkdir /mnt/etc
+</span></span><span class="line"><span class="cl">mkdir /mnt/etc/zfs
+</span></span><span class="line"><span class="cl">cp /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看是否有挂载上</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">df -h
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输出</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-TEXT" data-lang="TEXT"><span class="line"><span class="cl">zroot/ROOT/archlinux   30G  128K   30G   1% /mnt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="格式化-efi-分区">格式化 EFI 分区</h4>
 <p>注意此处挂载点不可以设置成 <code>/boot</code>！<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>mkfs.vfat /dev/nvme0n1p1
-</span></span><span style="display:flex;"><span>mkdir /mnt/efi
-</span></span><span style="display:flex;"><span>mount /dev/nvme0n1p1 /mnt/efi 
-</span></span></code></pre></div><h2 id="安装">安装</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">mkfs.vfat /dev/nvme0n1p1
+</span></span><span class="line"><span class="cl">mkdir /mnt/efi
+</span></span><span class="line"><span class="cl">mount /dev/nvme0n1p1 /mnt/efi 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="安装">安装</h2>
 <p>这部分需要你在 <code>/etc/pacman.conf</code> 里添加 <a class="link" href="https://github.com/archzfs/archzfs/wiki"  target="_blank" rel="noopener"
     >archzfs</a> 源或者按照<a class="link" href="https://blog.yidaozhan.top/2022/08/11/arch-linux-upgrade-to-x86-64-v3-microarchitecture/"  target="_blank" rel="noopener"
     >一刀斩的博客</a>配置 CachyOS 源，此处不再赘述</p>
@@ -519,61 +704,139 @@
 <p>此处使用 <code>zfs-linux</code> 包有可能会因为版本不相同然后挂掉，所以如果你添加了 CachyOS 的软件源，那么我推荐你使用 CachyOS 的自定义内核（它的内核和 zfs 模块同时编译打包，就不会出现版本不统一的问题）（最主要还是因为安装 <code>zfs-linux</code> 还得启用 v3 源），有多种任务调度器可选，比如 BMQ PDS TT 等，还有 LLVM LTO 编译的版本</p>
 <p>使用 CachyOS 内核的话直接改包即可，比如我想用 <code>linux-cachyos-pds</code>，那么把下面 <code>linux linux-headers zfs-linux</code> 换成 <code>linux-cachyos-pds linux-cachyos-pds-headers linux-cachyos-pds-zfs</code> 即可</p>
 <p>如果你不想用 CachyOS 的内核，也不想因为 zfs 模块和 linux 内核版本不统一而滚挂，那么可以使用 dkms 模块，把 <code>zfs-linux</code> 替换为 <code>zfs-dkms</code> 即可，这个的缺点是构建 dkms 模块时会风扇狂转（理论上任何内核都可以用这个当 zfs 内核模块）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>pacstrap /mnt base linux-firmware linux linux-headers zfs-linux base-devel neovim os-prober amd-ucode openssh wget networkmanager zfs-utils 
-</span></span></code></pre></div><h4 id="基础安装">基础安装</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#75715e"># 配置 /etc/fstab</span>
-</span></span><span style="display:flex;"><span>genfstab -U /mnt &gt;&gt; /mnt/etc/fstab
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 验证 /etc/fstab</span>
-</span></span><span style="display:flex;"><span>cat /mnt/etc/fstab
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># chroot 进 ArchLinux</span>
-</span></span><span style="display:flex;"><span>arch-chroot /mnt
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置zpool缓存</span>
-</span></span><span style="display:flex;"><span>zpool set cachefile<span style="color:#f92672">=</span>/etc/zfs/zpool.cache zroot
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置时区</span>
-</span></span><span style="display:flex;"><span>ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-</span></span><span style="display:flex;"><span>hwclock --systohc
-</span></span><span style="display:flex;"><span>date
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置语言</span>
-</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#34;\nen_US.UTF-8 UTF-8\nzh_CN.UTF-8 UTF-8\nzh_TW.UTF-8 UTF-8&#34;</span> &gt;&gt; /etc/locale.gen
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 应用配置</span>
-</span></span><span style="display:flex;"><span>locale-gen
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置默认语言</span>
-</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#34;\nLANG=en_US.UTF-8\n&#34;</span> &gt;&gt; /etc/locale.conf
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置root密码</span>
-</span></span><span style="display:flex;"><span>passwd
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加非 root 用户</span>
-</span></span><span style="display:flex;"><span>pacman -S fish <span style="color:#75715e"># 如果不想用 fish 可以跳过这一步并把下一步的 fish 字段换成 bash</span>
-</span></span><span style="display:flex;"><span>useradd -m -G wheel -s /bin/fish user <span style="color:#75715e"># user 替换为你的用户名</span>
-</span></span><span style="display:flex;"><span>passwd user <span style="color:#75715e"># 设置密码</span>
-</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;s|#%wheel ALL=(ALL) ALL|%wheel ALL=(ALL) ALL|g&#34;</span> /etc/sudoers <span style="color:#75715e"># 添加 sudo 权限</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 添加 multilib 和 archlinuxcn 仓库 </span>
-</span></span><span style="display:flex;"><span>arch<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;$arch&#39;</span>
-</span></span><span style="display:flex;"><span>echo -e <span style="color:#e6db74">&#34;\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n\n[archlinuxcn]\nServer = https://mirrors.bfsu.edu.cn/archlinuxcn/</span>$arch<span style="color:#e6db74">&#34;</span> &gt;&gt; /etc/pacman.conf
-</span></span></code></pre></div><h4 id="配置内核钩子">配置内核钩子</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">pacstrap /mnt base linux-firmware linux linux-headers zfs-linux base-devel neovim os-prober amd-ucode openssh wget networkmanager zfs-utils 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="基础安装">基础安装</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl"><span class="c1"># 配置 /etc/fstab</span>
+</span></span><span class="line"><span class="cl">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab
+</span></span><span class="line"><span class="cl"><span class="c1"># 验证 /etc/fstab</span>
+</span></span><span class="line"><span class="cl">cat /mnt/etc/fstab
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># chroot 进 ArchLinux</span>
+</span></span><span class="line"><span class="cl">arch-chroot /mnt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置zpool缓存</span>
+</span></span><span class="line"><span class="cl">zpool <span class="nb">set</span> <span class="nv">cachefile</span><span class="o">=</span>/etc/zfs/zpool.cache zroot
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置时区</span>
+</span></span><span class="line"><span class="cl">ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</span></span><span class="line"><span class="cl">hwclock --systohc
+</span></span><span class="line"><span class="cl">date
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置语言</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;\nen_US.UTF-8 UTF-8\nzh_CN.UTF-8 UTF-8\nzh_TW.UTF-8 UTF-8&#34;</span> &gt;&gt; /etc/locale.gen
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 应用配置</span>
+</span></span><span class="line"><span class="cl">locale-gen
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置默认语言</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;\nLANG=en_US.UTF-8\n&#34;</span> &gt;&gt; /etc/locale.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 设置root密码</span>
+</span></span><span class="line"><span class="cl">passwd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 添加非 root 用户</span>
+</span></span><span class="line"><span class="cl">pacman -S fish <span class="c1"># 如果不想用 fish 可以跳过这一步并把下一步的 fish 字段换成 bash</span>
+</span></span><span class="line"><span class="cl">useradd -m -G wheel -s /bin/fish user <span class="c1"># user 替换为你的用户名</span>
+</span></span><span class="line"><span class="cl">passwd user <span class="c1"># 设置密码</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s2">&#34;s|#%wheel ALL=(ALL) ALL|%wheel ALL=(ALL) ALL|g&#34;</span> /etc/sudoers <span class="c1"># 添加 sudo 权限</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 添加 multilib 和 archlinuxcn 仓库 </span>
+</span></span><span class="line"><span class="cl"><span class="nv">arch</span><span class="o">=</span><span class="s1">&#39;$arch&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n\n[archlinuxcn]\nServer = https://mirrors.bfsu.edu.cn/archlinuxcn/</span><span class="nv">$arch</span><span class="s2">&#34;</span> &gt;&gt; /etc/pacman.conf
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="配置内核钩子">配置内核钩子</h4>
 <p>重点部分！
 编辑 <code>/etc/mkinitcpio.conf</code>，直接在 <code>HOOKS=(......)</code> 里面加上 <code>zfs</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>nvim /etc/mkinitcpio.conf
-</span></span><span style="display:flex;"><span>HOOKS<span style="color:#f92672">=(</span>base udev autodetect modconf block zfs filesystems keyboard fsck<span style="color:#f92672">)</span>
-</span></span></code></pre></div><p>编辑完直接借用 ArchLinux 的极为人性化的脚本生成即可</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>mkinitcpio -P
-</span></span></code></pre></div><h4 id="设置-zfs-服务以及网络管理服务">设置 zfs 服务以及网络管理服务</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>systemctl enable zfs.target
-</span></span><span style="display:flex;"><span>systemctl enable zfs-import-cache
-</span></span><span style="display:flex;"><span>systemctl enable zfs-mount
-</span></span><span style="display:flex;"><span>systemctl enable zfs-import.target
-</span></span><span style="display:flex;"><span>systemctl enable sshd
-</span></span><span style="display:flex;"><span>systemctl enable NetworkManager
-</span></span></code></pre></div><h2 id="配置-zfsbootmenu-引导">配置 ZFSBootMenu 引导</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">nvim /etc/mkinitcpio.conf
+</span></span><span class="line"><span class="cl"><span class="nv">HOOKS</span><span class="o">=(</span>base udev autodetect modconf block zfs filesystems keyboard fsck<span class="o">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>编辑完直接借用 ArchLinux 的极为人性化的脚本生成即可</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">mkinitcpio -P
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="设置-zfs-服务以及网络管理服务">设置 zfs 服务以及网络管理服务</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">systemctl <span class="nb">enable</span> zfs.target
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> zfs-import-cache
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> zfs-mount
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> zfs-import.target
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> sshd
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> NetworkManager
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="配置-zfsbootmenu-引导">配置 ZFSBootMenu 引导</h2>
 <p>（需要在 chroot 中完成）<br>
 重点部分！<br>
 详细了解可以看我之前那篇<a class="link" href="https://pinghigh.github.io/2022/11/28/2022-11-28-ZFSBootMenu/"  target="_blank" rel="noopener"
@@ -583,32 +846,93 @@
 （访问不了可以把 <a class="link" href="https://github.com/"  target="_blank" rel="noopener"
     >https://github.com/</a> 换成 <a class="link" href="https://ghproxy.com/https://github.com/"  target="_blank" rel="noopener"
     >https://ghproxy.com/https://github.com/</a>）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>mkdir /efi/EFI
-</span></span><span style="display:flex;"><span>mkdir /efi/EFI/ZBM
-</span></span><span style="display:flex;"><span>wget https://github.com/zbm-dev/zfsbootmenu/releases/download/v2.0.0/zfsbootmenu-release-vmlinuz-x86_64-v2.0.0.EFI -O /efi/EFI/ZBM/zfsbootmenu.efi
-</span></span></code></pre></div><p>再进行一个简单的配置</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zfs set org.zfsbootmenu:commandline<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;rw&#34;</span> zroot/ROOT
-</span></span></code></pre></div><p>这样就做到了启动（如果没有双启动的需求没必要进行下一步了）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">mkdir /efi/EFI
+</span></span><span class="line"><span class="cl">mkdir /efi/EFI/ZBM
+</span></span><span class="line"><span class="cl">wget https://github.com/zbm-dev/zfsbootmenu/releases/download/v2.0.0/zfsbootmenu-release-vmlinuz-x86_64-v2.0.0.EFI -O /efi/EFI/ZBM/zfsbootmenu.efi
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>再进行一个简单的配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">zfs <span class="nb">set</span> org.zfsbootmenu:commandline<span class="o">=</span><span class="s2">&#34;rw&#34;</span> zroot/ROOT
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样就做到了启动（如果没有双启动的需求没必要进行下一步了）</p>
 <h2 id="配置-refind-以实现与-windows-双启动">配置 rEFInd 以实现与 Windows 双启动</h2>
 <p>安装 refind</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>pacman -Sy refind git
-</span></span><span style="display:flex;"><span>refind-install
-</span></span></code></pre></div><p>这样重启之后就能双启动了<br>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">pacman -Sy refind git
+</span></span><span class="line"><span class="cl">refind-install
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样重启之后就能双启动了<br>
 但是你还可以美化一下，安装 nord 主题（非必要）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>pacman -U https://mirror.cachyos.org/repo/x86_64/cachyos/refind-theme-nord-1.1.0-1-any.pkg.tar.zst
-</span></span></code></pre></div><h2 id="结束">结束</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">pacman -U https://mirror.cachyos.org/repo/x86_64/cachyos/refind-theme-nord-1.1.0-1-any.pkg.tar.zst
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="结束">结束</h2>
 <p>退出 chroot</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>exit
-</span></span></code></pre></div><p>解挂载</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>umount /mnt/efi
-</span></span><span style="display:flex;"><span>zfs umount zroot/ROOT/archlinux
-</span></span><span style="display:flex;"><span>zfs umount -a
-</span></span></code></pre></div><p>导出 zfs 池</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zpool export zroot
-</span></span></code></pre></div><p>（导出没成功也没关系，直接重启即可）
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl"><span class="nb">exit</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>解挂载</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">umount /mnt/efi
+</span></span><span class="line"><span class="cl">zfs umount zroot/ROOT/archlinux
+</span></span><span class="line"><span class="cl">zfs umount -a
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>导出 zfs 池</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">zpool <span class="nb">export</span> zroot
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>（导出没成功也没关系，直接重启即可）
 重启</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>reboot
-</span></span></code></pre></div><p>然后你的 archlinux 就可以正常使用了</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">reboot
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后你的 archlinux 就可以正常使用了</p>
 <h2 id="后记">后记</h2>
 <p>还是在年前完成了虚拟机上的测试，能够完美安装，原来写的还是有点低级错误的<br>
 Hyper-V 上安装可能会涉及到 pacman 检测不到架构之类的问题，因此启用 archlinuxcn 源需要你在 <code>/etc/pacman.conf</code> 改 <code>Architecture = auto</code> 中的 <code>auto</code> 为你的架构，如 <code>x86_64</code> <code>x86_64-v3</code><br>
@@ -774,45 +1098,46 @@ Hyper-V 上安装可能会涉及到 pacman 检测不到架构之类的问题，�
      
     
         
-    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.10/twikoo.all.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.16/twikoo.all.min.js"></script>
 <div id="tcomment"></div>
 <style>
-    .twikoo {
-        background-color: var(--card-background);
-        border-radius: var(--card-border-radius);
-        box-shadow: var(--shadow-l1);
-        padding: var(--card-padding);
-    }
-    :root[data-scheme="dark"] {
-        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
-        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
-    }
-    .twikoo .el-input-group__prepend,
-    .twikoo .tk-action-icon,
-    .twikoo .tk-time,
-    .twikoo .tk-comments-count {
-        color: var(--twikoo-body-text-color);
-    }
-    .twikoo .el-input__inner,
-    .twikoo .el-textarea__inner,
-    .twikoo .tk-preview-container,
-    .twikoo .tk-content,
-    .twikoo .tk-nick,
-    .twikoo .tk-send {
-        color: var(--twikoo-body-text-color-main);
-    }
-    .twikoo .el-button{
-        color: var(--twikoo-body-text-color)!important;
-    }
-    .OwO .OwO-body {
-        background-color: var(--body-background) !important;
-        color: var(--body-text-color) !important;
-    }
+  .twikoo {
+    background-color: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    padding: var(--card-padding);
+    color: var(--twikoo-body-text-color);
+  }
+  :root[data-scheme="dark"] {
+    --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+    --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+  }
+  .twikoo .el-input-group__prepend,
+  .twikoo .tk-action-icon,
+  .twikoo .tk-time,
+  .twikoo .tk-comments-count {
+    color: var(--twikoo-body-text-color);
+  }
+  .twikoo .el-input__inner,
+  .twikoo .el-textarea__inner,
+  .twikoo .tk-preview-container,
+  .twikoo .tk-content,
+  .twikoo .tk-nick,
+  .twikoo .tk-send {
+    color: var(--twikoo-body-text-color-main);
+  }
+  .twikoo .el-button {
+    color: var(--twikoo-body-text-color) !important;
+  }
+  .OwO .OwO-body {
+    background-color: var(--body-background) !important;
+    color: var(--body-text-color) !important;
+  }
 </style><script>
-    twikoo.init({
-        envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
-        GRAVATAR_CDN: 'gravatar.loli.net/avatar',
-        el: '#tcomment',lang: 'zh-cn',})
+  twikoo.init({
+      envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+      GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+      el: '#tcomment',lang: 'zh-cn',})
 </script>
 
     

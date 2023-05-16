@@ -15,7 +15,7 @@ $$ (x&#43;y)^n = \sum^n_{k=0} \binom nk x^{n-k}y^k $$" />
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/" />
 
-<link rel="stylesheet" href="/scss/style.min.19d3e9dbcdfe52220c83a8060da22e16c36e030b9e930048778c3de944edb23b.css"><meta property='og:title' content='组合数学基础'>
+<link rel="stylesheet" href="/scss/style.min.19141c9b37505d645762341cbf1095f5c3d6004ebe07bec05233306118e4f2c0.css"><meta property='og:title' content='组合数学基础'>
 <meta property='og:description' content='基础组合计数 $n$ 个不同的人选 $m$ 个人排队的方案：排列数公式：$A_n^m = \cfrac{n!}{(n-m)!}$
 $n$ 个不同的苹果选 $m$ 个装箱：$\tbinom{n}{m}:=C_n^m=\cfrac{A_n^m}{m!}=\cfrac{n!}{m!(n-m)!}$
 预处理组合数 递推法 组合数递推：$\tbinom{n}{m} = \tbinom{n-1}{m-1} &#43; \tbinom{n-1}{m}$
@@ -42,14 +42,10 @@ $$ \begin{aligned} \binom{a}{b} &amp;amp;= \frac{a!}{b!(a-b)!}\\ &amp;amp;= \fra
 $$ (x&#43;y)^n = \sum^n_{k=0} \binom nk x^{n-k}y^k $$"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
-<link
-  href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css"
-  rel="stylesheet"
-/>
-<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-<script>
-  hljs.highlightAll();
-</script>
+
+
+
+
 
     </head>
     <body class="
@@ -316,13 +312,20 @@ $$ (x&#43;y)^n = \sum^n_{k=0} \binom nk x^{n-k}y^k $$"><meta name="twitter:card"
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ul>
+  <ol>
     <li><a href="#基础组合计数">基础组合计数</a>
-      <ul>
-        <li><a href="#预处理组合数">预处理组合数</a></li>
-      </ul>
+      <ol>
+        <li><a href="#预处理组合数">预处理组合数</a>
+          <ol>
+            <li><a href="#递推法">递推法</a></li>
+            <li><a href="#阶乘法">阶乘法</a></li>
+            <li><a href="#二项式定理">二项式定理</a></li>
+            <li><a href="#卢卡斯定理">卢卡斯定理</a></li>
+          </ol>
+        </li>
+      </ol>
     </li>
-  </ul>
+  </ol>
 </nav>
         </div>
     </section>
@@ -644,45 +647,46 @@ $$</p>
      
     
         
-    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.10/twikoo.all.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.16/twikoo.all.min.js"></script>
 <div id="tcomment"></div>
 <style>
-    .twikoo {
-        background-color: var(--card-background);
-        border-radius: var(--card-border-radius);
-        box-shadow: var(--shadow-l1);
-        padding: var(--card-padding);
-    }
-    :root[data-scheme="dark"] {
-        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
-        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
-    }
-    .twikoo .el-input-group__prepend,
-    .twikoo .tk-action-icon,
-    .twikoo .tk-time,
-    .twikoo .tk-comments-count {
-        color: var(--twikoo-body-text-color);
-    }
-    .twikoo .el-input__inner,
-    .twikoo .el-textarea__inner,
-    .twikoo .tk-preview-container,
-    .twikoo .tk-content,
-    .twikoo .tk-nick,
-    .twikoo .tk-send {
-        color: var(--twikoo-body-text-color-main);
-    }
-    .twikoo .el-button{
-        color: var(--twikoo-body-text-color)!important;
-    }
-    .OwO .OwO-body {
-        background-color: var(--body-background) !important;
-        color: var(--body-text-color) !important;
-    }
+  .twikoo {
+    background-color: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    padding: var(--card-padding);
+    color: var(--twikoo-body-text-color);
+  }
+  :root[data-scheme="dark"] {
+    --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+    --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+  }
+  .twikoo .el-input-group__prepend,
+  .twikoo .tk-action-icon,
+  .twikoo .tk-time,
+  .twikoo .tk-comments-count {
+    color: var(--twikoo-body-text-color);
+  }
+  .twikoo .el-input__inner,
+  .twikoo .el-textarea__inner,
+  .twikoo .tk-preview-container,
+  .twikoo .tk-content,
+  .twikoo .tk-nick,
+  .twikoo .tk-send {
+    color: var(--twikoo-body-text-color-main);
+  }
+  .twikoo .el-button {
+    color: var(--twikoo-body-text-color) !important;
+  }
+  .OwO .OwO-body {
+    background-color: var(--body-background) !important;
+    color: var(--body-text-color) !important;
+  }
 </style><script>
-    twikoo.init({
-        envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
-        GRAVATAR_CDN: 'gravatar.loli.net/avatar',
-        el: '#tcomment',lang: 'zh-cn',})
+  twikoo.init({
+      envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+      GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+      el: '#tcomment',lang: 'zh-cn',})
 </script>
 
     

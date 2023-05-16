@@ -6,7 +6,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" />
 
-<link rel="stylesheet" href="/scss/style.min.19d3e9dbcdfe52220c83a8060da22e16c36e030b9e930048778c3de944edb23b.css"><meta property='og:title' content='树状数组'>
+<link rel="stylesheet" href="/scss/style.min.19141c9b37505d645762341cbf1095f5c3d6004ebe07bec05233306118e4f2c0.css"><meta property='og:title' content='树状数组'>
 <meta property='og:description' content='先来补票树状数组'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,14 +15,10 @@
 <meta name="twitter:description" content="先来补票树状数组"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
-<link
-  href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css"
-  rel="stylesheet"
-/>
-<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-<script>
-  hljs.highlightAll();
-</script>
+
+
+
+
 
     </head>
     <body class="
@@ -289,15 +285,22 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ul>
+  <ol>
     <li><a href="#基本树状数组">基本树状数组</a>
-      <ul>
+      <ol>
         <li><a href="#原理">原理</a></li>
-        <li><a href="#实现">实现</a></li>
-      </ul>
+        <li><a href="#实现">实现</a>
+          <ol>
+            <li><a href="#建立">建立</a></li>
+            <li><a href="#lowbit">lowbit</a></li>
+            <li><a href="#单点修改">单点修改</a></li>
+            <li><a href="#区间查询">区间查询</a></li>
+          </ol>
+        </li>
+      </ol>
     </li>
     <li><a href="#改区间查单点">改区间查单点</a></li>
-  </ul>
+  </ol>
 </nav>
         </div>
     </section>
@@ -411,11 +414,21 @@
 <h3 id="实现">实现</h3>
 <h4 id="建立">建立</h4>
 <p>实际上不用特意处理建立，直接在输入过程中每输入一个数就<a class="link" href="#%e5%8d%95%e7%82%b9%e4%bf%ae%e6%94%b9" >修改</a>即可。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i) {
-</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t1; <span style="color:#75715e">// tmp
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    modify(i,t1);
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="lowbit">lowbit</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">t1</span><span class="p">;</span> <span class="c1">// tmp
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">modify</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">t1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="lowbit">lowbit</h4>
 <p>本函数实现查找一个数最后一位 $1$ 的位置。</p>
 <p>首先声明一个冷知识（大概冷），位运算是针对内存中存储的原数据的运算，换句话说，进行位运算的是补码而不是原码。</p>
 <p><strong>原码</strong>即一个数本身的二进制表示，<strong>反码</strong>即在原码的基础上符号位不变其他位取反。<br>
@@ -426,30 +439,65 @@
 显然，这位 <code>1</code> 前面的所有数字因为被取反所以和原数完全不同；后面的所有数字原来一定是 <code>0</code> 取反后变成一排 <code>1</code>，负数的补码是反码$+1$，从而一直进位到原来最后一位 <code>1</code> 这里，而它们本身变回了 <code>0</code> ；又因为这位 <code>1</code> 被取反后是 <code>0</code> 所以无论如何都不会再向前进位。<br>
 从而保证对于任意一个正数 $x$，$-x$ 与 $x$ 的存储只有 $x$ 本身最后一位 <code>1</code> 是相同的。<br>
 因此 <code>lowbit()</code> 的实现就非常简单了，直接用 <code>x&amp;-x</code>，得到的结果就是<a class="link" href="#%e5%8e%9f%e7%90%86" >原理</a>中所说的 $2^x$，又快又好想，用着还方便。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">lowbit</span>(<span style="color:#66d9ef">int</span> x) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (x<span style="color:#f92672">&amp;-</span>x);
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="单点修改">单点修改</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">lowbit</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">&amp;-</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="单点修改">单点修改</h4>
 <p>假设修改为给第 $x$ 个数增加 $v$，那我们就需要修改所有包含第 $x$ 个元素的节点，则从第 $x$ 个节点寻找父亲节点直到根节点为止（参考上图）。<br>
 $x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层循环实现 $\operatorname{O}(\log n)$ 修改。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">modify</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> v) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> x; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">+=</span> lowbit(i)) {
-</span></span><span style="display:flex;"><span>        tree[i] <span style="color:#f92672">+=</span> v;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="区间查询">区间查询</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">modify</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="n">lowbit</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tree</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="区间查询">区间查询</h4>
 <p>查询区间为 $[l,r]$ 时，将问题转化为求 $[1,r] - [1,l-1]$ 的值（前缀和知识），因此我们只需要实现查询前缀和的功能即可。<br>
 因为 $i$ 节点存储的是一段长度为 $\operatorname{lowbit}(i)$ 的区间的和，因此取完 $i$ 号点的值后再取 $i-\operatorname{lowbit}(i)$ 号节点的值，直到位置变为 $0$（到头）即可（看不懂就结合上面图）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> x) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> x; i; i <span style="color:#f92672">-=</span> lowbit(i)) {
-</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">+=</span> tree[i];
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>ans <span style="color:#f92672">=</span> query(r) <span style="color:#f92672">-</span> query(l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
-</span></span></code></pre></div><h2 id="改区间查单点">改区间查单点</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">query</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">i</span><span class="p">;</span> <span class="n">i</span> <span class="o">-=</span> <span class="n">lowbit</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">+=</span> <span class="n">tree</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">ans</span> <span class="o">=</span> <span class="n">query</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="n">query</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="改区间查单点">改区间查单点</h2>
 <p>上文我们解决了求前缀和的问题，本次需要查询单点，那么很容易联想到<strong>差分</strong>。更改区间对应改差分数组上的两个点，查询单点对应查询差分数组的前缀和。</p>
 
 </section>
@@ -582,45 +630,46 @@ $x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层�
      
     
         
-    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.10/twikoo.all.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.16/twikoo.all.min.js"></script>
 <div id="tcomment"></div>
 <style>
-    .twikoo {
-        background-color: var(--card-background);
-        border-radius: var(--card-border-radius);
-        box-shadow: var(--shadow-l1);
-        padding: var(--card-padding);
-    }
-    :root[data-scheme="dark"] {
-        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
-        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
-    }
-    .twikoo .el-input-group__prepend,
-    .twikoo .tk-action-icon,
-    .twikoo .tk-time,
-    .twikoo .tk-comments-count {
-        color: var(--twikoo-body-text-color);
-    }
-    .twikoo .el-input__inner,
-    .twikoo .el-textarea__inner,
-    .twikoo .tk-preview-container,
-    .twikoo .tk-content,
-    .twikoo .tk-nick,
-    .twikoo .tk-send {
-        color: var(--twikoo-body-text-color-main);
-    }
-    .twikoo .el-button{
-        color: var(--twikoo-body-text-color)!important;
-    }
-    .OwO .OwO-body {
-        background-color: var(--body-background) !important;
-        color: var(--body-text-color) !important;
-    }
+  .twikoo {
+    background-color: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    padding: var(--card-padding);
+    color: var(--twikoo-body-text-color);
+  }
+  :root[data-scheme="dark"] {
+    --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+    --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+  }
+  .twikoo .el-input-group__prepend,
+  .twikoo .tk-action-icon,
+  .twikoo .tk-time,
+  .twikoo .tk-comments-count {
+    color: var(--twikoo-body-text-color);
+  }
+  .twikoo .el-input__inner,
+  .twikoo .el-textarea__inner,
+  .twikoo .tk-preview-container,
+  .twikoo .tk-content,
+  .twikoo .tk-nick,
+  .twikoo .tk-send {
+    color: var(--twikoo-body-text-color-main);
+  }
+  .twikoo .el-button {
+    color: var(--twikoo-body-text-color) !important;
+  }
+  .OwO .OwO-body {
+    background-color: var(--body-background) !important;
+    color: var(--body-text-color) !important;
+  }
 </style><script>
-    twikoo.init({
-        envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
-        GRAVATAR_CDN: 'gravatar.loli.net/avatar',
-        el: '#tcomment',lang: 'zh-cn',})
+  twikoo.init({
+      envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+      GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+      el: '#tcomment',lang: 'zh-cn',})
 </script>
 
     

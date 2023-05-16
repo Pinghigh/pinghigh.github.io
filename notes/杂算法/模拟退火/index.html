@@ -6,7 +6,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E6%9D%82%E7%AE%97%E6%B3%95/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/" />
 
-<link rel="stylesheet" href="/scss/style.min.19d3e9dbcdfe52220c83a8060da22e16c36e030b9e930048778c3de944edb23b.css"><meta property='og:title' content='模拟退火'>
+<link rel="stylesheet" href="/scss/style.min.19141c9b37505d645762341cbf1095f5c3d6004ebe07bec05233306118e4f2c0.css"><meta property='og:title' content='模拟退火'>
 <meta property='og:description' content='想学一个比较简单的暴力求解方式，于是找到了模拟退火'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/%E6%9D%82%E7%AE%97%E6%B3%95/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,14 +15,10 @@
 <meta name="twitter:description" content="想学一个比较简单的暴力求解方式，于是找到了模拟退火"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/63f76817f144a01007c05a60.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
-<link
-  href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css"
-  rel="stylesheet"
-/>
-<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-<script>
-  hljs.highlightAll();
-</script>
+
+
+
+
 
     </head>
     <body class="
@@ -289,20 +285,29 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ul>
+  <ol>
     <li><a href="#基本原理">基本原理</a></li>
     <li><a href="#算法过程">算法过程</a></li>
     <li><a href="#例题">例题</a>
-      <ul>
-        <li></li>
-      </ul>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#tjoi2010分金币">[TJOI2010]分金币</a></li>
+            <li><a href="#样例-1">样例 #1</a></li>
+          </ol>
+        </li>
+      </ol>
     </li>
     <li><a href="#提示">提示</a>
-      <ul>
-        <li></li>
-      </ul>
+      <ol>
+        <li>
+          <ol>
+            <li><a href="#数据规模与约定">数据规模与约定</a></li>
+          </ol>
+        </li>
+      </ol>
     </li>
-  </ul>
+  </ol>
 </nav>
         </div>
     </section>
@@ -456,15 +461,34 @@ $$</p>
 <p>对于每组数据输出一行一个整数表示答案。</p>
 <h4 id="样例-1">样例 #1</h4>
 <h6 id="样例输入-1">样例输入 #1</h6>
-<pre tabindex="0"><code>2
-3
-2 2 4
-4
-1 2 3 6
-</code></pre><h6 id="样例输出-1">样例输出 #1</h6>
-<pre tabindex="0"><code>0
-2
-</code></pre><h2 id="提示">提示</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">2
+</span></span><span class="line"><span class="cl">3
+</span></span><span class="line"><span class="cl">2 2 4
+</span></span><span class="line"><span class="cl">4
+</span></span><span class="line"><span class="cl">1 2 3 6
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h6 id="样例输出-1">样例输出 #1</h6>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">0
+</span></span><span class="line"><span class="cl">2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="提示">提示</h2>
 <h4 id="数据规模与约定">数据规模与约定</h4>
 <ul>
 <li>对 $30%$ 的数据，保证 $1 \leq v_i \leq 1000$</li>
@@ -583,45 +607,46 @@ $$</p>
      
     
         
-    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.10/twikoo.all.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.16/twikoo.all.min.js"></script>
 <div id="tcomment"></div>
 <style>
-    .twikoo {
-        background-color: var(--card-background);
-        border-radius: var(--card-border-radius);
-        box-shadow: var(--shadow-l1);
-        padding: var(--card-padding);
-    }
-    :root[data-scheme="dark"] {
-        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
-        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
-    }
-    .twikoo .el-input-group__prepend,
-    .twikoo .tk-action-icon,
-    .twikoo .tk-time,
-    .twikoo .tk-comments-count {
-        color: var(--twikoo-body-text-color);
-    }
-    .twikoo .el-input__inner,
-    .twikoo .el-textarea__inner,
-    .twikoo .tk-preview-container,
-    .twikoo .tk-content,
-    .twikoo .tk-nick,
-    .twikoo .tk-send {
-        color: var(--twikoo-body-text-color-main);
-    }
-    .twikoo .el-button{
-        color: var(--twikoo-body-text-color)!important;
-    }
-    .OwO .OwO-body {
-        background-color: var(--body-background) !important;
-        color: var(--body-text-color) !important;
-    }
+  .twikoo {
+    background-color: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    padding: var(--card-padding);
+    color: var(--twikoo-body-text-color);
+  }
+  :root[data-scheme="dark"] {
+    --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+    --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+  }
+  .twikoo .el-input-group__prepend,
+  .twikoo .tk-action-icon,
+  .twikoo .tk-time,
+  .twikoo .tk-comments-count {
+    color: var(--twikoo-body-text-color);
+  }
+  .twikoo .el-input__inner,
+  .twikoo .el-textarea__inner,
+  .twikoo .tk-preview-container,
+  .twikoo .tk-content,
+  .twikoo .tk-nick,
+  .twikoo .tk-send {
+    color: var(--twikoo-body-text-color-main);
+  }
+  .twikoo .el-button {
+    color: var(--twikoo-body-text-color) !important;
+  }
+  .OwO .OwO-body {
+    background-color: var(--body-background) !important;
+    color: var(--body-text-color) !important;
+  }
 </style><script>
-    twikoo.init({
-        envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
-        GRAVATAR_CDN: 'gravatar.loli.net/avatar',
-        el: '#tcomment',lang: 'zh-cn',})
+  twikoo.init({
+      envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+      GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+      el: '#tcomment',lang: 'zh-cn',})
 </script>
 
     

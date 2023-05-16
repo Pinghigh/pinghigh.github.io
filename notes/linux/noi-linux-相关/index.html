@@ -6,7 +6,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/linux/noi-linux-%E7%9B%B8%E5%85%B3/" />
 
-<link rel="stylesheet" href="/scss/style.min.19d3e9dbcdfe52220c83a8060da22e16c36e030b9e930048778c3de944edb23b.css"><meta property='og:title' content='NOI Linux 指北'>
+<link rel="stylesheet" href="/scss/style.min.19141c9b37505d645762341cbf1095f5c3d6004ebe07bec05233306118e4f2c0.css"><meta property='og:title' content='NOI Linux 指北'>
 <meta property='og:description' content='一些 Linux 的基本使用方法，基于 NOI Linux 2，也适用于其他使用 gnome 作 DE 的 Linux 环境'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/linux/noi-linux-%E7%9B%B8%E5%85%B3/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,14 +15,10 @@
 <meta name="twitter:description" content="一些 Linux 的基本使用方法，基于 NOI Linux 2，也适用于其他使用 gnome 作 DE 的 Linux 环境"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
-<link
-  href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css"
-  rel="stylesheet"
-/>
-<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-<script>
-  hljs.highlightAll();
-</script>
+
+
+
+
 
     </head>
     <body class="
@@ -289,23 +285,31 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ul>
+  <ol>
     <li><a href="#前言">前言</a></li>
     <li><a href="#从终端开始">从终端开始</a>
-      <ul>
+      <ol>
         <li><a href="#什么是终端">什么是终端？</a></li>
         <li><a href="#打开终端">打开终端</a></li>
         <li><a href="#先管理文件">先&hellip;管理文件？</a></li>
-      </ul>
+      </ol>
     </li>
     <li><a href="#开始写代码吧">开始写代码吧！</a>
-      <ul>
+      <ol>
         <li><a href="#想编辑下文件">想编辑下文件？</a></li>
-        <li><a href="#编译-c-源码">编译 C++ 源码</a></li>
+        <li><a href="#编译-c-源码">编译 C++ 源码</a>
+          <ol>
+            <li><a href="#gnu-编译套件">GNU 编译套件</a></li>
+            <li><a href="#开始编译">开始编译</a></li>
+            <li><a href="#开启编译警告">开启编译警告</a></li>
+            <li><a href="#检查内存错误以及未定义行为">检查内存错误以及未定义行为</a></li>
+            <li><a href="#总结">总结：</a></li>
+          </ol>
+        </li>
         <li><a href="#执行可执行文件">执行可执行文件</a></li>
-      </ul>
+      </ol>
     </li>
-  </ul>
+  </ol>
 </nav>
         </div>
     </section>
@@ -381,7 +385,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 2 分钟
+                    阅读时长: 3 分钟
                 </time>
             </div>
         
@@ -428,119 +432,288 @@
 <p>在 Shell 中，<code>.</code> 表示当前目录，<code>..</code> 表示当前目录的父目录，<code>/</code> 表示根目录</p>
 <p>Linux 下只有一个根目录，不会像 Windows 一样不同的盘有不同的根目录</p>
 <p>也就是如下</p>
-<pre tabindex="0"><code>Windows:
-C:-
-  |- Windows
-  |- Program Files
-  |_ Users
-
-D:-
-  |- Software
-  |- Documents
-  |_ Steam
-
-Linux:
-/ -
-  |- usr
-  |- bin
-  |- home
-  |- dev
-  |- etc
-  |.....
-</code></pre><p>绝对路径：能唯一确定的路径，也就是说从根目录表示的确定的位置，比如 <code>/usr/local/bin</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Windows:
+</span></span><span class="line"><span class="cl">C:-
+</span></span><span class="line"><span class="cl">  |- Windows
+</span></span><span class="line"><span class="cl">  |- Program Files
+</span></span><span class="line"><span class="cl">  |_ Users
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">D:-
+</span></span><span class="line"><span class="cl">  |- Software
+</span></span><span class="line"><span class="cl">  |- Documents
+</span></span><span class="line"><span class="cl">  |_ Steam
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Linux:
+</span></span><span class="line"><span class="cl">/ -
+</span></span><span class="line"><span class="cl">  |- usr
+</span></span><span class="line"><span class="cl">  |- bin
+</span></span><span class="line"><span class="cl">  |- home
+</span></span><span class="line"><span class="cl">  |- dev
+</span></span><span class="line"><span class="cl">  |- etc
+</span></span><span class="line"><span class="cl">  |.....
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>绝对路径：能唯一确定的路径，也就是说从根目录表示的确定的位置，比如 <code>/usr/local/bin</code></p>
 <p>相对路径：相对于某一目录的位置，比如当前目录是 <code>/usr/local/</code>， 则上面的路径可以表示为 <code>bin</code> 或 <code>./bin</code></p>
 <p>先提供相应的命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 这是一条注释，SHELL 中使用井号做单行注释</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建文件夹</span>
-</span></span><span style="display:flex;"><span>mkdir folder_name
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建一个 modmodwhr 文件夹</span>
-</span></span><span style="display:flex;"><span>mkdir modmodwhr
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建空文件</span>
-</span></span><span style="display:flex;"><span>touch filename
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建一个名为 whrakioi 的空文件</span>
-</span></span><span style="display:flex;"><span>touch whrakioi
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 进入一个目录</span>
-</span></span><span style="display:flex;"><span>cd folder_name
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果当前目录下有一个 hhyakioi 文件夹，则可以通过这个命令进入该文件夹</span>
-</span></span><span style="display:flex;"><span>cd hhyakioi
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 或者 . 代表当前目录，./hhyakioi 相当于进入当前目录下的 hhyakioi 文件夹</span>
-</span></span><span style="display:flex;"><span>cd ./hhyakioi
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 进入上一级文件夹</span>
-</span></span><span style="display:flex;"><span>cd ..
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 进入根目录</span>
-</span></span><span style="display:flex;"><span>cd /
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 进入某绝对路径</span>
-</span></span><span style="display:flex;"><span>cd /usr/share
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 最后一个杠加不加无所谓</span>
-</span></span><span style="display:flex;"><span>cd /usr/share/
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 复制一个文件到另一个位置</span>
-</span></span><span style="display:flex;"><span>cp /path/to/file /path/to/direction
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 把 1.cpp 复制到 gjxakioi 文件夹</span>
-</span></span><span style="display:flex;"><span>cp 1.cpp gjxakioi/1.cpp
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 复制文件夹需要添加 -r 参数</span>
-</span></span><span style="display:flex;"><span>cp folder_name gjxakioi/folder_name -r
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 移动一个文件到另一个位置，同时可以当重命名用</span>
-</span></span><span style="display:flex;"><span>mv path1 path2
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重命名 1.cpp 为 2.cpp</span>
-</span></span><span style="display:flex;"><span>mv 1.cpp 2.cpp
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 移动 2.cpp 到 gjxakioi 文件夹</span>
-</span></span><span style="display:flex;"><span>mv 1.cpp gjxakioi/1.cpp
-</span></span></code></pre></div><p>NOI Linux 2 的比赛环境下默认给你挂载 noip 文件夹并在 Linux 桌面上创建快捷方式，因此如果你在桌面上进入终端，则可以通过下面的命令进入 noip 文件夹</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd noip
-</span></span></code></pre></div><p>或者</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd ./noip
-</span></span></code></pre></div><h2 id="开始写代码吧">开始写代码吧！</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 这是一条注释，SHELL 中使用井号做单行注释</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建文件夹</span>
+</span></span><span class="line"><span class="cl">mkdir folder_name
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建一个 modmodwhr 文件夹</span>
+</span></span><span class="line"><span class="cl">mkdir modmodwhr
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建空文件</span>
+</span></span><span class="line"><span class="cl">touch filename
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建一个名为 whrakioi 的空文件</span>
+</span></span><span class="line"><span class="cl">touch whrakioi
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 进入一个目录</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> folder_name
+</span></span><span class="line"><span class="cl"><span class="c1"># 如果当前目录下有一个 hhyakioi 文件夹，则可以通过这个命令进入该文件夹</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> hhyakioi
+</span></span><span class="line"><span class="cl"><span class="c1"># 或者 . 代表当前目录，./hhyakioi 相当于进入当前目录下的 hhyakioi 文件夹</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ./hhyakioi
+</span></span><span class="line"><span class="cl"><span class="c1"># 进入上一级文件夹</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ..
+</span></span><span class="line"><span class="cl"><span class="c1"># 进入根目录</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /
+</span></span><span class="line"><span class="cl"><span class="c1"># 进入某绝对路径</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /usr/share
+</span></span><span class="line"><span class="cl"><span class="c1"># 最后一个杠加不加无所谓</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /usr/share/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 复制一个文件到另一个位置</span>
+</span></span><span class="line"><span class="cl">cp /path/to/file /path/to/direction
+</span></span><span class="line"><span class="cl"><span class="c1"># 把 1.cpp 复制到 gjxakioi 文件夹</span>
+</span></span><span class="line"><span class="cl">cp 1.cpp gjxakioi/1.cpp
+</span></span><span class="line"><span class="cl"><span class="c1"># 复制文件夹需要添加 -r 参数</span>
+</span></span><span class="line"><span class="cl">cp folder_name gjxakioi/folder_name -r
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 移动一个文件到另一个位置，同时可以当重命名用</span>
+</span></span><span class="line"><span class="cl">mv path1 path2
+</span></span><span class="line"><span class="cl"><span class="c1"># 重命名 1.cpp 为 2.cpp</span>
+</span></span><span class="line"><span class="cl">mv 1.cpp 2.cpp
+</span></span><span class="line"><span class="cl"><span class="c1"># 移动 2.cpp 到 gjxakioi 文件夹</span>
+</span></span><span class="line"><span class="cl">mv 1.cpp gjxakioi/1.cpp
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>NOI Linux 2 的比赛环境下默认给你挂载 noip 文件夹并在 Linux 桌面上创建快捷方式，因此如果你在桌面上进入终端，则可以通过下面的命令进入 noip 文件夹</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> noip
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>或者</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> ./noip
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="开始写代码吧">开始写代码吧！</h2>
 <h3 id="想编辑下文件">想编辑下文件？</h3>
 <p>如果你在 Windows 下写好了代码想要粘贴到 Linux 的文件里，则可以</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 新建 a.cpp 文件</span>
-</span></span><span style="display:flex;"><span>touch a.cpp
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 nano 编辑器编辑 a.cpp 文件</span>
-</span></span><span style="display:flex;"><span>nano a.cpp
-</span></span></code></pre></div><p>nano 是 GNU 的一款简易终端文本编辑器，相对于 Vi/Vim 来说更适合新手使用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 新建 a.cpp 文件</span>
+</span></span><span class="line"><span class="cl">touch a.cpp
+</span></span><span class="line"><span class="cl"><span class="c1"># 使用 nano 编辑器编辑 a.cpp 文件</span>
+</span></span><span class="line"><span class="cl">nano a.cpp
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>nano 是 GNU 的一款简易终端文本编辑器，相对于 Vi/Vim 来说更适合新手使用</p>
 <p>复制了 Windows 的代码之后，确保 VMware 的共享剪贴板已经打开，然后按下 <code>Ctrl</code> + <code>Shift</code> + <code>V</code> 粘贴，然后按下 <code>Ctrl</code> + <code>S</code> 保存，<code>Ctrl</code> + <code>X</code> 退出。</p>
 <p>当然，有图形化编辑器供你使用</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 使用闭源 Visual Studio Code 编辑 a.cpp</span>
-</span></span><span style="display:flex;"><span>code a.cpp
-</span></span></code></pre></div><p>在此之后你可以通过 <code>cat</code> 命令<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>验证文件内容</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cat a.cpp
-</span></span></code></pre></div><h3 id="编译-c-源码">编译 C++ 源码</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="c1"># 使用闭源 Visual Studio Code 编辑 a.cpp</span>
+</span></span><span class="line"><span class="cl">code a.cpp
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在此之后你可以通过 <code>cat</code> 命令<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>验证文件内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">cat a.cpp
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="编译-c-源码">编译 C++ 源码</h3>
 <h4 id="gnu-编译套件">GNU 编译套件</h4>
 <p>GNU Compile Collection 是 GNU 开发的一套编译器，在这里我们只使用 GNU C 编译器部分。</p>
 <p>另：GNU 计划的目标是开发出一款完全自由的操作系统和软件生态，自由软件运动致力于推进全部软件的隐私保护以及自由化，自由软件属于全人类，自由软件开发者们留下的作品与学习资料是不朽的！如果你对自由软件运动有疑问或有兴趣，可前往 <a class="link" href="https://www.gnu.org"  target="_blank" rel="noopener"
     >www.gnu.org</a> 了解更多相关内容。</p>
 <h4 id="开始编译">开始编译</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>g++ grainrainisgod.cpp
-</span></span></code></pre></div><p>这个命令会在当前目录下编译 grainrainisgod.cpp 文件，然后默认输出一个 a.out 可执行文件<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">g++ grainrainisgod.cpp
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个命令会在当前目录下编译 grainrainisgod.cpp 文件，然后默认输出一个 a.out 可执行文件<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>。</p>
 <p>可是我懒得重命名文件，所以如何执行输出可执行文件的位置和名称呢？只需要加 <code>-o /path/to/direction</code> 即可</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>g++ grainrainisgod.cpp -o grainrainisgod
-</span></span></code></pre></div><p>当然，你也可以加入其他比赛要求的编译选项，比如说吸个氧（加 <code>-O2</code> 参数）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>g++ grainrainisgod.cpp -o grainrainisgod -O2
-</span></span></code></pre></div><h4 id="开启编译警告">开启编译警告</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">g++ grainrainisgod.cpp -o grainrainisgod
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当然，你也可以加入其他比赛要求的编译选项，比如说吸个氧（加 <code>-O2</code> 参数）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">g++ grainrainisgod.cpp -o grainrainisgod -O2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="开启编译警告">开启编译警告</h4>
 <p>编译警告在编译的编译阶段和警告阶段发出，能帮你发现一些低级问题和简单 UB，比如著名 UB（但是萌妹 OPTIM 还是犯了这个问题）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>a <span style="color:#f92672">=</span> a<span style="color:#f92672">++</span> <span style="color:#f92672">+</span> <span style="color:#f92672">++</span>a;
-</span></span></code></pre></div><p>编译器会发出警告</p>
-<pre tabindex="0"><code class="language-log" data-lang="log">warning: multiple unsequenced modifications to &#39;a&#39; [-Wunsequenced]
-    cout &lt;&lt; a++ + ++a &lt;&lt; endl;
-</code></pre><p>这样的警告对于比赛选手来说肯定是越多越好越全越好，所以需要开启全部警告，即添加 <code>-Wall</code> 参数</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>g++ grainrainisgod.cpp -o grainrainisgod -O2 -Wall
-</span></span></code></pre></div><h4 id="检查内存错误以及未定义行为">检查内存错误以及未定义行为</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">++</span> <span class="o">+</span> <span class="o">++</span><span class="n">a</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>编译器会发出警告</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">warning: multiple unsequenced modifications to &#39;a&#39; [-Wunsequenced]
+</span></span><span class="line"><span class="cl">    cout &lt;&lt; a++ + ++a &lt;&lt; endl;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样的警告对于比赛选手来说肯定是越多越好越全越好，所以需要开启全部警告，即添加 <code>-Wall</code> 参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">g++ grainrainisgod.cpp -o grainrainisgod -O2 -Wall
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="检查内存错误以及未定义行为">检查内存错误以及未定义行为</h4>
 <p>Sanitizer 是谷歌开发的一个检测程序问题的开源套件，一般集成在 gcc 以及 clang 编译器中。相应的，MinGW-W64 并没有为 Sanitizer 做 Windows 兼容，因而无法在比赛环境 Windows 使用（LLVM/Clang 编译器包含的 Sanitizer 支持 Windows，MSVC 的也支持但是只有 AddressSanitizer）（但是显然比赛环境没有这两个编译器），所以显得 Linux 环境非常重要。</p>
 <p>Address Sanitizer 用于检测程序的内存错误，比如爆栈等问题。使用方法是添加 <code>-fsanitize=address</code> 选项</p>
 <p>Undefined Behaviour Sanitizer 用于检测程序的未定义行为，比如访问空指针，数组越界访问等问题，使用方法是添加 <code>-fsanitize=undefined</code> 选项。</p>
 <p>值得注意的是，这两个 Sanitizer 会显著拖慢程序运行速度，所以添加这两个编译选项编译出来的程序在运行时间和内存占用上参考意义不大。同时如果动态分配内存过多可能 Address Sanitizer 会抽风，UBSanitizer 倒是问题不大。所以酌情使用。</p>
 <h4 id="总结">总结：</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>g++ grainrainisgod.cpp -o grainrainisgod -O2 -Wall -fsanitize<span style="color:#f92672">=</span>address -fsanitize<span style="color:#f92672">=</span>undefined
-</span></span></code></pre></div><p>如上是我赛时经常使用的编译命令。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">g++ grainrainisgod.cpp -o grainrainisgod -O2 -Wall -fsanitize<span class="o">=</span>address -fsanitize<span class="o">=</span>undefined
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如上是我赛时经常使用的编译命令。</p>
 <h3 id="执行可执行文件">执行可执行文件</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./grainrainisgod
-</span></span></code></pre></div><p><code>.</code> （当前目录）+ <code>/</code> （目录分隔符）+ <code>grainrainisgod</code> 可执行文件名称</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">./grainrainisgod
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>.</code> （当前目录）+ <code>/</code> （目录分隔符）+ <code>grainrainisgod</code> 可执行文件名称</p>
 <p>然后就可以快乐地输入了。</p>
 <p>注意：在这个终端中复制使用 <code>Ctrl</code>+<code>Shift</code>+ <code>C</code>，粘贴使用 <code>Ctrl</code>+<code>Shift</code>+<code> V</code></p>
 <p><code>Ctrl</code> + <code>C</code> 用于终止当前正在运行的程序，也可以在输入命令打错字时 <code>Ctrl</code> + <code>C</code> 重开一行。</p>
@@ -703,45 +876,46 @@ Linux:
      
     
         
-    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.10/twikoo.all.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.16/twikoo.all.min.js"></script>
 <div id="tcomment"></div>
 <style>
-    .twikoo {
-        background-color: var(--card-background);
-        border-radius: var(--card-border-radius);
-        box-shadow: var(--shadow-l1);
-        padding: var(--card-padding);
-    }
-    :root[data-scheme="dark"] {
-        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
-        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
-    }
-    .twikoo .el-input-group__prepend,
-    .twikoo .tk-action-icon,
-    .twikoo .tk-time,
-    .twikoo .tk-comments-count {
-        color: var(--twikoo-body-text-color);
-    }
-    .twikoo .el-input__inner,
-    .twikoo .el-textarea__inner,
-    .twikoo .tk-preview-container,
-    .twikoo .tk-content,
-    .twikoo .tk-nick,
-    .twikoo .tk-send {
-        color: var(--twikoo-body-text-color-main);
-    }
-    .twikoo .el-button{
-        color: var(--twikoo-body-text-color)!important;
-    }
-    .OwO .OwO-body {
-        background-color: var(--body-background) !important;
-        color: var(--body-text-color) !important;
-    }
+  .twikoo {
+    background-color: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    padding: var(--card-padding);
+    color: var(--twikoo-body-text-color);
+  }
+  :root[data-scheme="dark"] {
+    --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+    --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+  }
+  .twikoo .el-input-group__prepend,
+  .twikoo .tk-action-icon,
+  .twikoo .tk-time,
+  .twikoo .tk-comments-count {
+    color: var(--twikoo-body-text-color);
+  }
+  .twikoo .el-input__inner,
+  .twikoo .el-textarea__inner,
+  .twikoo .tk-preview-container,
+  .twikoo .tk-content,
+  .twikoo .tk-nick,
+  .twikoo .tk-send {
+    color: var(--twikoo-body-text-color-main);
+  }
+  .twikoo .el-button {
+    color: var(--twikoo-body-text-color) !important;
+  }
+  .OwO .OwO-body {
+    background-color: var(--body-background) !important;
+    color: var(--body-text-color) !important;
+  }
 </style><script>
-    twikoo.init({
-        envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
-        GRAVATAR_CDN: 'gravatar.loli.net/avatar',
-        el: '#tcomment',lang: 'zh-cn',})
+  twikoo.init({
+      envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+      GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+      el: '#tcomment',lang: 'zh-cn',})
 </script>
 
     
