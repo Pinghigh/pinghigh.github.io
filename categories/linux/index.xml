@@ -6,7 +6,24 @@
         <description>Recent content in Linux on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 28 Mar 2023 22:12:58 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/linux/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 13 May 2023 20:42:41 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/linux/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>面向新手的 Arch Linux 作为第二系统的安装指南</title>
+        <link>https://blog.tibrella.top/notes/linux/%E9%9D%A2%E5%90%91%E6%96%B0%E6%89%8B%E7%9A%84-arch-linux-%E4%BD%9C%E4%B8%BA%E7%AC%AC%E4%BA%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/</link>
+        <pubDate>Sat, 13 May 2023 20:42:41 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/linux/%E9%9D%A2%E5%90%91%E6%96%B0%E6%89%8B%E7%9A%84-arch-linux-%E4%BD%9C%E4%B8%BA%E7%AC%AC%E4%BA%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" alt="Featured image of post 面向新手的 Arch Linux 作为第二系统的安装指南" /&gt;&lt;p&gt;长期坑，一点点来吧&amp;hellip;&lt;/p&gt;
+&lt;h2 id=&#34;为什么要使用-arch-linux&#34;&gt;为什么要使用 Arch Linux&lt;/h2&gt;
+&lt;p&gt;众所周知，Ubuntu 是目前使用基本上最广的 Linux 操作系统，同时国内 UOS、优麒麟此类都是 Ubuntu 魔改，那为什么不用它呢？&lt;br&gt;
+实际上，用的人多不代表他多牛逼，Windows 用的人也非常多，但是不可否认的是它很烂。Ubuntu/Debian 系的 Linux 发行版实际上正在脱离 Linux 大部分发行版的“包管理器”的独特优势，在向着复杂和难以维护发展，这使我在 Linux 使用的初期碰了很多次壁。&lt;br&gt;
+那 RedHat 系呢？Fedora 不也很好吗？它确实很好，但是我认为 Arch Linux 更加符合 &amp;ldquo;KISS&amp;rdquo; 的哲学，它更加简单，更加容易理解，更加友好。虽然它需要相对繁琐的命令行安装，但是它的稳定性要比大多数滚动更新发行版好，也比大多数桌面发行版容易维护。&lt;br&gt;
+总之，如上，Arch Linux 易于维护，稳定性好，扩展性强，生态好，社区非常完善（可以说是拥有最完善的社区和维基），我认为它是非常适合用于 Linux 入门的发行版。&lt;/p&gt;
+&lt;h2 id=&#34;制作安装盘&#34;&gt;制作安装盘&lt;/h2&gt;
+&lt;p&gt;需要你手里有一个 U 盘。
+不需要 U 盘的安装方法有点困难，如果你不是新手请换一篇博客看&amp;hellip;.&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>NOI Linux 指北</title>
         <link>https://blog.tibrella.top/notes/linux/noi-linux-%E7%9B%B8%E5%85%B3/</link>
         <pubDate>Tue, 28 Mar 2023 22:12:58 +0800</pubDate>
@@ -412,23 +429,6 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;del&gt;其实换 clang++ 编译有的时候就能过&lt;/del&gt; &lt;del&gt;但是测评机肯定还是 gcc ，所以应该考虑下自己是不是写错数了&lt;/del&gt;&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>面向新手的 Arch Linux 作为第二系统的安装指南</title>
-        <link>https://blog.tibrella.top/notes/linux/%E9%9D%A2%E5%90%91%E6%96%B0%E6%89%8B%E7%9A%84-arch-linux-%E4%BD%9C%E4%B8%BA%E7%AC%AC%E4%BA%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/</link>
-        <pubDate>Thu, 15 Dec 2022 19:46:43 +0000</pubDate>
-        
-        <guid>https://blog.tibrella.top/notes/linux/%E9%9D%A2%E5%90%91%E6%96%B0%E6%89%8B%E7%9A%84-arch-linux-%E4%BD%9C%E4%B8%BA%E7%AC%AC%E4%BA%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" alt="Featured image of post 面向新手的 Arch Linux 作为第二系统的安装指南" /&gt;&lt;p&gt;长期坑，一点点来吧&amp;hellip;&lt;/p&gt;
-&lt;h2 id=&#34;为什么要使用-arch-linux&#34;&gt;为什么要使用 Arch Linux&lt;/h2&gt;
-&lt;p&gt;众所周知，Ubuntu 是目前使用基本上最广的 Linux 操作系统，同时国内 UOS、优麒麟此类都是 Ubuntu 魔改，那为什么不用它呢？&lt;br&gt;
-实际上，用的人多不代表他多牛逼，Windows 用的人也非常多，但是不可否认的是它很烂。Ubuntu/Debian 系的 Linux 发行版实际上正在脱离 Linux 大部分发行版的“包管理器”的独特优势，在向着复杂和难以维护发展，这使我在 Linux 使用的初期碰了很多次壁。&lt;br&gt;
-那 RedHat 系呢？Fedora 不也很好吗？它确实很好，但是我认为 Arch Linux 更加符合 &amp;ldquo;KISS&amp;rdquo; 的哲学，它更加简单，更加容易理解，更加友好。虽然它需要相对繁琐的命令行安装，但是它的稳定性要比大多数滚动更新发行版好，也比大多数桌面发行版容易维护。&lt;br&gt;
-总之，如上，Arch Linux 易于维护，稳定性好，扩展性强，生态好，社区非常完善（可以说是拥有最完善的社区和维基），我认为它是非常适合用于 Linux 入门的发行版。&lt;/p&gt;
-&lt;h2 id=&#34;制作安装盘&#34;&gt;制作安装盘&lt;/h2&gt;
-&lt;p&gt;需要你手里有一个 U 盘。
-不需要 U 盘的安装方法有点困难，如果你不是新手请换一篇博客看&amp;hellip;.&lt;/p&gt;
 </description>
         </item>
         <item>

@@ -12,7 +12,7 @@ os.popen("hugo -s T:/Source/blog")
 
 from datetime import datetime, timedelta
 now_time = datetime.now()
-utc_time = now_time - timedelta(hours=8)  # 减去8小时
+utc_time = now_time # 减去8小时
 utc_time = utc_time.strftime("%Y-%m-%d %H:%M:%S")
 
 os.system("hugo -s T:/Source/blog")

@@ -73,7 +73,9 @@ $$&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;随机变量&#34;&gt;随机变量&lt;/h2&gt;
-&lt;p&gt;随机变量简单理解就是一个&lt;strong&gt;随机的变量&lt;/strong&gt;，它可以表示一个&lt;strong&gt;可能出现的事件&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;只介绍离散型随机变量。&lt;/p&gt;
+&lt;p&gt;离散型随机变量 $X$，可以理解为 $X$ 有有限种取值，且每个取值都有一个概率。换句话说，$X$ 的取值是一个有限的集合，集合里面每一个值都有一个概率，$X$ 按照概率取值。&lt;/p&gt;
+&lt;p&gt;随机变量独立性：$P(X=x_i, Y=y_i) = P(X=x_i)P(Y=y_i)$ （$,$ 表示&lt;strong&gt;且&lt;/strong&gt;）&lt;/p&gt;
 </description>
         </item>
         <item>
