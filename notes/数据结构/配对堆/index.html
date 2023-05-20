@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="飞快的可并堆
+时间复杂度 还没有完全严格的证明，但一般认为配对堆时间复杂度如下：
+删除堆顶均摊 $\operatorname{O}(\log n)$
+插入元素 $\operatorname{O}(1)$ 合并 $\operatorname{O}(1)$
+貌似这个可能比斐波那契堆快（
+节点存储 配对堆不是一个二叉树，一般采用“左儿子右兄弟”表示法，一个节点存储自己第一个儿子与右侧第一个兄弟。
+有点抽象？实际上相当于每一个节点的儿子使用链表维护，然后该节点连着第一个子节点。
+代码就非常好写了
+1 2 3 4 struct Node { int val; Node *child, *nex; // 第一个儿子，下一个兄弟 }; 合并两个堆 比较根节点大小，把根节点大的堆直接改成根节点小的堆根节点的儿子即可。
+图示中还是使用树本身形态。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 Node* meld(Node* x, Node* y) { // 传入两个根节点 if (x == null) // null 为空节点 return y; else if (y == null) return x; if (x-&amp;gt;val &amp;lt; y-&amp;gt;val) { // x 比 y 小，y 当 x 的儿子 y-&amp;gt;nex = x-&amp;gt;child; // 旧儿子是新儿子的兄弟 x-&amp;gt;child = y; // 新儿子是第一个儿子 return x; } else { x-&amp;gt;nex = y-&amp;gt;child; y-&amp;gt;child = x; return y; } } 插入新节点 新建节点，然后当成两个堆合并即可。" />
+<title></title>
+
+<link rel="canonical" href="https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%85%8D%E5%AF%B9%E5%A0%86/" />
+
+<link rel="stylesheet" href="/scss/style.min.d3196a0161f90199ebaf9b1e5613d8bc745547a1624416fa1d245c239f141671.css"><meta property='og:title' content=''>
+<meta property='og:description' content='飞快的可并堆
+时间复杂度 还没有完全严格的证明，但一般认为配对堆时间复杂度如下：
+删除堆顶均摊 $\operatorname{O}(\log n)$
+插入元素 $\operatorname{O}(1)$ 合并 $\operatorname{O}(1)$
+貌似这个可能比斐波那契堆快（
+节点存储 配对堆不是一个二叉树，一般采用“左儿子右兄弟”表示法，一个节点存储自己第一个儿子与右侧第一个兄弟。
+有点抽象？实际上相当于每一个节点的儿子使用链表维护，然后该节点连着第一个子节点。
+代码就非常好写了
+1 2 3 4 struct Node { int val; Node *child, *nex; // 第一个儿子，下一个兄弟 }; 合并两个堆 比较根节点大小，把根节点大的堆直接改成根节点小的堆根节点的儿子即可。
+图示中还是使用树本身形态。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 Node* meld(Node* x, Node* y) { // 传入两个根节点 if (x == null) // null 为空节点 return y; else if (y == null) return x; if (x-&amp;gt;val &amp;lt; y-&amp;gt;val) { // x 比 y 小，y 当 x 的儿子 y-&amp;gt;nex = x-&amp;gt;child; // 旧儿子是新儿子的兄弟 x-&amp;gt;child = y; // 新儿子是第一个儿子 return x; } else { x-&amp;gt;nex = y-&amp;gt;child; y-&amp;gt;child = x; return y; } } 插入新节点 新建节点，然后当成两个堆合并即可。'>
+<meta property='og:url' content='https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%85%8D%E5%AF%B9%E5%A0%86/'>
+<meta property='og:site_name' content='钛合金伞的隙间'>
+<meta property='og:type' content='article'><meta property='article:section' content='Notes' />
+<meta name="twitter:title" content="">
+<meta name="twitter:description" content="飞快的可并堆
+时间复杂度 还没有完全严格的证明，但一般认为配对堆时间复杂度如下：
+删除堆顶均摊 $\operatorname{O}(\log n)$
+插入元素 $\operatorname{O}(1)$ 合并 $\operatorname{O}(1)$
+貌似这个可能比斐波那契堆快（
+节点存储 配对堆不是一个二叉树，一般采用“左儿子右兄弟”表示法，一个节点存储自己第一个儿子与右侧第一个兄弟。
+有点抽象？实际上相当于每一个节点的儿子使用链表维护，然后该节点连着第一个子节点。
+代码就非常好写了
+1 2 3 4 struct Node { int val; Node *child, *nex; // 第一个儿子，下一个兄弟 }; 合并两个堆 比较根节点大小，把根节点大的堆直接改成根节点小的堆根节点的儿子即可。
+图示中还是使用树本身形态。
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 Node* meld(Node* x, Node* y) { // 传入两个根节点 if (x == null) // null 为空节点 return y; else if (y == null) return x; if (x-&amp;gt;val &amp;lt; y-&amp;gt;val) { // x 比 y 小，y 当 x 的儿子 y-&amp;gt;nex = x-&amp;gt;child; // 旧儿子是新儿子的兄弟 x-&amp;gt;child = y; // 新儿子是第一个儿子 return x; } else { x-&amp;gt;nex = y-&amp;gt;child; y-&amp;gt;child = x; return y; } } 插入新节点 新建节点，然后当成两个堆合并即可。">
+<link rel="shortcut icon" href="/favicon.png" />
+<script src="/js/prism.js"></script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="/img/avatar.jpg" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">🌂</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
+            <h2 class="site-description">将梦想化为残机，我们就仍能飞翔</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:pinghigh24678@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/pinghigh'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/@pinghigh24678'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#时间复杂度">时间复杂度</a></li>
+    <li><a href="#节点存储">节点存储</a></li>
+    <li><a href="#合并两个堆">合并两个堆</a></li>
+    <li><a href="#插入新节点">插入新节点</a></li>
+    <li><a href="#弹出堆顶">弹出堆顶</a></li>
+    <li><a href="#模板">模板</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%85%8D%E5%AF%B9%E5%A0%86/"></a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>飞快的可并堆</p>
+<h2 id="时间复杂度">时间复杂度</h2>
+<p>还没有完全严格的证明，但一般认为配对堆时间复杂度如下：<br>
+删除堆顶均摊 $\operatorname{O}(\log n)$<br>
+插入元素 $\operatorname{O}(1)$
+合并 $\operatorname{O}(1)$</p>
+<p>貌似这个可能比斐波那契堆快（</p>
+<h2 id="节点存储">节点存储</h2>
+<p>配对堆不是一个二叉树，一般采用“左儿子右兄弟”表示法，一个节点存储自己第一个儿子与右侧第一个兄弟。<br>
+有点抽象？实际上相当于每一个节点的儿子使用链表维护，然后该节点连着第一个子节点。<br>
+<img src="https://pic1.imgdb.cn/item/64688453e03e90d874db5ef4.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="存储"
+	
+	
+></p>
+<p>代码就非常好写了</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Node</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Node</span> <span class="o">*</span><span class="n">child</span><span class="p">,</span> <span class="o">*</span><span class="n">nex</span><span class="p">;</span> <span class="c1">// 第一个儿子，下一个兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="合并两个堆">合并两个堆</h2>
+<p>比较根节点大小，把根节点大的堆直接改成根节点小的堆根节点的儿子即可。<br>
+图示中还是使用树本身形态。</p>
+<p><img src="https://pic1.imgdb.cn/item/64688720e03e90d874def660.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="合并"
+	
+	
+></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">Node</span><span class="o">*</span> <span class="nf">meld</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">Node</span><span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 传入两个根节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="c1">// null 为空节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// x 比 y 小，y 当 x 的儿子
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">;</span> <span class="c1">// 旧儿子是新儿子的兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">x</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span> <span class="c1">// 新儿子是第一个儿子
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">y</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="插入新节点">插入新节点</h2>
+<p>新建节点，然后当成两个堆合并即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">push</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Node</span><span class="o">*</span> <span class="n">y</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">();</span> <span class="c1">// 获取新节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">y</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="c1">// 当前堆为空的话，新节点为根
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">root</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">else</span>
+</span></span><span class="line"><span class="cl">		<span class="n">root</span> <span class="o">=</span> <span class="n">meld</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span> <span class="c1">// 否则当成两个堆合并
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="弹出堆顶">弹出堆顶</h2>
+<p>貌似要写完了，但是前面几个操作都没有对堆的性质进行维护，因此重头戏在这个部分&hellip;</p>
+<p>删除根节点之后，遇到的是原来的子节点们组成的森林，想办法把它们合并到一起。<br>
+有了上面的合并操作，很容易想到将这些森林里的树一棵一棵合并的方法，但是这样时间复杂度就奔 $\operatorname{O}(n)$ 去了，因为每次删除根节点都只是单纯地把子节点比较一遍，非常缓慢。<br>
+于是说到了该数据结构名称的由来——“配对”。<br>
+我们把这个森林两两配对之后再合并成一个新堆，于是理想状态下，多次删除根结点，新根节点的子节点数量将为 $2$，均摊时间复杂度大约是 $\operatorname{O}(\log n)$ 的。</p>
+<p>图示过程：<br>
+<img src="https://pic1.imgdb.cn/item/64688db3e03e90d874e6d98a.jpg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="弹出堆顶"
+	
+	
+></p>
+<p>首先实现一个用于配对的函数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">Node</span><span class="o">*</span> <span class="nf">merges</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">mark</span><span class="o">&gt;</span> <span class="n">null</span> <span class="o">||</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">&lt;/</span><span class="n">mark</span><span class="o">&gt;</span> <span class="n">null</span><span class="p">)</span> <span class="k">return</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// x 为空或者 x 没有下一个兄弟节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">Node</span><span class="o">*</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span><span class="p">;</span>                           <span class="c1">// y 是 x 的下一个兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">Node</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span><span class="p">;</span>                           <span class="c1">// c 是再下一个兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>                     <span class="c1">// 拆散
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span> <span class="n">meld</span><span class="p">(</span><span class="n">merges</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">meld</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">));</span>         <span class="c1">// x 与 y 配对在一起，剩下的继续配对
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后弹出堆顶的操作就很好写了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">pop</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Node</span><span class="o">*</span> <span class="n">t</span> <span class="o">=</span> <span class="n">merges</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">remove</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">root</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="模板">模板</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">using</span> <span class="n">i64</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">#define __SIZ 2000006
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Node</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i64</span> <span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span> <span class="o">*</span><span class="n">child</span><span class="p">,</span> <span class="o">*</span><span class="n">nex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">tree</span><span class="p">[</span><span class="n">__SIZ</span><span class="p">],</span> <span class="o">*</span><span class="n">rubbish_bin</span><span class="p">[</span><span class="n">__SIZ</span><span class="p">];</span> <span class="c1">// 提早分配内存，new 太慢了
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Node</span> <span class="o">*</span><span class="n">null</span> <span class="o">=</span> <span class="n">tree</span><span class="p">,</span> <span class="o">*</span><span class="n">tot</span> <span class="o">=</span> <span class="n">tree</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">i64</span> <span class="n">bintop</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">pairing_heap</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">*</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">*</span> <span class="nf">new_node</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">*</span> <span class="n">nod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">bintop</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nod</span> <span class="o">=</span> <span class="n">rubbish_bin</span><span class="p">[</span><span class="n">bintop</span><span class="o">--</span><span class="p">];</span> <span class="c1">// 垃圾回收
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nod</span> <span class="o">=</span> <span class="o">++</span><span class="n">tot</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">nod</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">nod</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">nod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">remove</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rubbish_bin</span><span class="p">[</span><span class="o">++</span><span class="n">bintop</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">*</span> <span class="nf">meld</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">Node</span><span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 合并两个堆
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">y</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">*</span> <span class="nf">merges</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">mark</span><span class="o">&gt;</span> <span class="n">null</span> <span class="o">||</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">&lt;/</span><span class="n">mark</span><span class="o">&gt;</span> <span class="n">null</span><span class="p">)</span> <span class="k">return</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// x 为空或者 x 没有下一个兄弟节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Node</span><span class="o">*</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span><span class="p">;</span>                           <span class="c1">// y 是 x 的下一个兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Node</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span><span class="p">;</span>                           <span class="c1">// c 是下一个兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>                     <span class="c1">// 拆散
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">meld</span><span class="p">(</span><span class="n">merges</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">meld</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">));</span>         <span class="c1">// x 与 y 配对在一起，剩下的继续配对
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pairing_heap</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">root</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">push</span><span class="p">(</span><span class="n">i64</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">*</span> <span class="n">y</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">root</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">root</span> <span class="o">=</span> <span class="n">meld</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i64</span> <span class="nf">top</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">pop</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">*</span> <span class="n">t</span> <span class="o">=</span> <span class="n">merges</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">remove</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">root</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">q</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" transform="rotate(180)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under FDL 1.3</span>
+    </section>
+    </footer>
+
+
+    
+        <script>
+  MathJax = {
+    tex: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"],
+      ],
+      displayMath: [
+        ["$$", "$$"],
+        ["\\[", "\\]"],
+      ],
+      processEscapes: true,
+      processEnvironments: true,
+    },
+    options: {
+      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+    },
+  };
+
+  window.addEventListener("load", (event) => {
+    document.querySelectorAll("mjx-container").forEach(function (x) {
+      x.parentElement.classList += "has-jax";
+    });
+  });
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script
+  type="text/javascript"
+  id="MathJax-script"
+  async
+  src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"
+></script>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.16/twikoo.all.min.js"></script>
+<div id="tcomment"></div>
+<style>
+  .twikoo {
+    background-color: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    padding: var(--card-padding);
+    color: var(--twikoo-body-text-color);
+  }
+  :root[data-scheme="dark"] {
+    --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+    --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+  }
+  .twikoo .el-input-group__prepend,
+  .twikoo .tk-action-icon,
+  .twikoo .tk-time,
+  .twikoo .tk-comments-count {
+    color: var(--twikoo-body-text-color);
+  }
+  .twikoo .el-input__inner,
+  .twikoo .el-textarea__inner,
+  .twikoo .tk-preview-container,
+  .twikoo .tk-content,
+  .twikoo .tk-nick,
+  .twikoo .tk-send {
+    color: var(--twikoo-body-text-color-main);
+  }
+  .twikoo .el-button {
+    color: var(--twikoo-body-text-color) !important;
+  }
+  .OwO .OwO-body {
+    background-color: var(--body-background) !important;
+    color: var(--body-text-color) !important;
+  }
+</style><script>
+  twikoo.init({
+      envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+      GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+      el: '#tcomment',lang: 'zh-cn',})
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        <p style="display:inline-block; transform: rotatey(180deg);">&copy;</p> 
+        
+            2020 - 
+        
+        2023 钛合金伞的隙间
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://icp.gov.moe/?keyword=20220284" rel="external nofollow noreferrer" target="_blank">萌ICP备20220284号</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://unpkg.com/node-vibrant@latest/dist/vibrant.min.js"crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    </body>
+</html>
