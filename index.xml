@@ -418,7 +418,17 @@ $$&lt;/p&gt;
 &lt;h2 id=&#34;随机变量&#34;&gt;随机变量&lt;/h2&gt;
 &lt;p&gt;只介绍离散型随机变量。&lt;/p&gt;
 &lt;p&gt;离散型随机变量 $X$，可以理解为 $X$ 有有限种取值，且每个取值都有一个概率。换句话说，$X$ 的取值是一个有限的集合，集合里面每一个值都有一个概率，$X$ 按照概率取值。&lt;/p&gt;
-&lt;p&gt;随机变量独立性：$P(X=x_i, Y=y_i) = P(X=x_i)P(Y=y_i)$ （$,$ 表示&lt;strong&gt;且&lt;/strong&gt;）&lt;/p&gt;
+&lt;p&gt;随机变量独立性：对于两个独立变量 $X Y$，有 $P(X=x_i, Y=y_i) = P(X=x_i)P(Y=y_i)$ （$,$ 表示&lt;strong&gt;且&lt;/strong&gt;） &lt;br&gt;
+倒过来也是正确的。&lt;/p&gt;
+&lt;h2 id=&#34;期望&#34;&gt;期望&lt;/h2&gt;
+&lt;p&gt;一个随机变量取值对概率的加权平均数。&lt;br&gt;
+$E(X) = \sum_i x_ip_i$，$x_i$ 代表可能的取值，$p_i$ 代表取值对应的概率。&lt;/p&gt;
+&lt;p&gt;期望的线性性：$E(aX+b)=aE(X)+b$&lt;br&gt;
+我们可以设 $X$ 的意义为均匀骰子可能掷出的点数，于是上面的东西就可以轻松感性理解了~&lt;/p&gt;
+&lt;p&gt;随机独立变量的乘积：$E(XY)=E(X)E(Y)$&lt;/p&gt;
+&lt;h2 id=&#34;条件期望&#34;&gt;条件期望&lt;/h2&gt;
+&lt;p&gt;$Y = y$ 的条件下 $X$ 的期望：$E(X\mid Y = y)$&lt;br&gt;
+$E(X\mid Y)$ ：取值与 $Y$ 相关的随机变量&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -1806,13 +1816,13 @@ $$&lt;/p&gt;
         </item>
         <item>
         <title>C&#43;&#43; 语言特性杂谈与常数优化</title>
-        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/c&#43;&#43;-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/</link>
+        <link>https://blog.tibrella.top/notes/c&#43;&#43;/c&#43;&#43;-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/</link>
         <pubDate>Thu, 02 Feb 2023 21:06:12 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/c&#43;&#43;-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/</guid>
+        <guid>https://blog.tibrella.top/notes/c&#43;&#43;/c&#43;&#43;-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post C&#43;&#43; 语言特性杂谈与常数优化" /&gt;&lt;p&gt;起因是发现很多同学对常数优化和语句的执行效率有误解（我肯定也有，但是我尽量把我知道的正确的写出来），因此写一篇杂谈做一个说明，同时介绍一些比较新的好用的语言特性（C++14）&lt;/p&gt;
-&lt;h2 id=&#34;template-模板函数&#34;&gt;&lt;code&gt;template&lt;/code&gt; 模板函数&lt;/h2&gt;
-&lt;h3 id=&#34;基本&#34;&gt;基本&lt;/h3&gt;
+&lt;h2 id=&#34;template-模板关键字&#34;&gt;&lt;code&gt;template&lt;/code&gt; 模板关键字&lt;/h2&gt;
+&lt;h3 id=&#34;函数&#34;&gt;函数&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;template&lt;/code&gt; 顾名思义是用来做模板的，那是做什么的模板呢？
 举个例子，一般来说我们写 &lt;code&gt;max&lt;/code&gt; 函数替代 &lt;code&gt;std::max&lt;/code&gt; 来优化的时候，写出来的大概长下面这样：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -1847,6 +1857,91 @@ $$&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;此时的 &lt;code&gt;T&lt;/code&gt; 相当于一个变量类型，如果这个函数被调用，编译器会给你生成一个符合传入参数的类型的 &lt;code&gt;max&lt;/code&gt; 函数。&lt;/p&gt;
+&lt;p&gt;当然了，如果是一个没有传参的函数，我们也能指定其类型。&lt;br&gt;
+这样写会报错：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;template&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;typename&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;read&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	 &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	 &lt;span class=&#34;n&#34;&gt;cin&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	 &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;read&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;原因是没有传参进去，编译器无法推断模板函数的类型。&lt;br&gt;
+类比 &lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/c++/stl-%E5%AE%B9%E5%99%A8/&#34; &gt;STL 容器&lt;/a&gt; 中的使用方法，能不能用尖括号带一个类型名称进去呢？可以的。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;template&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;typename&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;read&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	 &lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	 &lt;span class=&#34;n&#34;&gt;cin&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	 &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;read&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样写就不会报错了&lt;/p&gt;
+&lt;h3 id=&#34;模板类&#34;&gt;模板类&lt;/h3&gt;
+&lt;p&gt;和模板函数类似，我们可以泛化结构体中的类型。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;qwq&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;age&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;del&gt;存紫妈的年龄&lt;/del&gt;可能会爆 &lt;code&gt;int&lt;/code&gt;，&lt;del&gt;存阿求的年龄&lt;/del&gt;可能浪费 &lt;code&gt;long long&lt;/code&gt; 的空间，于是可以：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;template&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;T&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;qwq&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;n&#34;&gt;T&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;age&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;qwq&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int8_t&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;akyuu&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;qwq&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;__int128&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;yukari&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样，&lt;code&gt;akyuu.age&lt;/code&gt; 的类型即是 &lt;code&gt;int8_t&lt;/code&gt;，&lt;code&gt;yukari.age&lt;/code&gt; 的类型即是 &lt;code&gt;__int128&lt;/code&gt;。&lt;/p&gt;
 &lt;h3 id=&#34;todo--关键字&#34;&gt;TODO: &lt;code&gt;...&lt;/code&gt; 关键字&lt;/h3&gt;
 &lt;h2 id=&#34;基于范围的循环&#34;&gt;基于范围的循环&lt;/h2&gt;
 &lt;p&gt;不过多介绍了，主要在 STL 里用&lt;/p&gt;
@@ -1878,6 +1973,125 @@ $$&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;该段代码的效果即为遍历容器 &lt;code&gt;container&lt;/code&gt;，同时把其中所有元素赋值为 &lt;code&gt;0&lt;/code&gt;;&lt;/p&gt;
+&lt;h2 id=&#34;函数相关&#34;&gt;函数相关&lt;/h2&gt;
+&lt;h3 id=&#34;lambda-表达式&#34;&gt;Lambda 表达式&lt;/h3&gt;
+&lt;p&gt;实际上就是定义了一个函数。&lt;/p&gt;
+&lt;p&gt;基本语法：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;捕获&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;](&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;参数&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;c1&#34;&gt;// some code...
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;捕获一般没啥用，留空就好。&lt;/p&gt;
+&lt;p&gt;Lambda 表达式在 C++ 中是一个类型，但是不能用类型名定义，所以用 &lt;code&gt;auto&lt;/code&gt; 声明。&lt;br&gt;
+举个例子，编写 &lt;code&gt;max&lt;/code&gt; 函数：&lt;br&gt;
+原来是这样的&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;nl&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;用 Lambda 表达式长这样：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;auto&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;max&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[](&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// 捕获部分留空，传参和内部实现不变
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;nl&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;看起来这两种方式没有什么区别，确实是这样，但是 Lambda 还有一个重要性质——匿名。&lt;/p&gt;
+&lt;p&gt;显然，原来写函数的时候必须要声明，声明这个函数的名称，返回值类型，传参类型，内部实现。&lt;br&gt;
+但是观察到上面声明 Lambda 表达式 &lt;code&gt;max&lt;/code&gt; 的时候，使用的是类似变量赋值的方法。那是不是只留下等式右边的部分也可以当函数使用？实际上是可以的，这就是 Lambda 函数的匿名性质。即引入 Lambda 表达式之后，就可以随时随地定义函数而不给它起名字。&lt;br&gt;
+听起来有点抽象，再举个例子：&lt;code&gt;std::sort&lt;/code&gt; &lt;br&gt;
+原来我们想要自定义比较函数，只能这样：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;cmp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sort&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;begin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;cmp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;引入 Lambda 表达式之后：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;std&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;::&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;sort&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;begin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(),&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[](&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;){&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;});&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在这里，我们并没有给比较函数起名字，就直接扔到了 &lt;code&gt;std::sort&lt;/code&gt; 里面，这样做方便很多~&lt;/p&gt;
+&lt;p&gt;读者可能有疑问：这样做效率如何？事实上，Lambda 表达式和下面的函数对象的效率都是比较高的，比第一种方式中 &lt;code&gt;cmp&lt;/code&gt; 这种函数指针效率高。&lt;/p&gt;
+&lt;h3 id=&#34;函数对象&#34;&gt;函数对象&lt;/h3&gt;
+&lt;p&gt;假定你已经学会了类/结构体的运算符重载。&lt;/p&gt;
+&lt;p&gt;观察函数组成 &lt;code&gt;function()&lt;/code&gt;，它是不是非常像一个类型 &lt;code&gt;function&lt;/code&gt; 搭配上了 &lt;code&gt;()&lt;/code&gt; 这个运算符？太像了！&lt;/p&gt;
+&lt;p&gt;那我们是不是可以这样做：开一个对象，重载 &lt;code&gt;()&lt;/code&gt; 这个运算符再当函数用？当然可以。&lt;br&gt;
+还是用 &lt;code&gt;max&lt;/code&gt; 举例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;struct&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;qwq&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;operator&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;int&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;){&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;nl&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;qwq&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;非常自然，非常易懂。&lt;/p&gt;
+&lt;h3 id=&#34;效率&#34;&gt;效率&lt;/h3&gt;
+&lt;p&gt;懒得测了。&lt;br&gt;
+可以参考下 &lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/u011392018/article/details/39028457&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;这个博客&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -2325,10 +2539,10 @@ $x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层�
         </item>
         <item>
         <title>RMQ/ST表</title>
-        <link>https://blog.tibrella.top/notes/%E6%9D%82%E7%AE%97%E6%B3%95/rmq-%E9%97%AE%E9%A2%98/</link>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/rmq-%E9%97%AE%E9%A2%98/</link>
         <pubDate>Fri, 27 Jan 2023 14:22:33 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E6%9D%82%E7%AE%97%E6%B3%95/rmq-%E9%97%AE%E9%A2%98/</guid>
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/rmq-%E9%97%AE%E9%A2%98/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post RMQ/ST表" /&gt;&lt;p&gt;目标是解决 RMQ 问题，即对于一个大区间，短时间内查询一个小区间的最大最小值&lt;/p&gt;
 &lt;p&gt;下文以最大值为例说明&lt;/p&gt;
 &lt;p&gt;ST 表本质上是一个动态规划（倍增的）&lt;/p&gt;
@@ -2477,10 +2691,10 @@ $$&lt;/p&gt;
         </item>
         <item>
         <title>并查集</title>
-        <link>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
         <pubDate>Tue, 17 Jan 2023 15:11:36 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 并查集" /&gt;&lt;p&gt;今天讲的最短路啥的感觉有点费劲，先把并查集的东西写了&lt;/p&gt;
 &lt;h2 id=&#34;用途&#34;&gt;用途&lt;/h2&gt;
 &lt;p&gt;基本上用来处理 &lt;strong&gt;关系&lt;/strong&gt;&lt;br&gt;
@@ -5161,10 +5375,10 @@ $$
         </item>
         <item>
         <title>STL</title>
-        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/stl-%E5%AE%B9%E5%99%A8/</link>
+        <link>https://blog.tibrella.top/notes/c&#43;&#43;/stl-%E5%AE%B9%E5%99%A8/</link>
         <pubDate>Sat, 23 Jul 2022 16:43:28 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/stl-%E5%AE%B9%E5%99%A8/</guid>
+        <guid>https://blog.tibrella.top/notes/c&#43;&#43;/stl-%E5%AE%B9%E5%99%A8/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post STL" /&gt;&lt;h2 id=&#34;stl&#34;&gt;STL&lt;/h2&gt;
 &lt;h3 id=&#34;vector-变长数组&#34;&gt;vector 变长数组&lt;/h3&gt;
 &lt;p&gt;需要引入头文件&lt;code&gt;vector&lt;/code&gt;&lt;/p&gt;
@@ -5258,10 +5472,10 @@ $$
         </item>
         <item>
         <title>类</title>
-        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E7%B1%BB/</link>
+        <link>https://blog.tibrella.top/notes/c&#43;&#43;/%E7%B1%BB/</link>
         <pubDate>Tue, 19 Jul 2022 14:34:12 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E7%B1%BB/</guid>
+        <guid>https://blog.tibrella.top/notes/c&#43;&#43;/%E7%B1%BB/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 类" /&gt;&lt;h2 id=&#34;类-class-与-结构体-struct&#34;&gt;类 (class) 与 结构体 (struct)&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -5349,10 +5563,10 @@ $$
         </item>
         <item>
         <title>STL string</title>
-        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/stl-string/</link>
+        <link>https://blog.tibrella.top/notes/c&#43;&#43;/stl-string/</link>
         <pubDate>Mon, 18 Jul 2022 20:24:48 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/stl-string/</guid>
+        <guid>https://blog.tibrella.top/notes/c&#43;&#43;/stl-string/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post STL string" /&gt;&lt;p&gt;可变长的字符序列，需要引入头文件 &lt;code&gt;&amp;lt;string&amp;gt;&lt;/code&gt;&lt;/p&gt;
 &lt;h3 id=&#34;赋值&#34;&gt;赋值&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -5608,10 +5822,10 @@ $$
         </item>
         <item>
         <title>字符数组</title>
-        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84/</link>
+        <link>https://blog.tibrella.top/notes/c&#43;&#43;/%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84/</link>
         <pubDate>Sun, 17 Jul 2022 19:20:54 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84/</guid>
+        <guid>https://blog.tibrella.top/notes/c&#43;&#43;/%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 字符数组" /&gt;&lt;h2 id=&#34;字符数组&#34;&gt;字符数组&lt;/h2&gt;
 &lt;h3 id=&#34;输出&#34;&gt;输出&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -5907,10 +6121,10 @@ $$
         </item>
         <item>
         <title>数组相关</title>
-        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E6%95%B0%E7%BB%84%E7%9B%B8%E5%85%B3/</link>
+        <link>https://blog.tibrella.top/notes/c&#43;&#43;/%E6%95%B0%E7%BB%84%E7%9B%B8%E5%85%B3/</link>
         <pubDate>Fri, 15 Jul 2022 11:36:49 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E6%95%B0%E7%BB%84%E7%9B%B8%E5%85%B3/</guid>
+        <guid>https://blog.tibrella.top/notes/c&#43;&#43;/%E6%95%B0%E7%BB%84%E7%9B%B8%E5%85%B3/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 数组相关" /&gt;&lt;p&gt;浮点数比较要容忍误差（精度问题导致后几位出现误差）&lt;/p&gt;
 &lt;h2 id=&#34;数组httpswwwacwingcom&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.acwing.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;数组&lt;/a&gt;&lt;/h2&gt;
@@ -6056,10 +6270,10 @@ $$
         </item>
         <item>
         <title>读入未知数量的数据</title>
-        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E8%AF%BB%E5%85%A5%E6%9C%AA%E7%9F%A5%E6%95%B0%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE/</link>
+        <link>https://blog.tibrella.top/notes/c&#43;&#43;/%E8%AF%BB%E5%85%A5%E6%9C%AA%E7%9F%A5%E6%95%B0%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE/</link>
         <pubDate>Thu, 14 Jul 2022 22:01:08 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E8%AF%BB%E5%85%A5%E6%9C%AA%E7%9F%A5%E6%95%B0%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE/</guid>
+        <guid>https://blog.tibrella.top/notes/c&#43;&#43;/%E8%AF%BB%E5%85%A5%E6%9C%AA%E7%9F%A5%E6%95%B0%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 读入未知数量的数据" /&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1

@@ -8,10 +8,10 @@
         <language>zh-cn</language>
         <lastBuildDate>Fri, 15 Jul 2022 11:36:49 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E6%95%B0%E7%BB%84/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>数组相关</title>
-        <link>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E6%95%B0%E7%BB%84%E7%9B%B8%E5%85%B3/</link>
+        <link>https://blog.tibrella.top/notes/c&#43;&#43;/%E6%95%B0%E7%BB%84%E7%9B%B8%E5%85%B3/</link>
         <pubDate>Fri, 15 Jul 2022 11:36:49 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/%E6%95%B0%E7%BB%84%E7%9B%B8%E5%85%B3/</guid>
+        <guid>https://blog.tibrella.top/notes/c&#43;&#43;/%E6%95%B0%E7%BB%84%E7%9B%B8%E5%85%B3/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 数组相关" /&gt;&lt;p&gt;浮点数比较要容忍误差（精度问题导致后几位出现误差）&lt;/p&gt;
 &lt;h2 id=&#34;数组httpswwwacwingcom&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.acwing.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;数组&lt;/a&gt;&lt;/h2&gt;

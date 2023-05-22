@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="仅仅作为参考，不保证完全正确，未完" />
+<title>C&#43;&#43; 语言特性杂谈与常数优化</title>
+
+<link rel="canonical" href="https://blog.tibrella.top/notes/c&#43;&#43;/c&#43;&#43;-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/" />
+
+<link rel="stylesheet" href="/scss/style.min.d3196a0161f90199ebaf9b1e5613d8bc745547a1624416fa1d245c239f141671.css"><meta property='og:title' content='C&#43;&#43; 语言特性杂谈与常数优化'>
+<meta property='og:description' content='仅仅作为参考，不保证完全正确，未完'>
+<meta property='og:url' content='https://blog.tibrella.top/notes/c&#43;&#43;/c&#43;&#43;-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/'>
+<meta property='og:site_name' content='钛合金伞的隙间'>
+<meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='[语言]' /><meta property='article:tag' content='[常数优化]' /><meta property='article:tag' content='[语言特性]' /><meta property='article:published_time' content='2023-02-02T21:06:12&#43;00:00'/><meta property='article:modified_time' content='2023-02-02T21:06:12&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
+<meta name="twitter:title" content="C&#43;&#43; 语言特性杂谈与常数优化">
+<meta name="twitter:description" content="仅仅作为参考，不保证完全正确，未完"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
+<link rel="shortcut icon" href="/favicon.png" />
+<script src="/js/prism.js"></script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="/img/avatar.jpg" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">🌂</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
+            <h2 class="site-description">将梦想化为残机，我们就仍能飞翔</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:pinghigh24678@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/pinghigh'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/@pinghigh24678'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#template-模板关键字"><code>template</code> 模板关键字</a>
+      <ol>
+        <li><a href="#函数">函数</a></li>
+        <li><a href="#模板类">模板类</a></li>
+        <li><a href="#todo--关键字">TODO: <code>...</code> 关键字</a></li>
+      </ol>
+    </li>
+    <li><a href="#基于范围的循环">基于范围的循环</a></li>
+    <li><a href="#函数相关">函数相关</a>
+      <ol>
+        <li><a href="#lambda-表达式">Lambda 表达式</a></li>
+        <li><a href="#函数对象">函数对象</a></li>
+        <li><a href="#效率">效率</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/notes/c&#43;&#43;/c&#43;&#43;-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" alt="Featured image of post C&#43;&#43; 语言特性杂谈与常数优化" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/c&#43;&#43;-%E8%AF%AD%E8%A8%80/" >
+                C&#43;&#43; 语言
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/notes/c&#43;&#43;/c&#43;&#43;-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/">C&#43;&#43; 语言特性杂谈与常数优化</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            仅仅作为参考，不保证完全正确，未完
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Feb 02, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>起因是发现很多同学对常数优化和语句的执行效率有误解（我肯定也有，但是我尽量把我知道的正确的写出来），因此写一篇杂谈做一个说明，同时介绍一些比较新的好用的语言特性（C++14）</p>
+<h2 id="template-模板关键字"><code>template</code> 模板关键字</h2>
+<h3 id="函数">函数</h3>
+<p><code>template</code> 顾名思义是用来做模板的，那是做什么的模板呢？
+举个例子，一般来说我们写 <code>max</code> 函数替代 <code>std::max</code> 来优化的时候，写出来的大概长下面这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在这三行代码中，第一行定义了 <code>max</code> 的返回值和参数 <code>a</code> <code>b</code> 的类型为 <code>int</code>，显然意味着这个函数只能比较 <code>int</code> 类型的量。</p>
+<p>那么如果既想要比较 <code>int</code> 又想要比较 <code>long long</code> 还想比较 <code>char</code> 等等，如果按传统的写法，就是 Ctrl+C Ctrl+V 写好几个比较函数，还得重新命名，甚是麻烦。</p>
+<p>观察写出来的几个函数，肉眼可见他们的本质区别只有返回值与参数的类型。那么有没有一种类似模板的东西，写一个函数的主要部分作为模板，返回值、变量的类型由编译器决定呢？</p>
+<p>这就是 <code>template</code> 的一大作用，也是 OI 中最常用的方面。</p>
+<p>使用起来也很简单，在函数声明前面加上 <code>template &lt;typename T&gt;</code>，此处 T 可以是随便一个字母或者单词，后面写函数的时候把 <code>int</code> 替换成 <code>T</code> 即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="n">T</span> <span class="n">max</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="n">T</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>此时的 <code>T</code> 相当于一个变量类型，如果这个函数被调用，编译器会给你生成一个符合传入参数的类型的 <code>max</code> 函数。</p>
+<p>当然了，如果是一个没有传参的函数，我们也能指定其类型。<br>
+这样写会报错：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"> <span class="n">T</span> <span class="n">read</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	 <span class="n">T</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	 <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	 <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">read</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>原因是没有传参进去，编译器无法推断模板函数的类型。<br>
+类比 <a class="link" href="https://blog.tibrella.top/notes/c++/stl-%E5%AE%B9%E5%99%A8/" >STL 容器</a> 中的使用方法，能不能用尖括号带一个类型名称进去呢？可以的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"> <span class="n">T</span> <span class="n">read</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	 <span class="n">T</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	 <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	 <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">read</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样写就不会报错了</p>
+<h3 id="模板类">模板类</h3>
+<p>和模板函数类似，我们可以泛化结构体中的类型。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">qwq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">age</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><del>存紫妈的年龄</del>可能会爆 <code>int</code>，<del>存阿求的年龄</del>可能浪费 <code>long long</code> 的空间，于是可以：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">qwq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">T</span> <span class="n">age</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">qwq</span><span class="o">&lt;</span><span class="kt">int8_t</span><span class="o">&gt;</span> <span class="n">akyuu</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">qwq</span><span class="o">&lt;</span><span class="n">__int128</span><span class="o">&gt;</span> <span class="n">yukari</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样，<code>akyuu.age</code> 的类型即是 <code>int8_t</code>，<code>yukari.age</code> 的类型即是 <code>__int128</code>。</p>
+<h3 id="todo--关键字">TODO: <code>...</code> 关键字</h3>
+<h2 id="基于范围的循环">基于范围的循环</h2>
+<p>不过多介绍了，主要在 STL 里用</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">container</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39; &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>container</code> 为容器的名称，<code>auto</code> 是 C++11 以后的类型名称，编译时由编译器推断。</p>
+<p>此处 <code>auto</code> 的效果就是把 <code>i</code> 的类型设置为 <code>container</code> 的元素的类型。如果 <code>container</code> 是 <code>vector&lt;int&gt;</code> ，则上面语句的效果就是遍历 <code>container</code> 的所有元素并输出。</p>
+<p>此外，如果想遍历的同时修改容器中的元素，可以在 <code>i</code> 前加取址符 <code>&amp;</code> 表示引用，如下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">i</span> <span class="p">:</span> <span class="n">container</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该段代码的效果即为遍历容器 <code>container</code>，同时把其中所有元素赋值为 <code>0</code>;</p>
+<h2 id="函数相关">函数相关</h2>
+<h3 id="lambda-表达式">Lambda 表达式</h3>
+<p>实际上就是定义了一个函数。</p>
+<p>基本语法：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="p">[</span><span class="err">捕获</span><span class="p">](</span><span class="err">参数</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// some code...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>捕获一般没啥用，留空就好。</p>
+<p>Lambda 表达式在 C++ 中是一个类型，但是不能用类型名定义，所以用 <code>auto</code> 声明。<br>
+举个例子，编写 <code>max</code> 函数：<br>
+原来是这样的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>用 Lambda 表达式长这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">max</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 捕获部分留空，传参和内部实现不变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>看起来这两种方式没有什么区别，确实是这样，但是 Lambda 还有一个重要性质——匿名。</p>
+<p>显然，原来写函数的时候必须要声明，声明这个函数的名称，返回值类型，传参类型，内部实现。<br>
+但是观察到上面声明 Lambda 表达式 <code>max</code> 的时候，使用的是类似变量赋值的方法。那是不是只留下等式右边的部分也可以当函数使用？实际上是可以的，这就是 Lambda 函数的匿名性质。即引入 Lambda 表达式之后，就可以随时随地定义函数而不给它起名字。<br>
+听起来有点抽象，再举个例子：<code>std::sort</code> <br>
+原来我们想要自定义比较函数，只能这样：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">bool</span> <span class="nf">cmp</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">a</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">cmp</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>引入 Lambda 表达式之后：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">a</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">){</span><span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">;});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在这里，我们并没有给比较函数起名字，就直接扔到了 <code>std::sort</code> 里面，这样做方便很多~</p>
+<p>读者可能有疑问：这样做效率如何？事实上，Lambda 表达式和下面的函数对象的效率都是比较高的，比第一种方式中 <code>cmp</code> 这种函数指针效率高。</p>
+<h3 id="函数对象">函数对象</h3>
+<p>假定你已经学会了类/结构体的运算符重载。</p>
+<p>观察函数组成 <code>function()</code>，它是不是非常像一个类型 <code>function</code> 搭配上了 <code>()</code> 这个运算符？太像了！</p>
+<p>那我们是不是可以这样做：开一个对象，重载 <code>()</code> 这个运算符再当函数用？当然可以。<br>
+还是用 <code>max</code> 举例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">qwq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="nf">operator</span><span class="p">()</span> <span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">qwq</span> <span class="n">max</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>非常自然，非常易懂。</p>
+<h3 id="效率">效率</h3>
+<p>懒得测了。<br>
+可以参考下 <a class="link" href="https://blog.csdn.net/u011392018/article/details/39028457"  target="_blank" rel="noopener"
+    >这个博客</a></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" transform="rotate(180)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under FDL 1.3</span>
+    </section>
+    </footer>
+
+
+    
+        <script>
+  MathJax = {
+    tex: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"],
+      ],
+      displayMath: [
+        ["$$", "$$"],
+        ["\\[", "\\]"],
+      ],
+      processEscapes: true,
+      processEnvironments: true,
+    },
+    options: {
+      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+    },
+  };
+
+  window.addEventListener("load", (event) => {
+    document.querySelectorAll("mjx-container").forEach(function (x) {
+      x.parentElement.classList += "has-jax";
+    });
+  });
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script
+  type="text/javascript"
+  id="MathJax-script"
+  async
+  src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"
+></script>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/notes/c&#43;&#43;/stl-%E5%AE%B9%E5%99%A8/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">STL</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/c&#43;&#43;/%E7%B1%BB/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">类</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/c&#43;&#43;/stl-string/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">STL string</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/c&#43;&#43;/%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">字符数组</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/c&#43;&#43;/%E6%95%B0%E7%BB%84%E7%9B%B8%E5%85%B3/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">数组相关</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.16/twikoo.all.min.js"></script>
+<div id="tcomment"></div>
+<style>
+  .twikoo {
+    background-color: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    padding: var(--card-padding);
+    color: var(--twikoo-body-text-color);
+  }
+  :root[data-scheme="dark"] {
+    --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+    --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+  }
+  .twikoo .el-input-group__prepend,
+  .twikoo .tk-action-icon,
+  .twikoo .tk-time,
+  .twikoo .tk-comments-count {
+    color: var(--twikoo-body-text-color);
+  }
+  .twikoo .el-input__inner,
+  .twikoo .el-textarea__inner,
+  .twikoo .tk-preview-container,
+  .twikoo .tk-content,
+  .twikoo .tk-nick,
+  .twikoo .tk-send {
+    color: var(--twikoo-body-text-color-main);
+  }
+  .twikoo .el-button {
+    color: var(--twikoo-body-text-color) !important;
+  }
+  .OwO .OwO-body {
+    background-color: var(--body-background) !important;
+    color: var(--body-text-color) !important;
+  }
+</style><script>
+  twikoo.init({
+      envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+      GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+      el: '#tcomment',lang: 'zh-cn',})
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        <p style="display:inline-block; transform: rotatey(180deg);">&copy;</p> 
+        
+            2020 - 
+        
+        2023 钛合金伞的隙间
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://icp.gov.moe/?keyword=20220284" rel="external nofollow noreferrer" target="_blank">萌ICP备20220284号</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://unpkg.com/node-vibrant@latest/dist/vibrant.min.js"crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    </body>
+</html>

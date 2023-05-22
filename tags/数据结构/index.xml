@@ -450,10 +450,10 @@ $x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层�
         </item>
         <item>
         <title>RMQ/ST表</title>
-        <link>https://blog.tibrella.top/notes/%E6%9D%82%E7%AE%97%E6%B3%95/rmq-%E9%97%AE%E9%A2%98/</link>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/rmq-%E9%97%AE%E9%A2%98/</link>
         <pubDate>Fri, 27 Jan 2023 14:22:33 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E6%9D%82%E7%AE%97%E6%B3%95/rmq-%E9%97%AE%E9%A2%98/</guid>
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/rmq-%E9%97%AE%E9%A2%98/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post RMQ/ST表" /&gt;&lt;p&gt;目标是解决 RMQ 问题，即对于一个大区间，短时间内查询一个小区间的最大最小值&lt;/p&gt;
 &lt;p&gt;下文以最大值为例说明&lt;/p&gt;
 &lt;p&gt;ST 表本质上是一个动态规划（倍增的）&lt;/p&gt;
@@ -602,10 +602,10 @@ $$&lt;/p&gt;
         </item>
         <item>
         <title>并查集</title>
-        <link>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
         <pubDate>Tue, 17 Jan 2023 15:11:36 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
         <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 并查集" /&gt;&lt;p&gt;今天讲的最短路啥的感觉有点费劲，先把并查集的东西写了&lt;/p&gt;
 &lt;h2 id=&#34;用途&#34;&gt;用途&lt;/h2&gt;
 &lt;p&gt;基本上用来处理 &lt;strong&gt;关系&lt;/strong&gt;&lt;br&gt;

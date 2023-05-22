@@ -42,7 +42,17 @@ $$&lt;/p&gt;
 &lt;h2 id=&#34;随机变量&#34;&gt;随机变量&lt;/h2&gt;
 &lt;p&gt;只介绍离散型随机变量。&lt;/p&gt;
 &lt;p&gt;离散型随机变量 $X$，可以理解为 $X$ 有有限种取值，且每个取值都有一个概率。换句话说，$X$ 的取值是一个有限的集合，集合里面每一个值都有一个概率，$X$ 按照概率取值。&lt;/p&gt;
-&lt;p&gt;随机变量独立性：$P(X=x_i, Y=y_i) = P(X=x_i)P(Y=y_i)$ （$,$ 表示&lt;strong&gt;且&lt;/strong&gt;）&lt;/p&gt;
+&lt;p&gt;随机变量独立性：对于两个独立变量 $X Y$，有 $P(X=x_i, Y=y_i) = P(X=x_i)P(Y=y_i)$ （$,$ 表示&lt;strong&gt;且&lt;/strong&gt;） &lt;br&gt;
+倒过来也是正确的。&lt;/p&gt;
+&lt;h2 id=&#34;期望&#34;&gt;期望&lt;/h2&gt;
+&lt;p&gt;一个随机变量取值对概率的加权平均数。&lt;br&gt;
+$E(X) = \sum_i x_ip_i$，$x_i$ 代表可能的取值，$p_i$ 代表取值对应的概率。&lt;/p&gt;
+&lt;p&gt;期望的线性性：$E(aX+b)=aE(X)+b$&lt;br&gt;
+我们可以设 $X$ 的意义为均匀骰子可能掷出的点数，于是上面的东西就可以轻松感性理解了~&lt;/p&gt;
+&lt;p&gt;随机独立变量的乘积：$E(XY)=E(X)E(Y)$&lt;/p&gt;
+&lt;h2 id=&#34;条件期望&#34;&gt;条件期望&lt;/h2&gt;
+&lt;p&gt;$Y = y$ 的条件下 $X$ 的期望：$E(X\mid Y = y)$&lt;br&gt;
+$E(X\mid Y)$ ：取值与 $Y$ 相关的随机变量&lt;/p&gt;
 </description>
         </item>
         
