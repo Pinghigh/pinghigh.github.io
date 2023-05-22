@@ -6,7 +6,37 @@
         <description>Recent content in 数学 on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 02 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/%E6%95%B0%E5%AD%A6/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 22 May 2023 21:06:14 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/%E6%95%B0%E5%AD%A6/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>概率杂题</title>
+        <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%A6%82%E7%8E%87%E6%9D%82%E9%A2%98/</link>
+        <pubDate>Mon, 22 May 2023 21:06:14 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%A6%82%E7%8E%87%E6%9D%82%E9%A2%98/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 概率杂题" /&gt;&lt;h2 id=&#34;p4562-jxoi2018游戏httpswwwluogucomcnproblemp4562&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.luogu.com.cn/problem/P4562&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;P4562 [JXOI2018]游戏&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;给定区间 $[l,r]$，每次选择一个未选择过的数，将这个数以及它的所有倍数标记，每一种方案全部标记所用次数记为 $t$，求所有可能 $t$ 的和。&lt;/p&gt;
+&lt;p&gt;首先想到每次将所有点标记的实质，就是将 $\left[l,r\right]$ 中&lt;strong&gt;没有&lt;/strong&gt;在&lt;strong&gt;此区间内&lt;/strong&gt;的&lt;strong&gt;非自身的因数&lt;/strong&gt;的数标记完。称这样的数为关键数，设关键数有 $k$ 个，则实际上标记次数就是&lt;strong&gt;最后一个关键数&lt;/strong&gt;的位置。&lt;/p&gt;
+&lt;p&gt;最后一个关键数的位置&amp;hellip;不沾头不沾尾，所以换个方向考虑——最后一个关键数的位置可以替换为&lt;strong&gt;它后面的非关键数的数量&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;实际上，$k$ 个关键数把整个区间分成了 $k+1$ 份。设区间长度为 $1$，则一个非关键数在最后一段区间上的期望就是 $\cfrac 1 {k+1}$（$k+1$ 种情况，每种情况都在段区间上，只有一种情况在目标区间上），$n-k$ 个非关键点在最后一段区间上的期望就是 $\cfrac{n-k}{k+1}$。（注意这里概率到期望的转换，要想想为什么期望成了求解目标）&lt;/p&gt;
+&lt;p&gt;于是，最后一个点的位置的期望，即 $t$ 的期望为下式&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+&amp;amp;\ \ \ \ \  n-\cfrac{n-k}{k+1} \\
+&amp;amp;= \cfrac{nk+n-n+k}{k+1} \\
+&amp;amp;= \cfrac{(n+1)k}{k+1}
+\end{aligned}
+$$&lt;/p&gt;
+&lt;p&gt;求所有可能的 $t$ 的值的和，乘一个阶乘就好了。&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+&amp;amp;\ \ \ \ \  \cfrac{(n+1)k}{k+1}n! \\
+&amp;amp;= \cfrac{k}{k+1}(n+1)!
+\end{aligned}
+$$
+取模的话，求完阶乘 $\times k$ 再乘个 &lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E9%80%86%E5%85%83/&#34; &gt;逆元&lt;/a&gt;  就行了。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>线性代数</title>
         <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E5%9F%BA%E7%A1%80/</link>
         <pubDate>Tue, 02 May 2023 00:00:00 +0000</pubDate>
