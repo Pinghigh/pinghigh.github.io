@@ -34,6 +34,52 @@ $$&lt;/p&gt;
 \end{aligned}
 $$
 取模的话，求完阶乘 $\times k$ 再乘个 &lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E9%80%86%E5%85%83/&#34; &gt;逆元&lt;/a&gt;  就行了。&lt;/p&gt;
+&lt;h2 id=&#34;p4284-shoi2014-概率充电器httpswwwluogucomcnproblemp4284&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.luogu.com.cn/problem/P4284&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;P4284 [SHOI2014] 概率充电器&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;给定一棵树，每条边能导电的概率为 $p_i$，每个点自己带电的概率为 $q_i$，求带电点个数的期望。&lt;/p&gt;
+&lt;p&gt;根据期望的线性性，考虑求每个点有电的期望。因为只有 $0,1$ 两种情况，因此求概率就行了。&lt;/p&gt;
+&lt;p&gt;考虑单个点有电的情况：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自己有电&lt;/li&gt;
+&lt;li&gt;儿子有电，和儿子连边导电&lt;/li&gt;
+&lt;li&gt;父亲有电，和父亲连边导电&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;设 $f_u$ 为点 $u$ 带电的期望：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一种情况的概率就是 $q_u$，所以直接 $f_u = q_u$ 就行。&lt;/li&gt;
+&lt;li&gt;第二种情况非常像树形 DP 的样子，容易想到从叶子节点向上推就行。
+&lt;ul&gt;
+&lt;li&gt;考虑两个独立事件发生其中一件即可的概率： $P(A+B)=P(A)+(1-P(A))P(B)$，即 $A$ 事件的概率 $+$ $(B$ 事件 $+$ $A$ 事件未发生 $)$ 的概率。&lt;/li&gt;
+&lt;li&gt;进行 dfs，回溯的时候统计：
+&lt;ul&gt;
+&lt;li&gt;设当前点为 $u$，儿子为 $v$，则有 $f_u = f_u + (1-f_u)p_{u,v}f_v$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第三种情况实际上也是树形 DP，只不过变成了正推，从 $u$ 计算对 $v$ 的贡献。
+&lt;ul&gt;
+&lt;li&gt;假设当前到达 $u$，且 $f_u$ 已经算好了，考虑如何把贡献传给 $f_v$。&lt;/li&gt;
+&lt;li&gt;容易想到 $u$ 能贡献给 $v$ 电流的那部分概率，实际上是 $f_u$ 扔掉 $v$ 这棵子树的部分。&lt;/li&gt;
+&lt;li&gt;换句话说，贡献 $=$ $u$ 有电的概率 $-$ $u$ 不考虑 $v$ 的有电的概率，再乘边的概率之类的常数即可。&lt;/li&gt;
+&lt;li&gt;设 $\langle u,v \rangle=e$，$u$ 不考虑 $v$ 的有电的概率为 $g_u$，$v$ 只考虑下方来电有电的概率为 $l_v$，有柿子：
+$$
+\begin{aligned}
+f_u &amp;amp;= g_u + l_vp_e(1-g_u) \\
+f_u &amp;amp;= g_u + l_vp_e-l_vp_eg_u \\
+f_u - l_vp_e &amp;amp;= g_u(1-l_vp_e) \\
+g_u &amp;amp;= \cfrac {f_u-l_vp_e}{1-l_vp_e} \\
+f_u - g_u &amp;amp;= f_u - \cfrac {f_u-l_vp_e}{1-l_vp_e}
+\end{aligned}
+$$&lt;/li&gt;
+&lt;li&gt;考虑完 $u$ 有电的贡献，乘一下边的概率和 $v$ 没电的概率就行了
+$$
+f_v = f_v + (1-f_v)\cdot p_e \cdot(f_u - \cfrac {f_u-l_vp_e}{1-l_vp_e})
+$$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;柿子推完了，写两个 dfs 算答案即可。&lt;/p&gt;
 </description>
         </item>
         <item>

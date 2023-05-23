@@ -12,7 +12,7 @@
         <pubDate>Sat, 20 May 2023 19:42:35 +0800</pubDate>
         
         <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%85%8D%E5%AF%B9%E5%A0%86/</guid>
-        <description>&lt;img src="https://picsum.photos/800/600.webp?random=1145829xscnu1" alt="Featured image of post 配对堆" /&gt;&lt;p&gt;飞快的可并堆&lt;/p&gt;
+        <description>&lt;img src="https://pic1.imgdb.cn/item/64688db3e03e90d874e6d98a.jpg" alt="Featured image of post 配对堆" /&gt;&lt;p&gt;飞快的可并堆&lt;/p&gt;
 &lt;h2 id=&#34;时间复杂度&#34;&gt;时间复杂度&lt;/h2&gt;
 &lt;p&gt;还没有完全严格的证明，但一般认为配对堆时间复杂度如下：&lt;br&gt;
 删除堆顶均摊 $\operatorname{O}(\log n)$&lt;br&gt;

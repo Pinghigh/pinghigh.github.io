@@ -12,7 +12,7 @@
         <pubDate>Thu, 27 Oct 2022 14:22:33 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%BA%BF%E6%AE%B5%E6%A0%91/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 线段树" /&gt;&lt;p&gt;&lt;del&gt;闪击线段树&lt;/del&gt;&lt;/p&gt;
+        <description>&lt;img src="https://pic1.imgdb.cn/item/646ca3800d2dde5777c812ff.webp" alt="Featured image of post 线段树" /&gt;&lt;p&gt;&lt;del&gt;闪击线段树&lt;/del&gt;&lt;/p&gt;
 &lt;h2 id=&#34;基本线段树&#34;&gt;基本线段树&lt;/h2&gt;
 &lt;h3 id=&#34;操作&#34;&gt;操作&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;push_up()&lt;/code&gt; 通过子区间计算父区间的数据&lt;/p&gt;
@@ -26,7 +26,7 @@
 &lt;p&gt;&lt;code&gt;push_down()&lt;/code&gt; 修改区间数据并递归修改子区间的数据&lt;/p&gt;
 &lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
 &lt;p&gt;还是用图理解&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63d63113face21e9ef80106d.jpg&#34;
+&lt;p&gt;&lt;img src=&#34;https://pic1.imgdb.cn/item/646ca3800d2dde5777c812ff.webp&#34;
 	
 	
 	

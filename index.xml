@@ -34,6 +34,52 @@ $$&lt;/p&gt;
 \end{aligned}
 $$
 取模的话，求完阶乘 $\times k$ 再乘个 &lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E9%80%86%E5%85%83/&#34; &gt;逆元&lt;/a&gt;  就行了。&lt;/p&gt;
+&lt;h2 id=&#34;p4284-shoi2014-概率充电器httpswwwluogucomcnproblemp4284&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.luogu.com.cn/problem/P4284&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;P4284 [SHOI2014] 概率充电器&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;给定一棵树，每条边能导电的概率为 $p_i$，每个点自己带电的概率为 $q_i$，求带电点个数的期望。&lt;/p&gt;
+&lt;p&gt;根据期望的线性性，考虑求每个点有电的期望。因为只有 $0,1$ 两种情况，因此求概率就行了。&lt;/p&gt;
+&lt;p&gt;考虑单个点有电的情况：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自己有电&lt;/li&gt;
+&lt;li&gt;儿子有电，和儿子连边导电&lt;/li&gt;
+&lt;li&gt;父亲有电，和父亲连边导电&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;设 $f_u$ 为点 $u$ 带电的期望：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一种情况的概率就是 $q_u$，所以直接 $f_u = q_u$ 就行。&lt;/li&gt;
+&lt;li&gt;第二种情况非常像树形 DP 的样子，容易想到从叶子节点向上推就行。
+&lt;ul&gt;
+&lt;li&gt;考虑两个独立事件发生其中一件即可的概率： $P(A+B)=P(A)+(1-P(A))P(B)$，即 $A$ 事件的概率 $+$ $(B$ 事件 $+$ $A$ 事件未发生 $)$ 的概率。&lt;/li&gt;
+&lt;li&gt;进行 dfs，回溯的时候统计：
+&lt;ul&gt;
+&lt;li&gt;设当前点为 $u$，儿子为 $v$，则有 $f_u = f_u + (1-f_u)p_{u,v}f_v$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第三种情况实际上也是树形 DP，只不过变成了正推，从 $u$ 计算对 $v$ 的贡献。
+&lt;ul&gt;
+&lt;li&gt;假设当前到达 $u$，且 $f_u$ 已经算好了，考虑如何把贡献传给 $f_v$。&lt;/li&gt;
+&lt;li&gt;容易想到 $u$ 能贡献给 $v$ 电流的那部分概率，实际上是 $f_u$ 扔掉 $v$ 这棵子树的部分。&lt;/li&gt;
+&lt;li&gt;换句话说，贡献 $=$ $u$ 有电的概率 $-$ $u$ 不考虑 $v$ 的有电的概率，再乘边的概率之类的常数即可。&lt;/li&gt;
+&lt;li&gt;设 $\langle u,v \rangle=e$，$u$ 不考虑 $v$ 的有电的概率为 $g_u$，$v$ 只考虑下方来电有电的概率为 $l_v$，有柿子：
+$$
+\begin{aligned}
+f_u &amp;amp;= g_u + l_vp_e(1-g_u) \\
+f_u &amp;amp;= g_u + l_vp_e-l_vp_eg_u \\
+f_u - l_vp_e &amp;amp;= g_u(1-l_vp_e) \\
+g_u &amp;amp;= \cfrac {f_u-l_vp_e}{1-l_vp_e} \\
+f_u - g_u &amp;amp;= f_u - \cfrac {f_u-l_vp_e}{1-l_vp_e}
+\end{aligned}
+$$&lt;/li&gt;
+&lt;li&gt;考虑完 $u$ 有电的贡献，乘一下边的概率和 $v$ 没电的概率就行了
+$$
+f_v = f_v + (1-f_v)\cdot p_e \cdot(f_u - \cfrac {f_u-l_vp_e}{1-l_vp_e})
+$$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;柿子推完了，写两个 dfs 算答案即可。&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -42,7 +88,7 @@ $$
         <pubDate>Sat, 20 May 2023 19:42:35 +0800</pubDate>
         
         <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%85%8D%E5%AF%B9%E5%A0%86/</guid>
-        <description>&lt;img src="https://picsum.photos/800/600.webp?random=1145829xscnu1" alt="Featured image of post 配对堆" /&gt;&lt;p&gt;飞快的可并堆&lt;/p&gt;
+        <description>&lt;img src="https://pic1.imgdb.cn/item/64688db3e03e90d874e6d98a.jpg" alt="Featured image of post 配对堆" /&gt;&lt;p&gt;飞快的可并堆&lt;/p&gt;
 &lt;h2 id=&#34;时间复杂度&#34;&gt;时间复杂度&lt;/h2&gt;
 &lt;p&gt;还没有完全严格的证明，但一般认为配对堆时间复杂度如下：&lt;br&gt;
 删除堆顶均摊 $\operatorname{O}(\log n)$&lt;br&gt;
@@ -2457,7 +2503,7 @@ $$&lt;/p&gt;
         <pubDate>Sun, 29 Jan 2023 14:12:27 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 树状数组" /&gt;&lt;p&gt;顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。&lt;br&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/63d613b2face21e9ef36c9df.jpg" alt="Featured image of post 树状数组" /&gt;&lt;p&gt;顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。&lt;br&gt;
 用途是解决大部分区间修改查询问题，复杂度一般是 $\operatorname{O}(\log n)$ ，同时常数小（暗示 &lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%BA%BF%E6%AE%B5%E6%A0%91/&#34; &gt;线段树&lt;/a&gt; 不行），同时码量小，好理解（暗示 * 2），但是复杂的区间修改查询问题不能解决，同时区间最大最小值也不能用它处理（后文会说）&lt;/p&gt;
 &lt;h2 id=&#34;基本树状数组&#34;&gt;基本树状数组&lt;/h2&gt;
 &lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
@@ -2573,7 +2619,7 @@ $x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层�
         <pubDate>Fri, 27 Jan 2023 14:22:33 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/rmq-%E9%97%AE%E9%A2%98/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post RMQ/ST表" /&gt;&lt;p&gt;目标是解决 RMQ 问题，即对于一个大区间，短时间内查询一个小区间的最大最小值&lt;/p&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/63d4c785face21e9efa61b8e.jpg" alt="Featured image of post RMQ/ST表" /&gt;&lt;p&gt;目标是解决 RMQ 问题，即对于一个大区间，短时间内查询一个小区间的最大最小值&lt;/p&gt;
 &lt;p&gt;下文以最大值为例说明&lt;/p&gt;
 &lt;p&gt;ST 表本质上是一个动态规划（倍增的）&lt;/p&gt;
 &lt;p&gt;先利用倍增（二进制拆分）预处理然后 $\operatorname{O}(1)$ 查询，比线段树快，但是只支持静态区间&lt;/p&gt;
@@ -2746,7 +2792,7 @@ $$&lt;/p&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;然后由输入数据可知，&lt;code&gt;1&lt;/code&gt; 和 &lt;code&gt;3&lt;/code&gt;，&lt;code&gt;2&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;5&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;4&lt;/code&gt; 和 &lt;code&gt;1&lt;/code&gt; 是亲戚，于是我们把 &lt;code&gt;1&lt;/code&gt; 设为 &lt;code&gt;5&lt;/code&gt; 的祖先来表示他们的关系， &lt;code&gt;2&lt;/code&gt; &lt;code&gt;4&lt;/code&gt; 同理，相当于把这四个集合（或者说树）两两合并&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c65028be43e0d30ebcaa53.jpg&#34;
+&lt;p&gt;&lt;img src=&#34;https://pic1.imgdb.cn/item/63c65028be43e0d30ebcaa53.jpg&#34;
 	
 	
 	
@@ -2755,7 +2801,7 @@ $$&lt;/p&gt;
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;下一步&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c6526dbe43e0d30ec1760c.jpg&#34;
+&lt;p&gt;&lt;img src=&#34;https://pic1.imgdb.cn/item/63c6526dbe43e0d30ec1760c.jpg&#34;
 	
 	
 	
@@ -3806,7 +3852,7 @@ Hyper-V 上安装可能会涉及到 pacman 检测不到架构之类的问题，�
         <pubDate>Thu, 27 Oct 2022 14:22:33 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%BA%BF%E6%AE%B5%E6%A0%91/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 线段树" /&gt;&lt;p&gt;&lt;del&gt;闪击线段树&lt;/del&gt;&lt;/p&gt;
+        <description>&lt;img src="https://pic1.imgdb.cn/item/646ca3800d2dde5777c812ff.webp" alt="Featured image of post 线段树" /&gt;&lt;p&gt;&lt;del&gt;闪击线段树&lt;/del&gt;&lt;/p&gt;
 &lt;h2 id=&#34;基本线段树&#34;&gt;基本线段树&lt;/h2&gt;
 &lt;h3 id=&#34;操作&#34;&gt;操作&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;push_up()&lt;/code&gt; 通过子区间计算父区间的数据&lt;/p&gt;
@@ -3820,7 +3866,7 @@ Hyper-V 上安装可能会涉及到 pacman 检测不到架构之类的问题，�
 &lt;p&gt;&lt;code&gt;push_down()&lt;/code&gt; 修改区间数据并递归修改子区间的数据&lt;/p&gt;
 &lt;h3 id=&#34;原理&#34;&gt;原理&lt;/h3&gt;
 &lt;p&gt;还是用图理解&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63d63113face21e9ef80106d.jpg&#34;
+&lt;p&gt;&lt;img src=&#34;https://pic1.imgdb.cn/item/646ca3800d2dde5777c812ff.webp&#34;
 	
 	
 	

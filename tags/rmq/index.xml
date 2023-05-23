@@ -12,7 +12,7 @@
         <pubDate>Fri, 27 Jan 2023 14:22:33 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/rmq-%E9%97%AE%E9%A2%98/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post RMQ/ST表" /&gt;&lt;p&gt;目标是解决 RMQ 问题，即对于一个大区间，短时间内查询一个小区间的最大最小值&lt;/p&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/63d4c785face21e9efa61b8e.jpg" alt="Featured image of post RMQ/ST表" /&gt;&lt;p&gt;目标是解决 RMQ 问题，即对于一个大区间，短时间内查询一个小区间的最大最小值&lt;/p&gt;
 &lt;p&gt;下文以最大值为例说明&lt;/p&gt;
 &lt;p&gt;ST 表本质上是一个动态规划（倍增的）&lt;/p&gt;
 &lt;p&gt;先利用倍增（二进制拆分）预处理然后 $\operatorname{O}(1)$ 查询，比线段树快，但是只支持静态区间&lt;/p&gt;

@@ -33,7 +33,7 @@
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;然后由输入数据可知，&lt;code&gt;1&lt;/code&gt; 和 &lt;code&gt;3&lt;/code&gt;，&lt;code&gt;2&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;5&lt;/code&gt; 和 &lt;code&gt;4&lt;/code&gt;，&lt;code&gt;4&lt;/code&gt; 和 &lt;code&gt;1&lt;/code&gt; 是亲戚，于是我们把 &lt;code&gt;1&lt;/code&gt; 设为 &lt;code&gt;5&lt;/code&gt; 的祖先来表示他们的关系， &lt;code&gt;2&lt;/code&gt; &lt;code&gt;4&lt;/code&gt; 同理，相当于把这四个集合（或者说树）两两合并&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c65028be43e0d30ebcaa53.jpg&#34;
+&lt;p&gt;&lt;img src=&#34;https://pic1.imgdb.cn/item/63c65028be43e0d30ebcaa53.jpg&#34;
 	
 	
 	
@@ -42,7 +42,7 @@
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;下一步&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/63c6526dbe43e0d30ec1760c.jpg&#34;
+&lt;p&gt;&lt;img src=&#34;https://pic1.imgdb.cn/item/63c6526dbe43e0d30ec1760c.jpg&#34;
 	
 	
 	
