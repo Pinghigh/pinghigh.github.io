@@ -14,7 +14,7 @@ P4284 [SHOI2014] 概率充电器 给定一棵树，每条边能导电的概率�
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%A6%82%E7%8E%87%E6%9D%82%E9%A2%98/" />
 
-<link rel="stylesheet" href="/scss/style.min.d3196a0161f90199ebaf9b1e5613d8bc745547a1624416fa1d245c239f141671.css"><meta property='og:title' content='概率杂题'>
+<link rel="stylesheet" href="/scss/style.min.014839334ac195efe0e60ff087bf48c039b6fadecfec71119bba6cf76c3de4f5.css"><meta property='og:title' content='概率杂题'>
 <meta property='og:description' content='P4562 [JXOI2018]游戏 给定区间 $[l,r]$，每次选择一个未选择过的数，将这个数以及它的所有倍数标记，每一种方案全部标记所用次数记为 $t$，求所有可能 $t$ 的和。
 首先想到每次将所有点标记的实质，就是将 $\left[l,r\right]$ 中没有在此区间内的非自身的因数的数标记完。称这样的数为关键数，设关键数有 $k$ 个，则实际上标记次数就是最后一个关键数的位置。
 最后一个关键数的位置&amp;hellip;不沾头不沾尾，所以换个方向考虑——最后一个关键数的位置可以替换为它后面的非关键数的数量。
@@ -309,6 +309,7 @@ P4284 [SHOI2014] 概率充电器 给定一棵树，每条边能导电的概率�
   <ol>
     <li><a href="#p4562-jxoi2018游戏httpswwwluogucomcnproblemp4562"><a href="https://www.luogu.com.cn/problem/P4562">P4562 [JXOI2018]游戏</a></a></li>
     <li><a href="#p4284-shoi2014-概率充电器httpswwwluogucomcnproblemp4284"><a href="https://www.luogu.com.cn/problem/P4284">P4284 [SHOI2014] 概率充电器</a></a></li>
+    <li><a href="#spoj-4060-kpgame---a-game-with-probabilityhttpswwwspojcomproblemskpgame"><a href="https://www.spoj.com/problems/KPGAME/">SPOJ 4060 KPGAME - A game with probability</a></a></li>
   </ol>
 </nav>
         </div>
@@ -381,7 +382,7 @@ P4284 [SHOI2014] 概率充电器 给定一棵树，每条边能导电的概率�
 
 
                 <time class="article-time--reading">
-                    阅读时长: 1 分钟
+                    阅读时长: 2 分钟
                 </time>
             </div>
         
@@ -464,6 +465,60 @@ $$</li>
 </li>
 </ul>
 <p>柿子推完了，写两个 dfs 算答案即可。</p>
+<h2 id="spoj-4060-kpgame---a-game-with-probabilityhttpswwwspojcomproblemskpgame"><a class="link" href="https://www.spoj.com/problems/KPGAME/"  target="_blank" rel="noopener"
+    >SPOJ 4060 KPGAME - A game with probability</a></h2>
+<p>给定一定数量的石子，两个人抛硬币，抛到正面则拿走一颗石子，否则什么都不做。拿走最后一颗石子的人胜利。<br>
+已知石子数量，假设双方都采用最优方案，两个人分别抛到自己想要的那一面的概率 $q,p \geqslant 0.5$ <del>这不唯物</del>，求先手的获胜概率。</p>
+<p>练习推式子的能力。</p>
+<p>发现对于每一颗石子都能独立计算，考虑 DP。</p>
+<p>设计状态：</p>
+<ul>
+<li>表示出当前到达第几颗石子</li>
+<li>表示出当前谁拿石子
+于是得到状态：$f_{i,0/1}$ 表示 $i$ 个石子，第 $1$ 或第 $2$ 个人获胜的概率</li>
+</ul>
+<p>显然 $f_{0,0}$ 和 $f_{0,1}$ 是两种确定结果， 则概率分别为 $1,0$ 。于是考虑倒推。</p>
+<p>看概率的取值，说明只要我们希望抛到一个面，抛到这个面概率就会更大。<br>
+由于很容易判断出当前状态下应该希望取得/不取得石子（通过前一个状态的概率大小），所以不用单独表示出希望取得/不取得石子。</p>
+<p>列式子：
+希望取得这颗石子（正面）：
+$$
+\begin{aligned}
+f_{i,0} &amp;= f_{i-1,1}\cdot p + f_{i,1} \cdot (1-p) \\
+f_{i,1} &amp;= f_{i-1,0}\cdot q + f_{i,0} \cdot (1-q)
+\end {aligned}
+$$
+发现这玩意没法递推，运用初中二元一次方程的思路，代入消元。</p>
+<p>$$
+\begin{aligned}
+f_{i,0} &amp;= f_{i-1,1}\cdot p + f_{i,1} \cdot (1-p) \\
+f_{i,0} &amp;= f_{i-1,1} \cdot p + (f_{i-1,0}\cdot q + f_{i,0} \cdot (1-q))(1-p) \\
+\dots \\
+f_{i,0} &amp;= \cfrac {p\cdot f_{i-1,1} + (1-p)q\cdot f_{i-1,1}}{1-(1-q)(1-p)}
+\end{aligned}
+$$
+发现这玩意就可以递推了，再依照同样的方式能够列出 $f_{i,1}$ 的转移方程和不希望取得这颗石子的两个转移方程。不写过程了， 给出柿子
+希望取得：
+$$
+\begin{aligned}
+f_{i,0} &amp;= \cfrac {p\cdot f_{i-1,1} + (1-p)q\cdot f_{i-1,1}}{1-(1-q)(1-p)} \\
+f_{i,1} &amp;= \cfrac {q\cdot f_{i-1,0} + (1-q)p\cdot f_{i-1,0}}{1-(1-p)(1-q)}
+\end {aligned}
+$$
+不希望取得：
+$$
+\begin{aligned}
+f_{i,0} = \cfrac{p(1-q)\cdot f_{i-1,0} + (1-p)\cdot f_{i-1,1}}{1-qp} \\
+f_{i,1} = \cfrac{q(1-p)\cdot f_{i-1,1} + (1-q)\cdot f_{i-1,0}}{1-qp}
+\end{aligned}
+$$</p>
+<p>对比一下容易发现：希望取得与不希望取得的转移方程中，区别仅仅是 $p,(1-p)$ 和 $q,(1-q)$。于是，当取石子比不取石子优的时候，把 $p,q$ 把 $1$ 减一下就行了。</p>
+<p>但是题目中 $n$ 的范围比较申必，$n \leqslant 1e9-1$，这东西怎么办？对于概率题，我们常有两种思路：</p>
+<ul>
+<li>矩阵快速幂：&hellip;不好评价，转移方程貌似有点巨大</li>
+<li>概率变化逐渐趋于稳定。可以打表测一下~~（或者提交试一下）~~，<del>我试出来 100 次左右就能过</del>
+$n = \min(n,100)$ 即可。</li>
+</ul>
 
 </section>
 
@@ -541,6 +596,25 @@ $$</li>
             
                 
 <article class="has-image">
+    <a href="/notes/%E6%95%B0%E5%AD%A6/spoj-4060-%E9%A2%98%E8%A7%A3/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">SPOJ 4060 题解</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/notes/%E6%95%B0%E5%AD%A6/%E6%A6%82%E7%8E%87%E8%AE%BA%E5%9F%BA%E7%A1%80/">
         
         
@@ -604,25 +678,6 @@ $$</li>
 
         <div class="article-details">
             <h2 class="article-title">模意义下的乘法逆元</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
-    <a href="/notes/%E6%95%B0%E5%AD%A6/%E5%90%8C%E4%BD%99%E6%96%B9%E7%A8%8B%E7%BB%84/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">同余方程组</h2>
         </div>
     </a>
 </article>
