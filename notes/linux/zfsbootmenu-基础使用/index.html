@@ -6,7 +6,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/linux/zfsbootmenu-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/" />
 
-<link rel="stylesheet" href="/scss/style.min.014839334ac195efe0e60ff087bf48c039b6fadecfec71119bba6cf76c3de4f5.css"><meta property='og:title' content='在 UEFI ArchLinux 下使用 ZFSBootMenu 作为引导器（可双启动）'>
+<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='在 UEFI ArchLinux 下使用 ZFSBootMenu 作为引导器（可双启动）'>
 <meta property='og:description' content='zstd 下 zfs 根目录压缩率能上 2x，而且对于 gzip 来说性能更好，但是显然 grub 引导不了，其他的不好用，所以折腾了 ZBM'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/linux/zfsbootmenu-%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,7 +15,10 @@
 <meta name="twitter:description" content="zstd 下 zfs 根目录压缩率能上 2x，而且对于 gzip 来说性能更好，但是显然 grub 引导不了，其他的不好用，所以折腾了 ZBM"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/63a8671208b683016397a5d0.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
-<script src="/js/prism.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 
     </head>
     <body class="
@@ -409,111 +412,47 @@
 <p>总之，它能启动以 ZFS 为根目录的 Linux，速度不慢，适用环境广，是作为本文环境下引导器的不二之选</p>
 <h2 id="准备">准备</h2>
 <p>确保你的电脑为 UEFI 启动，且已经分区完成，建立了根分区相应的子数据集</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl"><span class="o">[</span> -d /sys/firmware/efi<span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> UEFI <span class="o">||</span> <span class="nb">echo</span> BIOS
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>输入该命令，若输出 <code>UEFI</code>，则可以进行下一步，否则退出本教程。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#f92672">[</span> -d /sys/firmware/efi<span style="color:#f92672">]</span> <span style="color:#f92672">&amp;&amp;</span> echo UEFI <span style="color:#f92672">||</span> echo BIOS
+</span></span></code></pre></div><p>输入该命令，若输出 <code>UEFI</code>，则可以进行下一步，否则退出本教程。</p>
 <h3 id="挂载-esp-分区">挂载 ESP 分区</h3>
 <p>ESP 分区一般是磁盘头部 300M 左右的 FAT16/32 分区，同时有 EFI System 标记，可以通过 <code>fdisk -l</code> 查看各个分区的标记<br>
 此处挂载点绝对不可以是 <code>/boot</code>，一般来说有两个其他选择：<code>/boot/efi</code> 和 <code>/efi</code>，我在这里选择了 <code>/efi</code><br>
 例如我的 ESP 分区是 /dev/nvme0n1p1
 则</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">mkdir /mnt/efi
-</span></span><span class="line"><span class="cl">mount /dev/nvme0n1p1 /mnt/efi
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="设置-zfs-hook">设置 ZFS Hook</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl"><span class="c1"># 先 arch-chroot</span>
-</span></span><span class="line"><span class="cl">arch-chroot /mnt
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 进入后编辑 /etc/mkinitcpio 加入 zfs 支持，在 HOOKS=(.......) 中加入 zfs</span>
-</span></span><span class="line"><span class="cl">vim /etc/mkinitcpio
-</span></span><span class="line"><span class="cl"><span class="c1"># 比如正常安装的 arch 修改后应该长这样，确保其中有 zfs 即可</span>
-</span></span><span class="line"><span class="cl"><span class="nv">HOOKS</span><span class="o">=(</span>base udev autodetect modconf block zfs filesystems keyboard fsck<span class="o">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 编辑后加载</span>
-</span></span><span class="line"><span class="cl">mkinitcpio -P
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="安装-zfsbootmenu">安装 ZFSBootMenu</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>mkdir /mnt/efi
+</span></span><span style="display:flex;"><span>mount /dev/nvme0n1p1 /mnt/efi
+</span></span></code></pre></div><h3 id="设置-zfs-hook">设置 ZFS Hook</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#75715e"># 先 arch-chroot</span>
+</span></span><span style="display:flex;"><span>arch-chroot /mnt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 进入后编辑 /etc/mkinitcpio 加入 zfs 支持，在 HOOKS=(.......) 中加入 zfs</span>
+</span></span><span style="display:flex;"><span>vim /etc/mkinitcpio
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 比如正常安装的 arch 修改后应该长这样，确保其中有 zfs 即可</span>
+</span></span><span style="display:flex;"><span>HOOKS<span style="color:#f92672">=(</span>base udev autodetect modconf block zfs filesystems keyboard fsck<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 编辑后加载</span>
+</span></span><span style="display:flex;"><span>mkinitcpio -P
+</span></span></code></pre></div><h2 id="安装-zfsbootmenu">安装 ZFSBootMenu</h2>
 <p>在这里我们使用预构建好的 EFI 文件<del>因为我没玩明白ZFSBootMenu，经常出现换内核再构建就会炸引导的问题，同时不能做到启动时换内核</del></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl"><span class="c1"># /efi 换成你的 ESP 挂载目录</span>
-</span></span><span class="line"><span class="cl">mkdir /efi/EFI
-</span></span><span class="line"><span class="cl">mkdir /efi/EFI/ZBM
-</span></span><span class="line"><span class="cl">wget https://github.com/zbm-dev/zfsbootmenu/releases/download/v2.0.0/zfsbootmenu-release-vmlinuz-x86_64-v2.0.0.EFI -O /efi/EFI/ZBM/zfsbootmenu.efi
-</span></span><span class="line"><span class="cl"><span class="c1"># 访问不了可以把 https://github.com/ 换成 https://ghproxy.com/https://github.com/</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># 配置</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 此处假设你的根目录的数据集为 zroot/ROOT/arch</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># 这样可以引导 zroot/ROOT 下的任意子数据集，比如 zroot/ROOT/arch 上安装 arch，zroot/ROOT/void 上安装 voidlinux，这就实现了 Linux 的双启动</span>
-</span></span><span class="line"><span class="cl">zfs <span class="nb">set</span> org.zfsbootmenu:commandline<span class="o">=</span><span class="s2">&#34;rw&#34;</span> zroot/ROOT
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="配置-refind">配置 rEFInd</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#75715e"># /efi 换成你的 ESP 挂载目录</span>
+</span></span><span style="display:flex;"><span>mkdir /efi/EFI
+</span></span><span style="display:flex;"><span>mkdir /efi/EFI/ZBM
+</span></span><span style="display:flex;"><span>wget https://github.com/zbm-dev/zfsbootmenu/releases/download/v2.0.0/zfsbootmenu-release-vmlinuz-x86_64-v2.0.0.EFI -O /efi/EFI/ZBM/zfsbootmenu.efi
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 访问不了可以把 https://github.com/ 换成 https://ghproxy.com/https://github.com/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配置</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 此处假设你的根目录的数据集为 zroot/ROOT/arch</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 这样可以引导 zroot/ROOT 下的任意子数据集，比如 zroot/ROOT/arch 上安装 arch，zroot/ROOT/void 上安装 voidlinux，这就实现了 Linux 的双启动</span>
+</span></span><span style="display:flex;"><span>zfs set org.zfsbootmenu:commandline<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;rw&#34;</span> zroot/ROOT
+</span></span></code></pre></div><h2 id="配置-refind">配置 rEFInd</h2>
 <p>rEFInd 能够每次开机都搜索 EFI 分区下的 efi 文件，这样就不用更新引导文件了，同时插启动盘的时候也不需要进 bios 里调启动顺序，rEFInd 会自动搜索到</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl"><span class="c1"># 假设当前还在 chroot 里</span>
-</span></span><span class="line"><span class="cl">pacman -Sy refind
-</span></span><span class="line"><span class="cl">refind-install
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>非常简单，这样就实现了 Windows/macOS(HFS+) 与 Linux on ZFS 的双启动</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl"><span class="c1"># 安装 nord 主题</span>
-</span></span><span class="line"><span class="cl">pacman -U https://mirror.cachyos.org/repo/x86_64/cachyos/refind-theme-nord-1.1.0-1-any.pkg.tar.zst
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="todo">TODO</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#75715e"># 假设当前还在 chroot 里</span>
+</span></span><span style="display:flex;"><span>pacman -Sy refind
+</span></span><span style="display:flex;"><span>refind-install
+</span></span></code></pre></div><p>非常简单，这样就实现了 Windows/macOS(HFS+) 与 Linux on ZFS 的双启动</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span><span style="color:#75715e"># 安装 nord 主题</span>
+</span></span><span style="display:flex;"><span>pacman -U https://mirror.cachyos.org/repo/x86_64/cachyos/refind-theme-nord-1.1.0-1-any.pkg.tar.zst
+</span></span></code></pre></div><h2 id="todo">TODO</h2>
 <p>实验并整理整个安装流程</p>
 <div class="footnotes" role="doc-endnotes">
 <hr>
@@ -557,38 +496,36 @@
 
     
         <script>
-  MathJax = {
-    tex: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"],
-      ],
-      displayMath: [
-        ["$$", "$$"],
-        ["\\[", "\\]"],
-      ],
-      processEscapes: true,
-      processEnvironments: true,
-    },
-    options: {
-      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
-    },
-  };
+    MathJax = {
+        tex: {
+            inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+            ],
+            displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"],
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+        },
+        options: {
+            skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+    };
 
-  window.addEventListener("load", (event) => {
-    document.querySelectorAll("mjx-container").forEach(function (x) {
-      x.parentElement.classList += "has-jax";
+    window.addEventListener("load", (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += "has-jax";
+        });
     });
-  });
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script
-  type="text/javascript"
-  id="MathJax-script"
-  async
-  src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"
-></script>
-
+    type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"></script>
 
     
 </article>

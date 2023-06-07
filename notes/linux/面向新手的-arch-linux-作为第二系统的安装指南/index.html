@@ -6,7 +6,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/linux/%E9%9D%A2%E5%90%91%E6%96%B0%E6%89%8B%E7%9A%84-arch-linux-%E4%BD%9C%E4%B8%BA%E7%AC%AC%E4%BA%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/" />
 
-<link rel="stylesheet" href="/scss/style.min.014839334ac195efe0e60ff087bf48c039b6fadecfec71119bba6cf76c3de4f5.css"><meta property='og:title' content='面向新手的 Arch Linux 作为第二系统的安装指南'>
+<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='面向新手的 Arch Linux 作为第二系统的安装指南'>
 <meta property='og:description' content='看到洛谷上有个质量较差的安装教程，忍不了，自己写一个'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/linux/%E9%9D%A2%E5%90%91%E6%96%B0%E6%89%8B%E7%9A%84-arch-linux-%E4%BD%9C%E4%B8%BA%E7%AC%AC%E4%BA%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,7 +15,10 @@
 <meta name="twitter:description" content="看到洛谷上有个质量较差的安装教程，忍不了，自己写一个"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
-<script src="/js/prism.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 
     </head>
     <body class="
@@ -415,38 +418,36 @@
 
     
         <script>
-  MathJax = {
-    tex: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"],
-      ],
-      displayMath: [
-        ["$$", "$$"],
-        ["\\[", "\\]"],
-      ],
-      processEscapes: true,
-      processEnvironments: true,
-    },
-    options: {
-      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
-    },
-  };
+    MathJax = {
+        tex: {
+            inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+            ],
+            displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"],
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+        },
+        options: {
+            skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+    };
 
-  window.addEventListener("load", (event) => {
-    document.querySelectorAll("mjx-container").forEach(function (x) {
-      x.parentElement.classList += "has-jax";
+    window.addEventListener("load", (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += "has-jax";
+        });
     });
-  });
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script
-  type="text/javascript"
-  id="MathJax-script"
-  async
-  src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"
-></script>
-
+    type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"></script>
 
     
 </article>

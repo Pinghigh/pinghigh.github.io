@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="P4562 [JXOI2018]游戏 给定区间 $[l,r]$，每次选择一个未选择过的数，将这个数以及它的所有倍数标记，每一种方案全部标记所用次数记为 $t$，求所有可能 $t$ 的和。
+首先想到每次将所有点标记的实质，就是将 $\left[l,r\right]$ 中没有在此区间内的非自身的因数的数标记完。称这样的数为关键数，设关键数有 $k$ 个，则实际上标记次数就是最后一个关键数的位置。
+最后一个关键数的位置&amp;hellip;不沾头不沾尾，所以换个方向考虑——最后一个关键数的位置可以替换为它后面的非关键数的数量。
+实际上，$k$ 个关键数把整个区间分成了 $k&#43;1$ 份。设区间长度为 $1$，则一个非关键数在最后一段区间上的期望就是 $\cfrac 1 {k&#43;1}$（$k&#43;1$ 种情况，每种情况都在段区间上，只有一种情况在目标区间上），$n-k$ 个非关键点在最后一段区间上的期望就是 $\cfrac{n-k}{k&#43;1}$。（注意这里概率到期望的转换，要想想为什么期望成了求解目标）
+于是，最后一个点的位置的期望，即 $t$ 的期望为下式
+$$ \begin{aligned} &amp;amp;\ \ \ \ \ n-\cfrac{n-k}{k&#43;1} \\ &amp;amp;= \cfrac{nk&#43;n-n&#43;k}{k&#43;1} \\ &amp;amp;= \cfrac{(n&#43;1)k}{k&#43;1} \end{aligned} $$
+求所有可能的 $t$ 的值的和，乘一个阶乘就好了。
+$$ \begin{aligned} &amp;amp;\ \ \ \ \ \cfrac{(n&#43;1)k}{k&#43;1}n! \\ &amp;amp;= \cfrac{k}{k&#43;1}(n&#43;1)! \end{aligned} $$
+取模的话，求完阶乘 $\times k$ 再乘个 逆元 就行了。
+P4284 [SHOI2014] 概率充电器 给定一棵树，每条边能导电的概率为 $p_i$，每个点自己带电的概率为 $q_i$，求带电点个数的期望。" />
+<title>概率杂题</title>
+
+<link rel="canonical" href="https://blog.tibrella.top/notes/%E9%A2%98%E8%A7%A3/%E6%A6%82%E7%8E%87%E6%9D%82%E9%A2%98/" />
+
+<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='概率杂题'>
+<meta property='og:description' content='P4562 [JXOI2018]游戏 给定区间 $[l,r]$，每次选择一个未选择过的数，将这个数以及它的所有倍数标记，每一种方案全部标记所用次数记为 $t$，求所有可能 $t$ 的和。
+首先想到每次将所有点标记的实质，就是将 $\left[l,r\right]$ 中没有在此区间内的非自身的因数的数标记完。称这样的数为关键数，设关键数有 $k$ 个，则实际上标记次数就是最后一个关键数的位置。
+最后一个关键数的位置&amp;hellip;不沾头不沾尾，所以换个方向考虑——最后一个关键数的位置可以替换为它后面的非关键数的数量。
+实际上，$k$ 个关键数把整个区间分成了 $k&#43;1$ 份。设区间长度为 $1$，则一个非关键数在最后一段区间上的期望就是 $\cfrac 1 {k&#43;1}$（$k&#43;1$ 种情况，每种情况都在段区间上，只有一种情况在目标区间上），$n-k$ 个非关键点在最后一段区间上的期望就是 $\cfrac{n-k}{k&#43;1}$。（注意这里概率到期望的转换，要想想为什么期望成了求解目标）
+于是，最后一个点的位置的期望，即 $t$ 的期望为下式
+$$ \begin{aligned} &amp;amp;\ \ \ \ \ n-\cfrac{n-k}{k&#43;1} \\ &amp;amp;= \cfrac{nk&#43;n-n&#43;k}{k&#43;1} \\ &amp;amp;= \cfrac{(n&#43;1)k}{k&#43;1} \end{aligned} $$
+求所有可能的 $t$ 的值的和，乘一个阶乘就好了。
+$$ \begin{aligned} &amp;amp;\ \ \ \ \ \cfrac{(n&#43;1)k}{k&#43;1}n! \\ &amp;amp;= \cfrac{k}{k&#43;1}(n&#43;1)! \end{aligned} $$
+取模的话，求完阶乘 $\times k$ 再乘个 逆元 就行了。
+P4284 [SHOI2014] 概率充电器 给定一棵树，每条边能导电的概率为 $p_i$，每个点自己带电的概率为 $q_i$，求带电点个数的期望。'>
+<meta property='og:url' content='https://blog.tibrella.top/notes/%E9%A2%98%E8%A7%A3/%E6%A6%82%E7%8E%87%E6%9D%82%E9%A2%98/'>
+<meta property='og:site_name' content='钛合金伞的隙间'>
+<meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='数学，概率论' /><meta property='article:published_time' content='2023-05-22T21:06:14&#43;08:00'/><meta property='article:modified_time' content='2023-05-22T21:06:14&#43;08:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
+<meta name="twitter:title" content="概率杂题">
+<meta name="twitter:description" content="P4562 [JXOI2018]游戏 给定区间 $[l,r]$，每次选择一个未选择过的数，将这个数以及它的所有倍数标记，每一种方案全部标记所用次数记为 $t$，求所有可能 $t$ 的和。
+首先想到每次将所有点标记的实质，就是将 $\left[l,r\right]$ 中没有在此区间内的非自身的因数的数标记完。称这样的数为关键数，设关键数有 $k$ 个，则实际上标记次数就是最后一个关键数的位置。
+最后一个关键数的位置&amp;hellip;不沾头不沾尾，所以换个方向考虑——最后一个关键数的位置可以替换为它后面的非关键数的数量。
+实际上，$k$ 个关键数把整个区间分成了 $k&#43;1$ 份。设区间长度为 $1$，则一个非关键数在最后一段区间上的期望就是 $\cfrac 1 {k&#43;1}$（$k&#43;1$ 种情况，每种情况都在段区间上，只有一种情况在目标区间上），$n-k$ 个非关键点在最后一段区间上的期望就是 $\cfrac{n-k}{k&#43;1}$。（注意这里概率到期望的转换，要想想为什么期望成了求解目标）
+于是，最后一个点的位置的期望，即 $t$ 的期望为下式
+$$ \begin{aligned} &amp;amp;\ \ \ \ \ n-\cfrac{n-k}{k&#43;1} \\ &amp;amp;= \cfrac{nk&#43;n-n&#43;k}{k&#43;1} \\ &amp;amp;= \cfrac{(n&#43;1)k}{k&#43;1} \end{aligned} $$
+求所有可能的 $t$ 的值的和，乘一个阶乘就好了。
+$$ \begin{aligned} &amp;amp;\ \ \ \ \ \cfrac{(n&#43;1)k}{k&#43;1}n! \\ &amp;amp;= \cfrac{k}{k&#43;1}(n&#43;1)! \end{aligned} $$
+取模的话，求完阶乘 $\times k$ 再乘个 逆元 就行了。
+P4284 [SHOI2014] 概率充电器 给定一棵树，每条边能导电的概率为 $p_i$，每个点自己带电的概率为 $q_i$，求带电点个数的期望。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
+<link rel="shortcut icon" href="/favicon.png" />
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="/img/avatar.jpg" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">🌂</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
+            <h2 class="site-description">将梦想化为残机，我们就仍能飞翔</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:pinghigh24678@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/pinghigh'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/@pinghigh24678'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>暗色模式</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#p4562-jxoi2018游戏httpswwwluogucomcnproblemp4562"><a href="https://www.luogu.com.cn/problem/P4562">P4562 [JXOI2018]游戏</a></a></li>
+    <li><a href="#p4284-shoi2014-概率充电器httpswwwluogucomcnproblemp4284"><a href="https://www.luogu.com.cn/problem/P4284">P4284 [SHOI2014] 概率充电器</a></a></li>
+    <li><a href="#spoj-4060-kpgame---a-game-with-probabilityhttpswwwspojcomproblemskpgame"><a href="https://www.spoj.com/problems/KPGAME/">SPOJ 4060 KPGAME - A game with probability</a></a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/notes/%E9%A2%98%E8%A7%A3/%E6%A6%82%E7%8E%87%E6%9D%82%E9%A2%98/">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" alt="Featured image of post 概率杂题" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E9%A2%98%E8%A7%A3/" >
+                题解
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/notes/%E9%A2%98%E8%A7%A3/%E6%A6%82%E7%8E%87%E6%9D%82%E9%A2%98/">概率杂题</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">May 22, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="p4562-jxoi2018游戏httpswwwluogucomcnproblemp4562"><a class="link" href="https://www.luogu.com.cn/problem/P4562"  target="_blank" rel="noopener"
+    >P4562 [JXOI2018]游戏</a></h2>
+<p>给定区间 $[l,r]$，每次选择一个未选择过的数，将这个数以及它的所有倍数标记，每一种方案全部标记所用次数记为 $t$，求所有可能 $t$ 的和。</p>
+<p>首先想到每次将所有点标记的实质，就是将 $\left[l,r\right]$ 中<strong>没有</strong>在<strong>此区间内</strong>的<strong>非自身的因数</strong>的数标记完。称这样的数为关键数，设关键数有 $k$ 个，则实际上标记次数就是<strong>最后一个关键数</strong>的位置。</p>
+<p>最后一个关键数的位置&hellip;不沾头不沾尾，所以换个方向考虑——最后一个关键数的位置可以替换为<strong>它后面的非关键数的数量</strong>。</p>
+<p>实际上，$k$ 个关键数把整个区间分成了 $k+1$ 份。设区间长度为 $1$，则一个非关键数在最后一段区间上的期望就是 $\cfrac 1 {k+1}$（$k+1$ 种情况，每种情况都在段区间上，只有一种情况在目标区间上），$n-k$ 个非关键点在最后一段区间上的期望就是 $\cfrac{n-k}{k+1}$。（注意这里概率到期望的转换，要想想为什么期望成了求解目标）</p>
+<p>于是，最后一个点的位置的期望，即 $t$ 的期望为下式</p>
+<p>$$
+\begin{aligned}
+&amp;\ \ \ \ \  n-\cfrac{n-k}{k+1} \\
+&amp;= \cfrac{nk+n-n+k}{k+1} \\
+&amp;= \cfrac{(n+1)k}{k+1}
+\end{aligned}
+$$</p>
+<p>求所有可能的 $t$ 的值的和，乘一个阶乘就好了。</p>
+<p>$$
+\begin{aligned}
+&amp;\ \ \ \ \  \cfrac{(n+1)k}{k+1}n! \\
+&amp;= \cfrac{k}{k+1}(n+1)!
+\end{aligned}
+$$</p>
+<p>取模的话，求完阶乘 $\times k$ 再乘个 <a class="link" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E9%80%86%E5%85%83/" >逆元</a> 就行了。</p>
+<h2 id="p4284-shoi2014-概率充电器httpswwwluogucomcnproblemp4284"><a class="link" href="https://www.luogu.com.cn/problem/P4284"  target="_blank" rel="noopener"
+    >P4284 [SHOI2014] 概率充电器</a></h2>
+<p>给定一棵树，每条边能导电的概率为 $p_i$，每个点自己带电的概率为 $q_i$，求带电点个数的期望。</p>
+<p>根据期望的线性性，考虑求每个点有电的期望。因为只有 $0,1$ 两种情况，因此求概率就行了。</p>
+<p>考虑单个点有电的情况：</p>
+<ul>
+<li>自己有电</li>
+<li>儿子有电，和儿子连边导电</li>
+<li>父亲有电，和父亲连边导电</li>
+</ul>
+<p>设 $f_u$ 为点 $u$ 带电的期望：</p>
+<ul>
+<li>第一种情况的概率就是 $q_u$，所以直接 $f_u = q_u$ 就行。</li>
+<li>第二种情况非常像树形 DP 的样子，容易想到从叶子节点向上推就行。
+<ul>
+<li>考虑两个独立事件发生其中一件即可的概率： $P(A+B)=P(A)+(1-P(A))P(B)$，即 $A$ 事件的概率 $+$ $(B$ 事件 $+$ $A$ 事件未发生 $)$ 的概率。</li>
+<li>进行 dfs，回溯的时候统计：
+<ul>
+<li>设当前点为 $u$，儿子为 $v$，则有 $f_u = f_u + (1-f_u)p_{u,v}f_v$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>第三种情况实际上也是树形 DP，只不过变成了正推，从 $u$ 计算对 $v$ 的贡献。
+<ul>
+<li>假设当前到达 $u$，且 $f_u$ 已经算好了，考虑如何把贡献传给 $f_v$。</li>
+<li>容易想到 $u$ 能贡献给 $v$ 电流的那部分概率，实际上是 $f_u$ 扔掉 $v$ 这棵子树的部分。</li>
+<li>换句话说，贡献 $=$ $u$ 有电的概率 $-$ $u$ 不考虑 $v$ 的有电的概率，再乘边的概率之类的常数即可。</li>
+<li>设 $\langle u,v \rangle=e$，$u$ 不考虑 $v$ 的有电的概率为 $g_u$，$v$ 只考虑下方来电有电的概率为 $l_v$，有柿子：
+$$
+\begin{aligned}
+f_u &amp;= g_u + l_vp_e(1-g_u) \\
+f_u &amp;= g_u + l_vp_e-l_vp_eg_u \\
+f_u - l_vp_e &amp;= g_u(1-l_vp_e) \\
+g_u &amp;= \cfrac {f_u-l_vp_e}{1-l_vp_e} \\
+f_u - g_u &amp;= f_u - \cfrac {f_u-l_vp_e}{1-l_vp_e}
+\end{aligned}
+$$</li>
+<li>考虑完 $u$ 有电的贡献，乘一下边的概率和 $v$ 没电的概率就行了
+$$
+f_v = f_v + (1-f_v)\cdot p_e \cdot(f_u - \cfrac {f_u-l_vp_e}{1-l_vp_e})
+$$</li>
+</ul>
+</li>
+</ul>
+<p>柿子推完了，写两个 dfs 算答案即可。</p>
+<h2 id="spoj-4060-kpgame---a-game-with-probabilityhttpswwwspojcomproblemskpgame"><a class="link" href="https://www.spoj.com/problems/KPGAME/"  target="_blank" rel="noopener"
+    >SPOJ 4060 KPGAME - A game with probability</a></h2>
+<p>给定一定数量的石子，两个人抛硬币，抛到正面则拿走一颗石子，否则什么都不做。拿走最后一颗石子的人胜利。<br>
+已知石子数量，假设双方都采用最优方案，两个人分别抛到自己想要的那一面的概率 $q,p \geqslant 0.5$ <del>这不唯物</del>，求先手的获胜概率。</p>
+<p>练习推式子的能力。</p>
+<p>发现对于每一颗石子都能独立计算，考虑 DP。</p>
+<p>设计状态：</p>
+<ul>
+<li>表示出当前到达第几颗石子</li>
+<li>表示出当前谁拿石子
+于是得到状态：$f_{i,0/1}$ 表示 $i$ 个石子，第 $1$ 或第 $2$ 个人获胜的概率</li>
+</ul>
+<p>显然 $f_{0,0}$ 和 $f_{0,1}$ 是两种确定结果， 则概率分别为 $1,0$ 。于是考虑倒推。</p>
+<p>看概率的取值，说明只要我们希望抛到一个面，抛到这个面概率就会更大。<br>
+由于很容易判断出当前状态下应该希望取得/不取得石子（通过前一个状态的概率大小），所以不用单独表示出希望取得/不取得石子。</p>
+<p>列式子：
+希望取得这颗石子（正面）：</p>
+<p>$$
+\begin{aligned}
+f_{i,0} &amp;= f_{i-1,1}\cdot p + f_{i,1} \cdot (1-p) \\
+f_{i,1} &amp;= f_{i-1,0}\cdot q + f_{i,0} \cdot (1-q)
+\end {aligned}
+$$</p>
+<p>发现这玩意没法递推，运用初中二元一次方程的思路，代入消元。</p>
+<p>$$
+\begin{aligned}
+f_{i,0} &amp;= f_{i-1,1}\cdot p + f_{i,1} \cdot (1-p) \\
+f_{i,0} &amp;= f_{i-1,1} \cdot p + (f_{i-1,0}\cdot q + f_{i,0} \cdot (1-q))(1-p) \\
+\dots \\
+f_{i,0} &amp;= \cfrac {p\cdot f_{i-1,1} + (1-p)q\cdot f_{i-1,1}}{1-(1-q)(1-p)}
+\end{aligned}
+$$</p>
+<p>发现这玩意就可以递推了，再依照同样的方式能够列出 $f_{i,1}$ 的转移方程和不希望取得这颗石子的两个转移方程。不写过程了， 给出柿子
+希望取得：</p>
+<p>$$
+\begin{aligned}
+f_{i,0} &amp;= \cfrac {p\cdot f_{i-1,1} + (1-p)q\cdot f_{i-1,1}}{1-(1-q)(1-p)} \\
+f_{i,1} &amp;= \cfrac {q\cdot f_{i-1,0} + (1-q)p\cdot f_{i-1,0}}{1-(1-p)(1-q)}
+\end {aligned}
+$$</p>
+<p>不希望取得：</p>
+<p>$$
+\begin{aligned}
+f_{i,0} = \cfrac{p(1-q)\cdot f_{i-1,0} + (1-p)\cdot f_{i-1,1}}{1-qp} \\
+f_{i,1} = \cfrac{q(1-p)\cdot f_{i-1,1} + (1-q)\cdot f_{i-1,0}}{1-qp}
+\end{aligned}
+$$</p>
+<p>对比一下容易发现：希望取得与不希望取得的转移方程中，区别仅仅是 $p,(1-p)$ 和 $q,(1-q)$。于是，当取石子比不取石子优的时候，把 $p,q$ 把 $1$ 减一下就行了。</p>
+<p>但是题目中 $n$ 的范围比较申必，$n \leqslant 1e9-1$，这东西怎么办？对于概率题，我们常有两种思路：</p>
+<ul>
+<li>矩阵快速幂：&hellip;不好评价，转移方程貌似有点巨大</li>
+<li>概率变化逐渐趋于稳定。可以打表测一下~~（或者提交试一下）~~，<del>我试出来 100 次左右就能过</del>
+$n = \min(n,100)$ 即可。</li>
+</ul>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E6%95%B0%E5%AD%A6%E6%A6%82%E7%8E%87%E8%AE%BA/">数学，概率论</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" transform="rotate(180)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under FDL 1.3</span>
+    </section>
+    </footer>
+
+
+    
+        <script>
+    MathJax = {
+        tex: {
+            inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+            ],
+            displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"],
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+        },
+        options: {
+            skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+    };
+
+    window.addEventListener("load", (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += "has-jax";
+        });
+    });
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script
+    type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"></script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/notes/%E9%A2%98%E8%A7%A3/spoj-4060-%E9%A2%98%E8%A7%A3/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">SPOJ 4060 题解</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/%E9%A2%98%E8%A7%A3/%E7%BB%86%E8%8F%8C-%E9%A2%98%E8%A7%A3/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">细菌 题解</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.16/twikoo.all.min.js"></script>
+<div id="tcomment"></div>
+<style>
+  .twikoo {
+    background-color: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    padding: var(--card-padding);
+    color: var(--twikoo-body-text-color);
+  }
+  :root[data-scheme="dark"] {
+    --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+    --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+  }
+  .twikoo .el-input-group__prepend,
+  .twikoo .tk-action-icon,
+  .twikoo .tk-time,
+  .twikoo .tk-comments-count {
+    color: var(--twikoo-body-text-color);
+  }
+  .twikoo .el-input__inner,
+  .twikoo .el-textarea__inner,
+  .twikoo .tk-preview-container,
+  .twikoo .tk-content,
+  .twikoo .tk-nick,
+  .twikoo .tk-send {
+    color: var(--twikoo-body-text-color-main);
+  }
+  .twikoo .el-button {
+    color: var(--twikoo-body-text-color) !important;
+  }
+  .OwO .OwO-body {
+    background-color: var(--body-background) !important;
+    color: var(--body-text-color) !important;
+  }
+</style><script>
+  twikoo.init({
+      envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+      GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+      el: '#tcomment',lang: 'zh-cn',})
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        <p style="display:inline-block; transform: rotatey(180deg);">&copy;</p> 
+        
+            2020 - 
+        
+        2023 钛合金伞的隙间
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://icp.gov.moe/?keyword=20220284" rel="external nofollow noreferrer" target="_blank">萌ICP备20220284号</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://unpkg.com/node-vibrant@latest/dist/vibrant.min.js"crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    </body>
+</html>

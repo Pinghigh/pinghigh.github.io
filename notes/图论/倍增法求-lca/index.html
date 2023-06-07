@@ -6,7 +6,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%80%8D%E5%A2%9E%E6%B3%95%E6%B1%82-lca/" />
 
-<link rel="stylesheet" href="/scss/style.min.014839334ac195efe0e60ff087bf48c039b6fadecfec71119bba6cf76c3de4f5.css"><meta property='og:title' content='倍增求LCA/最近共同祖先'>
+<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='倍增求LCA/最近共同祖先'>
 <meta property='og:description' content='求树上两个节点的最近公共祖先（倍增做法）'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%80%8D%E5%A2%9E%E6%B3%95%E6%B1%82-lca/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -15,7 +15,10 @@
 <meta name="twitter:description" content="求树上两个节点的最近公共祖先（倍增做法）"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
-<script src="/js/prism.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 
     </head>
     <body class="
@@ -436,38 +439,36 @@
 
     
         <script>
-  MathJax = {
-    tex: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"],
-      ],
-      displayMath: [
-        ["$$", "$$"],
-        ["\\[", "\\]"],
-      ],
-      processEscapes: true,
-      processEnvironments: true,
-    },
-    options: {
-      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
-    },
-  };
+    MathJax = {
+        tex: {
+            inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+            ],
+            displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"],
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+        },
+        options: {
+            skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+    };
 
-  window.addEventListener("load", (event) => {
-    document.querySelectorAll("mjx-container").forEach(function (x) {
-      x.parentElement.classList += "has-jax";
+    window.addEventListener("load", (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += "has-jax";
+        });
     });
-  });
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script
-  type="text/javascript"
-  id="MathJax-script"
-  async
-  src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"
-></script>
-
+    type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"></script>
 
     
 </article>
@@ -480,25 +481,6 @@
     <h2 class="section-title">相关文章</h2>
     <div class="related-content">
         <div class="flex article-list--tile">
-            
-                
-<article class="has-image">
-    <a href="/notes/%E4%B8%B2/%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2manacher/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">Manacher</h2>
-        </div>
-    </a>
-</article>
-
             
                 
 <article class="has-image">

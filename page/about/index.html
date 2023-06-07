@@ -6,7 +6,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/page/about/" />
 
-<link rel="stylesheet" href="/scss/style.min.014839334ac195efe0e60ff087bf48c039b6fadecfec71119bba6cf76c3de4f5.css"><meta property='og:title' content='关于'>
+<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='关于'>
 <meta property='og:description' content='我是傻逼。'>
 <meta property='og:url' content='https://blog.tibrella.top/page/about/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -14,7 +14,10 @@
 <meta name="twitter:title" content="关于">
 <meta name="twitter:description" content="我是傻逼。">
 <link rel="shortcut icon" href="/favicon.png" />
-<script src="/js/prism.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 
     </head>
     <body class="
@@ -335,38 +338,36 @@
 
     
         <script>
-  MathJax = {
-    tex: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"],
-      ],
-      displayMath: [
-        ["$$", "$$"],
-        ["\\[", "\\]"],
-      ],
-      processEscapes: true,
-      processEnvironments: true,
-    },
-    options: {
-      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
-    },
-  };
+    MathJax = {
+        tex: {
+            inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+            ],
+            displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"],
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+        },
+        options: {
+            skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+    };
 
-  window.addEventListener("load", (event) => {
-    document.querySelectorAll("mjx-container").forEach(function (x) {
-      x.parentElement.classList += "has-jax";
+    window.addEventListener("load", (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += "has-jax";
+        });
     });
-  });
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script
-  type="text/javascript"
-  id="MathJax-script"
-  async
-  src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"
-></script>
-
+    type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"></script>
 
     
 </article>

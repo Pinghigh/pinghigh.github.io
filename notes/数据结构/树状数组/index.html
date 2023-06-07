@@ -6,16 +6,19 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" />
 
-<link rel="stylesheet" href="/scss/style.min.014839334ac195efe0e60ff087bf48c039b6fadecfec71119bba6cf76c3de4f5.css"><meta property='og:title' content='树状数组'>
+<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='树状数组'>
 <meta property='og:description' content='先来补票树状数组'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
-<meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='树状数组' /><meta property='article:tag' content='数据结构' /><meta property='article:published_time' content='2023-01-29T14:12:27&#43;00:00'/><meta property='article:modified_time' content='2023-01-29T14:12:27&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/63d613b2face21e9ef36c9df.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='树状数组' /><meta property='article:tag' content='数据结构' /><meta property='article:published_time' content='2023-01-29T14:12:27&#43;00:00'/><meta property='article:modified_time' content='2023-06-07T11:43:04&#43;08:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/63d613b2face21e9ef36c9df.jpg' />
 <meta name="twitter:title" content="树状数组">
 <meta name="twitter:description" content="先来补票树状数组"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/63d613b2face21e9ef36c9df.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
-<script src="/js/prism.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 
     </head>
     <body class="
@@ -297,6 +300,7 @@
       </ol>
     </li>
     <li><a href="#改区间查单点">改区间查单点</a></li>
+    <li><a href="#区间加区间求和">区间加区间求和</a></li>
   </ol>
 </nav>
         </div>
@@ -388,8 +392,14 @@
     <section class="article-content">
     
     
-    <p>顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。<br>
+    <blockquote>
+<p>树状数组代替线段树。 —— zzz《常数优化与 NOILinux》</p>
+</blockquote>
+<p>顾名思义，树状数组是一种树形结构，但是因为他独特的结构和拆分方式（二进制你又来了是吧），可以直接用数组存储。<br>
 用途是解决大部分区间修改查询问题，复杂度一般是 $\operatorname{O}(\log n)$ ，同时常数小（暗示 <a class="link" href="https://blog.tibrella.top/notes/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E7%BA%BF%E6%AE%B5%E6%A0%91/" >线段树</a> 不行），同时码量小，好理解（暗示 * 2），但是复杂的区间修改查询问题不能解决，同时区间最大最小值也不能用它处理（后文会说）</p>
+<p>Update on 2023/6/7 本质上就是能够以极小的常数且严格 $\operatorname{O}(\log n)$ 的时间复杂度进行单点修改与前缀和的维护，不过这个前缀和可以玩得比较花。</p>
+<p>实际上原理看看就得了，这玩意板子写完了半年过去都不带忘的&hellip;</p>
+<p>关于常数差距到底多大？S2 的同学们可以看看 S2OJ #786，使用普通快读仅 2.60s（现在最快的我的提交记录是卡常版的），线段树解法貌似最快的是 lyq 学长的 6.69s。</p>
 <h2 id="基本树状数组">基本树状数组</h2>
 <h3 id="原理">原理</h3>
 <p>来自学长的一张图<br>
@@ -411,21 +421,11 @@
 <h3 id="实现">实现</h3>
 <h4 id="建立">建立</h4>
 <p>实际上不用特意处理建立，直接在输入过程中每输入一个数就<a class="link" href="#%e5%8d%95%e7%82%b9%e4%bf%ae%e6%94%b9" >修改</a>即可。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">t1</span><span class="p">;</span> <span class="c1">// tmp
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">modify</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">t1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="lowbit">lowbit</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t1; <span style="color:#75715e">// tmp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    modify(i,t1);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="lowbit">lowbit</h4>
 <p>本函数实现查找一个数最后一位 $1$ 的位置。</p>
 <p>首先声明一个冷知识（大概冷），位运算是针对内存中存储的原数据的运算，换句话说，进行位运算的是补码而不是原码。</p>
 <p><strong>原码</strong>即一个数本身的二进制表示，<strong>反码</strong>即在原码的基础上符号位不变其他位取反。<br>
@@ -436,67 +436,80 @@
 显然，这位 <code>1</code> 前面的所有数字因为被取反所以和原数完全不同；后面的所有数字原来一定是 <code>0</code> 取反后变成一排 <code>1</code>，负数的补码是反码$+1$，从而一直进位到原来最后一位 <code>1</code> 这里，而它们本身变回了 <code>0</code> ；又因为这位 <code>1</code> 被取反后是 <code>0</code> 所以无论如何都不会再向前进位。<br>
 从而保证对于任意一个正数 $x$，$-x$ 与 $x$ 的存储只有 $x$ 本身最后一位 <code>1</code> 是相同的。<br>
 因此 <code>lowbit()</code> 的实现就非常简单了，直接用 <code>x&amp;-x</code>，得到的结果就是<a class="link" href="#%e5%8e%9f%e7%90%86" >原理</a>中所说的 $2^x$，又快又好想，用着还方便。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">lowbit</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">&amp;-</span><span class="n">x</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="单点修改">单点修改</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">lowbit</span>(<span style="color:#66d9ef">int</span> x) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (x<span style="color:#f92672">&amp;-</span>x);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="单点修改">单点修改</h4>
 <p>假设修改为给第 $x$ 个数增加 $v$，那我们就需要修改所有包含第 $x$ 个元素的节点，则从第 $x$ 个节点寻找父亲节点直到根节点为止（参考上图）。<br>
 $x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层循环实现 $\operatorname{O}(\log n)$ 修改。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">modify</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="n">lowbit</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">tree</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="区间查询">区间查询</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">modify</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> v) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> x; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">+=</span> lowbit(i)) {
+</span></span><span style="display:flex;"><span>        tree[i] <span style="color:#f92672">+=</span> v;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="区间查询">区间查询</h4>
 <p>查询区间为 $[l,r]$ 时，将问题转化为求 $[1,r] - [1,l-1]$ 的值（前缀和知识），因此我们只需要实现查询前缀和的功能即可。<br>
 因为 $i$ 节点存储的是一段长度为 $\operatorname{lowbit}(i)$ 的区间的和，因此取完 $i$ 号点的值后再取 $i-\operatorname{lowbit}(i)$ 号节点的值，直到位置变为 $0$（到头）即可（看不懂就结合上面图）</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">query</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">i</span><span class="p">;</span> <span class="n">i</span> <span class="o">-=</span> <span class="n">lowbit</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">+=</span> <span class="n">tree</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">ans</span> <span class="o">=</span> <span class="n">query</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="n">query</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="改区间查单点">改区间查单点</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> x) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> x; i; i <span style="color:#f92672">-=</span> lowbit(i)) {
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">+=</span> tree[i];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ans <span style="color:#f92672">=</span> query(r) <span style="color:#f92672">-</span> query(l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
+</span></span></code></pre></div><h2 id="改区间查单点">改区间查单点</h2>
 <p>上文我们解决了求前缀和的问题，本次需要查询单点，那么很容易联想到<strong>差分</strong>。更改区间对应改差分数组上的两个点，查询单点对应查询差分数组的前缀和。</p>
-
+<h2 id="区间加区间求和">区间加区间求和</h2>
+<p><del>发现树状数组好快于是回来补一下</del>（2023.6.23）</p>
+<p>对原数组进行差分，易得：</p>
+<p>$$
+d_i = a_i - a_{i-1} \\
+a_i = \sum_{j=1}^i d_i \\
+$$</p>
+<p>取 $[1,x]$ 的区间和，即为：</p>
+<p>$$
+\begin{aligned}
+ans &amp;= \sum_{i=1}^x a_i \\
+&amp;= \sum_{i=1}^x\sum_{j=1}^{i} d_i \\
+&amp;= \sum_{i=1}^x d_i(x-i+1) \\
+&amp;= \sum_{i=1}^x(1+x)d_i-\sum_{i=1}^x i\cdot d_i
+\end{aligned}
+$$</p>
+<p>第二行到第三行那里不知道怎么推出来的话，观察每个 $d_i$ 出现的次数，显然 $d_1$ 出现 $x$ 次，$d_2$ 出现 $x-1$ 次（除了 $i=1$ 的时候都出现了），于是轻松推出来。</p>
+<p>因此我们只需要维护两个树状数组，一个维护 $d_i$ 即差分数组，另一个维护 $i\cdot d_i$ 即可。</p>
+<p>注意：此处树状数组维护的仍然是前缀和，$i\cdot d_i$ 中的 $i$ 就是修改的位置，而不是树状数组修改时循环的 $i$。</p>
+<p>核心代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#define N 100005
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>i64 id[N], d[N];
+</span></span><span style="display:flex;"><span>i32 n;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">mod</span>(i32 pos, i64 val) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (i32 i <span style="color:#f92672">=</span> pos; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">+=</span> lowbit(i)) {
+</span></span><span style="display:flex;"><span>        id[i] <span style="color:#f92672">+=</span> pos <span style="color:#f92672">*</span> val;
+</span></span><span style="display:flex;"><span>        d[i] <span style="color:#f92672">+=</span> val;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> i64 <span style="color:#a6e22e">que</span>(i32 pos) {
+</span></span><span style="display:flex;"><span>    i64 res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (i32 i <span style="color:#f92672">=</span> pos; i; i <span style="color:#f92672">-=</span> lowbit(i)) {
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">+=</span> d[i] <span style="color:#f92672">*</span> (pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">-</span> id[i];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">modify</span>(i32 l, i32 r, i64 val) {
+</span></span><span style="display:flex;"><span>    mod(l, val);
+</span></span><span style="display:flex;"><span>    mod(r <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span>val);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> i64 <span style="color:#a6e22e">query</span>(i32 l, i32 r) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> que(r) <span style="color:#f92672">-</span> que(l <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
 </section>
 
 
@@ -523,43 +536,53 @@ $x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层�
 
         <span>Licensed under FDL 1.3</span>
     </section>
-    </footer>
+    <section class="article-lastmod">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <span>
+            最后更新于 Jun 07, 2023 11:43 CST
+        </span>
+    </section></footer>
 
 
     
         <script>
-  MathJax = {
-    tex: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"],
-      ],
-      displayMath: [
-        ["$$", "$$"],
-        ["\\[", "\\]"],
-      ],
-      processEscapes: true,
-      processEnvironments: true,
-    },
-    options: {
-      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
-    },
-  };
+    MathJax = {
+        tex: {
+            inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+            ],
+            displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"],
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+        },
+        options: {
+            skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+    };
 
-  window.addEventListener("load", (event) => {
-    document.querySelectorAll("mjx-container").forEach(function (x) {
-      x.parentElement.classList += "has-jax";
+    window.addEventListener("load", (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += "has-jax";
+        });
     });
-  });
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script
-  type="text/javascript"
-  id="MathJax-script"
-  async
-  src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"
-></script>
-
+    type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"></script>
 
     
 </article>

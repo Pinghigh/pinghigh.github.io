@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="字符数组 输出 1 2 3 4 5 6 7 8 9 10 11 #include &amp;lt;iostream&amp;gt; #include &amp;lt;cstdio&amp;gt; using namespace std; int main(){ char str[3]=&amp;#34;ab&amp;#34;; // 以下三种输出方式都是遇到换行或空格不停止，而是遇到&amp;#39;\0&amp;#39;才停止 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; printf(&amp;#34;%s\n&amp;#34;,str); puts(str); // 等价于上面的printf语句 return 0; } 读入 分两种情况 1.读入一个字符串，遇到空格/回车停止 使用cin
-1 2 3 4 5 6 7 8 #include &amp;lt;iostream&amp;gt; using namespace std; int main(){ char str[3]; cin &amp;gt;&amp;gt; str; //输入 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; return 0; } 或使用scanf" />
+<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="字符数组 输出 #include &amp;lt;iostream&amp;gt; #include &amp;lt;cstdio&amp;gt; using namespace std; int main(){ char str[3]=&amp;#34;ab&amp;#34;; // 以下三种输出方式都是遇到换行或空格不停止，而是遇到&amp;#39;\0&amp;#39;才停止 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; printf(&amp;#34;%s\n&amp;#34;,str); puts(str); // 等价于上面的printf语句 return 0; } 读入 分两种情况 1.读入一个字符串，遇到空格/回车停止 使用cin
+#include &amp;lt;iostream&amp;gt; using namespace std; int main(){ char str[3]; cin &amp;gt;&amp;gt; str; //输入 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; return 0; } 或使用scanf
+#include &amp;lt;cstdio&amp;gt; int main(){ char str[3]; scanf(&amp;#34;%s&amp;#34;,str); //输入 /* 这里注意一点，str 不能写作 &amp;amp;str 数组名实际上是一个指针，存储数组的第一个元素的内存地址（指向数组的第一个元素） scanf(&amp;#34;%s&amp;#34;,__) 这里下划线部分应当是一个内存地址，而整型、浮点、字符等类型变量中存储的不是地址而是它对应的内容，所以需要用‘&amp;amp;’取出它的内存地址，如取出整型（int）变量a的内存地址就是 &amp;amp;a。 而数组名本身就存储着内存地址，所以不需要再用 &amp;amp; 取一遍内存地址 */ printf(&amp;#34;%s&amp;#34;,str); return 0; } 2." />
 <meta name="keywords" content="字符数组,, 字符串,, fgets(),, strcpy"><title>字符数组</title>
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/c&#43;&#43;/%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84/" />
 
-<link rel="stylesheet" href="/scss/style.min.014839334ac195efe0e60ff087bf48c039b6fadecfec71119bba6cf76c3de4f5.css"><meta property='og:title' content='字符数组'>
-<meta property='og:description' content='字符数组 输出 1 2 3 4 5 6 7 8 9 10 11 #include &amp;lt;iostream&amp;gt; #include &amp;lt;cstdio&amp;gt; using namespace std; int main(){ char str[3]=&amp;#34;ab&amp;#34;; // 以下三种输出方式都是遇到换行或空格不停止，而是遇到&amp;#39;\0&amp;#39;才停止 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; printf(&amp;#34;%s\n&amp;#34;,str); puts(str); // 等价于上面的printf语句 return 0; } 读入 分两种情况 1.读入一个字符串，遇到空格/回车停止 使用cin
-1 2 3 4 5 6 7 8 #include &amp;lt;iostream&amp;gt; using namespace std; int main(){ char str[3]; cin &amp;gt;&amp;gt; str; //输入 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; return 0; } 或使用scanf'>
+<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='字符数组'>
+<meta property='og:description' content='字符数组 输出 #include &amp;lt;iostream&amp;gt; #include &amp;lt;cstdio&amp;gt; using namespace std; int main(){ char str[3]=&amp;#34;ab&amp;#34;; // 以下三种输出方式都是遇到换行或空格不停止，而是遇到&amp;#39;\0&amp;#39;才停止 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; printf(&amp;#34;%s\n&amp;#34;,str); puts(str); // 等价于上面的printf语句 return 0; } 读入 分两种情况 1.读入一个字符串，遇到空格/回车停止 使用cin
+#include &amp;lt;iostream&amp;gt; using namespace std; int main(){ char str[3]; cin &amp;gt;&amp;gt; str; //输入 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; return 0; } 或使用scanf
+#include &amp;lt;cstdio&amp;gt; int main(){ char str[3]; scanf(&amp;#34;%s&amp;#34;,str); //输入 /* 这里注意一点，str 不能写作 &amp;amp;str 数组名实际上是一个指针，存储数组的第一个元素的内存地址（指向数组的第一个元素） scanf(&amp;#34;%s&amp;#34;,__) 这里下划线部分应当是一个内存地址，而整型、浮点、字符等类型变量中存储的不是地址而是它对应的内容，所以需要用‘&amp;amp;’取出它的内存地址，如取出整型（int）变量a的内存地址就是 &amp;amp;a。 而数组名本身就存储着内存地址，所以不需要再用 &amp;amp; 取一遍内存地址 */ printf(&amp;#34;%s&amp;#34;,str); return 0; } 2.'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/c&#43;&#43;/%E5%AD%97%E7%AC%A6%E6%95%B0%E7%BB%84/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
 <meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='字符串' /><meta property='article:tag' content='字符数组' /><meta property='article:published_time' content='2022-07-17T19:20:54&#43;00:00'/><meta property='article:modified_time' content='2022-07-17T19:20:54&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <meta name="twitter:title" content="字符数组">
-<meta name="twitter:description" content="字符数组 输出 1 2 3 4 5 6 7 8 9 10 11 #include &amp;lt;iostream&amp;gt; #include &amp;lt;cstdio&amp;gt; using namespace std; int main(){ char str[3]=&amp;#34;ab&amp;#34;; // 以下三种输出方式都是遇到换行或空格不停止，而是遇到&amp;#39;\0&amp;#39;才停止 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; printf(&amp;#34;%s\n&amp;#34;,str); puts(str); // 等价于上面的printf语句 return 0; } 读入 分两种情况 1.读入一个字符串，遇到空格/回车停止 使用cin
-1 2 3 4 5 6 7 8 #include &amp;lt;iostream&amp;gt; using namespace std; int main(){ char str[3]; cin &amp;gt;&amp;gt; str; //输入 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; return 0; } 或使用scanf"><meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="字符数组 输出 #include &amp;lt;iostream&amp;gt; #include &amp;lt;cstdio&amp;gt; using namespace std; int main(){ char str[3]=&amp;#34;ab&amp;#34;; // 以下三种输出方式都是遇到换行或空格不停止，而是遇到&amp;#39;\0&amp;#39;才停止 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; printf(&amp;#34;%s\n&amp;#34;,str); puts(str); // 等价于上面的printf语句 return 0; } 读入 分两种情况 1.读入一个字符串，遇到空格/回车停止 使用cin
+#include &amp;lt;iostream&amp;gt; using namespace std; int main(){ char str[3]; cin &amp;gt;&amp;gt; str; //输入 cout &amp;lt;&amp;lt; str &amp;lt;&amp;lt; endl; return 0; } 或使用scanf
+#include &amp;lt;cstdio&amp;gt; int main(){ char str[3]; scanf(&amp;#34;%s&amp;#34;,str); //输入 /* 这里注意一点，str 不能写作 &amp;amp;str 数组名实际上是一个指针，存储数组的第一个元素的内存地址（指向数组的第一个元素） scanf(&amp;#34;%s&amp;#34;,__) 这里下划线部分应当是一个内存地址，而整型、浮点、字符等类型变量中存储的不是地址而是它对应的内容，所以需要用‘&amp;amp;’取出它的内存地址，如取出整型（int）变量a的内存地址就是 &amp;amp;a。 而数组名本身就存储着内存地址，所以不需要再用 &amp;amp; 取一遍内存地址 */ printf(&amp;#34;%s&amp;#34;,str); return 0; } 2."><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
-<script src="/js/prism.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
 
     </head>
     <body class="
@@ -388,290 +394,128 @@
     
     <h2 id="字符数组">字符数组</h2>
 <h3 id="输出">输出</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="s">&#34;ab&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="c1">// 以下三种输出方式都是遇到换行或空格不停止，而是遇到&#39;\0&#39;才停止
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span><span class="n">str</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">puts</span><span class="p">(</span><span class="n">str</span><span class="p">);</span> <span class="c1">// 等价于上面的printf语句
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="读入">读入</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstdio&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> str[<span style="color:#ae81ff">3</span>]<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ab&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 以下三种输出方式都是遇到换行或空格不停止，而是遇到&#39;\0&#39;才停止
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> str <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;%s</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,str);
+</span></span><span style="display:flex;"><span>    puts(str); <span style="color:#75715e">// 等价于上面的printf语句
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="读入">读入</h3>
 <p>分两种情况 <br>
 1.读入一个字符串，遇到空格/回车停止 <br>
 使用cin</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">str</span><span class="p">;</span> <span class="c1">//输入
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>或使用scanf</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span><span class="n">str</span><span class="p">);</span> <span class="c1">//输入
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="cm">/*
-</span></span></span><span class="line"><span class="cl"><span class="cm">    这里注意一点，str 不能写作 &amp;str
-</span></span></span><span class="line"><span class="cl"><span class="cm">    数组名实际上是一个指针，存储数组的第一个元素的内存地址（指向数组的第一个元素）
-</span></span></span><span class="line"><span class="cl"><span class="cm">    scanf(&#34;%s&#34;,__) 这里下划线部分应当是一个内存地址，而整型、浮点、字符等类型变量中存储的不是地址而是它对应的内容，所以需要用‘&amp;’取出它的内存地址，如取出整型（int）变量a的内存地址就是 &amp;a。
-</span></span></span><span class="line"><span class="cl"><span class="cm">    而数组名本身就存储着内存地址，所以不需要再用 &amp; 取一遍内存地址
-</span></span></span><span class="line"><span class="cl"><span class="cm">    */</span>
-</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span><span class="n">str</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>2.读入一行内容，输入空格不停止</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstring&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="n">fgets</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="n">stdin</span><span class="p">);</span> <span class="c1">// gets() 函数在 C11 标准中因为容易溢出而被删除，取而代之的是 fgets()
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="cm">/* 
-</span></span></span><span class="line"><span class="cl"><span class="cm">    &#34;str&#34;为字符串名
-</span></span></span><span class="line"><span class="cl"><span class="cm">    “100”是读入的最大字符数（一般使用数组长度即可）
-</span></span></span><span class="line"><span class="cl"><span class="cm">    “stdin”应该是一个接口，不用管，照着写就行
-</span></span></span><span class="line"><span class="cl"><span class="cm">    */</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>或</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">str</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="n">string</span> <span class="n">str1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cin</span><span class="p">.</span><span class="n">getline</span><span class="p">(</span><span class="n">str</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span> <span class="c1">// 字符数组使用 cin.getline()
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span><span class="n">str1</span><span class="p">);</span> <span class="c1">// string 使用 getline()
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="n">str1</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="常用函数1">常用函数<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> str[<span style="color:#ae81ff">3</span>];
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> str; <span style="color:#75715e">//输入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> str <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>或使用scanf</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstdio&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> str[<span style="color:#ae81ff">3</span>];
+</span></span><span style="display:flex;"><span>    scanf(<span style="color:#e6db74">&#34;%s&#34;</span>,str); <span style="color:#75715e">//输入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    这里注意一点，str 不能写作 &amp;str
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    数组名实际上是一个指针，存储数组的第一个元素的内存地址（指向数组的第一个元素）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    scanf(&#34;%s&#34;,__) 这里下划线部分应当是一个内存地址，而整型、浮点、字符等类型变量中存储的不是地址而是它对应的内容，所以需要用‘&amp;’取出它的内存地址，如取出整型（int）变量a的内存地址就是 &amp;a。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    而数组名本身就存储着内存地址，所以不需要再用 &amp; 取一遍内存地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    */</span>
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;%s&#34;</span>,str);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>2.读入一行内容，输入空格不停止</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> str[<span style="color:#ae81ff">100</span>];
+</span></span><span style="display:flex;"><span>    fgets(str,<span style="color:#ae81ff">100</span>,stdin); <span style="color:#75715e">// gets() 函数在 C11 标准中因为容易溢出而被删除，取而代之的是 fgets()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">/* 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    &#34;str&#34;为字符串名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    “100”是读入的最大字符数（一般使用数组长度即可）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    “stdin”应该是一个接口，不用管，照着写就行
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    */</span>
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> str <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>或</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstdio&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> str[<span style="color:#ae81ff">100</span>];
+</span></span><span style="display:flex;"><span>    string str1;
+</span></span><span style="display:flex;"><span>    cin.getline(str,<span style="color:#ae81ff">100</span>); <span style="color:#75715e">// 字符数组使用 cin.getline()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    getline(cin,str1); <span style="color:#75715e">// string 使用 getline()
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> str <span style="color:#f92672">&lt;&lt;</span> endl <span style="color:#f92672">&lt;&lt;</span> str1 <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="常用函数1">常用函数<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></h3>
 <ul>
 <li>strlen(str) 求字符串长度（不包含&rsquo;\0&rsquo;）</li>
 <li>strcmp(a,b) 比较两个字符串大小(ASCII码)， a &lt; b 返回 -1 ，a == b 返回 0， a &gt; b 返回 1（比较方式为字典序<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>）</li>
 <li>strcpy(a,b) 将字符串b赋值给从a开始的字符数组</li>
 </ul>
 <h4 id="strlen示例">strlen()示例</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-C++" data-lang="C++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt; // 用于输出</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstring&gt; // 或者string.h，这是C语言的头文件</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span> <span class="c1">// 用于输出
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span><span class="o">=</span><span class="s">&#34;abc&#34;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="strcmp示例">strcmp()示例</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt; // 用于输出</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstring&gt; // 或者string.h，这是C语言的头文件</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span> <span class="c1">// 用于输出
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">s</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%s&#34;</span><span class="p">,</span><span class="n">s</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">strcmp</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="s">&#34;abc&#34;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>此处将输入的字符串与abc进行比较</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">输入
-</span></span><span class="line"><span class="cl">#1 bac
-</span></span><span class="line"><span class="cl">#2 abc
-</span></span><span class="line"><span class="cl">#3 aac
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">输出
-</span></span><span class="line"><span class="cl">#1 1
-</span></span><span class="line"><span class="cl">#2 0
-</span></span><span class="line"><span class="cl">#3 -1
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h3 id="strcpy示例">strcpy示例</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt; // 用于输出</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstring&gt; // 或者string.h，这是C语言的头文件</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span> <span class="c1">// 用于输出
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">s1</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span><span class="o">=</span><span class="s">&#34;abc&#34;</span><span class="p">,</span><span class="n">s2</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="n">strcpy</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span><span class="n">s1</span><span class="p">);</span> <span class="c1">// s1 复制到 s2
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s2</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>输出为<code>abc</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt; // 用于输出</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt; // 或者string.h，这是C语言的头文件</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std; <span style="color:#75715e">// 用于输出
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> s[<span style="color:#ae81ff">100</span>]<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;abc&#34;</span>;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> strlen(s) <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="strcmp示例">strcmp()示例</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt; // 用于输出</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt; // 或者string.h，这是C语言的头文件</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std; <span style="color:#75715e">// 用于输出
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> s[<span style="color:#ae81ff">100</span>];
+</span></span><span style="display:flex;"><span>    scanf(<span style="color:#e6db74">&#34;%s&#34;</span>,s);
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> strcmp(s,<span style="color:#e6db74">&#34;abc&#34;</span>) <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>此处将输入的字符串与abc进行比较</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>输入
+</span></span><span style="display:flex;"><span>#1 bac
+</span></span><span style="display:flex;"><span>#2 abc
+</span></span><span style="display:flex;"><span>#3 aac
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>输出
+</span></span><span style="display:flex;"><span>#1 1
+</span></span><span style="display:flex;"><span>#2 0
+</span></span><span style="display:flex;"><span>#3 -1
+</span></span></code></pre></div><h3 id="strcpy示例">strcpy示例</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt; // 用于输出</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt; // 或者string.h，这是C语言的头文件</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std; <span style="color:#75715e">// 用于输出
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> s1[<span style="color:#ae81ff">100</span>]<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;abc&#34;</span>,s2[<span style="color:#ae81ff">100</span>];
+</span></span><span style="display:flex;"><span>    strcpy(s2,s1); <span style="color:#75715e">// s1 复制到 s2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> s2 <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>输出为<code>abc</code></p>
 <div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1">
 <p>以下三个函数均需要把字符串中每个字符循环一遍，如果我们写循环时需要用到其中一个，会导致时间复杂度提升，需要改进。
 如</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">str</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> 
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>最好改写成</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span>  <span class="mi">0</span><span class="p">,</span> <span class="n">len</span><span class="o">=</span><span class="n">strlen</span><span class="p">(</span><span class="n">str</span><span class="p">);</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> strlen(str); i<span style="color:#f92672">++</span>) 
+</span></span></code></pre></div><p>最好改写成</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span>  <span style="color:#ae81ff">0</span>, len<span style="color:#f92672">=</span>strlen(str); i <span style="color:#f92672">&lt;=</span> len; i<span style="color:#f92672">++</span>)
+</span></span></code></pre></div>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></li>
 <li id="fn:2">
 <p>字典序：从前向后比，如2与10，比较数字则10大，按字典序比较则是2大（因为2&gt;1）&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
@@ -709,38 +553,36 @@
 
     
         <script>
-  MathJax = {
-    tex: {
-      inlineMath: [
-        ["$", "$"],
-        ["\\(", "\\)"],
-      ],
-      displayMath: [
-        ["$$", "$$"],
-        ["\\[", "\\]"],
-      ],
-      processEscapes: true,
-      processEnvironments: true,
-    },
-    options: {
-      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
-    },
-  };
+    MathJax = {
+        tex: {
+            inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+            ],
+            displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"],
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+        },
+        options: {
+            skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+    };
 
-  window.addEventListener("load", (event) => {
-    document.querySelectorAll("mjx-container").forEach(function (x) {
-      x.parentElement.classList += "has-jax";
+    window.addEventListener("load", (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += "has-jax";
+        });
     });
-  });
 </script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script
-  type="text/javascript"
-  id="MathJax-script"
-  async
-  src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"
-></script>
-
+    type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://cdn.bootcdn.net/ajax/libs/mathjax/4.0.0-alpha.1/es5/tex-mml-chtml.min.js"></script>
 
     
 </article>

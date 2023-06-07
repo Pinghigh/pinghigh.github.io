@@ -7,11 +7,11 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <lastBuildDate>Tue, 30 May 2023 17:25:03 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>数学</title>
-        <link>https://blog.tibrella.top/categories/%E6%95%B0%E5%AD%A6/</link>
+        <title>题解</title>
+        <link>https://blog.tibrella.top/categories/%E9%A2%98%E8%A7%A3/</link>
         <pubDate>Tue, 30 May 2023 17:25:03 +0800</pubDate>
         
-        <guid>https://blog.tibrella.top/categories/%E6%95%B0%E5%AD%A6/</guid>
+        <guid>https://blog.tibrella.top/categories/%E9%A2%98%E8%A7%A3/</guid>
         <description></description>
         </item>
         <item>
@@ -28,6 +28,14 @@
         <pubDate>Sat, 13 May 2023 20:42:41 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/categories/linux/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>数学</title>
+        <link>https://blog.tibrella.top/categories/%E6%95%B0%E5%AD%A6/</link>
+        <pubDate>Tue, 02 May 2023 00:00:00 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/categories/%E6%95%B0%E5%AD%A6/</guid>
         <description></description>
         </item>
         <item>
@@ -55,19 +63,19 @@
         <description></description>
         </item>
         <item>
-        <title>题解</title>
-        <link>https://blog.tibrella.top/categories/%E9%A2%98%E8%A7%A3/</link>
-        <pubDate>Thu, 23 Feb 2023 14:11:18 +0000</pubDate>
-        
-        <guid>https://blog.tibrella.top/categories/%E9%A2%98%E8%A7%A3/</guid>
-        <description></description>
-        </item>
-        <item>
         <title>C&#43;&#43; 语言</title>
         <link>https://blog.tibrella.top/categories/c&#43;&#43;-%E8%AF%AD%E8%A8%80/</link>
         <pubDate>Thu, 02 Feb 2023 21:06:12 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/categories/c&#43;&#43;-%E8%AF%AD%E8%A8%80/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>字符串</title>
+        <link>https://blog.tibrella.top/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+        <pubDate>Tue, 31 Jan 2023 20:27:12 +0000</pubDate>
+        
+        <guid>https://blog.tibrella.top/categories/%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
         <description></description>
         </item>
         <item>
