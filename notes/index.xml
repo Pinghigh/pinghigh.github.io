@@ -6,7 +6,94 @@
         <description>Recent content in Notes on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 30 May 2023 17:25:03 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/notes/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 07 Jun 2023 11:43:04 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/notes/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>AC 自动机</title>
+        <link>https://blog.tibrella.top/notes/%E4%B8%B2/ac-%E8%87%AA%E5%8A%A8%E6%9C%BA/</link>
+        <pubDate>Wed, 07 Jun 2023 11:43:04 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E4%B8%B2/ac-%E8%87%AA%E5%8A%A8%E6%9C%BA/</guid>
+        <description>&lt;img src="https://pic1.imgdb.cn/item/64688db3e03e90d874e6d98a.jpg" alt="Featured image of post AC 自动机" /&gt;&lt;p&gt;真的比 KMP 简单！（指好理解）&lt;/p&gt;
+&lt;h2 id=&#34;前置知识&#34;&gt;前置知识&lt;/h2&gt;
+&lt;p&gt;trie 树（必会）&lt;br&gt;
+KMP（知道一点思想就行，不用详细学习）&lt;/p&gt;
+&lt;h2 id=&#34;用途&#34;&gt;用途&lt;/h2&gt;
+&lt;p&gt;我们知道 KMP 能够 $\operatorname{O}(|T|+|S|)$ 匹配单个文本串 $T$ 与模式串 $S$。但是如果有 $n \leq 10^5$ 个模式串（小串）匹配一个文本串（大串）呢？AC 自动机能够在 $\operatorname{O}(|T|+\sum |S|)$ 的复杂度内求出每一个模式串的出现次数。&lt;/p&gt;
+&lt;p&gt;核心思想和 KMP 相似，除去多余的匹配，即在当前匹配状态的基础上转移着匹配。（我也不知道我说了啥）&lt;/p&gt;
+&lt;h2 id=&#34;基本结构&#34;&gt;基本结构&lt;/h2&gt;
+&lt;p&gt;多个模式串，先去重前缀，建立前缀树（即 trie 树）。
+假设我们当前有四个模式串：$\texttt{abc,ac,bc,bd}$&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/64813e2a1ddac507cc19c8df&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;对每个模式串终止字符记录其出现的次数作为其在 trie 树上对应节点的权值，然后遍历文本串的每一个字符，在 trie 树上向下走，$ans$ 加上当前点的权值，如果走不了了就把文本串的当前指针回跳到上一个有多个子节点的节点，从 trie 树根节点继续匹配。（当然这个不重要，理解不理解无所谓）（理解不了就自己匹配一下试试）&lt;/p&gt;
+&lt;p&gt;合并了一些模式串的前缀，于是有了一定优化，但是优化还不够，考虑对后缀优化。&lt;/p&gt;
+&lt;h2 id=&#34;fail-边&#34;&gt;fail 边&lt;/h2&gt;
+&lt;h3 id=&#34;含义&#34;&gt;含义&lt;/h3&gt;
+&lt;p&gt;AC 自动机的核心就是 fail 边。&lt;/p&gt;
+&lt;p&gt;fail 边的含义：如果 $u$ 点的 fail 边指向 $v$，则 $v$ 点所代表的字符串&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;是 $u$ 点所代表的字符串的后缀，且前者是除后者自身以外满足要求的最长字符串。&lt;/p&gt;
+&lt;p&gt;先不管怎样建 fail 边，按照要求人脑建立一下，如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/648140721ddac507cc1d77e5&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;然后假设有文本串 $\texttt{abc}$，进行匹配。&lt;/p&gt;
+&lt;p&gt;为什么上一次匹配的时候，我们需要把文本串的指针回跳？因为没有办法除去后缀的影响——一个模式串是另一个模式串的后缀，或前者的一部分是后者的后缀。意味着：后者匹配失败不代表前者也会匹配失败。于是我们可以记录一下合法后缀，如果匹配失败就跳到自己最长后缀所在节点上（没有的话就跳根节点），容易发现这样一直跳下去，能把最开始的串的合法后缀全部跳完！说明后缀的影响已经排除掉了。&lt;/p&gt;
+&lt;p&gt;为了方便，我们把没有合法后缀的节点的 fail 边指向根节点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/6481466b1ddac507cc291a6d&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;实际上此时的 fail 边的含义：无法向下一个子节点匹配（没有子节点或匹配失败）时要走的边。&lt;/p&gt;
+&lt;p&gt;动画演示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://pic.imgdb.cn/item/64814ec31ddac507cc38599e&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;建立&#34;&gt;建立&lt;/h3&gt;
+&lt;p&gt;BFS 的过程。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;第一层（根节点为第零层）的 fail 全部指向根节点&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;，压入队列。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;取出队头，遍历子节点，如果子节点存在，假设这个子节点代表字符 $c$，当前节点 fail 指针指向 $lf$，$lf$ 的子节点集合为 $son$，则将其 fail 指针指向 $son_c$。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;没了。&lt;/p&gt;
+&lt;h2 id=&#34;优化&#34;&gt;优化&lt;/h2&gt;
+&lt;p&gt;我们一般把 trie 树的一个节点的儿子用长度为 26 的数组存下，导致遍历子节点的时候会遍历到傻逼空节点。&lt;/p&gt;
+&lt;p&gt;对于当前节点的空子节点，可以直接连到当前 fail 指针指向的节点的子节点集合中，对应的子节点。&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;字典树上除根节点外的每一个节点到根的路径都代表一个字符串。&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;模拟一下会发现：如果 fail 还按照正常情况定义来建的话会死循环。&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        <item>
         <title>SPOJ 4060 题解</title>
         <link>https://blog.tibrella.top/notes/%E9%A2%98%E8%A7%A3/spoj-4060-%E9%A2%98%E8%A7%A3/</link>
         <pubDate>Tue, 30 May 2023 17:25:03 +0800</pubDate>
