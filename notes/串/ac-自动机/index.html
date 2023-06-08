@@ -454,8 +454,26 @@ KMP（知道一点思想就行，不用详细学习）</p>
 <p>没了。</p>
 <h2 id="优化">优化</h2>
 <p>我们一般把 trie 树的一个节点的儿子用长度为 26 的数组存下，导致遍历子节点的时候会遍历到傻逼空节点。</p>
-<p>对于当前节点的空子节点，可以直接连到当前 fail 指针指向的节点的子节点集合中，对应的子节点。</p>
-<div class="footnotes" role="doc-endnotes">
+<p>对于当前节点的空子节点指针，可以直接指向当前 fail 指针指向的节点的子节点集合中，对应的子节点。</p>
+<p>参考代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">build</span>() {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>queue<span style="color:#f92672">&lt;</span>i32<span style="color:#f92672">&gt;</span> q;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (i32 i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">26</span>; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (trie[<span style="color:#ae81ff">0</span>].son[i]) q.push(trie[<span style="color:#ae81ff">0</span>].son[i]);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>q.empty()) {
+</span></span><span style="display:flex;"><span>        i32 nod <span style="color:#f92672">=</span> q.front(), lfail <span style="color:#f92672">=</span> trie[q.front()].fail; <span style="color:#75715e">// 当前节点和当前节点的 fail 节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        q.pop();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (i32 i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">26</span>; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>            i32<span style="color:#f92672">&amp;</span> to <span style="color:#f92672">=</span> trie[nod].son[i];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (to) {
+</span></span><span style="display:flex;"><span>                trie[to].fail <span style="color:#f92672">=</span> trie[lfail].son[i];
+</span></span><span style="display:flex;"><span>                q.push(to);
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>                to <span style="color:#f92672">=</span> trie[lfail].son[i]; <span style="color:#75715e">// 节点为空
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
 <li id="fn:1">
