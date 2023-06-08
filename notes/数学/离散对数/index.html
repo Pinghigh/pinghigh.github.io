@@ -24,9 +24,18 @@ BSGS 类似一种分块思想，也有点像折半搜索（
 首先把 $x$ 拆开，拆成 $km - r$ ，然后进行变换： $$ \begin{aligned} a^x &amp;amp;\equiv b \pmod p \\ a^{km-r} &amp;amp;\equiv b \pmod p \\ \frac {a^{km}}{a^r} &amp;amp; \equiv b \pmod p \\ a^{km} &amp;amp; \equiv ba^r \pmod p \end{aligned} $$ 这里的 $m$ 我们设为一个固定值，然后分别枚举等式两边的 $k,r$，存哈希表（映射），然后匹配即可，其中 $k \in [0, \cfrac pm], r \in [0,m]$ ，复杂度 $\operatorname{O}(\max(m,\cfrac pm))$ ，则 $m=\sqrt p$ 时最优，复杂度是一个根号。"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/littlefoot/dist/littlefoot.css" />
+<script
+    src="https://unpkg.com/littlefoot/dist/littlefoot.js"
+    type="application/javascript"></script>
+
 <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>
     hljs.initHighlightingOnLoad();
+    littlefoot.default();
 </script>
 
     </head>
