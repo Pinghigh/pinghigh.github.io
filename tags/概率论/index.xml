@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>概率论 on 钛合金伞的隙间</title>
+        <link>https://blog.tibrella.top/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/</link>
+        <description>Recent content in 概率论 on 钛合金伞的隙间</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Mon, 22 May 2023 21:06:14 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>概率杂题</title>
+        <link>https://blog.tibrella.top/notes/%E9%A2%98%E8%A7%A3/%E6%A6%82%E7%8E%87%E6%9D%82%E9%A2%98/</link>
+        <pubDate>Mon, 22 May 2023 21:06:14 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E9%A2%98%E8%A7%A3/%E6%A6%82%E7%8E%87%E6%9D%82%E9%A2%98/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 概率杂题" /&gt;&lt;h2 id=&#34;p4562-jxoi2018游戏httpswwwluogucomcnproblemp4562&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.luogu.com.cn/problem/P4562&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;P4562 [JXOI2018]游戏&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;给定区间 $[l,r]$，每次选择一个未选择过的数，将这个数以及它的所有倍数标记，每一种方案全部标记所用次数记为 $t$，求所有可能 $t$ 的和。&lt;/p&gt;
+&lt;p&gt;首先想到每次将所有点标记的实质，就是将 $\left[l,r\right]$ 中&lt;strong&gt;没有&lt;/strong&gt;在&lt;strong&gt;此区间内&lt;/strong&gt;的&lt;strong&gt;非自身的因数&lt;/strong&gt;的数标记完。称这样的数为关键数，设关键数有 $k$ 个，则实际上标记次数就是&lt;strong&gt;最后一个关键数&lt;/strong&gt;的位置。&lt;/p&gt;
+&lt;p&gt;最后一个关键数的位置&amp;hellip;不沾头不沾尾，所以换个方向考虑——最后一个关键数的位置可以替换为&lt;strong&gt;它后面的非关键数的数量&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;实际上，$k$ 个关键数把整个区间分成了 $k+1$ 份。设区间长度为 $1$，则一个非关键数在最后一段区间上的期望就是 $\cfrac 1 {k+1}$（$k+1$ 种情况，每种情况都在段区间上，只有一种情况在目标区间上），$n-k$ 个非关键点在最后一段区间上的期望就是 $\cfrac{n-k}{k+1}$。（注意这里概率到期望的转换，要想想为什么期望成了求解目标）&lt;/p&gt;
+&lt;p&gt;于是，最后一个点的位置的期望，即 $t$ 的期望为下式&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+&amp;amp;\ \ \ \ \  n-\cfrac{n-k}{k+1} \\
+&amp;amp;= \cfrac{nk+n-n+k}{k+1} \\
+&amp;amp;= \cfrac{(n+1)k}{k+1}
+\end{aligned}
+$$&lt;/p&gt;
+&lt;p&gt;求所有可能的 $t$ 的值的和，乘一个阶乘就好了。&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+&amp;amp;\ \ \ \ \  \cfrac{(n+1)k}{k+1}n! \\
+&amp;amp;= \cfrac{k}{k+1}(n+1)!
+\end{aligned}
+$$&lt;/p&gt;
+&lt;p&gt;取模的话，求完阶乘 $\times k$ 再乘个 &lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E9%80%86%E5%85%83/&#34; &gt;逆元&lt;/a&gt; 就行了。&lt;/p&gt;
+&lt;h2 id=&#34;p4284-shoi2014-概率充电器httpswwwluogucomcnproblemp4284&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.luogu.com.cn/problem/P4284&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;P4284 [SHOI2014] 概率充电器&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;给定一棵树，每条边能导电的概率为 $p_i$，每个点自己带电的概率为 $q_i$，求带电点个数的期望。&lt;/p&gt;
+&lt;p&gt;根据期望的线性性，考虑求每个点有电的期望。因为只有 $0,1$ 两种情况，因此求概率就行了。&lt;/p&gt;
+&lt;p&gt;考虑单个点有电的情况：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自己有电&lt;/li&gt;
+&lt;li&gt;儿子有电，和儿子连边导电&lt;/li&gt;
+&lt;li&gt;父亲有电，和父亲连边导电&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;设 $f_u$ 为点 $u$ 带电的期望：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一种情况的概率就是 $q_u$，所以直接 $f_u = q_u$ 就行。&lt;/li&gt;
+&lt;li&gt;第二种情况非常像树形 DP 的样子，容易想到从叶子节点向上推就行。
+&lt;ul&gt;
+&lt;li&gt;考虑两个独立事件发生其中一件即可的概率： $P(A+B)=P(A)+(1-P(A))P(B)$，即 $A$ 事件的概率 $+$ $(B$ 事件 $+$ $A$ 事件未发生 $)$ 的概率。&lt;/li&gt;
+&lt;li&gt;进行 dfs，回溯的时候统计：
+&lt;ul&gt;
+&lt;li&gt;设当前点为 $u$，儿子为 $v$，则有 $f_u = f_u + (1-f_u)p_{u,v}f_v$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;第三种情况实际上也是树形 DP，只不过变成了正推，从 $u$ 计算对 $v$ 的贡献。
+&lt;ul&gt;
+&lt;li&gt;假设当前到达 $u$，且 $f_u$ 已经算好了，考虑如何把贡献传给 $f_v$。&lt;/li&gt;
+&lt;li&gt;容易想到 $u$ 能贡献给 $v$ 电流的那部分概率，实际上是 $f_u$ 扔掉 $v$ 这棵子树的部分。&lt;/li&gt;
+&lt;li&gt;换句话说，贡献 $=$ $u$ 有电的概率 $-$ $u$ 不考虑 $v$ 的有电的概率，再乘边的概率之类的常数即可。&lt;/li&gt;
+&lt;li&gt;设 $\langle u,v \rangle=e$，$u$ 不考虑 $v$ 的有电的概率为 $g_u$，$v$ 只考虑下方来电有电的概率为 $l_v$，有柿子：
+$$
+\begin{aligned}
+f_u &amp;amp;= g_u + l_vp_e(1-g_u) \\
+f_u &amp;amp;= g_u + l_vp_e-l_vp_eg_u \\
+f_u - l_vp_e &amp;amp;= g_u(1-l_vp_e) \\
+g_u &amp;amp;= \cfrac {f_u-l_vp_e}{1-l_vp_e} \\
+f_u - g_u &amp;amp;= f_u - \cfrac {f_u-l_vp_e}{1-l_vp_e}
+\end{aligned}
+$$&lt;/li&gt;
+&lt;li&gt;考虑完 $u$ 有电的贡献，乘一下边的概率和 $v$ 没电的概率就行了
+$$
+f_v = f_v + (1-f_v)\cdot p_e \cdot(f_u - \cfrac {f_u-l_vp_e}{1-l_vp_e})
+$$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;柿子推完了，写两个 dfs 算答案即可。&lt;/p&gt;
+&lt;h2 id=&#34;spoj-4060-kpgame---a-game-with-probabilityhttpswwwspojcomproblemskpgame&#34;&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.spoj.com/problems/KPGAME/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;SPOJ 4060 KPGAME - A game with probability&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;给定一定数量的石子，两个人抛硬币，抛到正面则拿走一颗石子，否则什么都不做。拿走最后一颗石子的人胜利。&lt;br&gt;
+已知石子数量，假设双方都采用最优方案，两个人分别抛到自己想要的那一面的概率 $q,p \geqslant 0.5$ &lt;del&gt;这不唯物&lt;/del&gt;，求先手的获胜概率。&lt;/p&gt;
+&lt;p&gt;练习推式子的能力。&lt;/p&gt;
+&lt;p&gt;发现对于每一颗石子都能独立计算，考虑 DP。&lt;/p&gt;
+&lt;p&gt;设计状态：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;表示出当前到达第几颗石子&lt;/li&gt;
+&lt;li&gt;表示出当前谁拿石子
+于是得到状态：$f_{i,0/1}$ 表示 $i$ 个石子，第 $1$ 或第 $2$ 个人获胜的概率&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;显然 $f_{0,0}$ 和 $f_{0,1}$ 是两种确定结果， 则概率分别为 $1,0$ 。于是考虑倒推。&lt;/p&gt;
+&lt;p&gt;看概率的取值，说明只要我们希望抛到一个面，抛到这个面概率就会更大。&lt;br&gt;
+由于很容易判断出当前状态下应该希望取得/不取得石子（通过前一个状态的概率大小），所以不用单独表示出希望取得/不取得石子。&lt;/p&gt;
+&lt;p&gt;列式子：
+希望取得这颗石子（正面）：&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+f_{i,0} &amp;amp;= f_{i-1,1}\cdot p + f_{i,1} \cdot (1-p) \\
+f_{i,1} &amp;amp;= f_{i-1,0}\cdot q + f_{i,0} \cdot (1-q)
+\end {aligned}
+$$&lt;/p&gt;
+&lt;p&gt;发现这玩意没法递推，运用初中二元一次方程的思路，代入消元。&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+f_{i,0} &amp;amp;= f_{i-1,1}\cdot p + f_{i,1} \cdot (1-p) \\
+f_{i,0} &amp;amp;= f_{i-1,1} \cdot p + (f_{i-1,0}\cdot q + f_{i,0} \cdot (1-q))(1-p) \\
+\dots \\
+f_{i,0} &amp;amp;= \cfrac {p\cdot f_{i-1,1} + (1-p)q\cdot f_{i-1,1}}{1-(1-q)(1-p)}
+\end{aligned}
+$$&lt;/p&gt;
+&lt;p&gt;发现这玩意就可以递推了，再依照同样的方式能够列出 $f_{i,1}$ 的转移方程和不希望取得这颗石子的两个转移方程。不写过程了， 给出柿子
+希望取得：&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+f_{i,0} &amp;amp;= \cfrac {p\cdot f_{i-1,1} + (1-p)q\cdot f_{i-1,1}}{1-(1-q)(1-p)} \\
+f_{i,1} &amp;amp;= \cfrac {q\cdot f_{i-1,0} + (1-q)p\cdot f_{i-1,0}}{1-(1-p)(1-q)}
+\end {aligned}
+$$&lt;/p&gt;
+&lt;p&gt;不希望取得：&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}
+f_{i,0} = \cfrac{p(1-q)\cdot f_{i-1,0} + (1-p)\cdot f_{i-1,1}}{1-qp} \\
+f_{i,1} = \cfrac{q(1-p)\cdot f_{i-1,1} + (1-q)\cdot f_{i-1,0}}{1-qp}
+\end{aligned}
+$$&lt;/p&gt;
+&lt;p&gt;对比一下容易发现：希望取得与不希望取得的转移方程中，区别仅仅是 $p,(1-p)$ 和 $q,(1-q)$。于是，当取石子比不取石子优的时候，把 $p,q$ 把 $1$ 减一下就行了。&lt;/p&gt;
+&lt;p&gt;但是题目中 $n$ 的范围比较申必，$n \leqslant 1e9-1$，这东西怎么办？对于概率题，我们常有两种思路：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;矩阵快速幂：&amp;hellip;不好评价，转移方程貌似有点巨大&lt;/li&gt;
+&lt;li&gt;概率变化逐渐趋于稳定。可以打表测一下~~（或者提交试一下）~~，&lt;del&gt;我试出来 100 次左右就能过&lt;/del&gt;
+$n = \min(n,100)$ 即可。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
