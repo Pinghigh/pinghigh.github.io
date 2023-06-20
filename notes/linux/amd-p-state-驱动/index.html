@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="杂乱笔记" />
-<title>钛合金伞的垃圾场</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="AMD 的一个频率控制工具" />
+<title>AMD P-STATE 驱动相关问题</title>
 
-<link rel="canonical" href="https://blog.tibrella.top/notes/%E9%92%9B%E5%90%88%E9%87%91%E4%BC%9E%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9C%BA/" />
+<link rel="canonical" href="https://blog.tibrella.top/notes/linux/amd-p-state-%E9%A9%B1%E5%8A%A8/" />
 
-<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='钛合金伞的垃圾场'>
-<meta property='og:description' content='杂乱笔记'>
-<meta property='og:url' content='https://blog.tibrella.top/notes/%E9%92%9B%E5%90%88%E9%87%91%E4%BC%9E%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9C%BA/'>
+<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='AMD P-STATE 驱动相关问题'>
+<meta property='og:description' content='AMD 的一个频率控制工具'>
+<meta property='og:url' content='https://blog.tibrella.top/notes/linux/amd-p-state-%E9%A9%B1%E5%8A%A8/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
-<meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='Linux' /><meta property='article:tag' content='note' /><meta property='article:published_time' content='2023-02-24T21:40:29&#43;00:00'/><meta property='article:modified_time' content='2023-02-24T21:40:29&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
-<meta name="twitter:title" content="钛合金伞的垃圾场">
-<meta name="twitter:description" content="杂乱笔记"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='Linux' /><meta property='article:published_time' content='2023-06-20T14:00:34&#43;08:00'/><meta property='article:modified_time' content='2023-06-20T14:00:34&#43;08:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg' />
+<meta name="twitter:title" content="AMD P-STATE 驱动相关问题">
+<meta name="twitter:description" content="AMD 的一个频率控制工具"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
 
 
@@ -290,10 +290,8 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#archlinux-添加证书感谢-marisahttpsyjacksgithubio">ArchLinux 添加证书（感谢 <a href="https://yjacks.github.io/">Marisa</a>）</a></li>
-    <li><a href="#grub-提示-usrsharegrubgrub-mkconfig_lib-第-237-行printf-无效格式字符">Grub 提示 <code>/usr/share/grub/grub-mkconfig_lib: 第 237 行：printf: “$”：无效格式字符</code></a></li>
-    <li><a href="#gcc-编译提示-编译器内部错误file-size-limit-exceeded-signal-terminated-program-as">gcc 编译提示 <code>编译器内部错误：File size limit exceeded signal terminated program as</code></a></li>
-    <li><a href="#gcc-编译提示-relocation-truncated-to-fit-r_x86_64_pc32-against-bss">gcc 编译提示 <code>relocation truncated to fit: R_X86_64_PC32 against '.bss'</code></a></li>
+    <li><a href="#介绍">介绍</a></li>
+    <li><a href="#折腾">折腾</a></li>
   </ol>
 </nav>
         </div>
@@ -308,9 +306,9 @@
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/notes/%E9%92%9B%E5%90%88%E9%87%91%E4%BC%9E%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9C%BA/">
+            <a href="/notes/linux/amd-p-state-%E9%A9%B1%E5%8A%A8/">
                 
-                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" alt="Featured image of post 钛合金伞的垃圾场" />
+                    <img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" loading="lazy" alt="Featured image of post AMD P-STATE 驱动相关问题" />
                 
             </a>
         </div>
@@ -329,12 +327,12 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/notes/%E9%92%9B%E5%90%88%E9%87%91%E4%BC%9E%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9C%BA/">钛合金伞的垃圾场</a>
+            <a href="/notes/linux/amd-p-state-%E9%A9%B1%E5%8A%A8/">AMD P-STATE 驱动相关问题</a>
         </h2>
     
         
         <h3 class="article-subtitle">
-            杂乱笔记
+            AMD 的一个频率控制工具
         </h3>
         
     </div>
@@ -355,7 +353,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">Feb 24, 2023</time>
+                <time class="article-time--published">Jun 20, 2023</time>
             </div>
         
 
@@ -385,27 +383,47 @@
     <section class="article-content">
     
     
-    <h2 id="archlinux-添加证书感谢-marisahttpsyjacksgithubio">ArchLinux 添加证书（感谢 <a class="link" href="https://yjacks.github.io/"  target="_blank" rel="noopener"
-    >Marisa</a>）</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>sudo trust anchor --store myCA.crt
-</span></span></code></pre></div><h2 id="grub-提示-usrsharegrubgrub-mkconfig_lib-第-237-行printf-无效格式字符">Grub 提示 <code>/usr/share/grub/grub-mkconfig_lib: 第 237 行：printf: “$”：无效格式字符</code></h2>
-<p>在英文环境下 <code>grub-mkconfig</code> 即可</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>env LANG<span style="color:#f92672">=</span>en_US.UTF-8 sudo grub-mkconfig -o /boot/grub/grub.cfg
-</span></span></code></pre></div><h2 id="gcc-编译提示-编译器内部错误file-size-limit-exceeded-signal-terminated-program-as">gcc 编译提示 <code>编译器内部错误：File size limit exceeded signal terminated program as</code></h2>
-<p>编译的时候爆内存了</p>
-<p>可能是你用了形如</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> a[<span style="color:#ae81ff">100000010</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>};
-</span></span></code></pre></div><p>的语句进行初始化。<br>
-这个语句虽然只会给你的 $a_0, a_1$ 赋值，但是在编译预处理和程序运行的过程时，它都会将数组全部展开再进行赋值/初始化</p>
-<p>所以还是老老实实赋值吧</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> a[<span style="color:#ae81ff">100000010</span>];
-</span></span><span style="display:flex;"><span>a[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> a[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
-</span></span></code></pre></div><h2 id="gcc-编译提示-relocation-truncated-to-fit-r_x86_64_pc32-against-bss">gcc 编译提示 <code>relocation truncated to fit: R_X86_64_PC32 against '.bss'</code></h2>
-<p>静态数组爆内存了，一般的解决方法是加编译选项</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>g++ test.cxx -o test -mcmodel<span style="color:#f92672">=</span>medium
-</span></span></code></pre></div><p>或者</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>g++ test.cxx -o test -mcmodel<span style="color:#f92672">=</span>large
-</span></span></code></pre></div><p><del>其实换 clang++ 编译有的时候就能过</del> <del>但是测评机肯定还是 gcc ，所以应该考虑下自己是不是写错数了</del></p>
+    <h2 id="介绍">介绍</h2>
+<blockquote>
+<p><code>amd-pstate</code> 是 AMD CPU 性能扩展驱动程序，它在 Linux 内核的现代 AMD APU 和 CPU 系列上引入了新的 CPU 频率控制机制。新机制基于协作处理器性能控制 (CPPC)，它提供比传统 ACPI 硬件 P-States 更精细的频率管理。当前的 AMD CPU/APU 平台使用 ACPI P-states 驱动程序来管理 CPU 频率和时钟，仅在 3 个 P-states 中切换。 CPPC 取代了 ACPI P-states 控件，并允许 Linux 内核使用灵活、低延迟的接口直接将性能提示传达给硬件 （摘自 <a class="link" href="https://www.kernel.org/doc/html/latest/admin-guide/pm/amd-pstate.html#:~:text=amd-pstate%20is%20the%20AMD%20CPU%20performance%20scaling%20driver,grain%20frequency%20management%20than%20legacy%20ACPI%20hardware%20P-States."  target="_blank" rel="noopener"
+    >Kernel Docs</a>）</p>
+</blockquote>
+<h2 id="折腾">折腾</h2>
+<p>这玩意支持 AMD ZEN 2 和更新版本，我的荣耀本使用 R7-4800H，理论上可以跑，于是按照 <a class="link" href="https://note.ay1.us/#/15-amd-cpufreq"  target="_blank" rel="noopener"
+    >Aya 的博客</a> 添加了内核参数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>zfs set org.zfsbootmenu:commandline<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;rw amd_pstate=passive&#34;</span> zroot/ROOT
+</span></span></code></pre></div><p>然后就没管了。</p>
+<p>有一天忘记从哪里又看见了 AMD P-State，然后发现一个验证方法，跑了一下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>acpi-cpufreq
+</span></span></code></pre></div><p>我去，这我可忍不了。于是我先检查内核 module 有没有 AMD P-State 存在，结果是没有。但是检查内核 config</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>zcat /proc/config.gz | grep PSTATE
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>CONFIG_X86_AMD_PSTATE<span style="color:#f92672">=</span>y
+</span></span></code></pre></div><p>那得了，这玩意都 built-in 了咋可能不存在？于是检查日志：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>journalctl -b <span style="color:#ae81ff">0</span> | grep pstate
+</span></span></code></pre></div><p><del>经过群友提醒，我使用翻译发现第一次设置的 passive 可能出了些幽灵字符导致无法识别，再设置一次才出现了根本问题</del></p>
+<p>得到</p>
+<pre tabindex="0"><code class="language-log" data-lang="log">_CPC object is not present in SBIOS
+</code></pre><p>哈哈荣耀操你妈的，这问题不就一眼顶针了？傻逼厂商的傻逼主板又没有把 CPPC 的选项留给我自己设置捏。</p>
+<p>tg 群里：<br>
+我：好像是硬件的问题，傻逼荣耀。<br>
+tg 群友：试试 <a class="link" href="https://github.com/DavidS95/Smokeless_UMAF"  target="_blank" rel="noopener"
+    >Smokeless_UMAF</a>？discussion 里有 CPPC 相关的东西。</p>
+<p>随后我想起来当时用 Smokeless_UMAF 把傻逼荣耀设置的 512M 显存干到 4G 的过程，心想这玩意也能设置？事实上，是的。</p>
+<p>我手上有一个现成的 ventoy 盘，于是直接拿来使用，扔进去 <a class="link" href="https://github.com/mio-19/UniversalAMDFormBrowser-Ventoy"  target="_blank" rel="noopener"
+    >为 ventoy 提前制作好的 img 镜像</a> 就能启动了。</p>
+<p>另外提醒一句，UMAF 基于一个漏洞，这个漏洞貌似联想在去年三月份就修复了，所以不一定能正常启动。蛤蛤，但是傻逼荣耀已经三年没更新过任何驱动了，所以我怕个吊，直接开干。<br>
+同时，这玩意不开源，恶意代码存在可能性待议，但是利用漏洞 Hack 主板设置肯定有变砖的风险存在。因此 USE AT YOUR OWN RISK。有条件的建议备份一下 BIOS（有刷写工具的情况下），或者直接买<del>六七个</del> BIOS 芯片，坏了直接换上。</p>
+<p>但是我电脑太冷门了，没有卖的，手上还没有刷写工具，但是保修期内，大不了送回去修，我还有机房电脑可以用。</p>
+<p>按照 <a class="link" href="https://github.com/DavidS95/Smokeless_UMAF/discussions/29"  target="_blank" rel="noopener"
+    >discussion #29</a> 的做法，进入 Device Manager - AMD CBS - NBIO - SMU page，启用 CPPC，直接一路 esc 出来，它会提醒你选择是否保存，保存后会直接重启。</p>
+<p>再次</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>amd-pstate
+</span></span></code></pre></div><p>就这样，没了，感谢阅读。</p>
 
 </section>
 
@@ -415,8 +433,6 @@
     <section class="article-tags">
         
             <a href="/tags/linux/">Linux</a>
-        
-            <a href="/tags/note/">note</a>
         
     </section>
 
@@ -483,25 +499,6 @@
             
                 
 <article class="has-image">
-    <a href="/notes/linux/amd-p-state-%E9%A9%B1%E5%8A%A8/">
-        
-        
-            <div class="article-image">
-                
-                    <img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg"/>
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">AMD P-STATE 驱动相关问题</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
     <a href="/notes/linux/noi-linux-%E7%9B%B8%E5%85%B3/">
         
         
@@ -514,6 +511,25 @@
 
         <div class="article-details">
             <h2 class="article-title">NOI Linux 指北</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/%E9%92%9B%E5%90%88%E9%87%91%E4%BC%9E%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9C%BA/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">钛合金伞的垃圾场</h2>
         </div>
     </a>
 </article>

@@ -6,7 +6,56 @@
         <description>Recent content in Linux on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Sat, 13 May 2023 20:42:41 +0000</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/linux/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 20 Jun 2023 14:00:34 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/linux/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>AMD P-STATE 驱动相关问题</title>
+        <link>https://blog.tibrella.top/notes/linux/amd-p-state-%E9%A9%B1%E5%8A%A8/</link>
+        <pubDate>Tue, 20 Jun 2023 14:00:34 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/linux/amd-p-state-%E9%A9%B1%E5%8A%A8/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/639b2768b1fccdcd36e13360.jpg" alt="Featured image of post AMD P-STATE 驱动相关问题" /&gt;&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;amd-pstate&lt;/code&gt; 是 AMD CPU 性能扩展驱动程序，它在 Linux 内核的现代 AMD APU 和 CPU 系列上引入了新的 CPU 频率控制机制。新机制基于协作处理器性能控制 (CPPC)，它提供比传统 ACPI 硬件 P-States 更精细的频率管理。当前的 AMD CPU/APU 平台使用 ACPI P-states 驱动程序来管理 CPU 频率和时钟，仅在 3 个 P-states 中切换。 CPPC 取代了 ACPI P-states 控件，并允许 Linux 内核使用灵活、低延迟的接口直接将性能提示传达给硬件 （摘自 &lt;a class=&#34;link&#34; href=&#34;https://www.kernel.org/doc/html/latest/admin-guide/pm/amd-pstate.html#:~:text=amd-pstate%20is%20the%20AMD%20CPU%20performance%20scaling%20driver,grain%20frequency%20management%20than%20legacy%20ACPI%20hardware%20P-States.&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Kernel Docs&lt;/a&gt;）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;折腾&#34;&gt;折腾&lt;/h2&gt;
+&lt;p&gt;这玩意支持 AMD ZEN 2 和更新版本，我的荣耀本使用 R7-4800H，理论上可以跑，于是按照 &lt;a class=&#34;link&#34; href=&#34;https://note.ay1.us/#/15-amd-cpufreq&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Aya 的博客&lt;/a&gt; 添加了内核参数&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zfs set org.zfsbootmenu:commandline&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rw amd_pstate=passive&amp;#34;&lt;/span&gt; zroot/ROOT
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后就没管了。&lt;/p&gt;
+&lt;p&gt;有一天忘记从哪里又看见了 AMD P-State，然后发现一个验证方法，跑了一下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;acpi-cpufreq
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我去，这我可忍不了。于是我先检查内核 module 有没有 AMD P-State 存在，结果是没有。但是检查内核 config&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zcat /proc/config.gz | grep PSTATE
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;CONFIG_X86_AMD_PSTATE&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;y
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;那得了，这玩意都 built-in 了咋可能不存在？于是检查日志：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;journalctl -b &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; | grep pstate
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;del&gt;经过群友提醒，我使用翻译发现第一次设置的 passive 可能出了些幽灵字符导致无法识别，再设置一次才出现了根本问题&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;得到&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-log&#34; data-lang=&#34;log&#34;&gt;_CPC object is not present in SBIOS
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;哈哈荣耀操你妈的，这问题不就一眼顶针了？傻逼厂商的傻逼主板又没有把 CPPC 的选项留给我自己设置捏。&lt;/p&gt;
+&lt;p&gt;tg 群里：&lt;br&gt;
+我：好像是硬件的问题，傻逼荣耀。&lt;br&gt;
+tg 群友：试试 &lt;a class=&#34;link&#34; href=&#34;https://github.com/DavidS95/Smokeless_UMAF&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Smokeless_UMAF&lt;/a&gt;？discussion 里有 CPPC 相关的东西。&lt;/p&gt;
+&lt;p&gt;随后我想起来当时用 Smokeless_UMAF 把傻逼荣耀设置的 512M 显存干到 4G 的过程，心想这玩意也能设置？事实上，是的。&lt;/p&gt;
+&lt;p&gt;我手上有一个现成的 ventoy 盘，于是直接拿来使用，扔进去 &lt;a class=&#34;link&#34; href=&#34;https://github.com/mio-19/UniversalAMDFormBrowser-Ventoy&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;为 ventoy 提前制作好的 img 镜像&lt;/a&gt; 就能启动了。&lt;/p&gt;
+&lt;p&gt;另外提醒一句，UMAF 基于一个漏洞，这个漏洞貌似联想在去年三月份就修复了，所以不一定能正常启动。蛤蛤，但是傻逼荣耀已经三年没更新过任何驱动了，所以我怕个吊，直接开干。&lt;br&gt;
+同时，这玩意不开源，恶意代码存在可能性待议，但是利用漏洞 Hack 主板设置肯定有变砖的风险存在。因此 USE AT YOUR OWN RISK。有条件的建议备份一下 BIOS（有刷写工具的情况下），或者直接买&lt;del&gt;六七个&lt;/del&gt; BIOS 芯片，坏了直接换上。&lt;/p&gt;
+&lt;p&gt;但是我电脑太冷门了，没有卖的，手上还没有刷写工具，但是保修期内，大不了送回去修，我还有机房电脑可以用。&lt;/p&gt;
+&lt;p&gt;按照 &lt;a class=&#34;link&#34; href=&#34;https://github.com/DavidS95/Smokeless_UMAF/discussions/29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;discussion #29&lt;/a&gt; 的做法，进入 Device Manager - AMD CBS - NBIO - SMU page，启用 CPPC，直接一路 esc 出来，它会提醒你选择是否保存，保存后会直接重启。&lt;/p&gt;
+&lt;p&gt;再次&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;amd-pstate
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;就这样，没了，感谢阅读。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>面向新手的 Arch Linux 作为第二系统的安装指南</title>
         <link>https://blog.tibrella.top/notes/linux/%E9%9D%A2%E5%90%91%E6%96%B0%E6%89%8B%E7%9A%84-arch-linux-%E4%BD%9C%E4%B8%BA%E7%AC%AC%E4%BA%8C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/</link>
         <pubDate>Sat, 13 May 2023 20:42:41 +0000</pubDate>
