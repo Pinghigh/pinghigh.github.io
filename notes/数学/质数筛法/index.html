@@ -6,7 +6,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E8%B4%A8%E6%95%B0%E7%AD%9B%E6%B3%95/" />
 
-<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='质数筛法'>
+<link rel="stylesheet" href="/scss/style.min.728d06729a1c59be2f9dd572948bce23a539c64c94665e2a2c51bd1cc20a3908.css"><meta property='og:title' content='质数筛法'>
 <meta property='og:description' content='埃式筛与线性筛'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E8%B4%A8%E6%95%B0%E7%AD%9B%E6%B3%95/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -16,7 +16,12 @@
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
 
-
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/littlefoot/dist/littlefoot.css" />
+<script
+    src="https://unpkg.com/littlefoot/dist/littlefoot.js"
+    type="application/javascript"></script>
 
 <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>
@@ -63,7 +68,7 @@
             <figure class="site-avatar">
                 <a href="/">
                 
-                    <img src="/img/avatar.jpg" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    <img src="/img/avatar.webp" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
                 
                 </a>
                 
@@ -75,7 +80,7 @@
         
         <div class="site-meta">
             <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
-            <h2 class="site-description">将梦想化为残机，我们就仍能飞翔</h2>
+            <h2 class="site-description">去寻找能放射人间的弓吧！</h2>
         </div>
     </header><ol class="social-menu">
             
@@ -261,7 +266,7 @@
 
 
 
-                    <span>暗色模式</span>
+                    <span>露米娅来了</span>
                 </li>
             
         </div>
@@ -384,38 +389,38 @@
     
     
     <h2 id="埃氏筛">埃氏筛</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>2 3 4 5 6 7 8 9
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>2 3 ~~4~~ 5 ~~6~~ 7 ~~8~~ 9 //筛掉2的倍数
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>2 3 5 7 ~~9~~ //筛掉3的倍数
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">2 3 4 5 6 7 8 9
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">2 3 ~~4~~ 5 ~~6~~ 7 ~~8~~ 9 //筛掉2的倍数
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">2 3 5 7 ~~9~~ //筛掉3的倍数
 </span></span></code></pre></div><p>例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstdio&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cmath&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> b[<span style="color:#ae81ff">100000005</span>];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n;
-</span></span><span style="display:flex;"><span>    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>,<span style="color:#f92672">&amp;</span>n);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> sqrt(n); i<span style="color:#f92672">++</span>) { <span style="color:#75715e">// 注意枚举质数的范围
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>b[i]){ <span style="color:#75715e">// b[i]值为0表示i为质数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i; j <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">/</span>i; j<span style="color:#f92672">++</span>) { <span style="color:#75715e">// 筛掉i的倍数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                b[i<span style="color:#f92672">*</span>j]<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;
-</span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>b[i]){
-</span></span><span style="display:flex;"><span>            printf(<span style="color:#e6db74">&#34;%d &#34;</span>,i);
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">b</span><span class="p">[</span><span class="mi">100000005</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 注意枚举质数的范围
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span> <span class="c1">// b[i]值为0表示i为质数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">/</span><span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 筛掉i的倍数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]){</span>
+</span></span><span class="line"><span class="cl">            <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d &#34;</span><span class="p">,</span><span class="n">i</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>11 行处为一个小优化：$i$ 的倍数从 $i^2$ 开始枚举 （考虑 $j = k\cdot i&lt;i\cdot i$， $j$ 一定会被 $k$ 的质因数筛去）</p>
 <p>举个例子：筛 $2$ 的倍数时，被打标记的数字分别是</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-TEXT" data-lang="TEXT"><span style="display:flex;"><span>2*2,2*3,2*4......2*n/2
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TEXT" data-lang="TEXT"><span class="line"><span class="cl">2*2,2*3,2*4......2*n/2
 </span></span></code></pre></div><p>那么我们筛 $i$ 的倍数时，无优化算法被打标记的数分别是</p>
 <pre tabindex="0"><code>i*2,i*3,i*4.......i*n/i
 </code></pre><p>可以发现，$2i$ 和 $4i$ (即 $2\cdot 2i$)在枚举 $2$ 的倍数时已经被打过标记了<br>
@@ -424,26 +429,26 @@
     >线性筛</a> (转载)</h2>
 <p>初始时，假设全部都是素数，当找到一个素数时，显然这个素数乘上另外一个数之后都是合数。如果按照埃氏筛做法枚举每个质数的倍数，会造成重复筛除，影响效率。</p>
 <p>例如 $30=5\times 3\times 2$，它被 $2\times 15$ 筛了一次，又被 $3\times 10$ 筛了一次，为了解决这个问题，线性筛应运而生：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> mark[MAXN];  
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> prime[MAXN];  
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//判断是否是一个素数  Mark 标记数组 index 素数个数  
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">Prime</span>(<span style="color:#66d9ef">int</span> n){  
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;  
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>){  
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//如果未标记则得到一个素数  
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span>(mark[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) prime[<span style="color:#f92672">++</span>index] <span style="color:#f92672">=</span> i;  
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//标记目前得到的素数的i倍为非素数  
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> index <span style="color:#f92672">&amp;&amp;</span> prime[j] <span style="color:#f92672">*</span> i <span style="color:#f92672">&lt;</span> n; j<span style="color:#f92672">++</span>){  
-</span></span><span style="display:flex;"><span>            mark[i <span style="color:#f92672">*</span> prime[j]] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(i <span style="color:#f92672">%</span> prime[j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">break</span>;  
-</span></span><span style="display:flex;"><span>        }  
-</span></span><span style="display:flex;"><span>    }  
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> index;  
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">mark</span><span class="p">[</span><span class="n">MAXN</span><span class="p">];</span>  
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">prime</span><span class="p">[</span><span class="n">MAXN</span><span class="p">];</span>  
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="c1">//判断是否是一个素数  Mark 标记数组 index 素数个数  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">int</span> <span class="nf">Prime</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>  
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>  
+</span></span><span class="line"><span class="cl">        <span class="c1">//如果未标记则得到一个素数  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span><span class="p">(</span><span class="n">mark</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="n">prime</span><span class="p">[</span><span class="o">++</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">        <span class="c1">//标记目前得到的素数的i倍为非素数  
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">index</span> <span class="o">&amp;&amp;</span> <span class="n">prime</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>  
+</span></span><span class="line"><span class="cl">            <span class="n">mark</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">prime</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="n">prime</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>  
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">index</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>利用了每个合数必有一个最小素因子。每个合数仅被它的最小素因子筛去正好一次。所以为线性时间。<br>
 代码中体现在：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(i<span style="color:#f92672">%</span>prime[j]<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">break</span>;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">%</span><span class="n">prime</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
 </span></span></code></pre></div><p>$prime$ 数组中的素数是递增的,当 $i$ 能整除 $prime_j$，那么 $i\cdot prime_{j+1}$ 这个合数肯定也可以被 $prime_j$ 筛掉，因为 $i$ 中含有 $prime_j$, $prime_j$ 比 $prime_{j+1}$ 小。</p>
 <p>接下去的素数同理，所以不用筛下去了。 <br>
 在满足 $i\  \bmod \ prime_j = 0$ 这个条件之前以及第一次满足该条件时,$prime_j$ 必定是 $prime_j\cdot i$ 的最小因子</p>

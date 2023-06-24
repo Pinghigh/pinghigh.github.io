@@ -23,7 +23,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E5%9B%BE%E8%AE%BA/%E5%9B%BE%E8%AE%BA%E5%9F%BA%E7%A1%80/" />
 
-<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='图论基础'>
+<link rel="stylesheet" href="/scss/style.min.728d06729a1c59be2f9dd572948bce23a539c64c94665e2a2c51bd1cc20a3908.css"><meta property='og:title' content='图论基础'>
 <meta property='og:description' content='图论是嗜血分支1，相应的，图论基础并没有什么太多需要思考的东西，只有一堆该死的概念等着记，有如绳之以法抽象了
 基本概念 图 由顶点（点）（Vertex）的集合和边（Edge）的集合组成，记为 $\mathbb{G} = (\mathbb{V}&#43;\mathbb{E})$
 点的集合用 $\mathbb{V(G)}$ 表示，点用 $u,v$ 等符号表示
@@ -67,7 +67,12 @@
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
 
-
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/littlefoot/dist/littlefoot.css" />
+<script
+    src="https://unpkg.com/littlefoot/dist/littlefoot.js"
+    type="application/javascript"></script>
 
 <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>
@@ -114,7 +119,7 @@
             <figure class="site-avatar">
                 <a href="/">
                 
-                    <img src="/img/avatar.jpg" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    <img src="/img/avatar.webp" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
                 
                 </a>
                 
@@ -126,7 +131,7 @@
         
         <div class="site-meta">
             <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
-            <h2 class="site-description">将梦想化为残机，我们就仍能飞翔</h2>
+            <h2 class="site-description">去寻找能放射人间的弓吧！</h2>
         </div>
     </header><ol class="social-menu">
             
@@ -312,7 +317,7 @@
 
 
 
-                    <span>暗色模式</span>
+                    <span>露米娅来了</span>
                 </li>
             
         </div>
@@ -573,11 +578,11 @@
 <p>用链表实现的邻接表</p>
 <p>先说链表，顾名思义，链状链接的列表，在这里我们把同一个起点边存到一个链表里。</p>
 <p>开一个结构体存链的每一个元素</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">edge</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> data;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> to;
-</span></span><span style="display:flex;"><span>    edge <span style="color:#f92672">*</span>nex;
-</span></span><span style="display:flex;"><span>};
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">edge</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">to</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">edge</span> <span class="o">*</span><span class="n">nex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre></div><p>显然，把链表每一个部分连接起来的东西就是指针 <code>nex</code>，<code>nex</code> 指向当前元素的下一个元素的地址。
 当然，如果开一个数组存储所有的元素，地址可以改为存储下标，即 <code>nex</code> 可以是一个整数，存储下一个元素在数组里的下标。</p>
 <div class="footnotes" role="doc-endnotes">

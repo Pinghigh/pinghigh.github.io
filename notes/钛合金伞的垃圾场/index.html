@@ -6,7 +6,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E9%92%9B%E5%90%88%E9%87%91%E4%BC%9E%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9C%BA/" />
 
-<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='钛合金伞的垃圾场'>
+<link rel="stylesheet" href="/scss/style.min.728d06729a1c59be2f9dd572948bce23a539c64c94665e2a2c51bd1cc20a3908.css"><meta property='og:title' content='钛合金伞的垃圾场'>
 <meta property='og:description' content='杂乱笔记'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/%E9%92%9B%E5%90%88%E9%87%91%E4%BC%9E%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9C%BA/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -16,7 +16,12 @@
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
 
-
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/littlefoot/dist/littlefoot.css" />
+<script
+    src="https://unpkg.com/littlefoot/dist/littlefoot.js"
+    type="application/javascript"></script>
 
 <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>
@@ -63,7 +68,7 @@
             <figure class="site-avatar">
                 <a href="/">
                 
-                    <img src="/img/avatar.jpg" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    <img src="/img/avatar.webp" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
                 
                 </a>
                 
@@ -75,7 +80,7 @@
         
         <div class="site-meta">
             <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
-            <h2 class="site-description">将梦想化为残机，我们就仍能飞翔</h2>
+            <h2 class="site-description">去寻找能放射人间的弓吧！</h2>
         </div>
     </header><ol class="social-menu">
             
@@ -261,7 +266,7 @@
 
 
 
-                    <span>暗色模式</span>
+                    <span>露米娅来了</span>
                 </li>
             
         </div>
@@ -387,24 +392,24 @@
     
     <h2 id="archlinux-添加证书感谢-marisahttpsyjacksgithubio">ArchLinux 添加证书（感谢 <a class="link" href="https://yjacks.github.io/"  target="_blank" rel="noopener"
     >Marisa</a>）</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>sudo trust anchor --store myCA.crt
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">sudo trust anchor --store myCA.crt
 </span></span></code></pre></div><h2 id="grub-提示-usrsharegrubgrub-mkconfig_lib-第-237-行printf-无效格式字符">Grub 提示 <code>/usr/share/grub/grub-mkconfig_lib: 第 237 行：printf: “$”：无效格式字符</code></h2>
 <p>在英文环境下 <code>grub-mkconfig</code> 即可</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SHELL" data-lang="SHELL"><span style="display:flex;"><span>env LANG<span style="color:#f92672">=</span>en_US.UTF-8 sudo grub-mkconfig -o /boot/grub/grub.cfg
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">env <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8 sudo grub-mkconfig -o /boot/grub/grub.cfg
 </span></span></code></pre></div><h2 id="gcc-编译提示-编译器内部错误file-size-limit-exceeded-signal-terminated-program-as">gcc 编译提示 <code>编译器内部错误：File size limit exceeded signal terminated program as</code></h2>
 <p>编译的时候爆内存了</p>
 <p>可能是你用了形如</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> a[<span style="color:#ae81ff">100000010</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>};
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">a</span><span class="p">[</span><span class="mi">100000010</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">};</span>
 </span></span></code></pre></div><p>的语句进行初始化。<br>
 这个语句虽然只会给你的 $a_0, a_1$ 赋值，但是在编译预处理和程序运行的过程时，它都会将数组全部展开再进行赋值/初始化</p>
 <p>所以还是老老实实赋值吧</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> a[<span style="color:#ae81ff">100000010</span>];
-</span></span><span style="display:flex;"><span>a[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> a[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">a</span><span class="p">[</span><span class="mi">100000010</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 </span></span></code></pre></div><h2 id="gcc-编译提示-relocation-truncated-to-fit-r_x86_64_pc32-against-bss">gcc 编译提示 <code>relocation truncated to fit: R_X86_64_PC32 against '.bss'</code></h2>
 <p>静态数组爆内存了，一般的解决方法是加编译选项</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>g++ test.cxx -o test -mcmodel<span style="color:#f92672">=</span>medium
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">g++ test.cxx -o <span class="nb">test</span> -mcmodel<span class="o">=</span>medium
 </span></span></code></pre></div><p>或者</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>g++ test.cxx -o test -mcmodel<span style="color:#f92672">=</span>large
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">g++ test.cxx -o <span class="nb">test</span> -mcmodel<span class="o">=</span>large
 </span></span></code></pre></div><p><del>其实换 clang++ 编译有的时候就能过</del> <del>但是测评机肯定还是 gcc ，所以应该考虑下自己是不是写错数了</del></p>
 
 </section>

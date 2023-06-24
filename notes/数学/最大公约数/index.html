@@ -6,7 +6,7 @@
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/" />
 
-<link rel="stylesheet" href="/scss/style.min.cd6edc42bbe27019cb04d712cd5cbbb8ba800ca943d34eaed5c1a2e5a4ac376d.css"><meta property='og:title' content='gcd 最大公约数'>
+<link rel="stylesheet" href="/scss/style.min.728d06729a1c59be2f9dd572948bce23a539c64c94665e2a2c51bd1cc20a3908.css"><meta property='og:title' content='gcd 最大公约数'>
 <meta property='og:description' content='记录了一些 gcd 算法'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
@@ -16,7 +16,12 @@
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
 
-
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/littlefoot/dist/littlefoot.css" />
+<script
+    src="https://unpkg.com/littlefoot/dist/littlefoot.js"
+    type="application/javascript"></script>
 
 <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>
@@ -63,7 +68,7 @@
             <figure class="site-avatar">
                 <a href="/">
                 
-                    <img src="/img/avatar.jpg" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    <img src="/img/avatar.webp" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
                 
                 </a>
                 
@@ -75,7 +80,7 @@
         
         <div class="site-meta">
             <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
-            <h2 class="site-description">将梦想化为残机，我们就仍能飞翔</h2>
+            <h2 class="site-description">去寻找能放射人间的弓吧！</h2>
         </div>
     </header><ol class="social-menu">
             
@@ -261,7 +266,7 @@
 
 
 
-                    <span>暗色模式</span>
+                    <span>露米娅来了</span>
                 </li>
             
         </div>
@@ -390,33 +395,33 @@
     <h2 id="最大公约数">最大公约数</h2>
 <h3 id="辗转相除法求最大公约数">辗转相除法求最大公约数</h3>
 <p>例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>70 % 50 = 20
-</span></span><span style="display:flex;"><span>50 % 20 = 10
-</span></span><span style="display:flex;"><span>20 % 10 = 0
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">70 % 50 = 20
+</span></span><span class="line"><span class="cl">50 % 20 = 10
+</span></span><span class="line"><span class="cl">20 % 10 = 0
 </span></span></code></pre></div><p>取模到0为止，此时10就是70、50最大公约数</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> a,b,r;
-</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> a <span style="color:#f92672">&gt;&gt;</span> b;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (a <span style="color:#f92672">%</span> b <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>){
-</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> a <span style="color:#f92672">%</span> b;
-</span></span><span style="display:flex;"><span>        a <span style="color:#f92672">=</span> b;
-</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">=</span> r;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">r</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">a</span> <span class="o">&gt;&gt;</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">a</span> <span class="o">%</span> <span class="n">b</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">r</span> <span class="o">=</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">a</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b</span> <span class="o">=</span> <span class="n">r</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h3 id="更相减损术求最大公约数">更相减损术求最大公约数</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>54 24
-</span></span><span style="display:flex;"><span>|        除以2（可除可不除，除后方便计算）
-</span></span><span style="display:flex;"><span>V
-</span></span><span style="display:flex;"><span>27 12
-</span></span><span style="display:flex;"><span>27-12=15    大减小
-</span></span><span style="display:flex;"><span>...
-</span></span><span style="display:flex;"><span>...
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>6-3=3
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">54 24
+</span></span><span class="line"><span class="cl">|        除以2（可除可不除，除后方便计算）
+</span></span><span class="line"><span class="cl">V
+</span></span><span class="line"><span class="cl">27 12
+</span></span><span class="line"><span class="cl">27-12=15    大减小
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">6-3=3
 </span></span></code></pre></div><p>此处3=3,所以最大公约数为3</p>
 
 </section>
