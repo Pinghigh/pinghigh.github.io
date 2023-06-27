@@ -1,33 +1,30 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="#include &amp;lt;stdio.h&amp;gt; int main() { int k,sum=0; while (scanf(&amp;#34;%d&amp;#34;,&amp;amp;k) != EOF) // EOF是读取结束标识 // 又因为 scanf 在读取到 EOF 会返回 -1，所以也可以写成 while (~scanf(&amp;#34;%d&amp;#34;,&amp;amp;k)) { sum &#43;= 1; } printf(&amp;#34;%d&amp;#34;,sum); return 0; } 另外一点值得注意的是，关于使用 cin &amp;gt;&amp;gt; x 时的返回值并不是 cin 的返回值，cin 只是一个对象，而实际进行运算的是流运算符 &amp;gt;&amp;gt;。1
-Windows系统输入 2
-1 2 3 ^z GNU/Linux输入
+<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="#include &amp;lt;stdio.h&amp;gt; int main() { int k,sum=0; while (scanf(&amp;#34;%d&amp;#34;,&amp;amp;k) != EOF) // EOF是读取结束标识 // 又因为 scanf 在读取到 EOF 会返回 -1，所以也可以写成 while (~scanf(&amp;#34;%d&amp;#34;,&amp;amp;k)) { sum &#43;= 1; } printf(&amp;#34;%d&amp;#34;,sum); return 0; } 另外一点值得注意的是，关于使用 cin &amp;gt;&amp;gt; x 时的返回值并不是 cin 的返回值，cin 只是一个对象，而实际进行运算的是流运算符 &amp;gt;&amp;gt;。
+Windows 系统输入 1
+1 2 3 ^z GNU/Linux 输入
 1 2 3 ^d 输出
-3 查到的，你问我流运算符是啥我也不知道&amp;#160;&amp;#x21a9;&amp;#xfe0e;
-本文中^z、^d都指组合键，^d为Ctrl&#43;D，^z为Ctrl&#43;Z。&amp;#160;&amp;#x21a9;&amp;#xfe0e;" />
+3 本文中^z、^d 都指组合键，^d 为 Ctrl&#43;D，^z 为 Ctrl&#43;Z。&amp;#160;&amp;#x21a9;&amp;#xfe0e;" />
 <title>读入未知数量的数据</title>
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/c&#43;&#43;/%E8%AF%BB%E5%85%A5%E6%9C%AA%E7%9F%A5%E6%95%B0%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE/" />
 
 <link rel="stylesheet" href="/scss/style.min.728d06729a1c59be2f9dd572948bce23a539c64c94665e2a2c51bd1cc20a3908.css"><meta property='og:title' content='读入未知数量的数据'>
-<meta property='og:description' content='#include &amp;lt;stdio.h&amp;gt; int main() { int k,sum=0; while (scanf(&amp;#34;%d&amp;#34;,&amp;amp;k) != EOF) // EOF是读取结束标识 // 又因为 scanf 在读取到 EOF 会返回 -1，所以也可以写成 while (~scanf(&amp;#34;%d&amp;#34;,&amp;amp;k)) { sum &#43;= 1; } printf(&amp;#34;%d&amp;#34;,sum); return 0; } 另外一点值得注意的是，关于使用 cin &amp;gt;&amp;gt; x 时的返回值并不是 cin 的返回值，cin 只是一个对象，而实际进行运算的是流运算符 &amp;gt;&amp;gt;。1
-Windows系统输入 2
-1 2 3 ^z GNU/Linux输入
+<meta property='og:description' content='#include &amp;lt;stdio.h&amp;gt; int main() { int k,sum=0; while (scanf(&amp;#34;%d&amp;#34;,&amp;amp;k) != EOF) // EOF是读取结束标识 // 又因为 scanf 在读取到 EOF 会返回 -1，所以也可以写成 while (~scanf(&amp;#34;%d&amp;#34;,&amp;amp;k)) { sum &#43;= 1; } printf(&amp;#34;%d&amp;#34;,sum); return 0; } 另外一点值得注意的是，关于使用 cin &amp;gt;&amp;gt; x 时的返回值并不是 cin 的返回值，cin 只是一个对象，而实际进行运算的是流运算符 &amp;gt;&amp;gt;。
+Windows 系统输入 1
+1 2 3 ^z GNU/Linux 输入
 1 2 3 ^d 输出
-3 查到的，你问我流运算符是啥我也不知道&amp;#160;&amp;#x21a9;&amp;#xfe0e;
-本文中^z、^d都指组合键，^d为Ctrl&#43;D，^z为Ctrl&#43;Z。&amp;#160;&amp;#x21a9;&amp;#xfe0e;'>
+3 本文中^z、^d 都指组合键，^d 为 Ctrl&#43;D，^z 为 Ctrl&#43;Z。&amp;#160;&amp;#x21a9;&amp;#xfe0e;'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/c&#43;&#43;/%E8%AF%BB%E5%85%A5%E6%9C%AA%E7%9F%A5%E6%95%B0%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
 <meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='读入' /><meta property='article:tag' content='C&#43;&#43;' /><meta property='article:published_time' content='2022-07-14T22:01:08&#43;00:00'/><meta property='article:modified_time' content='2023-01-15T14:05:20&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <meta name="twitter:title" content="读入未知数量的数据">
-<meta name="twitter:description" content="#include &amp;lt;stdio.h&amp;gt; int main() { int k,sum=0; while (scanf(&amp;#34;%d&amp;#34;,&amp;amp;k) != EOF) // EOF是读取结束标识 // 又因为 scanf 在读取到 EOF 会返回 -1，所以也可以写成 while (~scanf(&amp;#34;%d&amp;#34;,&amp;amp;k)) { sum &#43;= 1; } printf(&amp;#34;%d&amp;#34;,sum); return 0; } 另外一点值得注意的是，关于使用 cin &amp;gt;&amp;gt; x 时的返回值并不是 cin 的返回值，cin 只是一个对象，而实际进行运算的是流运算符 &amp;gt;&amp;gt;。1
-Windows系统输入 2
-1 2 3 ^z GNU/Linux输入
+<meta name="twitter:description" content="#include &amp;lt;stdio.h&amp;gt; int main() { int k,sum=0; while (scanf(&amp;#34;%d&amp;#34;,&amp;amp;k) != EOF) // EOF是读取结束标识 // 又因为 scanf 在读取到 EOF 会返回 -1，所以也可以写成 while (~scanf(&amp;#34;%d&amp;#34;,&amp;amp;k)) { sum &#43;= 1; } printf(&amp;#34;%d&amp;#34;,sum); return 0; } 另外一点值得注意的是，关于使用 cin &amp;gt;&amp;gt; x 时的返回值并不是 cin 的返回值，cin 只是一个对象，而实际进行运算的是流运算符 &amp;gt;&amp;gt;。
+Windows 系统输入 1
+1 2 3 ^z GNU/Linux 输入
 1 2 3 ^d 输出
-3 查到的，你问我流运算符是啥我也不知道&amp;#160;&amp;#x21a9;&amp;#xfe0e;
-本文中^z、^d都指组合键，^d为Ctrl&#43;D，^z为Ctrl&#43;Z。&amp;#160;&amp;#x21a9;&amp;#xfe0e;"><meta name="twitter:card" content="summary_large_image">
+3 本文中^z、^d 都指组合键，^d 为 Ctrl&#43;D，^z 为 Ctrl&#43;Z。&amp;#160;&amp;#x21a9;&amp;#xfe0e;"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
 
@@ -378,11 +375,11 @@ Windows系统输入 2
 </span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span><span class="n">sum</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></div><p>另外一点值得注意的是，关于使用 <code>cin &gt;&gt; x</code> 时的返回值并不是 <code>cin</code> 的返回值，<code>cin</code> 只是一个对象，而实际进行运算的是流运算符 <code>&gt;&gt;</code>。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
-<p>Windows系统输入 <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+</span></span></code></pre></div><p>另外一点值得注意的是，关于使用 <code>cin &gt;&gt; x</code> 时的返回值并不是 <code>cin</code> 的返回值，<code>cin</code> 只是一个对象，而实际进行运算的是流运算符 <code>&gt;&gt;</code>。</p>
+<p>Windows 系统输入 <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="m">1</span> <span class="m">2</span> <span class="m">3</span>
 </span></span><span class="line"><span class="cl">^z
-</span></span></code></pre></div><p>GNU/Linux输入</p>
+</span></span></code></pre></div><p>GNU/Linux 输入</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="m">1</span> <span class="m">2</span> <span class="m">3</span>
 </span></span><span class="line"><span class="cl">^d
 </span></span></code></pre></div><p>输出</p>
@@ -391,10 +388,7 @@ Windows系统输入 2
 <hr>
 <ol>
 <li id="fn:1">
-<p>查到的，你问我流运算符是啥我也不知道&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-<li id="fn:2">
-<p>本文中^z、^d都指组合键，^d为Ctrl+D，^z为Ctrl+Z。&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<p>本文中^z、^d 都指组合键，^d 为 Ctrl+D，^z 为 Ctrl+Z。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
 </div>
