@@ -20,18 +20,18 @@
 &lt;h2 id=&#34;折腾&#34;&gt;折腾&lt;/h2&gt;
 &lt;p&gt;这玩意支持 AMD ZEN 2 和更新版本，我的荣耀本使用 R7-4800H，理论上可以跑，于是按照 &lt;a class=&#34;link&#34; href=&#34;https://note.ay1.us/#/15-amd-cpufreq&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Aya 的博客&lt;/a&gt; 添加了内核参数&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;zfs &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; org.zfsbootmenu:commandline&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;rw amd_pstate=passive&amp;#34;&lt;/span&gt; zroot/ROOT
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-SHELL&#34; data-lang=&#34;SHELL&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ zfs &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; org.zfsbootmenu:commandline&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;rw amd_pstate=passive&amp;#34;&lt;/span&gt; zroot/ROOT
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后就没管了。&lt;/p&gt;
 &lt;p&gt;有一天忘记从哪里又看见了 AMD P-State，然后发现一个验证方法，跑了一下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;acpi-cpufreq
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我去，这我可忍不了。于是我先检查内核 module 有没有 AMD P-State 存在，结果是没有。但是检查内核 config&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;zcat /proc/config.gz &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep PSTATE
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ zcat /proc/config.gz &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep PSTATE
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;CONFIG_X86_AMD_PSTATE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;y
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;那得了，这玩意都 built-in 了咋可能不存在？于是检查日志：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;journalctl -b &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep pstate
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ journalctl -b &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep pstate
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;del&gt;经过群友提醒，我使用翻译发现第一次设置的 passive 可能出了些幽灵字符导致无法识别，再设置一次才出现了根本问题&lt;/del&gt;&lt;/p&gt;
 &lt;p&gt;得到&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-log&#34; data-lang=&#34;log&#34;&gt;_CPC object is not present in SBIOS
@@ -49,7 +49,7 @@
 &lt;p&gt;按照 &lt;a class=&#34;link&#34; href=&#34;https://github.com/DavidS95/Smokeless_UMAF/discussions/29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;discussion #29&lt;/a&gt; 的做法，进入 Device Manager - AMD CBS - NBIO - SMU page，启用 CPPC，直接一路 esc 出来，它会提醒你选择是否保存，保存后会直接重启。&lt;/p&gt;
 &lt;p&gt;再次&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;$ cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;amd-pstate
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;就这样，没了，感谢阅读。&lt;/p&gt;
@@ -110,8 +110,8 @@
 &lt;p&gt;在 Shell 中，&lt;code&gt;.&lt;/code&gt; 表示当前目录，&lt;code&gt;..&lt;/code&gt; 表示当前目录的父目录，&lt;code&gt;/&lt;/code&gt; 表示根目录&lt;/p&gt;
 &lt;p&gt;Linux 下只有一个根目录，不会像 Windows 一样不同的盘有不同的根目录&lt;/p&gt;
 &lt;p&gt;也就是如下&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Windows:
-C:-
+&lt;p&gt;Windows:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;C:-
   |- Windows
   |- Program Files
   |_ Users
@@ -120,9 +120,8 @@ D:-
   |- Software
   |- Documents
   |_ Steam
-
-Linux:
-/ -
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Linux:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/ -
   |- usr
   |- bin
   |- home

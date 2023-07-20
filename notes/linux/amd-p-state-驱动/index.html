@@ -398,18 +398,18 @@
 <h2 id="折腾">折腾</h2>
 <p>这玩意支持 AMD ZEN 2 和更新版本，我的荣耀本使用 R7-4800H，理论上可以跑，于是按照 <a class="link" href="https://note.ay1.us/#/15-amd-cpufreq"  target="_blank" rel="noopener"
     >Aya 的博客</a> 添加了内核参数</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">zfs <span class="nb">set</span> org.zfsbootmenu:commandline<span class="o">=</span><span class="s2">&#34;rw amd_pstate=passive&#34;</span> zroot/ROOT
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-SHELL" data-lang="SHELL"><span class="line"><span class="cl">$ zfs <span class="nb">set</span> org.zfsbootmenu:commandline<span class="o">=</span><span class="s2">&#34;rw amd_pstate=passive&#34;</span> zroot/ROOT
 </span></span></code></pre></div><p>然后就没管了。</p>
 <p>有一天忘记从哪里又看见了 AMD P-State，然后发现一个验证方法，跑了一下：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">acpi-cpufreq
 </span></span></code></pre></div><p>我去，这我可忍不了。于是我先检查内核 module 有没有 AMD P-State 存在，结果是没有。但是检查内核 config</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">zcat /proc/config.gz <span class="p">|</span> grep PSTATE
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ zcat /proc/config.gz <span class="p">|</span> grep PSTATE
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="nv">CONFIG_X86_AMD_PSTATE</span><span class="o">=</span>y
 </span></span></code></pre></div><p>那得了，这玩意都 built-in 了咋可能不存在？于是检查日志：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">journalctl -b <span class="m">0</span> <span class="p">|</span> grep pstate
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ journalctl -b <span class="m">0</span> <span class="p">|</span> grep pstate
 </span></span></code></pre></div><p><del>经过群友提醒，我使用翻译发现第一次设置的 passive 可能出了些幽灵字符导致无法识别，再设置一次才出现了根本问题</del></p>
 <p>得到</p>
 <pre tabindex="0"><code class="language-log" data-lang="log">_CPC object is not present in SBIOS
@@ -427,7 +427,7 @@
 <p>按照 <a class="link" href="https://github.com/DavidS95/Smokeless_UMAF/discussions/29"  target="_blank" rel="noopener"
     >discussion #29</a> 的做法，进入 Device Manager - AMD CBS - NBIO - SMU page，启用 CPPC，直接一路 esc 出来，它会提醒你选择是否保存，保存后会直接重启。</p>
 <p>再次</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_driver
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">amd-pstate
 </span></span></code></pre></div><p>就这样，没了，感谢阅读。</p>
