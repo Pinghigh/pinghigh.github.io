@@ -494,7 +494,7 @@ $$</li>
 <li>表示出当前谁拿石子
 于是得到状态：$f_{i,0/1}$ 表示 $i$ 个石子，第 $1$ 或第 $2$ 个人获胜的概率</li>
 </ul>
-<p>显然 $f_{0,0}$ 和 $f_{0,1}$ 是两种确定结果， 则概率分别为 $1,0$ 。于是考虑倒推。</p>
+<p>显然 $f_{0,0}$ 和 $f_{0,1}$ 是两种确定结果，则概率分别为 $1,0$ 。于是考虑倒推。</p>
 <p>看概率的取值，说明只要我们希望抛到一个面，抛到这个面概率就会更大。<br>
 由于很容易判断出当前状态下应该希望取得/不取得石子（通过前一个状态的概率大小），所以不用单独表示出希望取得/不取得石子。</p>
 <p>列式子：
@@ -514,7 +514,7 @@ f_{i,0} &amp;= f_{i-1,1} \cdot p + (f_{i-1,0}\cdot q + f_{i,0} \cdot (1-q))(1-p)
 f_{i,0} &amp;= \cfrac {p\cdot f_{i-1,1} + (1-p)q\cdot f_{i-1,1}}{1-(1-q)(1-p)}
 \end{aligned}
 $$</p>
-<p>发现这玩意就可以递推了，再依照同样的方式能够列出 $f_{i,1}$ 的转移方程和不希望取得这颗石子的两个转移方程。不写过程了， 给出柿子
+<p>发现这玩意就可以递推了，再依照同样的方式能够列出 $f_{i,1}$ 的转移方程和不希望取得这颗石子的两个转移方程。不写过程了，给出柿子
 希望取得：</p>
 <p>$$
 \begin{aligned}
@@ -592,7 +592,12 @@ $n = \min(n,100)$ 即可。</li>
         });
     });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-alpha.1/es5/tex-mml-chtml.js"></script>
+<script
+    type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://jsd.cdn.zzko.cn/npm/mathjax@4.0.0-beta.3/tex-mml-chtml.js"
+></script>
 
     
 </article>
@@ -620,6 +625,25 @@ $n = \min(n,100)$ 即可。</li>
 
         <div class="article-details">
             <h2 class="article-title">SPOJ 4060 题解</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/%E9%A2%98%E8%A7%A3/abc309g/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ABC309G Ban Permutation 题解</h2>
         </div>
     </a>
 </article>

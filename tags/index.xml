@@ -6,7 +6,31 @@
         <description>Recent content in Tags on 钛合金伞的隙间</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Tue, 20 Jun 2023 14:00:34 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Wed, 19 Jul 2023 21:06:28 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>容斥</title>
+        <link>https://blog.tibrella.top/tags/%E5%AE%B9%E6%96%A5/</link>
+        <pubDate>Wed, 19 Jul 2023 21:06:28 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/tags/%E5%AE%B9%E6%96%A5/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>题解</title>
+        <link>https://blog.tibrella.top/tags/%E9%A2%98%E8%A7%A3/</link>
+        <pubDate>Wed, 19 Jul 2023 21:06:28 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/tags/%E9%A2%98%E8%A7%A3/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>组合数学</title>
+        <link>https://blog.tibrella.top/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/</link>
+        <pubDate>Wed, 19 Jul 2023 21:06:28 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Linux</title>
         <link>https://blog.tibrella.top/tags/linux/</link>
         <pubDate>Tue, 20 Jun 2023 14:00:34 +0800</pubDate>
@@ -95,14 +119,6 @@
         <description></description>
         </item>
         <item>
-        <title>组合数学</title>
-        <link>https://blog.tibrella.top/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/</link>
-        <pubDate>Sun, 30 Apr 2023 18:29:32 +0000</pubDate>
-        
-        <guid>https://blog.tibrella.top/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/</guid>
-        <description></description>
-        </item>
-        <item>
         <title>数论</title>
         <link>https://blog.tibrella.top/tags/%E6%95%B0%E8%AE%BA/</link>
         <pubDate>Sat, 29 Apr 2023 19:24:23 +0000</pubDate>
@@ -159,14 +175,6 @@
         <description></description>
         </item>
         <item>
-        <title>SPFA</title>
-        <link>https://blog.tibrella.top/tags/spfa/</link>
-        <pubDate>Thu, 23 Feb 2023 14:11:18 +0000</pubDate>
-        
-        <guid>https://blog.tibrella.top/tags/spfa/</guid>
-        <description></description>
-        </item>
-        <item>
         <title>模拟退火</title>
         <link>https://blog.tibrella.top/tags/%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB/</link>
         <pubDate>Thu, 23 Feb 2023 14:11:18 +0000</pubDate>
@@ -183,11 +191,11 @@
         <description></description>
         </item>
         <item>
-        <title>题解</title>
-        <link>https://blog.tibrella.top/tags/%E9%A2%98%E8%A7%A3/</link>
+        <title>题解，SPFA</title>
+        <link>https://blog.tibrella.top/tags/%E9%A2%98%E8%A7%A3spfa/</link>
         <pubDate>Thu, 23 Feb 2023 14:11:18 +0000</pubDate>
         
-        <guid>https://blog.tibrella.top/tags/%E9%A2%98%E8%A7%A3/</guid>
+        <guid>https://blog.tibrella.top/tags/%E9%A2%98%E8%A7%A3spfa/</guid>
         <description></description>
         </item>
         <item>
