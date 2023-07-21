@@ -165,10 +165,9 @@ $$&lt;/p&gt;
 状态转移方程：&lt;/p&gt;
 &lt;p&gt;$$
 f_{i,j} =
-\max
 \begin{cases}
 f_{i-1,j} \\
-f_{i,j-v_i} + w_i,\ j\geqslant v_i
+\max \left\{ f_{i-1,j}, f_{i,j-v_i} + w_i,\ j\geqslant v_i \right\}
 \end{cases}
 $$&lt;/p&gt;
 &lt;p&gt;代码如下&lt;/p&gt;
