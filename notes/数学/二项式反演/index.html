@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="定义 直接给出式子：
+$$ g_i=\sum_{k\geqslant i}\binom ki f_k \rightarrow f_i=\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k $$
+看起来不知道咋用？待会再说，我们先证明。
+证明 前置知识 组合数学常用记号
+二项式定理
+正文 已知：$g_i=\sum_{k\geqslant i}\binom ki f_k$
+求证：$f_i=\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k$
+把求证右边那个式子单独拿出来，想办法把它导成 $f_i$。
+$$ \begin{aligned} &amp;amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k \newline =&amp;amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i} \sum_{j\geqslant k}\binom jk f_j \end{aligned} $$
+把第二个求和号以及 $f_j$ 挪动一下，感性理解一下，发现最后每一项出现的次数还是不变的，所以正确。
+$$ \begin{aligned} &amp;amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i} \sum_{j\geqslant k}\binom jk f_j \newline =&amp;amp;\sum_{j\geqslant i}f_j \sum_{j\geqslant k \geqslant i}\binom jk \binom ki (-1)^{k-i} \newline =&amp;amp;\sum_{j\geqslant i}f_j \sum_{j\geqslant k \geqslant i}\frac{j!" />
+<title>二项式反演</title>
+
+<link rel="canonical" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E4%BA%8C%E9%A1%B9%E5%BC%8F%E5%8F%8D%E6%BC%94/" />
+
+<link rel="stylesheet" href="/scss/style.min.728d06729a1c59be2f9dd572948bce23a539c64c94665e2a2c51bd1cc20a3908.css"><meta property='og:title' content='二项式反演'>
+<meta property='og:description' content='定义 直接给出式子：
+$$ g_i=\sum_{k\geqslant i}\binom ki f_k \rightarrow f_i=\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k $$
+看起来不知道咋用？待会再说，我们先证明。
+证明 前置知识 组合数学常用记号
+二项式定理
+正文 已知：$g_i=\sum_{k\geqslant i}\binom ki f_k$
+求证：$f_i=\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k$
+把求证右边那个式子单独拿出来，想办法把它导成 $f_i$。
+$$ \begin{aligned} &amp;amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k \newline =&amp;amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i} \sum_{j\geqslant k}\binom jk f_j \end{aligned} $$
+把第二个求和号以及 $f_j$ 挪动一下，感性理解一下，发现最后每一项出现的次数还是不变的，所以正确。
+$$ \begin{aligned} &amp;amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i} \sum_{j\geqslant k}\binom jk f_j \newline =&amp;amp;\sum_{j\geqslant i}f_j \sum_{j\geqslant k \geqslant i}\binom jk \binom ki (-1)^{k-i} \newline =&amp;amp;\sum_{j\geqslant i}f_j \sum_{j\geqslant k \geqslant i}\frac{j!'>
+<meta property='og:url' content='https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E4%BA%8C%E9%A1%B9%E5%BC%8F%E5%8F%8D%E6%BC%94/'>
+<meta property='og:site_name' content='钛合金伞的隙间'>
+<meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='组合数学' /><meta property='article:tag' content='容斥' /><meta property='article:tag' content='二项式反演' /><meta property='article:published_time' content='2023-07-21T20:55:23&#43;08:00'/><meta property='article:modified_time' content='2023-07-21T20:55:23&#43;08:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
+<meta name="twitter:title" content="二项式反演">
+<meta name="twitter:description" content="定义 直接给出式子：
+$$ g_i=\sum_{k\geqslant i}\binom ki f_k \rightarrow f_i=\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k $$
+看起来不知道咋用？待会再说，我们先证明。
+证明 前置知识 组合数学常用记号
+二项式定理
+正文 已知：$g_i=\sum_{k\geqslant i}\binom ki f_k$
+求证：$f_i=\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k$
+把求证右边那个式子单独拿出来，想办法把它导成 $f_i$。
+$$ \begin{aligned} &amp;amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k \newline =&amp;amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i} \sum_{j\geqslant k}\binom jk f_j \end{aligned} $$
+把第二个求和号以及 $f_j$ 挪动一下，感性理解一下，发现最后每一项出现的次数还是不变的，所以正确。
+$$ \begin{aligned} &amp;amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i} \sum_{j\geqslant k}\binom jk f_j \newline =&amp;amp;\sum_{j\geqslant i}f_j \sum_{j\geqslant k \geqslant i}\binom jk \binom ki (-1)^{k-i} \newline =&amp;amp;\sum_{j\geqslant i}f_j \sum_{j\geqslant k \geqslant i}\frac{j!"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
+<link rel="shortcut icon" href="/favicon.png" />
+
+<link
+    rel="stylesheet"
+    href="https://npm.elemecdn.com/littlefoot/dist/littlefoot.css" />
+<script
+    src="https://npm.elemecdn.com/littlefoot/dist/littlefoot.js"
+    type="application/javascript"></script>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.highlightAll();
+</script>
+<script>
+    littlefoot.default();
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="/img/avatar.webp" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">🌂</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">钛合金伞的隙间</a></h1>
+            <h2 class="site-description">去寻找能放射人间的弓吧！</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:pinghigh24678@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/pinghigh'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/@pinghigh24678'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>露米娅来了</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#定义">定义</a></li>
+    <li><a href="#证明">证明</a>
+      <ol>
+        <li><a href="#前置知识">前置知识</a></li>
+        <li><a href="#正文">正文</a></li>
+      </ol>
+    </li>
+    <li><a href="#例题">例题</a>
+      <ol>
+        <li><a href="#分特产">分特产</a>
+          <ol>
+            <li><a href="#题意">题意</a></li>
+            <li><a href="#题解">题解</a></li>
+            <li><a href="#代码">代码</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/notes/%E6%95%B0%E5%AD%A6/%E4%BA%8C%E9%A1%B9%E5%BC%8F%E5%8F%8D%E6%BC%94/">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" alt="Featured image of post 二项式反演" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%95%B0%E5%AD%A6/" >
+                数学
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/notes/%E6%95%B0%E5%AD%A6/%E4%BA%8C%E9%A1%B9%E5%BC%8F%E5%8F%8D%E6%BC%94/">二项式反演</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jul 21, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 3 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="定义">定义</h2>
+<p>直接给出式子：</p>
+<p>$$
+g_i=\sum_{k\geqslant i}\binom ki f_k \rightarrow f_i=\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k
+$$</p>
+<p>看起来不知道咋用？待会再说，我们先证明。</p>
+<h2 id="证明">证明</h2>
+<h3 id="前置知识">前置知识</h3>
+<p><a class="link" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/#常用记号" >组合数学常用记号</a></p>
+<p><a class="link" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/#二项式定理" >二项式定理</a></p>
+<h3 id="正文">正文</h3>
+<p>已知：$g_i=\sum_{k\geqslant i}\binom ki f_k$<br>
+求证：$f_i=\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k$</p>
+<p>把求证右边那个式子单独拿出来，想办法把它导成 $f_i$。</p>
+<p>$$
+\begin{aligned}
+&amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i}g_k \newline
+=&amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i} \sum_{j\geqslant k}\binom jk f_j
+\end{aligned}
+$$</p>
+<p>把第二个求和号以及 $f_j$ 挪动一下，感性理解一下，发现最后每一项出现的次数还是不变的，所以正确。</p>
+<p>$$
+\begin{aligned}
+&amp;\sum_{k\geqslant i}\binom ki (-1)^{k-i} \sum_{j\geqslant k}\binom jk f_j \newline
+=&amp;\sum_{j\geqslant i}f_j \sum_{j\geqslant k \geqslant i}\binom jk \binom ki (-1)^{k-i} \newline
+=&amp;\sum_{j\geqslant i}f_j \sum_{j\geqslant k \geqslant i}\frac{j!k!}{k!(j-k)!i!(k-i)!} (-1)^{k-i} \newline
+=&amp;\sum_{j\geqslant i}f_j\frac{j!}{i!}\sum_{j\geqslant k \geqslant i}\frac 1{(j-k)!(k-i)!} (-1)^{k-i}
+\end{aligned}
+$$</p>
+<p>展开之后不知道怎么往下算了，想办法把那个大分式化成点什么，比如二项式（组合数）。</p>
+<p>上下同乘 $(j-i)!$，然后 $(j-k)=[(j-i)-(k-i)]$，然后就可以轻松化成组合数形式继续往下导公式了。</p>
+<p>$$
+\begin{aligned}
+&amp;\sum_{j\geqslant i}f_j\frac{j!}{i!} \sum_{j\geqslant k \geqslant i}\frac 1{(j-k)!(k-i)!} (-1)^{k-i} \newline
+=&amp;\sum_{j\geqslant i}f_j\frac{j!}{i!} \sum_{j\geqslant k \geqslant i}\frac {(j-i)!}{[(j-i)-(k-i)]!(k-i)!(j-i)!} (-1)^{k-i} \newline
+=&amp;\sum_{j\geqslant i}f_j\frac{j!}{i!} \sum_{j\geqslant k \geqslant i}\frac {\binom{j-i}{k-i}}{(j-i)!} (-1)^{k-i} \newline
+\end{aligned}
+$$</p>
+<p>换个形式</p>
+<p>$$
+\sum_{j\geqslant i}f_j\frac{j!}{i!} \cdot \frac{\sum_{j\geqslant k \geqslant i } \binom{j-i}{k-i} (-1)^{k-i}}{(j-i)!}
+$$</p>
+<p>大分式上面的分母可以用 <a class="link" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/#二项式定理" >二项式定理</a> 处理掉。想不出来可以直接看下面式子。</p>
+<p>$$
+\begin{aligned}
+&amp;\sum_{j\geqslant i}f_j\frac{j!}{i!} \cdot \frac{\sum_{j\geqslant k \geqslant i } \binom{j-i}{k-i} (-1)^{k-i}}{(j-i)!} \newline
+=&amp;\sum_{j\geqslant i}f_j\frac{j!}{i!} \cdot \frac{(1-1)^{j-i}}{(j-i)!}
+\end{aligned}
+$$</p>
+<p>右下方的分母和左侧分数扔一起是一个非常典型的组合数。</p>
+<p>$$
+\begin{aligned}
+&amp;\sum_{j\geqslant i}f_j\frac{j!}{i!} \cdot \frac{(1-1)^{j-i}}{(j-i)!} \newline
+=&amp;\sum_{j\geqslant i}f_j\binom ji 0^{j-i}
+\end{aligned}
+$$</p>
+<p>注意，在组合数学中，$0^0=1$。<br>
+于是很容易地发现，求和号右边的式子值非零，当且仅当 $i=j$。</p>
+<p>于是就出来了：</p>
+<p>$$
+\begin{aligned}
+&amp;\sum_{j\geqslant i}f_j\binom ji 0^{j-i}\newline
+=&amp;f_i\binom ii 0^0 \newline
+=&amp;f_i
+\end{aligned}
+$$</p>
+<p>证毕。</p>
+<h2 id="例题">例题</h2>
+<h3 id="分特产">分特产</h3>
+<p><a class="link" href="https://www.luogu.com.cn/problem/P5505"  target="_blank" rel="noopener"
+    >题目链接</a></p>
+<h4 id="题意">题意</h4>
+<p>$m$ 种特产，$n$ 个人，每种特产 $s_i$ 个。</p>
+<p>人有标号，两个特产相同当且仅当其种类相同。</p>
+<p>求让每个人都拿到至少一份特产的分配方案总数，答案对 $10^9+7$ 取模。</p>
+<h4 id="题解">题解</h4>
+<p>首先，记住开头给你的式子。</p>
+<p>然后把下面的东西看一遍，这应该是二项式反演的基本套路。</p>
+<p>大体上设两个东西，$g_i$ 和 $f_i$。这里设 $g_i$ 为<strong>钦定</strong> $i$ 个人不满足要求（即没有特产），其他人随意分配（可能也没有）的方案数，然后 $f_i$ 为<strong>恰好</strong> $i$ 个人没有特产，其他人都有特产的方案总数。</p>
+<p>然后模仿条件式，用 $f_i$ 表示 $g_i$。</p>
+<p>容易发现：</p>
+<ol>
+<li>对于 $g_i$，每一个 $f_j,j\in [i,n]$ 都一定被包含在里面。</li>
+<li>对于每一个包含在里面的 $f_j$，被钦定的集合会不同，一共有 $\binom ji$ 个，所以每个 $f_j$ 被算了 $\binom ji$ 次。</li>
+</ol>
+<p>综上，$g_i = \sum_{j=i}^n \binom ji f_j$。</p>
+<p>二项式反演的常见入手点就是设 $g,f$。其中 $g_i$ 表示钦定集合中 $i$ 个元素满足/不满足要求，其他不管；$f_i$ 表示集合中恰好 $i$ 个元素满足/不满足要求（是否满足与 $g$ 一致）。在此之后用 $f_i$ 表示 $g_i$，二项式反演之后问题就变化成了求 $g$。</p>
+<p>然后大力二项式反演，套一下式子就能得出来：</p>
+<p>$$
+f_i = \sum_{j=i}^n \binom ji g_j (-1)^{j-i}
+$$</p>
+<p>答案就是恰好没有不合法元素的方案总数，于是：</p>
+<p>$$
+\begin{aligned}
+ans &amp;= f_0 \newline
+&amp;= \sum_{j=0}^n \binom j0 g_j (-1)^{j-0} \newline
+&amp;= \sum_{j=0}^n g_j (-1)^j
+\end{aligned}
+$$</p>
+<p>问题被转化成了求 $g$。</p>
+<p>假设目前正在求 $g_i$，显然只需要有 $n-i$ 个人需要考虑。由于剩下 $i-1$ 是钦定不合法的，我们不用考虑；但是非常魔法的事情来了：由于这 $n-i$ 个人是随便排列的，我们只需要把特产随意分发就行。</p>
+<p>怎么个随意分发法？对于每一种特产 $x$，可以转化为：有 $s_x$ 个无标号小球，装进 $n-i$ 个有标号盒子里的方案数。直接插板法解决就好啦！显然有 $s_x-1$ 个空，除此以外，盒子可以为空，所以就是 $s_x-1$ 加 $n-i$ 个空，插 $n-i-1$ 个板的方案数，即 $\binom{s_x-1+n-i}{n-i-1}$。</p>
+<p>每一种特产的分配方案数互不影响，所以乘起来；同时 $n$ 个人里面选出来 $i$ 个钦定不合法，再乘一个 $\binom ni$，即：</p>
+<p>$$
+g_i = \binom ni \prod_{j=1}^m \binom{s_x-1+n-i}{n-i-1}
+$$</p>
+<p>然后代入上面计算答案的式子算就完了。</p>
+<h4 id="代码">代码</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="n">tkgs</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">using</span> <span class="n">i32</span> <span class="o">=</span> <span class="kt">int</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">using</span> <span class="n">i64</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="n">i64</span> <span class="n">mod</span> <span class="o">=</span> <span class="mf">1e9</span> <span class="o">+</span> <span class="mi">7</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">#define N 1005
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define NUM 2005
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>    <span class="k">namespace</span> <span class="n">mat</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tmp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">void</span> <span class="nf">exgcd</span><span class="p">(</span><span class="k">const</span> <span class="n">i64</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">i64</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">exgcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">tmp</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">x</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">y</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">-</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span> <span class="o">*</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="nf">inv</span><span class="p">(</span><span class="k">const</span> <span class="n">i64</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">i64</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">exgcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="n">fact</span><span class="p">[</span><span class="n">NUM</span><span class="p">],</span> <span class="n">ifact</span><span class="p">[</span><span class="n">NUM</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kt">void</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">const</span> <span class="n">i32</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">fact</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifact</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">fact</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fact</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ifact</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">fact</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">mod</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ifact</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifact</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="nf">getC</span><span class="p">(</span><span class="n">i32</span> <span class="n">a</span><span class="p">,</span> <span class="n">i32</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">fact</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">*</span> <span class="n">ifact</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">%</span> <span class="n">mod</span> <span class="o">*</span> <span class="n">ifact</span><span class="p">[</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">]</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>  <span class="c1">// namespace mat 实现了初始化阶乘与阶乘逆元，求组合数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="n">i32</span> <span class="n">s</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">i64</span> <span class="nf">g</span><span class="p">(</span><span class="n">i64</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">*</span> <span class="n">mat</span><span class="o">::</span><span class="n">getC</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">n</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">*</span> <span class="n">mat</span><span class="o">::</span><span class="n">getC</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">m</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mat</span><span class="o">::</span><span class="n">init</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="n">ans</span> <span class="o">+=</span> <span class="n">g</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">j</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="p">))</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">ans</span> <span class="o">%</span> <span class="n">mod</span> <span class="o">+</span> <span class="n">mod</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>  <span class="c1">// namespace tkgs
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tkgs</span><span class="o">::</span><span class="n">main</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/">组合数学</a>
+        
+            <a href="/tags/%E5%AE%B9%E6%96%A5/">容斥</a>
+        
+            <a href="/tags/%E4%BA%8C%E9%A1%B9%E5%BC%8F%E5%8F%8D%E6%BC%94/">二项式反演</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" transform="rotate(180)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under FDL 1.3</span>
+    </section>
+    </footer>
+
+
+    
+        <script>
+    MathJax = {
+        tex: {
+            inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+            ],
+            displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"],
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+        },
+        options: {
+            skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+    };
+
+    window.addEventListener("load", (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += "has-jax";
+        });
+    });
+</script>
+<script
+    type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://jsd.cdn.zzko.cn/npm/mathjax@4.0.0-beta.3/tex-mml-chtml.js"
+></script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/notes/%E9%A2%98%E8%A7%A3/abc309g/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/64b91bce1ddac507cc1f4492" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/64b91bce1ddac507cc1f4492"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">ABC309G Ban Permutation 题解</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/%E6%95%B0%E5%AD%A6/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">组合数学基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/notes/%E6%95%B0%E5%AD%A6/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E5%9F%BA%E7%A1%80/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">线性代数</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/%E6%95%B0%E5%AD%A6/%E6%A6%82%E7%8E%87%E8%AE%BA%E5%9F%BA%E7%A1%80/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">概率论基础</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/notes/%E6%95%B0%E5%AD%A6/%E9%80%86%E5%85%83/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" data-key="" data-hash="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">模意义下的乘法逆元</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.16/twikoo.all.min.js"></script>
+<div id="tcomment"></div>
+<style>
+    .twikoo {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        color: var(--twikoo-body-text-color);
+    }
+    :root[data-scheme="dark"] {
+        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+    }
+    .twikoo .el-input-group__prepend,
+    .twikoo .tk-action-icon,
+    .twikoo .tk-time,
+    .twikoo .tk-comments-count {
+        color: var(--twikoo-body-text-color);
+    }
+    .twikoo .el-input__inner,
+    .twikoo .el-textarea__inner,
+    .twikoo .tk-preview-container,
+    .twikoo .tk-content,
+    .twikoo .tk-nick,
+    .twikoo .tk-send {
+        color: var(--twikoo-body-text-color-main);
+    }
+    .twikoo .el-button {
+        color: var(--twikoo-body-text-color) !important;
+    }
+    .OwO .OwO-body {
+        background-color: var(--body-background) !important;
+        color: var(--body-text-color) !important;
+    }
+</style><script>
+    twikoo.init({
+        envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+        GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+        el: '#tcomment',lang: 'zh-cn',})
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        <p style="display:inline-block; transform: rotatey(180deg);">&copy;</p> 
+        
+            2020 - 
+        
+        2023 钛合金伞的隙间
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://icp.gov.moe/?keyword=20220284" rel="external nofollow noreferrer" target="_blank">萌ICP备20220284号</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://npm.elemecdn.com/node-vibrant@latest/dist/vibrant.min.js"crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    </body>
+</html>
