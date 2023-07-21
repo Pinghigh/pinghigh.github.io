@@ -167,7 +167,7 @@ $$&lt;/p&gt;
 f_{i,j} =
 \begin{cases}
 f_{i-1,j} \\
-\max \left\{ f_{i-1,j}, f_{i,j-v_i} + w_i,\ j\geqslant v_i \right\}
+\max \left\{ f_{i-1,j}, f_{i,j-v_i} + w_i \right\},\ j\geqslant v_i
 \end{cases}
 $$&lt;/p&gt;
 &lt;p&gt;代码如下&lt;/p&gt;
