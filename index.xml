@@ -1064,7 +1064,7 @@ $n = \min(n,100)$ 即可。&lt;/li&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;分为行向量与列向量。&lt;br&gt;
 行向量形如 $\left[ 1,2,3 \right]$&lt;br&gt;
-列向量形如 $\left[ \begin{array} \ 1 \\ 2\\ 3\\ 4 \end{array} \right]$&lt;br&gt;
+列向量形如 $\left[ \begin{array} 1 \ 2\ 3\ 4 \end{array} \right]$&lt;br&gt;
 实际上高中 whk 里面的向量是二维向量，OI 中用的向量大部分为多维向量，数组中每一个元素就是一维的坐标。&lt;br&gt;
 运算的前提很容易想到：同维度，也就是“数组”长度得一样长。&lt;/p&gt;
 &lt;p&gt;加法：分量分别相加 $[a,b,c]+[a,b,c]=[2a,2b,2c]$&lt;br&gt;
