@@ -12,7 +12,7 @@
         <pubDate>Fri, 04 Aug 2023 19:49:41 +0800</pubDate>
         
         <guid>https://blog.tibrella.top/notes/%E4%B8%B2/kmp/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6481466b1ddac507cc291a6d" alt="Featured image of post KMP 相关" /&gt;&lt;p&gt;今天是 8 月 4 日喵，距离退役还有 3 个月左右喵。&lt;br&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/64ccf7bb1ddac507cc16d2e7" alt="Featured image of post KMP 相关" /&gt;&lt;p&gt;今天是 8 月 4 日喵，距离退役还有 3 个月左右喵。&lt;br&gt;
 写字符串的时候感觉突然悟了，于是来写笔记。&lt;/p&gt;
 &lt;h2 id=&#34;前缀函数&#34;&gt;前缀函数&lt;/h2&gt;
 &lt;p&gt;实际上看了 OI Wiki 才知道有这个名词……但是也应该有，因为 KMP 只是一个匹配算法。&lt;/p&gt;
