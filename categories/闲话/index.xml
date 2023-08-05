@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>闲话 on 钛合金伞的隙间</title>
+        <link>https://blog.tibrella.top/categories/%E9%97%B2%E8%AF%9D/</link>
+        <description>Recent content in 闲话 on 钛合金伞的隙间</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Sat, 05 Aug 2023 21:46:11 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/categories/%E9%97%B2%E8%AF%9D/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>背包 DP</title>
+        <link>https://blog.tibrella.top/notes/%E9%97%B2%E8%AF%9D/2023-8-5/</link>
+        <pubDate>Sat, 05 Aug 2023 21:46:11 +0800</pubDate>
+        
+        <guid>https://blog.tibrella.top/notes/%E9%97%B2%E8%AF%9D/2023-8-5/</guid>
+        <description>&lt;img src="https://pic.imgdb.cn/item/64ce50431ddac507cc01e9d5.jpg" alt="Featured image of post 背包 DP" /&gt;&lt;blockquote&gt;
+&lt;p&gt;Dear all,&lt;/p&gt;
+&lt;p&gt;It is with a heavy heart that we have to inform you that Bram Moolenaar passed away on 3 August 2023.
+我们不得不怀着沉重的心情通知您，布拉姆·穆伦纳尔于 2023 年 8 月 3 日去世。&lt;/p&gt;
+&lt;p&gt;Bram was suffering from a medical condition that progressed quickly over the last few weeks.
+布拉姆患有一种疾病，在过去几周里病情迅速加深。&lt;/p&gt;
+&lt;p&gt;Bram dedicated a large part of his life to VIM and he was very proud of the VIM community that you are all part of.
+Bram 将他生命中的大部分时间奉献给了 VIM，他为你们所在的 VIM 社区感到非常自豪。&lt;/p&gt;
+&lt;p&gt;We as family are now arranging the funeral service of Bram which will take place in The Netherlands and will be held in the Dutch lanuage. The extact date, time and place are still to be determined.
+作为家人，我们现在正在安排布拉姆的葬礼。该葬礼将在荷兰以荷兰语举行。具体日期、时间和地点待定。&lt;/p&gt;
+&lt;p&gt;Should you wish to attend his funeral then please send a message to &lt;a class=&#34;link&#34; href=&#34;mailto:funer...@gmail.com&#34; &gt;funer...@gmail.com&lt;/a&gt;. This email address can also be used to get in contact with the family regarding other matters, bearing in the mind the situation we are in right now as family.
+如果您想参加他的葬礼，请给 （一个登录才能看到的邮箱地址） 发送邮件。考虑到我们现在作为家人的处境，这个电子邮件地址也可以用来与家人就其他事项取得联系。&lt;/p&gt;
+&lt;p&gt;With kind regards,
+The family of Bram Moolenaar&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Vim 之父于 2023.8.3 去世。&lt;/p&gt;
+&lt;p&gt;总有这样的一天的，Vim 能够挺过它多个曾经的主要开发者的离世，实际上说明了 Vim 本身的优秀性。&lt;/p&gt;
+&lt;p&gt;但是，当 Linus 脱离了 Linux 的开发呢？疫情时看见 Linus 爆喷内核邮件列表里的疫苗阴谋论者，其他时候也总能看见他对待不规范不合适的 patch 坚决的态度，这确实让 Linux Kernel 仓库足够的健康。但是人总归要离开的。&lt;/p&gt;
+&lt;p&gt;人世太无常了。感觉和 &lt;a class=&#34;link&#34; href=&#34;https://archlinux.org/news/in-memory-of-jonathon-fernyhough/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Arch Linux 社区一位贡献者的去世&lt;/a&gt;还没有多久啊&amp;hellip;&lt;/p&gt;
+&lt;p&gt;看一眼新闻，就在去年的 2 月份，Bram Moolenaar 的好友，Vim 的重要开发者&amp;amp;宣传者之一 Sven Guckes 因脑瘤去世，当时 Bram Moolenaar 还说要用 Vim 9 来纪念他。&lt;/p&gt;
+&lt;p&gt;想成为他们那样的人，尽力地在世界上留下一些东西。于是退役前的我突然努力写博客一样。&lt;/p&gt;
+&lt;p&gt;剩下的时间&amp;hellip;多陪陪家人朋友吧。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;AGC013D&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先发现，一个取球的序列实际上就是一个合法的操作方案。&lt;/p&gt;
+&lt;p&gt;能不能直接操作方案计数？发现不能。为什么？&lt;/p&gt;
+&lt;p&gt;什么时候取球序列不同？仅当&lt;strong&gt;每次拿出的球&lt;/strong&gt;不同。&lt;/p&gt;
+&lt;p&gt;什么时候操作方案不同？即使取球序列是相同的，如果最初黑白球数量不同，也算不同的操作方案。&lt;/p&gt;
+&lt;p&gt;设白球数量为 $n$。&lt;/p&gt;
+&lt;p&gt;对于一个取球序列，它对应哪些东西呢？&lt;/p&gt;
+&lt;p&gt;把操作过程中白球数量的变化画出折线图：
+&lt;img src=&#34;https://cdn.luogu.com.cn/upload/image_hosting/ox2813ev.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;显然一个操作方案对应一条折线。&lt;/p&gt;
+&lt;p&gt;那么让初始的 $n$ 变化一下，就相当于让这个折线上下移动。&lt;/p&gt;
+&lt;p&gt;向上移动到头就是折线触碰了 $n$，向下移动到头就是折线触碰了 $0$。&lt;/p&gt;
+&lt;p&gt;发现一个取球序列对应且仅对应一个折线触底的操作方案。&lt;/p&gt;
+&lt;p&gt;于是可以直接统计触底方案数。&lt;/p&gt;
+&lt;p&gt;具体：设 $f_{i,j,0/1}$ 为第 $i$ 次取球，箱子里有 $j$ 个白球，是/否触过底的方案数。&lt;/p&gt;
+&lt;p&gt;初始化直接&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i32 i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    f[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;][i][i &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;就行。&lt;/p&gt;
+&lt;p&gt;转移看兔队博客吧。&lt;/p&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.luogu.com.cn/record/119213073&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;代码&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

@@ -347,25 +347,21 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ol>
+  <ul>
     <li><a href="#基本概念">基本概念</a>
-      <ol>
+      <ul>
         <li><a href="#图">图</a></li>
         <li><a href="#图的种类">图的种类</a></li>
         <li><a href="#度">度</a></li>
-      </ol>
+      </ul>
     </li>
     <li><a href="#存图">存图</a>
-      <ol>
+      <ul>
         <li><a href="#邻接矩阵">邻接矩阵</a></li>
-        <li><a href="#邻接表">邻接表</a>
-          <ol>
-            <li><a href="#链式前向星">链式前向星</a></li>
-          </ol>
-        </li>
-      </ol>
+        <li><a href="#邻接表">邻接表</a></li>
+      </ul>
     </li>
-  </ol>
+  </ul>
 </nav>
         </div>
     </section>
@@ -579,11 +575,11 @@
 <p>用链表实现的邻接表</p>
 <p>先说链表，顾名思义，链状链接的列表，在这里我们把同一个起点边存到一个链表里。</p>
 <p>开一个结构体存链的每一个元素</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">edge</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">data</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">to</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">edge</span> <span class="o">*</span><span class="n">nex</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">};</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">edge</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> data;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> to;
+</span></span><span style="display:flex;"><span>    edge <span style="color:#f92672">*</span>nex;
+</span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><p>显然，把链表每一个部分连接起来的东西就是指针 <code>nex</code>，<code>nex</code> 指向当前元素的下一个元素的地址。
 当然，如果开一个数组存储所有的元素，地址可以改为存储下标，即 <code>nex</code> 可以是一个整数，存储下一个元素在数组里的下标。</p>
 <div class="footnotes" role="doc-endnotes">

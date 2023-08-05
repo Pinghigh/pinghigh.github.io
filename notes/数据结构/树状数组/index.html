@@ -296,23 +296,16 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ol>
+  <ul>
     <li><a href="#基本树状数组">基本树状数组</a>
-      <ol>
+      <ul>
         <li><a href="#原理">原理</a></li>
-        <li><a href="#实现">实现</a>
-          <ol>
-            <li><a href="#建立">建立</a></li>
-            <li><a href="#lowbit">lowbit</a></li>
-            <li><a href="#单点修改">单点修改</a></li>
-            <li><a href="#区间查询">区间查询</a></li>
-          </ol>
-        </li>
-      </ol>
+        <li><a href="#实现">实现</a></li>
+      </ul>
     </li>
     <li><a href="#改区间查单点">改区间查单点</a></li>
     <li><a href="#区间加区间求和">区间加区间求和</a></li>
-  </ol>
+  </ul>
 </nav>
         </div>
     </section>
@@ -431,10 +424,10 @@
 <h3 id="实现">实现</h3>
 <h4 id="建立">建立</h4>
 <p>实际上不用特意处理建立，直接在输入过程中每输入一个数就<a class="link" href="#%e5%8d%95%e7%82%b9%e4%bf%ae%e6%94%b9" >修改</a>即可。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">t1</span><span class="p">;</span> <span class="c1">// tmp
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">modify</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">t1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> t1; <span style="color:#75715e">// tmp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    modify(i,t1);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="lowbit">lowbit</h4>
 <p>本函数实现查找一个数最后一位 $1$ 的位置。</p>
 <p>首先声明一个冷知识（大概冷），位运算是针对内存中存储的原数据的运算，换句话说，进行位运算的是补码而不是原码。</p>
@@ -446,29 +439,29 @@
 显然，这位 <code>1</code> 前面的所有数字因为被取反所以和原数完全不同；后面的所有数字原来一定是 <code>0</code> 取反后变成一排 <code>1</code>，负数的补码是反码$+1$，从而一直进位到原来最后一位 <code>1</code> 这里，而它们本身变回了 <code>0</code> ；又因为这位 <code>1</code> 被取反后是 <code>0</code> 所以无论如何都不会再向前进位。<br>
 从而保证对于任意一个正数 $x$，$-x$ 与 $x$ 的存储只有 $x$ 本身最后一位 <code>1</code> 是相同的。<br>
 因此 <code>lowbit()</code> 的实现就非常简单了，直接用 <code>x&amp;-x</code>，得到的结果就是<a class="link" href="#%e5%8e%9f%e7%90%86" >原理</a>中所说的 $2^x$，又快又好想，用着还方便。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">lowbit</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">&amp;-</span><span class="n">x</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">lowbit</span>(<span style="color:#66d9ef">int</span> x) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (x<span style="color:#f92672">&amp;-</span>x);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="单点修改">单点修改</h4>
 <p>假设修改为给第 $x$ 个数增加 $v$，那我们就需要修改所有包含第 $x$ 个元素的节点，则从第 $x$ 个节点寻找父亲节点直到根节点为止（参考上图）。<br>
 $x$ 节点的直接父亲是 $x+\operatorname{lowbit}(x)$，因此直接一层循环实现 $\operatorname{O}(\log n)$ 修改。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">modify</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="n">lowbit</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">tree</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">v</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">modify</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> v) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> x; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">+=</span> lowbit(i)) {
+</span></span><span style="display:flex;"><span>        tree[i] <span style="color:#f92672">+=</span> v;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="区间查询">区间查询</h4>
 <p>查询区间为 $[l,r]$ 时，将问题转化为求 $[1,r] - [1,l-1]$ 的值（前缀和知识），因此我们只需要实现查询前缀和的功能即可。<br>
 因为 $i$ 节点存储的是一段长度为 $\operatorname{lowbit}(i)$ 的区间的和，因此取完 $i$ 号点的值后再取 $i-\operatorname{lowbit}(i)$ 号节点的值，直到位置变为 $0$（到头）即可（看不懂就结合上面图）</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">query</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="n">i</span><span class="p">;</span> <span class="n">i</span> <span class="o">-=</span> <span class="n">lowbit</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">+=</span> <span class="n">tree</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">ans</span> <span class="o">=</span> <span class="n">query</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="n">query</span><span class="p">(</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">query</span>(<span style="color:#66d9ef">int</span> x) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> x; i; i <span style="color:#f92672">-=</span> lowbit(i)) {
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">+=</span> tree[i];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ans <span style="color:#f92672">=</span> query(r) <span style="color:#f92672">-</span> query(l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>);
 </span></span></code></pre></div><h2 id="改区间查单点">改区间查单点</h2>
 <p>上文我们解决了求前缀和的问题，本次需要查询单点，那么很容易联想到<strong>差分</strong>。更改区间对应改差分数组上的两个点，查询单点对应查询差分数组的前缀和。</p>
 <h2 id="区间加区间求和">区间加区间求和</h2>
@@ -491,34 +484,34 @@ $$</p>
 <p>因此我们只需要维护两个树状数组，一个维护 $d_i$ 即差分数组，另一个维护 $i\cdot d_i$ 即可。</p>
 <p>注意：此处树状数组维护的仍然是前缀和，$i\cdot d_i$ 中的 $i$ 就是修改的位置，而不是树状数组修改时循环的 $i$。</p>
 <p>核心代码：</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#define N 100005
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="n">i64</span> <span class="n">id</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"><span class="n">i32</span> <span class="n">n</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="kt">void</span> <span class="nf">mod</span><span class="p">(</span><span class="n">i32</span> <span class="n">pos</span><span class="p">,</span> <span class="n">i64</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">i</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">+=</span> <span class="n">lowbit</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">pos</span> <span class="o">*</span> <span class="n">val</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">val</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="n">i64</span> <span class="nf">que</span><span class="p">(</span><span class="n">i32</span> <span class="n">pos</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">i64</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">i</span> <span class="o">=</span> <span class="n">pos</span><span class="p">;</span> <span class="n">i</span><span class="p">;</span> <span class="n">i</span> <span class="o">-=</span> <span class="n">lowbit</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">+=</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">id</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="kt">void</span> <span class="nf">modify</span><span class="p">(</span><span class="n">i32</span> <span class="n">l</span><span class="p">,</span> <span class="n">i32</span> <span class="n">r</span><span class="p">,</span> <span class="n">i64</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mod</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mod</span><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">val</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kr">inline</span> <span class="n">i64</span> <span class="nf">query</span><span class="p">(</span><span class="n">i32</span> <span class="n">l</span><span class="p">,</span> <span class="n">i32</span> <span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">que</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="n">que</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#define N 100005
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>i64 id[N], d[N];
+</span></span><span style="display:flex;"><span>i32 n;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">mod</span>(i32 pos, i64 val) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (i32 i <span style="color:#f92672">=</span> pos; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">+=</span> lowbit(i)) {
+</span></span><span style="display:flex;"><span>        id[i] <span style="color:#f92672">+=</span> pos <span style="color:#f92672">*</span> val;
+</span></span><span style="display:flex;"><span>        d[i] <span style="color:#f92672">+=</span> val;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> i64 <span style="color:#a6e22e">que</span>(i32 pos) {
+</span></span><span style="display:flex;"><span>    i64 res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (i32 i <span style="color:#f92672">=</span> pos; i; i <span style="color:#f92672">-=</span> lowbit(i)) {
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">+=</span> d[i] <span style="color:#f92672">*</span> (pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">-</span> id[i];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">modify</span>(i32 l, i32 r, i64 val) {
+</span></span><span style="display:flex;"><span>    mod(l, val);
+</span></span><span style="display:flex;"><span>    mod(r <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span>val);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> i64 <span style="color:#a6e22e">query</span>(i32 l, i32 r) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> que(r) <span style="color:#f92672">-</span> que(l <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
 </section>
 

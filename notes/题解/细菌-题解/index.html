@@ -296,11 +296,11 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ol>
+  <ul>
     <li><a href="#题意">题意</a></li>
     <li><a href="#思路">思路</a></li>
     <li><a href="#代码">代码</a></li>
-  </ol>
+  </ul>
 </nav>
         </div>
     </section>
@@ -399,102 +399,102 @@
 <p>由于边权有正有负，只能跑 SPFA。</p>
 <p>再考虑 $k$ 的变换还有一个 $\times 2$，因此跑反向的 SPFA 松弛边时需要把新算出的 $dist_i$ 值除以 $2$。</p>
 <h2 id="代码">代码</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;bitset&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstring&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;queue&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="c1">// 模板函数可以参考博文 https://blog.tibrella.top/post/2023-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Type</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="n">read</span><span class="p">(</span><span class="n">Type</span><span class="o">&amp;</span> <span class="n">_x</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">_x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">bool</span> <span class="n">f</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">char</span> <span class="n">ch</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">f</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">do</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">ch</span> <span class="o">==</span> <span class="sc">&#39;-&#39;</span><span class="p">)</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">ch</span> <span class="o">&lt;</span> <span class="mi">48</span> <span class="o">||</span> <span class="n">ch</span> <span class="o">&gt;</span> <span class="mi">57</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">do</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">_x</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">_x</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">ch</span> <span class="o">^</span> <span class="mi">48</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">ch</span> <span class="o">=</span> <span class="n">getchar</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">ch</span> <span class="o">&gt;</span> <span class="mi">47</span> <span class="o">&amp;&amp;</span> <span class="n">ch</span> <span class="o">&lt;</span> <span class="mi">58</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">_x</span> <span class="o">=</span> <span class="n">f</span> <span class="o">?</span> <span class="o">-</span><span class="nl">_x</span> <span class="p">:</span> <span class="n">_x</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">Type</span><span class="o">&gt;</span>
-</span></span><span class="line"><span class="cl"><span class="n">Type</span> <span class="n">max</span><span class="p">(</span><span class="n">Type</span> <span class="n">_a</span><span class="p">,</span> <span class="n">Type</span> <span class="n">_b</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">_a</span> <span class="o">&gt;</span> <span class="n">_b</span> <span class="o">?</span> <span class="nl">_a</span> <span class="p">:</span> <span class="n">_b</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">bitset</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">queue</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="cp">#define N 105
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">edge</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">edge</span><span class="o">*</span> <span class="n">nex</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">w</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">graph</span><span class="p">[</span><span class="n">N</span> <span class="o">*</span> <span class="n">N</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"><span class="n">edge</span><span class="o">*</span> <span class="n">fir</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">dis</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"><span class="n">edge</span><span class="o">*</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">graph</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">n</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="n">bitset</span><span class="o">&lt;</span><span class="n">N</span><span class="o">&gt;</span> <span class="n">st</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">add</span><span class="p">(</span><span class="kt">int</span> <span class="n">u</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">w</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="o">++</span><span class="n">idx</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">idx</span><span class="o">-&gt;</span><span class="n">u</span> <span class="o">=</span> <span class="n">u</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">idx</span><span class="o">-&gt;</span><span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">idx</span><span class="o">-&gt;</span><span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">idx</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">fir</span><span class="p">[</span><span class="n">u</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="n">fir</span><span class="p">[</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="n">idx</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">spfa</span><span class="p">(</span><span class="kt">int</span> <span class="n">nod</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">t1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">read</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">read</span><span class="p">(</span><span class="n">t1</span><span class="p">);</span>                <span class="c1">// 中转变量
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">t1</span><span class="p">)</span> <span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="n">t1</span><span class="p">);</span>  <span class="c1">// 反向存图
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">spfa</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="n">dis</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">spfa</span><span class="p">(</span><span class="kt">int</span> <span class="n">nod</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">st</span><span class="p">.</span><span class="n">reset</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="n">memset</span><span class="p">(</span><span class="n">dis</span><span class="p">,</span> <span class="mh">0x3f</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">dis</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">dis</span><span class="p">[</span><span class="n">nod</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">st</span><span class="p">[</span><span class="n">nod</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">nod</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">nod</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">        <span class="n">st</span><span class="p">[</span><span class="n">nod</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">edge</span><span class="o">*</span> <span class="n">e</span> <span class="o">=</span> <span class="n">fir</span><span class="p">[</span><span class="n">nod</span><span class="p">];</span> <span class="n">e</span><span class="p">;</span> <span class="n">e</span> <span class="o">=</span> <span class="n">e</span><span class="o">-&gt;</span><span class="n">nex</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">dis</span><span class="p">[</span><span class="n">e</span><span class="o">-&gt;</span><span class="n">v</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">dis</span><span class="p">[</span><span class="n">nod</span><span class="p">]</span> <span class="o">+</span> <span class="n">e</span><span class="o">-&gt;</span><span class="n">w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="p">{</span>  <span class="c1">// +1 防止除法向下取整造成错误
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">dis</span><span class="p">[</span><span class="n">e</span><span class="o">-&gt;</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">dis</span><span class="p">[</span><span class="n">nod</span><span class="p">]</span> <span class="o">+</span> <span class="n">e</span><span class="o">-&gt;</span><span class="n">w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">st</span><span class="p">[</span><span class="n">e</span><span class="o">-&gt;</span><span class="n">v</span><span class="p">])</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                    <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">e</span><span class="o">-&gt;</span><span class="n">v</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">                    <span class="n">st</span><span class="p">[</span><span class="n">e</span><span class="o">-&gt;</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="p">}</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bitset&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstdio&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;queue&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 模板函数可以参考博文 https://blog.tibrella.top/post/2023-%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E6%9D%82%E8%B0%88%E4%B8%8E%E5%B8%B8%E6%95%B0%E4%BC%98%E5%8C%96/
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> read(Type<span style="color:#f92672">&amp;</span> _x) {
+</span></span><span style="display:flex;"><span>    _x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> f;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> ch;
+</span></span><span style="display:flex;"><span>    f <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">do</span> {
+</span></span><span style="display:flex;"><span>        ch <span style="color:#f92672">=</span> getchar();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (ch <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;-&#39;</span>) f <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">while</span> (ch <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">48</span> <span style="color:#f92672">||</span> ch <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">57</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">do</span> {
+</span></span><span style="display:flex;"><span>        _x <span style="color:#f92672">=</span> (_x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">3</span>) <span style="color:#f92672">+</span> (_x <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> (ch <span style="color:#f92672">^</span> <span style="color:#ae81ff">48</span>);
+</span></span><span style="display:flex;"><span>        ch <span style="color:#f92672">=</span> getchar();
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">while</span> (ch <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">47</span> <span style="color:#f92672">&amp;&amp;</span> ch <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">58</span>);
+</span></span><span style="display:flex;"><span>    _x <span style="color:#f92672">=</span> f <span style="color:#f92672">?</span> <span style="color:#f92672">-</span>_x : _x;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> Type<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>Type max(Type _a, Type _b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> _a <span style="color:#f92672">&gt;</span> _b <span style="color:#f92672">?</span> _a : _b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>bitset;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>queue;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define N 105
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">edge</span> {
+</span></span><span style="display:flex;"><span>    edge<span style="color:#f92672">*</span> nex;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> u, v, w;
+</span></span><span style="display:flex;"><span>} graph[N <span style="color:#f92672">*</span> N];
+</span></span><span style="display:flex;"><span>edge<span style="color:#f92672">*</span> fir[N];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> dis[N];
+</span></span><span style="display:flex;"><span>edge<span style="color:#f92672">*</span> idx <span style="color:#f92672">=</span> graph;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>queue<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> q;
+</span></span><span style="display:flex;"><span>bitset<span style="color:#f92672">&lt;</span>N<span style="color:#f92672">&gt;</span> st;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> v, <span style="color:#66d9ef">int</span> w) {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">++</span>idx;
+</span></span><span style="display:flex;"><span>    idx<span style="color:#f92672">-&gt;</span>u <span style="color:#f92672">=</span> u;
+</span></span><span style="display:flex;"><span>    idx<span style="color:#f92672">-&gt;</span>v <span style="color:#f92672">=</span> v;
+</span></span><span style="display:flex;"><span>    idx<span style="color:#f92672">-&gt;</span>w <span style="color:#f92672">=</span> w;
+</span></span><span style="display:flex;"><span>    idx<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">=</span> fir[u];
+</span></span><span style="display:flex;"><span>    fir[u] <span style="color:#f92672">=</span> idx;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">spfa</span>(<span style="color:#66d9ef">int</span> nod);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> t1;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    read(n);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>j) {
+</span></span><span style="display:flex;"><span>            read(t1);                <span style="color:#75715e">// 中转变量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (t1) add(j, i, <span style="color:#f92672">-</span>t1);  <span style="color:#75715e">// 反向存图
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    spfa(n);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;%d&#34;</span>, dis[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">spfa</span>(<span style="color:#66d9ef">int</span> nod) {
+</span></span><span style="display:flex;"><span>    st.reset();
+</span></span><span style="display:flex;"><span>    memset(dis, <span style="color:#ae81ff">0x3f</span>, <span style="color:#66d9ef">sizeof</span> dis);
+</span></span><span style="display:flex;"><span>    dis[nod] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    st[nod] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    q.push(nod);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>q.empty()) {
+</span></span><span style="display:flex;"><span>        nod <span style="color:#f92672">=</span> q.front();
+</span></span><span style="display:flex;"><span>        q.pop();
+</span></span><span style="display:flex;"><span>        st[nod] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (edge<span style="color:#f92672">*</span> e <span style="color:#f92672">=</span> fir[nod]; e; e <span style="color:#f92672">=</span> e<span style="color:#f92672">-&gt;</span>nex) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (dis[e<span style="color:#f92672">-&gt;</span>v] <span style="color:#f92672">&gt;</span> max(<span style="color:#ae81ff">1</span>, (dis[nod] <span style="color:#f92672">+</span> e<span style="color:#f92672">-&gt;</span>w <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>)) {  <span style="color:#75715e">// +1 防止除法向下取整造成错误
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                dis[e<span style="color:#f92672">-&gt;</span>v] <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">1</span>, (dis[nod] <span style="color:#f92672">+</span> e<span style="color:#f92672">-&gt;</span>w <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>st[e<span style="color:#f92672">-&gt;</span>v]) {
+</span></span><span style="display:flex;"><span>                    q.push(e<span style="color:#f92672">-&gt;</span>v);
+</span></span><span style="display:flex;"><span>                    st[e<span style="color:#f92672">-&gt;</span>v] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
 </section>
 

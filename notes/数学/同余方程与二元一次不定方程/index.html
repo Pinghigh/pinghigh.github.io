@@ -296,23 +296,15 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ol>
+  <ul>
     <li><a href="#同余">同余</a>
-      <ol>
+      <ul>
         <li><a href="#定义">定义</a></li>
         <li><a href="#同余方程">同余方程</a></li>
-        <li><a href="#扩展欧几里得算法">扩展欧几里得算法</a>
-          <ol>
-            <li><a href="#前置知识">前置知识</a></li>
-            <li><a href="#用途">用途</a></li>
-            <li><a href="#原理">原理</a></li>
-            <li><a href="#实现">实现</a></li>
-            <li><a href="#代码">代码</a></li>
-          </ol>
-        </li>
-      </ol>
+        <li><a href="#扩展欧几里得算法">扩展欧几里得算法</a></li>
+      </ul>
     </li>
-  </ol>
+  </ul>
 </nav>
         </div>
     </section>
@@ -544,72 +536,72 @@ $x$ 的最小正整数值即所有 $x$ 为正整数的整数解中 $x$ 的最小
 若该行对应的询问有整数解但无正整数解，包含 $2$ 个由空格隔开的数字，依次代表整数解中，$x$ 的最小正整数值，$y$ 的最小正整数值。<br>
 否则包含 $5$ 个由空格隔开的数字，依次代表正整数解的数量，正整数解中，$x$ 的最小值，$y$ 的最小值，$x$ 的最大值，$y$ 的最大值。</p>
 <h5 id="实现-1">实现</h5>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">i64</span> <span class="nf">ex_gcd</span><span class="p">(</span><span class="n">i64</span> <span class="n">u</span><span class="p">,</span> <span class="n">i64</span> <span class="n">v</span><span class="p">,</span> <span class="n">i64</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">i64</span><span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">v</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">u</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">i64</span> <span class="n">g</span> <span class="o">=</span> <span class="n">ex_gcd</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">u</span> <span class="o">%</span> <span class="n">v</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">i64</span> <span class="n">temp</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="n">temp</span> <span class="o">-</span> <span class="n">u</span> <span class="o">/</span> <span class="n">v</span> <span class="o">*</span> <span class="n">y</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">g</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">i64</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ga</span><span class="p">,</span> <span class="n">gb</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">minx</span><span class="p">,</span> <span class="n">miny</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="n">i64</span> <span class="n">t</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="n">i64</span> <span class="n">k</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">read</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">t</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">read</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="c1">// if (a &lt; b) std::swap(a, b);
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">g</span> <span class="o">=</span> <span class="n">ex_gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">*=</span> <span class="n">c</span> <span class="o">/</span> <span class="n">g</span><span class="p">,</span> <span class="n">y</span> <span class="o">*=</span> <span class="n">c</span> <span class="o">/</span> <span class="n">g</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">%</span> <span class="n">g</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">puts</span><span class="p">(</span><span class="s">&#34;-1&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">ga</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">g</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">gb</span> <span class="o">=</span> <span class="n">b</span> <span class="o">/</span> <span class="n">g</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="cm">/*
-</span></span></span><span class="line"><span class="cl"><span class="cm">            此处先把 x 的最小正整数值求出来，容易想到 x 最小时 y 最大
-</span></span></span><span class="line"><span class="cl"><span class="cm">            x &gt; 1 时，直接往小取就行
-</span></span></span><span class="line"><span class="cl"><span class="cm">            x &lt;= 1 时，求 1 和 x 的差值然后把差值向上取整地消掉即可
-</span></span></span><span class="line"><span class="cl"><span class="cm">            y 同理
-</span></span></span><span class="line"><span class="cl"><span class="cm">            */</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">gb</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="n">minx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">k</span> <span class="o">*</span> <span class="n">gb</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="n">maxy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">k</span> <span class="o">*</span> <span class="n">ga</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">k</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">gb</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">                <span class="n">minx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">k</span> <span class="o">*</span> <span class="n">gb</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="n">maxy</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">k</span> <span class="o">*</span> <span class="n">ga</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">ga</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="n">miny</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">k</span> <span class="o">*</span> <span class="n">ga</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="n">maxx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">k</span> <span class="o">*</span> <span class="n">gb</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">k</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">((</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">ga</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">                <span class="n">miny</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">k</span> <span class="o">*</span> <span class="n">ga</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="n">maxx</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">k</span> <span class="o">*</span> <span class="n">gb</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">            <span class="c1">// 如果 x, y 的最大值不是正整数，那么无正整数解，最小正整数 x, y 就是上面所求
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="k">if</span> <span class="p">(</span><span class="n">maxy</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">maxx</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">write</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="sc">&#39; &#39;</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="sc">&#39;\n&#39;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="c1">// 此处算个数的时候需要注意要算自身，所以 + 1
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="n">write</span><span class="p">((</span><span class="n">i64</span><span class="p">)</span><span class="n">ceil</span><span class="p">(</span><span class="n">maxy</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">ga</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="sc">&#39; &#39;</span><span class="p">,</span> <span class="n">minx</span><span class="p">,</span> <span class="sc">&#39; &#39;</span><span class="p">,</span> <span class="n">miny</span><span class="p">,</span> <span class="sc">&#39; &#39;</span><span class="p">,</span> <span class="n">maxx</span><span class="p">,</span> <span class="sc">&#39; &#39;</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="sc">&#39;\n&#39;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>i64 <span style="color:#a6e22e">ex_gcd</span>(i64 u, i64 v, i64<span style="color:#f92672">&amp;</span> x, i64<span style="color:#f92672">&amp;</span> y) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>v) {
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> u;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    i64 g <span style="color:#f92672">=</span> ex_gcd(v, u <span style="color:#f92672">%</span> v, x, y);
+</span></span><span style="display:flex;"><span>    i64 temp <span style="color:#f92672">=</span> x;
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> y;
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> temp <span style="color:#f92672">-</span> u <span style="color:#f92672">/</span> v <span style="color:#f92672">*</span> y;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> g;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>i64 a, b, c, g, x, y, ga, gb, maxx, maxy, minx, miny;
+</span></span><span style="display:flex;"><span>i64 t;
+</span></span><span style="display:flex;"><span>i64 k;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    read(t);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
+</span></span><span style="display:flex;"><span>        read(a, b, c);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// if (a &lt; b) std::swap(a, b);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        g <span style="color:#f92672">=</span> ex_gcd(a, b, x, y);
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">*=</span> c <span style="color:#f92672">/</span> g, y <span style="color:#f92672">*=</span> c <span style="color:#f92672">/</span> g;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">%</span> g) {
+</span></span><span style="display:flex;"><span>            puts(<span style="color:#e6db74">&#34;-1&#34;</span>);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            ga <span style="color:#f92672">=</span> a <span style="color:#f92672">/</span> g;
+</span></span><span style="display:flex;"><span>            gb <span style="color:#f92672">=</span> b <span style="color:#f92672">/</span> g;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            此处先把 x 的最小正整数值求出来，容易想到 x 最小时 y 最大
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            x &gt; 1 时，直接往小取就行
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            x &lt;= 1 时，求 1 和 x 的差值然后把差值向上取整地消掉即可
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            y 同理
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">            */</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                k <span style="color:#f92672">=</span> (x <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> gb;
+</span></span><span style="display:flex;"><span>                minx <span style="color:#f92672">=</span> x <span style="color:#f92672">-</span> k <span style="color:#f92672">*</span> gb;
+</span></span><span style="display:flex;"><span>                maxy <span style="color:#f92672">=</span> y <span style="color:#f92672">+</span> k <span style="color:#f92672">*</span> ga;
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                k <span style="color:#f92672">=</span> ceil((<span style="color:#ae81ff">1.0</span> <span style="color:#f92672">-</span> x) <span style="color:#f92672">/</span> gb);
+</span></span><span style="display:flex;"><span>                minx <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> k <span style="color:#f92672">*</span> gb;
+</span></span><span style="display:flex;"><span>                maxy <span style="color:#f92672">=</span> y <span style="color:#f92672">-</span> k <span style="color:#f92672">*</span> ga;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (y <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                k <span style="color:#f92672">=</span> (y <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> ga;
+</span></span><span style="display:flex;"><span>                miny <span style="color:#f92672">=</span> y <span style="color:#f92672">-</span> k <span style="color:#f92672">*</span> ga;
+</span></span><span style="display:flex;"><span>                maxx <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> k <span style="color:#f92672">*</span> gb;
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                k <span style="color:#f92672">=</span> ceil((<span style="color:#ae81ff">1.0</span> <span style="color:#f92672">-</span> y) <span style="color:#f92672">/</span> ga);
+</span></span><span style="display:flex;"><span>                miny <span style="color:#f92672">=</span> y <span style="color:#f92672">+</span> k <span style="color:#f92672">*</span> ga;
+</span></span><span style="display:flex;"><span>                maxx <span style="color:#f92672">=</span> x <span style="color:#f92672">-</span> k <span style="color:#f92672">*</span> gb;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 如果 x, y 的最大值不是正整数，那么无正整数解，最小正整数 x, y 就是上面所求
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (maxy <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> maxx <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                write(minx, <span style="color:#e6db74">&#39; &#39;</span>, miny, <span style="color:#e6db74">&#39;\n&#39;</span>);
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 此处算个数的时候需要注意要算自身，所以 + 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                write((i64)ceil(maxy <span style="color:#f92672">-</span> <span style="color:#ae81ff">1.0</span>) <span style="color:#f92672">/</span> ga <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39; &#39;</span>, minx, <span style="color:#e6db74">&#39; &#39;</span>, miny, <span style="color:#e6db74">&#39; &#39;</span>, maxx, <span style="color:#e6db74">&#39; &#39;</span>, maxy, <span style="color:#e6db74">&#39;\n&#39;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
 </section>
 

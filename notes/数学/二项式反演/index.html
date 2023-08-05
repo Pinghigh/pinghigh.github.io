@@ -296,27 +296,21 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ol>
+  <ul>
     <li><a href="#定义">定义</a></li>
     <li><a href="#证明">证明</a>
-      <ol>
+      <ul>
         <li><a href="#前置知识">前置知识</a></li>
         <li><a href="#正文">正文</a></li>
-      </ol>
+      </ul>
     </li>
     <li><a href="#例题">例题</a>
-      <ol>
-        <li><a href="#分特产">分特产</a>
-          <ol>
-            <li><a href="#题意">题意</a></li>
-            <li><a href="#题解">题解</a></li>
-            <li><a href="#代码">代码</a></li>
-          </ol>
-        </li>
+      <ul>
+        <li><a href="#分特产">分特产</a></li>
         <li><a href="#abc309ghahahugoshortcodes3hbhb"><a href="HAHAHUGOSHORTCODEs3HBHB">ABC309G</a></a></li>
-      </ol>
+      </ul>
     </li>
-  </ol>
+  </ul>
 </nav>
         </div>
     </section>
@@ -514,82 +508,82 @@ g_i = \binom ni \prod_{j=1}^m \binom{s_x-1+n-i}{n-i-1}
 $$</p>
 <p>然后代入上面计算答案的式子算就完了。</p>
 <h4 id="代码">代码</h4>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
-</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="n">tkgs</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="k">using</span> <span class="n">i32</span> <span class="o">=</span> <span class="kt">int</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">using</span> <span class="n">i64</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">const</span> <span class="n">i64</span> <span class="n">mod</span> <span class="o">=</span> <span class="mf">1e9</span> <span class="o">+</span> <span class="mi">7</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="cp">#define N 1005
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define NUM 2005
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span>    <span class="k">namespace</span> <span class="n">mat</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tmp</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="kt">void</span> <span class="nf">exgcd</span><span class="p">(</span><span class="k">const</span> <span class="n">i64</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">i64</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">exgcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">                <span class="n">tmp</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="n">x</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">                <span class="n">y</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">-</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span> <span class="o">*</span> <span class="n">y</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="nf">inv</span><span class="p">(</span><span class="k">const</span> <span class="n">i64</span><span class="o">&amp;</span> <span class="n">a</span><span class="p">,</span> <span class="k">const</span> <span class="n">i64</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">exgcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="n">fact</span><span class="p">[</span><span class="n">NUM</span><span class="p">],</span> <span class="n">ifact</span><span class="p">[</span><span class="n">NUM</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="kt">void</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">const</span> <span class="n">i32</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">fact</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifact</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">                <span class="n">fact</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fact</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">ifact</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">fact</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">mod</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">i</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="p">;</span> <span class="o">--</span><span class="n">i</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">                <span class="n">ifact</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifact</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="nf">getC</span><span class="p">(</span><span class="n">i32</span> <span class="n">a</span><span class="p">,</span> <span class="n">i32</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="k">else</span>
-</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="n">fact</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">*</span> <span class="n">ifact</span><span class="p">[</span><span class="n">b</span><span class="p">]</span> <span class="o">%</span> <span class="n">mod</span> <span class="o">*</span> <span class="n">ifact</span><span class="p">[</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">]</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>  <span class="c1">// namespace mat 实现了初始化阶乘与阶乘逆元，求组合数
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl">    <span class="n">i32</span> <span class="n">s</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">i64</span> <span class="nf">g</span><span class="p">(</span><span class="n">i64</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">*</span> <span class="n">mat</span><span class="o">::</span><span class="n">getC</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">n</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">=</span> <span class="n">res</span> <span class="o">*</span> <span class="n">mat</span><span class="o">::</span><span class="n">getC</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">m</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">        <span class="n">mat</span><span class="o">::</span><span class="n">init</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">        <span class="n">i64</span> <span class="n">ans</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="n">i32</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">            <span class="p">(</span><span class="n">ans</span> <span class="o">+=</span> <span class="n">g</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">j</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">?</span> <span class="o">-</span><span class="mi">1</span> <span class="o">:</span> <span class="mi">1</span><span class="p">))</span> <span class="o">%=</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">ans</span> <span class="o">%</span> <span class="n">mod</span> <span class="o">+</span> <span class="n">mod</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>  <span class="c1">// namespace tkgs
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">tkgs</span><span class="o">::</span><span class="n">main</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>cin;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> std<span style="color:#f92672">::</span>cout;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">namespace</span> tkgs {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> i32 <span style="color:#f92672">=</span> <span style="color:#66d9ef">int</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">using</span> i64 <span style="color:#f92672">=</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> i64 mod <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e9</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#define N 1005
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define NUM 2005
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">namespace</span> mat {
+</span></span><span style="display:flex;"><span>        i64 x, y, tmp;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">exgcd</span>(<span style="color:#66d9ef">const</span> i64<span style="color:#f92672">&amp;</span> a, <span style="color:#66d9ef">const</span> i64<span style="color:#f92672">&amp;</span> b) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>b) {
+</span></span><span style="display:flex;"><span>                x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                exgcd(b, a <span style="color:#f92672">%</span> b);
+</span></span><span style="display:flex;"><span>                tmp <span style="color:#f92672">=</span> x;
+</span></span><span style="display:flex;"><span>                x <span style="color:#f92672">=</span> y;
+</span></span><span style="display:flex;"><span>                y <span style="color:#f92672">=</span> tmp <span style="color:#f92672">-</span> a <span style="color:#f92672">/</span> b <span style="color:#f92672">*</span> y;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        i64 <span style="color:#a6e22e">inv</span>(<span style="color:#66d9ef">const</span> i64<span style="color:#f92672">&amp;</span> a, <span style="color:#66d9ef">const</span> i64<span style="color:#f92672">&amp;</span> b) {
+</span></span><span style="display:flex;"><span>            exgcd(a, b);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> x;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        i64 fact[NUM], ifact[NUM];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">const</span> i32 n <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000</span>;
+</span></span><span style="display:flex;"><span>            fact[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> ifact[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (i32 i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>                fact[i] <span style="color:#f92672">=</span> fact[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> i <span style="color:#f92672">%</span> mod;
+</span></span><span style="display:flex;"><span>            ifact[n] <span style="color:#f92672">=</span> inv(fact[n], mod);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (i32 i <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i; <span style="color:#f92672">--</span>i)
+</span></span><span style="display:flex;"><span>                ifact[i] <span style="color:#f92672">=</span> ifact[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> mod;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        i64 <span style="color:#a6e22e">getC</span>(i32 a, i32 b) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (a <span style="color:#f92672">&lt;</span> b)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> fact[a] <span style="color:#f92672">*</span> ifact[b] <span style="color:#f92672">%</span> mod <span style="color:#f92672">*</span> ifact[a <span style="color:#f92672">-</span> b] <span style="color:#f92672">%</span> mod;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }  <span style="color:#75715e">// namespace mat 实现了初始化阶乘与阶乘逆元，求组合数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    i32 s[N], n, m;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    i64 <span style="color:#a6e22e">g</span>(i64 i) {
+</span></span><span style="display:flex;"><span>        i64 res <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (i32 j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;=</span> m; <span style="color:#f92672">++</span>j)
+</span></span><span style="display:flex;"><span>            res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> mat<span style="color:#f92672">::</span>getC(s[j] <span style="color:#f92672">+</span> n <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, n <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> mod;
+</span></span><span style="display:flex;"><span>        res <span style="color:#f92672">=</span> res <span style="color:#f92672">*</span> mat<span style="color:#f92672">::</span>getC(n, i) <span style="color:#f92672">%</span> mod;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (i32 i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; <span style="color:#f92672">++</span>i)
+</span></span><span style="display:flex;"><span>            cin <span style="color:#f92672">&gt;&gt;</span> s[i];
+</span></span><span style="display:flex;"><span>        mat<span style="color:#f92672">::</span>init();
+</span></span><span style="display:flex;"><span>        i64 ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (i32 j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>j)
+</span></span><span style="display:flex;"><span>            (ans <span style="color:#f92672">+=</span> g(j) <span style="color:#f92672">*</span> ((j <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">%=</span> mod;
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> (ans <span style="color:#f92672">%</span> mod <span style="color:#f92672">+</span> mod) <span style="color:#f92672">%</span> mod;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}  <span style="color:#75715e">// namespace tkgs
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    tkgs<span style="color:#f92672">::</span>main();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="abc309ghahahugoshortcodes3hbhb"><a class="link" href="https://blog.tibrella.top/notes/%E9%A2%98%E8%A7%A3/abc309g/" >ABC309G</a></h3>
 
 </section>

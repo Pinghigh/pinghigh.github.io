@@ -296,22 +296,16 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ol>
+  <ul>
     <li><a href="#预处理">预处理</a></li>
     <li><a href="#manacher">Manacher</a>
-      <ol>
-        <li><a href="#基本思想">基本思想</a>
-          <ol>
-            <li><a href="#继承对称点的数据">继承对称点的数据</a></li>
-            <li><a href="#更新-p_i">更新 $P_i$</a></li>
-            <li><a href="#更新-mr-和-mid">更新 $mr$ 和 $mid$</a></li>
-          </ol>
-        </li>
+      <ul>
+        <li><a href="#基本思想">基本思想</a></li>
         <li><a href="#实现">实现</a></li>
         <li><a href="#时间复杂度1">时间复杂度</a></li>
-      </ol>
+      </ul>
     </li>
-  </ol>
+  </ul>
 </nav>
         </div>
     </section>
@@ -420,16 +414,16 @@
 </ol>
 <p>情况被简化成一种，即长度为奇数。与此同时我们发现，新串的回文子串的 <strong>半径 $-1$</strong> 就是原串回文子串的 <strong>长度</strong></p>
 <p>与此同时，问题不变，还是求串的最长回文子串。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">b</span> <span class="o">+=</span> <span class="sc">&#39;$&#39;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">b</span> <span class="o">+=</span> <span class="sc">&#39;#&#39;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">b</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">        <span class="n">b</span> <span class="o">+=</span> <span class="sc">&#39;#&#39;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="n">b</span> <span class="o">+=</span> <span class="sc">&#39;^&#39;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">n</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> b) {
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;$&#39;</span>;
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> a[i];
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;^&#39;</span>;
+</span></span><span style="display:flex;"><span>    n <span style="color:#f92672">=</span> b.size();
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="manacher">Manacher</h2>
 <h3 id="基本思想">基本思想</h3>
 <p><del>抽象来说</del>就是对于字符串的每一个位置，维护以这个位置为中心的最长回文串长度同时算出这个回文串的右边界，再通过这个右边界来更新下一个位置的最长回文串长度与右边界。</p>
@@ -490,54 +484,54 @@
 没有可以继承的值则可以直接重新推，不需要过多考虑。</p>
 </li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">mr</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">p</span><span class="p">[(</span><span class="n">mid</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span><span class="p">],</span> <span class="n">mr</span> <span class="o">-</span> <span class="n">i</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> mr) {
+</span></span><span style="display:flex;"><span>    p[i] <span style="color:#f92672">=</span> min(p[(mid <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">-</span> i], mr <span style="color:#f92672">-</span> i);
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    p[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="更新-p_i">更新 $P_i$</h4>
 <p>直接从当前记录的半径向外继续枚举，直到遇到两个不相同的字符为止（边界上有 <code>$</code> <code>^</code>，枚举到一定会停止，所以不用考虑边界问题）。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">while</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="o">++</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">while</span> (b[i <span style="color:#f92672">-</span> p[i]] <span style="color:#f92672">==</span> b[i <span style="color:#f92672">+</span> p[i]]) {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">++</span> p[i];
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="更新-mr-和-mid">更新 $mr$ 和 $mid$</h4>
 <p>前文说过 $mr$ $mid$ 都是边界最靠右的回文子串的属性，那么只需要判断新找到的回文子串右边界是否大于 $mr$ 即可。</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">mr</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mr</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mid</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> p[i] <span style="color:#f92672">&gt;</span> mr) {
+</span></span><span style="display:flex;"><span>    mr <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> p[i];
+</span></span><span style="display:flex;"><span>    mid <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>至此 Manacher 算法主要过程结束。</p>
 <h3 id="实现">实现</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">init</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">b</span> <span class="o">+=</span> <span class="sc">&#39;$&#39;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">b</span> <span class="o">+=</span> <span class="sc">&#39;#&#39;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">b</span> <span class="o">+=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">        <span class="n">b</span> <span class="o">+=</span> <span class="sc">&#39;#&#39;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="n">b</span> <span class="o">+=</span> <span class="sc">&#39;^&#39;</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">n</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">manacher</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">mr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mid</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">mr</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">p</span><span class="p">[(</span><span class="n">mid</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span><span class="p">],</span> <span class="n">mr</span> <span class="o">-</span> <span class="n">i</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="o">++</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">mr</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">mr</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">            <span class="n">mid</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>(std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> b) {
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;$&#39;</span>;
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> a[i];
+</span></span><span style="display:flex;"><span>        b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    b <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;^&#39;</span>;
+</span></span><span style="display:flex;"><span>    n <span style="color:#f92672">=</span> b.size();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">manacher</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> mr <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, mid;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; <span style="color:#f92672">++</span>i) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> mr) {
+</span></span><span style="display:flex;"><span>            p[i] <span style="color:#f92672">=</span> min(p[(mid <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">-</span> i], mr <span style="color:#f92672">-</span> i);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            p[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (b[i <span style="color:#f92672">-</span> p[i]] <span style="color:#f92672">==</span> b[i <span style="color:#f92672">+</span> p[i]]) {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">++</span>p[i];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> p[i] <span style="color:#f92672">&gt;</span> mr) {
+</span></span><span style="display:flex;"><span>            mr <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> p[i];
+</span></span><span style="display:flex;"><span>            mid <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="时间复杂度1">时间复杂度<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></h3>
 <p>当 $P_j$ 左侧取到左边界及以外时，$P_i$ 才需要更新（其他情况都因为不满足条件而不用进循环），而右端点是单调递增且严格小于等于 $n$ 的，因此总时间复杂度为 $\operatorname{O}(n)$</p>
 <div class="footnotes" role="doc-endnotes">
