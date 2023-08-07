@@ -7,12 +7,12 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <lastBuildDate>Sat, 05 Aug 2023 21:46:11 +0800</lastBuildDate><atom:link href="https://blog.tibrella.top/tags/%E9%97%B2%E8%AF%9D/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>背包 DP</title>
+        <title>2023.8.5 闲话</title>
         <link>https://blog.tibrella.top/notes/%E9%97%B2%E8%AF%9D/2023-8-5/</link>
         <pubDate>Sat, 05 Aug 2023 21:46:11 +0800</pubDate>
         
         <guid>https://blog.tibrella.top/notes/%E9%97%B2%E8%AF%9D/2023-8-5/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/64ce50431ddac507cc01e9d5.jpg" alt="Featured image of post 背包 DP" /&gt;&lt;blockquote&gt;
+        <description>&lt;blockquote&gt;
 &lt;p&gt;Dear all,&lt;/p&gt;
 &lt;p&gt;It is with a heavy heart that we have to inform you that Bram Moolenaar passed away on 3 August 2023.
 我们不得不怀着沉重的心情通知您，布拉姆·穆伦纳尔于 2023 年 8 月 3 日去世。&lt;/p&gt;
@@ -59,8 +59,8 @@ The family of Bram Moolenaar&lt;/p&gt;
 &lt;p&gt;于是可以直接统计触底方案数。&lt;/p&gt;
 &lt;p&gt;具体：设 $f_{i,j,0/1}$ 为第 $i$ 次取球，箱子里有 $j$ 个白球，是/否触过底的方案数。&lt;/p&gt;
 &lt;p&gt;初始化直接&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (i32 i &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;=&lt;/span&gt; n; &lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;i)
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    f[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;][i][i &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-cpp&#34; data-lang=&#34;cpp&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i32&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;][&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;][&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;i&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;就行。&lt;/p&gt;
 &lt;p&gt;转移看兔队博客吧。&lt;/p&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.luogu.com.cn/record/119213073&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

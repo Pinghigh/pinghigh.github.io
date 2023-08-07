@@ -296,23 +296,23 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ul>
+  <ol>
     <li><a href="#template-模板关键字"><code>template</code> 模板关键字</a>
-      <ul>
+      <ol>
         <li><a href="#函数">函数</a></li>
         <li><a href="#模板类">模板类</a></li>
         <li><a href="#todo--关键字">TODO: <code>...</code> 关键字</a></li>
-      </ul>
+      </ol>
     </li>
     <li><a href="#基于范围的循环">基于范围的循环</a></li>
     <li><a href="#函数相关">函数相关</a>
-      <ul>
+      <ol>
         <li><a href="#lambda-表达式">Lambda 表达式</a></li>
         <li><a href="#函数对象">函数对象</a></li>
         <li><a href="#效率">效率</a></li>
-      </ul>
+      </ol>
     </li>
-  </ul>
+  </ol>
 </nav>
         </div>
     </section>
@@ -407,99 +407,99 @@
 <h3 id="函数">函数</h3>
 <p><code>template</code> 顾名思义是用来做模板的，那是做什么的模板呢？
 举个例子，一般来说我们写 <code>max</code> 函数替代 <code>std::max</code> 来优化的时候，写出来的大概长下面这样：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">max</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">&gt;</span> b <span style="color:#f92672">?</span> a : b;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>在这三行代码中，第一行定义了 <code>max</code> 的返回值和参数 <code>a</code> <code>b</code> 的类型为 <code>int</code>，显然意味着这个函数只能比较 <code>int</code> 类型的量。</p>
 <p>那么如果既想要比较 <code>int</code> 又想要比较 <code>long long</code> 还想比较 <code>char</code> 等等，如果按传统的写法，就是 Ctrl+C Ctrl+V 写好几个比较函数，还得重新命名，甚是麻烦。</p>
 <p>观察写出来的几个函数，肉眼可见他们的本质区别只有返回值与参数的类型。那么有没有一种类似模板的东西，写一个函数的主要部分作为模板，返回值、变量的类型由编译器决定呢？</p>
 <p>这就是 <code>template</code> 的一大作用，也是 OI 中最常用的方面。</p>
 <p>使用起来也很简单，在函数声明前面加上 <code>template &lt;typename T&gt;</code>，此处 T 可以是随便一个字母或者单词，后面写函数的时候把 <code>int</code> 替换成 <code>T</code> 即可。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span>T max(T a, T b) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">&gt;</span> b <span style="color:#f92672">?</span> a : b;
-</span></span><span style="display:flex;"><span>} 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="n">T</span> <span class="n">max</span><span class="p">(</span><span class="n">T</span> <span class="n">a</span><span class="p">,</span> <span class="n">T</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> 
 </span></span></code></pre></div><p>此时的 <code>T</code> 相当于一个变量类型，如果这个函数被调用，编译器会给你生成一个符合传入参数的类型的 <code>max</code> 函数。</p>
 <p>当然了，如果是一个没有传参的函数，我们也能指定其类型。<br>
 这样写会报错：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span> T read() {
-</span></span><span style="display:flex;"><span>	 T a;
-</span></span><span style="display:flex;"><span>	 cin <span style="color:#f92672">&gt;&gt;</span> a;
-</span></span><span style="display:flex;"><span>	 <span style="color:#66d9ef">return</span> a;
-</span></span><span style="display:flex;"><span> }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> read();
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"> <span class="n">T</span> <span class="n">read</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	 <span class="n">T</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	 <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	 <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">read</span><span class="p">();</span>
 </span></span></code></pre></div><p>原因是没有传参进去，编译器无法推断模板函数的类型。<br>
 类比 <a class="link" href="https://blog.tibrella.top/notes/c++/stl-%E5%AE%B9%E5%99%A8/" >STL 容器</a> 中的使用方法，能不能用尖括号带一个类型名称进去呢？可以的。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span> T read() {
-</span></span><span style="display:flex;"><span>	 T a;
-</span></span><span style="display:flex;"><span>	 cin <span style="color:#f92672">&gt;&gt;</span> a;
-</span></span><span style="display:flex;"><span>	 <span style="color:#66d9ef">return</span> a;
-</span></span><span style="display:flex;"><span> }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> read<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>();
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"> <span class="n">T</span> <span class="n">read</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	 <span class="n">T</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	 <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	 <span class="k">return</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">read</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">();</span>
 </span></span></code></pre></div><p>这样写就不会报错了</p>
 <h3 id="模板类">模板类</h3>
 <p>和模板函数类似，我们可以泛化结构体中的类型。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">qwq</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> age
-</span></span><span style="display:flex;"><span>};
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">qwq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">age</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre></div><p><del>存紫妈的年龄</del>可能会爆 <code>int</code>，<del>存阿求的年龄</del>可能浪费 <code>long long</code> 的空间，于是可以：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">qwq</span> {
-</span></span><span style="display:flex;"><span>	T age;
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>qwq<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int8_t</span><span style="color:#f92672">&gt;</span> akyuu;
-</span></span><span style="display:flex;"><span>qwq<span style="color:#f92672">&lt;</span>__int128<span style="color:#f92672">&gt;</span> yukari;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">qwq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">T</span> <span class="n">age</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">qwq</span><span class="o">&lt;</span><span class="kt">int8_t</span><span class="o">&gt;</span> <span class="n">akyuu</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">qwq</span><span class="o">&lt;</span><span class="n">__int128</span><span class="o">&gt;</span> <span class="n">yukari</span><span class="p">;</span>
 </span></span></code></pre></div><p>这样，<code>akyuu.age</code> 的类型即是 <code>int8_t</code>，<code>yukari.age</code> 的类型即是 <code>__int128</code>。</p>
 <h3 id="todo--关键字">TODO: <code>...</code> 关键字</h3>
 <h2 id="基于范围的循环">基于范围的循环</h2>
 <p>不过多介绍了，主要在 STL 里用</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> i : container) {
-</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39; &#39;</span>;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">i</span> <span class="p">:</span> <span class="n">container</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39; &#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p><code>container</code> 为容器的名称，<code>auto</code> 是 C++11 以后的类型名称，编译时由编译器推断。</p>
 <p>此处 <code>auto</code> 的效果就是把 <code>i</code> 的类型设置为 <code>container</code> 的元素的类型。如果 <code>container</code> 是 <code>vector&lt;int&gt;</code> ，则上面语句的效果就是遍历 <code>container</code> 的所有元素并输出。</p>
 <p>此外，如果想遍历的同时修改容器中的元素，可以在 <code>i</code> 前加取址符 <code>&amp;</code> 表示引用，如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> <span style="color:#f92672">&amp;</span>i : container) {
-</span></span><span style="display:flex;"><span>    i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span><span class="nl">i</span> <span class="p">:</span> <span class="n">container</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>该段代码的效果即为遍历容器 <code>container</code>，同时把其中所有元素赋值为 <code>0</code>;</p>
 <h2 id="函数相关">函数相关</h2>
 <h3 id="lambda-表达式">Lambda 表达式</h3>
 <p>实际上就是定义了一个函数。</p>
 <p>基本语法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>[<span style="color:#960050;background-color:#1e0010">捕获</span>](<span style="color:#960050;background-color:#1e0010">参数</span>){
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// some code...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="p">[</span><span class="err">捕获</span><span class="p">](</span><span class="err">参数</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// some code...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></div><p>捕获一般没啥用，留空就好。</p>
 <p>Lambda 表达式在 C++ 中是一个类型，但是不能用类型名定义，所以用 <code>auto</code> 声明。<br>
 举个例子，编写 <code>max</code> 函数：<br>
 原来是这样的</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">max</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">&gt;</span> b <span style="color:#f92672">?</span> a : b;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">max</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>用 Lambda 表达式长这样：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> max <span style="color:#f92672">=</span> [](<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) { <span style="color:#75715e">// 捕获部分留空，传参和内部实现不变
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">&gt;</span> b <span style="color:#f92672">?</span> a : b;
-</span></span><span style="display:flex;"><span>};
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">auto</span> <span class="n">max</span> <span class="o">=</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 捕获部分留空，传参和内部实现不变
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
 </span></span></code></pre></div><p>看起来这两种方式没有什么区别，确实是这样，但是 Lambda 还有一个重要性质——匿名。</p>
 <p>显然，原来写函数的时候必须要声明，声明这个函数的名称，返回值类型，传参类型，内部实现。<br>
 但是观察到上面声明 Lambda 表达式 <code>max</code> 的时候，使用的是类似变量赋值的方法。那是不是只留下等式右边的部分也可以当函数使用？实际上是可以的，这就是 Lambda 函数的匿名性质。即引入 Lambda 表达式之后，就可以随时随地定义函数而不给它起名字。<br>
 听起来有点抽象，再举个例子：<code>std::sort</code> <br>
 原来我们想要自定义比较函数，只能这样：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">cmp</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">&gt;</span> b;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>...
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>sort(a.begin(), a.end(), cmp);
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">bool</span> <span class="nf">cmp</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">a</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">cmp</span><span class="p">);</span>
 </span></span></code></pre></div><p>引入 Lambda 表达式之后：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>sort(a.begin(), a.end(), [](<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b){<span style="color:#66d9ef">return</span> a <span style="color:#f92672">&gt;</span> b;});
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">a</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[](</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">){</span><span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">;});</span>
 </span></span></code></pre></div><p>在这里，我们并没有给比较函数起名字，就直接扔到了 <code>std::sort</code> 里面，这样做方便很多~</p>
 <p>读者可能有疑问：这样做效率如何？事实上，Lambda 表达式和下面的函数对象的效率都是比较高的，比第一种方式中 <code>cmp</code> 这种函数指针效率高。</p>
 <h3 id="函数对象">函数对象</h3>
@@ -507,17 +507,17 @@
 <p>观察函数组成 <code>function()</code>，它是不是非常像一个类型 <code>function</code> 搭配上了 <code>()</code> 这个运算符？太像了！</p>
 <p>那我们是不是可以这样做：开一个对象，重载 <code>()</code> 这个运算符再当函数用？当然可以。<br>
 还是用 <code>max</code> 举例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">qwq</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">operator</span>() (<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b){
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> a <span style="color:#f92672">&gt;</span> b <span style="color:#f92672">?</span> a : b;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>qwq max;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>...
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> max(a, b);
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">qwq</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="nf">operator</span><span class="p">()</span> <span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a</span> <span class="p">:</span> <span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">qwq</span> <span class="n">max</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">...</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">);</span>
 </span></span></code></pre></div><p>非常自然，非常易懂。</p>
 <h3 id="效率">效率</h3>
 <p><del>懒得测了。</del><br>

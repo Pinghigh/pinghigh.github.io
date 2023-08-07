@@ -296,14 +296,14 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ul>
+  <ol>
     <li><a href="#时间复杂度">时间复杂度</a></li>
     <li><a href="#节点存储">节点存储</a></li>
     <li><a href="#合并两个堆">合并两个堆</a></li>
     <li><a href="#插入新节点">插入新节点</a></li>
     <li><a href="#弹出堆顶">弹出堆顶</a></li>
     <li><a href="#模板">模板</a></li>
-  </ul>
+  </ol>
 </nav>
         </div>
     </section>
@@ -414,10 +414,10 @@
 	
 ></p>
 <p>代码就非常好写了</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> val;
-</span></span><span style="display:flex;"><span>	Node <span style="color:#f92672">*</span>child, <span style="color:#f92672">*</span>nex; <span style="color:#75715e">// 第一个儿子，下一个兄弟
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Node</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="kt">int</span> <span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Node</span> <span class="o">*</span><span class="n">child</span><span class="p">,</span> <span class="o">*</span><span class="n">nex</span><span class="p">;</span> <span class="c1">// 第一个儿子，下一个兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">};</span>
 </span></span></code></pre></div><h2 id="合并两个堆">合并两个堆</h2>
 <p>比较根节点大小，把根节点大的堆直接改成根节点小的堆根节点的儿子即可。<br>
 图示中还是使用树本身形态。</p>
@@ -431,31 +431,31 @@
 	
 	
 ></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Node<span style="color:#f92672">*</span> <span style="color:#a6e22e">meld</span>(Node<span style="color:#f92672">*</span> x, Node<span style="color:#f92672">*</span> y) {  <span style="color:#75715e">// 传入两个根节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (x <span style="color:#f92672">==</span> null) <span style="color:#75715e">// null 为空节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span> y;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (y <span style="color:#f92672">==</span> null)
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> x;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (x<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&lt;</span> y<span style="color:#f92672">-&gt;</span>val) { <span style="color:#75715e">// x 比 y 小，y 当 x 的儿子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		y<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">=</span> x<span style="color:#f92672">-&gt;</span>child; <span style="color:#75715e">// 旧儿子是新儿子的兄弟
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		x<span style="color:#f92672">-&gt;</span>child <span style="color:#f92672">=</span> y; <span style="color:#75715e">// 新儿子是第一个儿子
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span> x;
-</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>		x<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">=</span> y<span style="color:#f92672">-&gt;</span>child;
-</span></span><span style="display:flex;"><span>		y<span style="color:#f92672">-&gt;</span>child <span style="color:#f92672">=</span> x;
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> y;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">Node</span><span class="o">*</span> <span class="nf">meld</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">Node</span><span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 传入两个根节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="c1">// null 为空节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// x 比 y 小，y 当 x 的儿子
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">;</span> <span class="c1">// 旧儿子是新儿子的兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">x</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span> <span class="c1">// 新儿子是第一个儿子
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="n">y</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h2 id="插入新节点">插入新节点</h2>
 <p>新建节点，然后当成两个堆合并即可。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span>(<span style="color:#66d9ef">int</span> x) {
-</span></span><span style="display:flex;"><span>	Node<span style="color:#f92672">*</span> y <span style="color:#f92672">=</span> new_node(); <span style="color:#75715e">// 获取新节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	y<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">=</span> x;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> null) <span style="color:#75715e">// 当前堆为空的话，新节点为根
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		root <span style="color:#f92672">=</span> y;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
-</span></span><span style="display:flex;"><span>		root <span style="color:#f92672">=</span> meld(root, y); <span style="color:#75715e">// 否则当成两个堆合并
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">push</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Node</span><span class="o">*</span> <span class="n">y</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">();</span> <span class="c1">// 获取新节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">y</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="c1">// 当前堆为空的话，新节点为根
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="n">root</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="k">else</span>
+</span></span><span class="line"><span class="cl">		<span class="n">root</span> <span class="o">=</span> <span class="n">meld</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span> <span class="c1">// 否则当成两个堆合并
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></div><h2 id="弹出堆顶">弹出堆顶</h2>
 <p>貌似要写完了，但是前面几个操作都没有对堆的性质进行维护，因此重头戏在这个部分&hellip;</p>
 <p>删除根节点之后，遇到的是原来的子节点们组成的森林，想办法把它们合并到一起。<br>
@@ -474,94 +474,94 @@
 	
 ></p>
 <p>首先实现一个用于配对的函数。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>Node<span style="color:#f92672">*</span> <span style="color:#a6e22e">merges</span>(Node<span style="color:#f92672">*</span> x) {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;</span>mark<span style="color:#f92672">&gt;</span> null <span style="color:#f92672">||</span> x<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">&lt;/</span>mark<span style="color:#f92672">&gt;</span> null) <span style="color:#66d9ef">return</span> x;  <span style="color:#75715e">// x 为空或者 x 没有下一个兄弟节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	Node<span style="color:#f92672">*</span> y <span style="color:#f92672">=</span> x<span style="color:#f92672">-&gt;</span>nex;                           <span style="color:#75715e">// y 是 x 的下一个兄弟
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	Node<span style="color:#f92672">*</span> c <span style="color:#f92672">=</span> y<span style="color:#f92672">-&gt;</span>nex;                           <span style="color:#75715e">// c 是再下一个兄弟
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	x<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">=</span> y<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">=</span> null;                     <span style="color:#75715e">// 拆散
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> meld(merges(c), meld(x, y));         <span style="color:#75715e">// x 与 y 配对在一起，剩下的继续配对
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">Node</span><span class="o">*</span> <span class="nf">merges</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">mark</span><span class="o">&gt;</span> <span class="n">null</span> <span class="o">||</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">&lt;/</span><span class="n">mark</span><span class="o">&gt;</span> <span class="n">null</span><span class="p">)</span> <span class="k">return</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// x 为空或者 x 没有下一个兄弟节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">Node</span><span class="o">*</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span><span class="p">;</span>                           <span class="c1">// y 是 x 的下一个兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">Node</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span><span class="p">;</span>                           <span class="c1">// c 是再下一个兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>                     <span class="c1">// 拆散
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span> <span class="n">meld</span><span class="p">(</span><span class="n">merges</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">meld</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">));</span>         <span class="c1">// x 与 y 配对在一起，剩下的继续配对
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></div><p>然后弹出堆顶的操作就很好写了。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">pop</span>() {
-</span></span><span style="display:flex;"><span>	Node<span style="color:#f92672">*</span> t <span style="color:#f92672">=</span> merges(root<span style="color:#f92672">-&gt;</span>child);
-</span></span><span style="display:flex;"><span>	remove(root);
-</span></span><span style="display:flex;"><span>	root <span style="color:#f92672">=</span> t;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">pop</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="n">Node</span><span class="o">*</span> <span class="n">t</span> <span class="o">=</span> <span class="n">merges</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">remove</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">	<span class="n">root</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h2 id="模板">模板</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> i64 <span style="color:#f92672">=</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#define __SIZ 2000006
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
-</span></span><span style="display:flex;"><span>    i64 val;
-</span></span><span style="display:flex;"><span>    Node <span style="color:#f92672">*</span>child, <span style="color:#f92672">*</span>nex;
-</span></span><span style="display:flex;"><span>} tree[__SIZ], <span style="color:#f92672">*</span>rubbish_bin[__SIZ]; <span style="color:#75715e">// 提早分配内存，new 太慢了
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>Node <span style="color:#f92672">*</span>null <span style="color:#f92672">=</span> tree, <span style="color:#f92672">*</span>tot <span style="color:#f92672">=</span> tree;
-</span></span><span style="display:flex;"><span>i64 bintop;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">pairing_heap</span> {
-</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">*</span> root;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">*</span> <span style="color:#a6e22e">new_node</span>() {
-</span></span><span style="display:flex;"><span>        Node<span style="color:#f92672">*</span> nod;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (bintop)
-</span></span><span style="display:flex;"><span>            nod <span style="color:#f92672">=</span> rubbish_bin[bintop<span style="color:#f92672">--</span>]; <span style="color:#75715e">// 垃圾回收
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">else</span>
-</span></span><span style="display:flex;"><span>            nod <span style="color:#f92672">=</span> <span style="color:#f92672">++</span>tot;
-</span></span><span style="display:flex;"><span>        nod<span style="color:#f92672">-&gt;</span>child <span style="color:#f92672">=</span> null;
-</span></span><span style="display:flex;"><span>        nod<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">=</span> null;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> nod;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">remove</span>(Node<span style="color:#f92672">*</span> x) {
-</span></span><span style="display:flex;"><span>        rubbish_bin[<span style="color:#f92672">++</span>bintop] <span style="color:#f92672">=</span> x;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">*</span> <span style="color:#a6e22e">meld</span>(Node<span style="color:#f92672">*</span> x, Node<span style="color:#f92672">*</span> y) {  <span style="color:#75715e">// 合并两个堆
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">==</span> null)
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> y;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (y <span style="color:#f92672">==</span> null)
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> x;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (x<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&lt;</span> y<span style="color:#f92672">-&gt;</span>val) {
-</span></span><span style="display:flex;"><span>            y<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">=</span> x<span style="color:#f92672">-&gt;</span>child;
-</span></span><span style="display:flex;"><span>            x<span style="color:#f92672">-&gt;</span>child <span style="color:#f92672">=</span> y;
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> x;
-</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            x<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">=</span> y<span style="color:#f92672">-&gt;</span>child;
-</span></span><span style="display:flex;"><span>            y<span style="color:#f92672">-&gt;</span>child <span style="color:#f92672">=</span> x;
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> y;
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">*</span> <span style="color:#a6e22e">merges</span>(Node<span style="color:#f92672">*</span> x) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">&lt;</span>mark<span style="color:#f92672">&gt;</span> null <span style="color:#f92672">||</span> x<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">&lt;/</span>mark<span style="color:#f92672">&gt;</span> null) <span style="color:#66d9ef">return</span> x;  <span style="color:#75715e">// x 为空或者 x 没有下一个兄弟节点
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Node<span style="color:#f92672">*</span> y <span style="color:#f92672">=</span> x<span style="color:#f92672">-&gt;</span>nex;                           <span style="color:#75715e">// y 是 x 的下一个兄弟
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Node<span style="color:#f92672">*</span> c <span style="color:#f92672">=</span> y<span style="color:#f92672">-&gt;</span>nex;                           <span style="color:#75715e">// c 是下一个兄弟
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        x<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">=</span> y<span style="color:#f92672">-&gt;</span>nex <span style="color:#f92672">=</span> null;                     <span style="color:#75715e">// 拆散
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> meld(merges(c), meld(x, y));         <span style="color:#75715e">// x 与 y 配对在一起，剩下的继续配对
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>    pairing_heap() {
-</span></span><span style="display:flex;"><span>        root <span style="color:#f92672">=</span> null;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">push</span>(i64 x) {
-</span></span><span style="display:flex;"><span>        Node<span style="color:#f92672">*</span> y <span style="color:#f92672">=</span> new_node();
-</span></span><span style="display:flex;"><span>        y<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">=</span> x;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> null)
-</span></span><span style="display:flex;"><span>            root <span style="color:#f92672">=</span> y;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>
-</span></span><span style="display:flex;"><span>            root <span style="color:#f92672">=</span> meld(root, y);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    i64 <span style="color:#a6e22e">top</span>() {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> root<span style="color:#f92672">-&gt;</span>val;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">pop</span>() {
-</span></span><span style="display:flex;"><span>        Node<span style="color:#f92672">*</span> t <span style="color:#f92672">=</span> merges(root<span style="color:#f92672">-&gt;</span>child);
-</span></span><span style="display:flex;"><span>        remove(root);
-</span></span><span style="display:flex;"><span>        root <span style="color:#f92672">=</span> t;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>} q;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">using</span> <span class="n">i64</span> <span class="o">=</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">#define __SIZ 2000006
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="nc">Node</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i64</span> <span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span> <span class="o">*</span><span class="n">child</span><span class="p">,</span> <span class="o">*</span><span class="n">nex</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">tree</span><span class="p">[</span><span class="n">__SIZ</span><span class="p">],</span> <span class="o">*</span><span class="n">rubbish_bin</span><span class="p">[</span><span class="n">__SIZ</span><span class="p">];</span> <span class="c1">// 提早分配内存，new 太慢了
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Node</span> <span class="o">*</span><span class="n">null</span> <span class="o">=</span> <span class="n">tree</span><span class="p">,</span> <span class="o">*</span><span class="n">tot</span> <span class="o">=</span> <span class="n">tree</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">i64</span> <span class="n">bintop</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">pairing_heap</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">*</span> <span class="n">root</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">*</span> <span class="nf">new_node</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">*</span> <span class="n">nod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">bintop</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nod</span> <span class="o">=</span> <span class="n">rubbish_bin</span><span class="p">[</span><span class="n">bintop</span><span class="o">--</span><span class="p">];</span> <span class="c1">// 垃圾回收
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nod</span> <span class="o">=</span> <span class="o">++</span><span class="n">tot</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">nod</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">nod</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">nod</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">remove</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">rubbish_bin</span><span class="p">[</span><span class="o">++</span><span class="n">bintop</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">*</span> <span class="nf">meld</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">Node</span><span class="o">*</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// 合并两个堆
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">y</span><span class="o">-&gt;</span><span class="n">child</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span><span class="o">*</span> <span class="nf">merges</span><span class="p">(</span><span class="n">Node</span><span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span><span class="n">mark</span><span class="o">&gt;</span> <span class="n">null</span> <span class="o">||</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">&lt;/</span><span class="n">mark</span><span class="o">&gt;</span> <span class="n">null</span><span class="p">)</span> <span class="k">return</span> <span class="n">x</span><span class="p">;</span>  <span class="c1">// x 为空或者 x 没有下一个兄弟节点
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Node</span><span class="o">*</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span><span class="p">;</span>                           <span class="c1">// y 是 x 的下一个兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Node</span><span class="o">*</span> <span class="n">c</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span><span class="p">;</span>                           <span class="c1">// c 是下一个兄弟
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">x</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">y</span><span class="o">-&gt;</span><span class="n">nex</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>                     <span class="c1">// 拆散
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="n">meld</span><span class="p">(</span><span class="n">merges</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">meld</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">));</span>         <span class="c1">// x 与 y 配对在一起，剩下的继续配对
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pairing_heap</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">root</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">push</span><span class="p">(</span><span class="n">i64</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">*</span> <span class="n">y</span> <span class="o">=</span> <span class="n">new_node</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">root</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">root</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">root</span> <span class="o">=</span> <span class="n">meld</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">i64</span> <span class="nf">top</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">root</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="nf">pop</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Node</span><span class="o">*</span> <span class="n">t</span> <span class="o">=</span> <span class="n">merges</span><span class="p">(</span><span class="n">root</span><span class="o">-&gt;</span><span class="n">child</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">remove</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">root</span> <span class="o">=</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">q</span><span class="p">;</span>
 </span></span></code></pre></div>
 </section>
 

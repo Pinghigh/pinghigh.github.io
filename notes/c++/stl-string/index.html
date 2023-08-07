@@ -299,15 +299,19 @@
         
         <div class="widget--toc">
             <nav id="TableOfContents">
-  <ul>
+  <ol>
     <li>
-      <ul>
+      <ol>
         <li><a href="#赋值">赋值</a></li>
-        <li><a href="#输入输出">输入输出</a></li>
+        <li><a href="#输入输出">输入输出</a>
+          <ol>
+            <li><a href="#后记">后记</a></li>
+          </ol>
+        </li>
         <li><a href="#常用操作">常用操作</a></li>
-      </ul>
+      </ol>
     </li>
-  </ul>
+  </ol>
 </nav>
         </div>
     </section>
@@ -395,73 +399,73 @@
     
     <p>可变长的字符序列，需要引入头文件 <code>&lt;string&gt;</code></p>
 <h3 id="赋值">赋值</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
-</span></span><span style="display:flex;"><span>    string s1; <span style="color:#75715e">// 默认空字符串
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    string s2 <span style="color:#f92672">=</span> s1; <span style="color:#75715e">// string 类型可以互相赋值，无需 memcpy() 或 strcpy() 。 s2 是 s1 的一个副本
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    string s3 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hiya&#34;</span>; <span style="color:#75715e">// s3 是该字符串(&#34;hiya&#34;)字面值的一个副本（我也不知道是什么，总之 s3 的值是&#34;hiya&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    string s4(<span style="color:#ae81ff">5</span>,<span style="color:#e6db74">&#39;T&#39;</span>); <span style="color:#75715e">// s4 的内容是“TTTTT” 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">string</span> <span class="n">s1</span><span class="p">;</span> <span class="c1">// 默认空字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">string</span> <span class="n">s2</span> <span class="o">=</span> <span class="n">s1</span><span class="p">;</span> <span class="c1">// string 类型可以互相赋值，无需 memcpy() 或 strcpy() 。 s2 是 s1 的一个副本
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">string</span> <span class="n">s3</span> <span class="o">=</span> <span class="s">&#34;hiya&#34;</span><span class="p">;</span> <span class="c1">// s3 是该字符串(&#34;hiya&#34;)字面值的一个副本（我也不知道是什么，总之 s3 的值是&#34;hiya&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">string</span> <span class="n">s4</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="sc">&#39;T&#39;</span><span class="p">);</span> <span class="c1">// s4 的内容是“TTTTT” 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h3 id="输入输出">输入输出</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstdio&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
-</span></span><span style="display:flex;"><span>    string s1, s2;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//读入无空格字符串
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cin <span style="color:#f92672">&gt;&gt;</span> s1; <span style="color:#75715e">// scanf() fgets() 不能读入 string 类型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//读入一行
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    getline(cin,s2);
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//输出
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> s1 <span style="color:#f92672">&lt;&lt;</span> endl <span style="color:#f92672">&lt;&lt;</span> s2 <span style="color:#f92672">&lt;&lt;</span> endl; 
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/*
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    printf() 不能直接输出string类型
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    需要写成 printf(&#34;%s&#34;,s1.c_str())
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    这里 s.c_str() 作用是把 string 类型转化为字符数组
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    */</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 当然也可以 puts(s1.c_str())
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">string</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">//读入无空格字符串
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">s1</span><span class="p">;</span> <span class="c1">// scanf() fgets() 不能读入 string 类型
+</span></span></span><span class="line"><span class="cl"><span class="c1">//读入一行
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span><span class="n">s2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">//输出
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s1</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="n">s2</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">    <span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">    printf() 不能直接输出string类型
+</span></span></span><span class="line"><span class="cl"><span class="cm">    需要写成 printf(&#34;%s&#34;,s1.c_str())
+</span></span></span><span class="line"><span class="cl"><span class="cm">    这里 s.c_str() 作用是把 string 类型转化为字符数组
+</span></span></span><span class="line"><span class="cl"><span class="cm">    */</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 当然也可以 puts(s1.c_str())
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h4 id="后记">后记</h4>
 <p>使用 <code>getline(cin,str)</code> 输入时需要注意回车符<br>
 什么意思呢？举个例子</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
-</span></span><span style="display:flex;"><span>  string a,b;
-</span></span><span style="display:flex;"><span>  cin <span style="color:#f92672">&gt;&gt;</span> a;
-</span></span><span style="display:flex;"><span>  getline(cin, s);
-</span></span><span style="display:flex;"><span>  cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">string</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><p>这时你输入</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-TEXT" data-lang="TEXT"><span style="display:flex;"><span>NVIDIA
-</span></span><span style="display:flex;"><span>FUCK U
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-TEXT" data-lang="TEXT"><span class="line"><span class="cl">NVIDIA
+</span></span><span class="line"><span class="cl">FUCK U
 </span></span></code></pre></div><p>程序会在你输入完第一行后直接输出一个<code>NVIDIA</code>与几个换行符 <br>
 原因是cin遇到回车停止，此时getline直接把<code>NVIDIA</code>后的部分(空)读入然后再次遇到回车符，停止输入。<br>
 为了避免这种情况，我们需要忽略掉一个回车符，可以使用<code>getchar()</code>。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
-</span></span><span style="display:flex;"><span>  string a,b;
-</span></span><span style="display:flex;"><span>  cin <span style="color:#f92672">&gt;&gt;</span> a; <span style="color:#75715e">// NVIDIA
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  getchar(); <span style="color:#75715e">// \n（跳过一个换行符）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  getline(cin, s); <span style="color:#75715e">// FUCK U
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">string</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">;</span> <span class="c1">// NVIDIA
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">getchar</span><span class="p">();</span> <span class="c1">// \n（跳过一个换行符）
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">s</span><span class="p">);</span> <span class="c1">// FUCK U
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="n">b</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h3 id="常用操作">常用操作</h3>
 <ul>
 <li><code>str.empty()</code>
@@ -496,25 +500,25 @@
 <ul>
 <li>可以当作字符数组处理，如 <code>str[0]</code> , <code>str[3]</code></li>
 <li>独特的遍历方式
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
-</span></span><span style="display:flex;"><span>  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;So, NVIDIA,&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>  string s <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Fuck U&#34;</span>;
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">char</span> c : s) { <span style="color:#75715e">// char c可以写作 auto c
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> c <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&#34;So, NVIDIA,&#34;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&#34;Fuck U&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="p">(</span><span class="kt">char</span> <span class="nl">c</span> <span class="p">:</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// char c可以写作 auto c
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div>输出：
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>So, NVIDIA,
-</span></span><span style="display:flex;"><span>F
-</span></span><span style="display:flex;"><span>u
-</span></span><span style="display:flex;"><span>c
-</span></span><span style="display:flex;"><span>k
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>U
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">So, NVIDIA,
+</span></span><span class="line"><span class="cl">F
+</span></span><span class="line"><span class="cl">u
+</span></span><span class="line"><span class="cl">c
+</span></span><span class="line"><span class="cl">k
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">U
 </span></span></code></pre></div></li>
 </ul>
 </li>
