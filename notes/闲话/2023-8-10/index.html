@@ -23,9 +23,8 @@ pacman 实在是太好用了
 考虑枚举一条边，另一条边用根号或者 $\log$ 的时间复杂度搞出来。
 考虑当你枚举断掉一条边的时候，也就是拎出来了一棵子树，树的剩下的部分怎么选比较合适？显然是把它们切成一半。
 于是大体思路形成：dfs，到每个节点的时候将这棵树从当前节点的父边断开，然后形成了两棵树，形如 Archlabs 的 logo。
-开两个 std::multiset&amp;lt;int&amp;gt; 维护上面那棵树所有子树的大小，与下面这棵树所有子树的大小。当然你想开平衡树我不拦着，毕竟自己写的常数小。
-然后对于这两种子树，分别利用 std::multiset&amp;lt;int&amp;gt;::lower_bound 找到最接近该树一半大小的子树，然后比大小更新答案。大于小于不知道哪个更接近的话，两个都判一下就完事了。
-tho 和 thu，一个都去不了，这就是独属于我的悲伤吧。" />
+开两个 std::multiset&amp;lt;int&amp;gt; 维护 dfs 过程中遍历过的所有子树的大小。
+为啥是两个呢，对于 $u$ 的父节点，其 $siz$ 是包含 $siz_u$ 的，所以对于 $u$ 的祖先节点的 $siz$ 需要单独维护一个集合。" />
 <title>2023.8.10 闲话</title>
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E9%97%B2%E8%AF%9D/2023-8-10/" />
@@ -53,9 +52,8 @@ pacman 实在是太好用了
 考虑枚举一条边，另一条边用根号或者 $\log$ 的时间复杂度搞出来。
 考虑当你枚举断掉一条边的时候，也就是拎出来了一棵子树，树的剩下的部分怎么选比较合适？显然是把它们切成一半。
 于是大体思路形成：dfs，到每个节点的时候将这棵树从当前节点的父边断开，然后形成了两棵树，形如 Archlabs 的 logo。
-开两个 std::multiset&amp;lt;int&amp;gt; 维护上面那棵树所有子树的大小，与下面这棵树所有子树的大小。当然你想开平衡树我不拦着，毕竟自己写的常数小。
-然后对于这两种子树，分别利用 std::multiset&amp;lt;int&amp;gt;::lower_bound 找到最接近该树一半大小的子树，然后比大小更新答案。大于小于不知道哪个更接近的话，两个都判一下就完事了。
-tho 和 thu，一个都去不了，这就是独属于我的悲伤吧。'>
+开两个 std::multiset&amp;lt;int&amp;gt; 维护 dfs 过程中遍历过的所有子树的大小。
+为啥是两个呢，对于 $u$ 的父节点，其 $siz$ 是包含 $siz_u$ 的，所以对于 $u$ 的祖先节点的 $siz$ 需要单独维护一个集合。'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/%E9%97%B2%E8%AF%9D/2023-8-10/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
 <meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='闲话' /><meta property='article:published_time' content='2023-08-10T21:48:11&#43;08:00'/><meta property='article:modified_time' content='2023-08-10T21:48:11&#43;08:00'/>
@@ -82,9 +80,8 @@ pacman 实在是太好用了
 考虑枚举一条边，另一条边用根号或者 $\log$ 的时间复杂度搞出来。
 考虑当你枚举断掉一条边的时候，也就是拎出来了一棵子树，树的剩下的部分怎么选比较合适？显然是把它们切成一半。
 于是大体思路形成：dfs，到每个节点的时候将这棵树从当前节点的父边断开，然后形成了两棵树，形如 Archlabs 的 logo。
-开两个 std::multiset&amp;lt;int&amp;gt; 维护上面那棵树所有子树的大小，与下面这棵树所有子树的大小。当然你想开平衡树我不拦着，毕竟自己写的常数小。
-然后对于这两种子树，分别利用 std::multiset&amp;lt;int&amp;gt;::lower_bound 找到最接近该树一半大小的子树，然后比大小更新答案。大于小于不知道哪个更接近的话，两个都判一下就完事了。
-tho 和 thu，一个都去不了，这就是独属于我的悲伤吧。">
+开两个 std::multiset&amp;lt;int&amp;gt; 维护 dfs 过程中遍历过的所有子树的大小。
+为啥是两个呢，对于 $u$ 的父节点，其 $siz$ 是包含 $siz_u$ 的，所以对于 $u$ 的祖先节点的 $siz$ 需要单独维护一个集合。">
 <link rel="shortcut icon" href="/favicon.png" />
 
 <link
@@ -451,7 +448,8 @@ tho 和 thu，一个都去不了，这就是独属于我的悲伤吧。">
 	
 	
 ></p>
-<p>开两个 <code>std::multiset&lt;int&gt;</code> 维护上面那棵树所有子树的大小，与下面这棵树所有子树的大小。当然你想开平衡树我不拦着，毕竟自己写的常数小。</p>
+<p>开两个 <code>std::multiset&lt;int&gt;</code> 维护 dfs 过程中遍历过的所有子树的大小。</p>
+<p>为啥是两个呢，对于 $u$ 的父节点，其 $siz$ 是包含 $siz_u$ 的，所以对于 $u$ 的祖先节点的 $siz$ 需要单独维护一个集合。</p>
 <p>然后对于这两种子树，分别利用 <code>std::multiset&lt;int&gt;::lower_bound</code> 找到最接近该树一半大小的子树，然后比大小更新答案。大于小于不知道哪个更接近的话，两个都判一下就完事了。</p>
 <hr>
 <p>tho 和 thu，一个都去不了，这就是独属于我的悲伤吧。</p>

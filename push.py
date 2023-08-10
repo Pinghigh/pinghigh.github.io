@@ -18,5 +18,5 @@ utc_time = utc_time.strftime("%Y-%m-%d %H:%M:%S")
 
 os.system(f"hugo -s {hugo_dir}")
 os.system(f"git -C {hugo_dir}/public add .")
-os.system(f"git -C {hugo_dir}/public commit -m \"{utc_time}\"")
-os.system(f"git -C {hugo_dir}/public push")
+os.system(f"git -C {hugo_dir}/public commit -m \"{utc_time}\" -a")
+os.system(f"git -C {hugo_dir}/public push -f")
