@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="在四机房尝试了一下双显示器（笔记本&#43;机房显示器）
+机房屏幕是真大，但是 dpi 太低了。将近 1.5 倍的尺寸于我的笔记本，但是 dpi 我的笔记本是机房显示器的 1.25 倍，实际观感要差的很多。
+所以说啊，拯救字体渲染的最好方式还是换高 dpi 显示屏。
+但是我觉得微软雅黑真是一坨大便。
+学习 jijidawang 和 crimson000 进行一个推歌。
+MY Heart Rate —— あよ，专辑：森羅万象《シンクロ2》
+ayo 牛逼，没得说。
+这首歌总能带来一些轻松的感觉呢，想必是编曲的时候考虑到灵梦日常的无聊心情吧（笑）
+另外，Heart Rate 用比较 Japanglish 的口音读的话，应该能体会到是对 はくれい（Hakurei）的谐音。
+改了 T2，因为这题能体现出来长时间摆烂让我的思维脱离了“OI”。
+题面
+首先看到题目要求断两条边，应当能够立刻想到暴力：$n^2$ 枚举两条边。
+但是我他妈没想到，我直接找的重心，导致这题就算不绑包我也就过了一个点。
+枚举应当是最基本的东西，但是我没想到，说明我状态还没回来。
+希望能尽快吧。
+然后走向玄学乱搞。
+这题显然不是让你找到一个点然后乱搞出分割方案的，因为要断两条边，所以找一个点的方式应当排除。
+考虑枚举一条边，另一条边用根号或者 $\log$ 的时间复杂度搞出来。
+考虑当你枚举断掉一条边的时候，也就是拎出来了一棵子树，树的剩下的部分怎么选比较合适？显然是把它们切成一半。
+于是大体思路形成：dfs，到每个节点的时候将这棵树从当前节点的父边断开，然后形成了两棵树，形如 Archlabs 的 logo。
+开两个 std::multiset&amp;lt;int&amp;gt; 维护上面那棵树所有子树的大小，与下面这棵树所有子树的大小。当然你想开平衡树我不拦着，毕竟自己写的常数小。
+然后对于这两种子树，分别利用 std::multiset&amp;lt;int&amp;gt;::lower_bound 找到最接近该树一半大小的子树，然后比大小更新答案。大于小于不知道哪个更接近的话，两个都判一下就完事了。
+tho 和 thu，一个都去不了，这就是独属于我的悲伤吧。" />
+<title>2023.8.10 闲话</title>
+
+<link rel="canonical" href="https://blog.tibrella.top/notes/%E9%97%B2%E8%AF%9D/2023-8-10/" />
+
+<link rel="stylesheet" href="/scss/style.min.728d06729a1c59be2f9dd572948bce23a539c64c94665e2a2c51bd1cc20a3908.css"><meta property='og:title' content='2023.8.10 闲话'>
+<meta property='og:description' content='在四机房尝试了一下双显示器（笔记本&#43;机房显示器）
+机房屏幕是真大，但是 dpi 太低了。将近 1.5 倍的尺寸于我的笔记本，但是 dpi 我的笔记本是机房显示器的 1.25 倍，实际观感要差的很多。
+所以说啊，拯救字体渲染的最好方式还是换高 dpi 显示屏。
+但是我觉得微软雅黑真是一坨大便。
+学习 jijidawang 和 crimson000 进行一个推歌。
+MY Heart Rate —— あよ，专辑：森羅万象《シンクロ2》
+ayo 牛逼，没得说。
+这首歌总能带来一些轻松的感觉呢，想必是编曲的时候考虑到灵梦日常的无聊心情吧（笑）
+另外，Heart Rate 用比较 Japanglish 的口音读的话，应该能体会到是对 はくれい（Hakurei）的谐音。
+改了 T2，因为这题能体现出来长时间摆烂让我的思维脱离了“OI”。
+题面
+首先看到题目要求断两条边，应当能够立刻想到暴力：$n^2$ 枚举两条边。
+但是我他妈没想到，我直接找的重心，导致这题就算不绑包我也就过了一个点。
+枚举应当是最基本的东西，但是我没想到，说明我状态还没回来。
+希望能尽快吧。
+然后走向玄学乱搞。
+这题显然不是让你找到一个点然后乱搞出分割方案的，因为要断两条边，所以找一个点的方式应当排除。
+考虑枚举一条边，另一条边用根号或者 $\log$ 的时间复杂度搞出来。
+考虑当你枚举断掉一条边的时候，也就是拎出来了一棵子树，树的剩下的部分怎么选比较合适？显然是把它们切成一半。
+于是大体思路形成：dfs，到每个节点的时候将这棵树从当前节点的父边断开，然后形成了两棵树，形如 Archlabs 的 logo。
+开两个 std::multiset&amp;lt;int&amp;gt; 维护上面那棵树所有子树的大小，与下面这棵树所有子树的大小。当然你想开平衡树我不拦着，毕竟自己写的常数小。
+然后对于这两种子树，分别利用 std::multiset&amp;lt;int&amp;gt;::lower_bound 找到最接近该树一半大小的子树，然后比大小更新答案。大于小于不知道哪个更接近的话，两个都判一下就完事了。
+tho 和 thu，一个都去不了，这就是独属于我的悲伤吧。'>
+<meta property='og:url' content='https://blog.tibrella.top/notes/%E9%97%B2%E8%AF%9D/2023-8-10/'>
+<meta property='og:site_name' content='钛合金伞的隙间'>
+<meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='闲话' /><meta property='article:published_time' content='2023-08-10T21:48:11&#43;08:00'/><meta property='article:modified_time' content='2023-08-10T21:48:11&#43;08:00'/>
+<meta name="twitter:title" content="2023.8.10 闲话">
+<meta name="twitter:description" content="在四机房尝试了一下双显示器（笔记本&#43;机房显示器）
+机房屏幕是真大，但是 dpi 太低了。将近 1.5 倍的尺寸于我的笔记本，但是 dpi 我的笔记本是机房显示器的 1.25 倍，实际观感要差的很多。
+所以说啊，拯救字体渲染的最好方式还是换高 dpi 显示屏。
+但是我觉得微软雅黑真是一坨大便。
+学习 jijidawang 和 crimson000 进行一个推歌。
+MY Heart Rate —— あよ，专辑：森羅万象《シンクロ2》
+ayo 牛逼，没得说。
+这首歌总能带来一些轻松的感觉呢，想必是编曲的时候考虑到灵梦日常的无聊心情吧（笑）
+另外，Heart Rate 用比较 Japanglish 的口音读的话，应该能体会到是对 はくれい（Hakurei）的谐音。
+改了 T2，因为这题能体现出来长时间摆烂让我的思维脱离了“OI”。
+题面
+首先看到题目要求断两条边，应当能够立刻想到暴力：$n^2$ 枚举两条边。
+但是我他妈没想到，我直接找的重心，导致这题就算不绑包我也就过了一个点。
+枚举应当是最基本的东西，但是我没想到，说明我状态还没回来。
+希望能尽快吧。
+然后走向玄学乱搞。
+这题显然不是让你找到一个点然后乱搞出分割方案的，因为要断两条边，所以找一个点的方式应当排除。
+考虑枚举一条边，另一条边用根号或者 $\log$ 的时间复杂度搞出来。
+考虑当你枚举断掉一条边的时候，也就是拎出来了一棵子树，树的剩下的部分怎么选比较合适？显然是把它们切成一半。
+于是大体思路形成：dfs，到每个节点的时候将这棵树从当前节点的父边断开，然后形成了两棵树，形如 Archlabs 的 logo。
+开两个 std::multiset&amp;lt;int&amp;gt; 维护上面那棵树所有子树的大小，与下面这棵树所有子树的大小。当然你想开平衡树我不拦着，毕竟自己写的常数小。
+然后对于这两种子树，分别利用 std::multiset&amp;lt;int&amp;gt;::lower_bound 找到最接近该树一半大小的子树，然后比大小更新答案。大于小于不知道哪个更接近的话，两个都判一下就完事了。
+tho 和 thu，一个都去不了，这就是独属于我的悲伤吧。">
+<link rel="shortcut icon" href="/favicon.png" />
+
+<link
+    rel="stylesheet"
+    href="https://npm.elemecdn.com/littlefoot/dist/littlefoot.css" />
+<script
+    src="https://npm.elemecdn.com/littlefoot/dist/littlefoot.js"
+    type="application/javascript"></script>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script>
+    hljs.highlightAll();
+</script>
+<script>
+    littlefoot.default();
+</script>
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    <img src="/img/avatar.webp" width="300" height="300" class="site-logo" loading="lazy" alt="Avatar">
+                
+                </a>
+                
+                    <span class="emoji">🌂</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h2 class="site-name"><a href="/">钛合金伞的隙间</a></h2>
+            <h2 class="site-description">去寻找能放射人间的弓吧！</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='mailto:pinghigh24678@outlook.com'
+                        target="_blank"
+                        title="Email"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com/pinghigh'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com/@pinghigh24678'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/page/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友链</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>露米娅来了</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+        <a href="/categories/%E9%97%B2%E8%AF%9D/" >
+            闲话
+        </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h1 class="article-title">
+            <a href="/notes/%E9%97%B2%E8%AF%9D/2023-8-10/">2023.8.10 闲话</a>
+        </h1>
+
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+            <time class="article-time--published">Aug 10, 2023</time>
+        </div>
+        
+
+        
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+            <time class="article-time--reading">
+                阅读时长: 1 分钟
+            </time>
+        </div>
+        
+    </footer>
+    
+
+    
+</div>
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>在四机房尝试了一下双显示器（笔记本+机房显示器）</p>
+<p>机房屏幕是真大，但是 dpi 太低了。将近 1.5 倍的尺寸于我的笔记本，但是 dpi 我的笔记本是机房显示器的 1.25 倍，实际观感要差的很多。</p>
+<p>所以说啊，拯救字体渲染的最好方式还是换高 dpi 显示屏。</p>
+<p>但是我觉得微软雅黑真是一坨大便。</p>
+<hr>
+<p>学习 <a class="link" href="https://www.cnblogs.com/CDOI-24374"  target="_blank" rel="noopener"
+    >jijidawang</a> 和 <a class="link" href="www.cnblogs.com/crimsonawa" >crimson000</a> 进行一个推歌。</p>
+<p>MY Heart Rate —— あよ，专辑：森羅万象《シンクロ2》</p>
+<p>ayo 牛逼，没得说。</p>
+<p>这首歌总能带来一些轻松的感觉呢，想必是编曲的时候考虑到灵梦日常的无聊心情吧（笑）</p>
+<p>另外，Heart Rate 用比较 Japanglish 的口音读的话，应该能体会到是对 はくれい（Hakurei）的谐音。</p>
+<hr>
+<p>改了 T2，因为这题能体现出来长时间摆烂让我的思维脱离了“OI”。</p>
+<p><a class="link" href="https://www.luogu.com.cn/problem/P7165"  target="_blank" rel="noopener"
+    >题面</a></p>
+<p>首先看到题目要求断两条边，应当能够立刻想到暴力：$n^2$ 枚举两条边。</p>
+<p>但是我他妈没想到，我直接找的重心，导致这题就算不绑包我也就过了一个点。</p>
+<p>枚举应当是最基本的东西，但是我没想到，说明我状态还没回来。<br>
+希望能尽快吧。</p>
+<p>然后走向玄学乱搞。</p>
+<p>这题显然不是让你找到一个点然后乱搞出分割方案的，因为要断两条边，所以找一个点的方式应当排除。</p>
+<p>考虑枚举一条边，另一条边用根号或者 $\log$ 的时间复杂度搞出来。</p>
+<p>考虑当你枚举断掉一条边的时候，也就是拎出来了一棵子树，树的剩下的部分怎么选比较合适？显然是把它们切成一半。</p>
+<p>于是大体思路形成：dfs，到每个节点的时候将这棵树从当前节点的父边断开，然后形成了两棵树，形如 Archlabs 的 logo。</p>
+<p><img src="https://pic.imgdb.cn/item/64d4f0d01ddac507cc618df0"
+	
+	
+	
+	loading="lazy"
+	
+	
+></p>
+<p>开两个 <code>std::multiset&lt;int&gt;</code> 维护上面那棵树所有子树的大小，与下面这棵树所有子树的大小。当然你想开平衡树我不拦着，毕竟自己写的常数小。</p>
+<p>然后对于这两种子树，分别利用 <code>std::multiset&lt;int&gt;::lower_bound</code> 找到最接近该树一半大小的子树，然后比大小更新答案。大于小于不知道哪个更接近的话，两个都判一下就完事了。</p>
+<hr>
+<p>tho 和 thu，一个都去不了，这就是独属于我的悲伤吧。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E9%97%B2%E8%AF%9D/">闲话</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" transform="rotate(180)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under FDL 1.3</span>
+    </section>
+    </footer>
+
+
+    
+        <script>
+    MathJax = {
+        tex: {
+            inlineMath: [
+                ["$", "$"],
+                ["\\(", "\\)"],
+            ],
+            displayMath: [
+                ["$$", "$$"],
+                ["\\[", "\\]"],
+            ],
+            processEscapes: true,
+            processEnvironments: true,
+        },
+        options: {
+            skipHtmlTags: ["script", "noscript", "style", "textarea", "pre"],
+        },
+    };
+
+    window.addEventListener("load", (event) => {
+        document.querySelectorAll("mjx-container").forEach(function (x) {
+            x.parentElement.classList += "has-jax";
+        });
+    });
+</script>
+<script
+    type="text/javascript"
+    id="MathJax-script"
+    async
+    src="https://unpkg.zhimg.com/mathjax@4.0.0-beta.3/tex-mml-chtml.js"
+></script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/notes/%E9%97%B2%E8%AF%9D/2023-8-5/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">2023.8.5 闲话</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    <script src="https://cdn.bootcdn.net/ajax/libs/twikoo/1.6.16/twikoo.all.min.js"></script>
+<div id="tcomment"></div>
+<style>
+    .twikoo {
+        background-color: var(--card-background);
+        border-radius: var(--card-border-radius);
+        box-shadow: var(--shadow-l1);
+        padding: var(--card-padding);
+        color: var(--twikoo-body-text-color);
+    }
+    :root[data-scheme="dark"] {
+        --twikoo-body-text-color-main: rgba(255, 255, 255, 0.9);
+        --twikoo-body-text-color: rgba(255, 255, 255, 0.7);
+    }
+    .twikoo .el-input-group__prepend,
+    .twikoo .tk-action-icon,
+    .twikoo .tk-time,
+    .twikoo .tk-comments-count {
+        color: var(--twikoo-body-text-color);
+    }
+    .twikoo .el-input__inner,
+    .twikoo .el-textarea__inner,
+    .twikoo .tk-preview-container,
+    .twikoo .tk-content,
+    .twikoo .tk-nick,
+    .twikoo .tk-send {
+        color: var(--twikoo-body-text-color-main);
+    }
+    .twikoo .el-button {
+        color: var(--twikoo-body-text-color) !important;
+    }
+    .OwO .OwO-body {
+        background-color: var(--body-background) !important;
+        color: var(--body-text-color) !important;
+    }
+</style><script>
+    twikoo.init({
+        envId: 'https:\/\/twikoo-api-omega-three.vercel.app\/',
+        GRAVATAR_CDN: 'gravatar.loli.net/avatar',
+        el: '#tcomment',lang: 'zh-cn',})
+</script>
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        <p style="display:inline-block; transform: rotatey(180deg);">&copy;</p> 
+        
+            2020 - 
+        
+        2023 钛合金伞的隙间
+    </section>
+    
+    <section class="powerby">
+        
+            <a href="https://icp.gov.moe/?keyword=20220284" rel="external nofollow noreferrer" target="_blank">萌ICP备20220284号</a> <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://npm.elemecdn.com/node-vibrant@latest/dist/vibrant.min.js"crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.loli.net/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    </body>
+</html>
