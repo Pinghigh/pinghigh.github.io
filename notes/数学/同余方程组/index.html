@@ -420,7 +420,7 @@ M_i = \frac M{n_i}
 $$</p>
 <p>先考虑如何构造出一个同余方程的特解，设 $M_i ^{-1}$ 为 $M_i$ 在 $\bmod n_i$ 意义下的逆元,想到 $M_iM_i^{-1} = 1\pmod {n_i}$，于是有 $x = a_i M_i M_i^{-1}$ 满足方程 $x \equiv a_i \pmod {n_i}$ 。<br>
 这实际上就是上面定义 $M_i$ 为质数的原因：需要保证有逆元存在。</p>
-<p>至于解的合并，把 $x$ 相加即可。即 $\sum_{i=1}^k a_iM_iM_i^{-1}$。通解即为 $nM+ \sum_{i=1}^k a_iM_iM_i^{-1}, n\in \mathbf Z$ 。为什么能这样合并？因为对于 $i,j,i\neq j$ 来说，必然存在 $n_j \mid M_i$，因为 $n_i$ 两两互质，$M_i$ 的因子包含 $n_j$，因此不会对已经推出来的解造成任何影响。</p>
+<p>至于解的合并，把 $x$ 相加即可。即 $\sum_{i=1}^k a_iM_iM_i^{-1}$。通解即为 $nM+ \sum_{i=1}^k a_iM_iM_i^{-1}, n\in \mathbb Z$ 。为什么能这样合并？因为对于 $i,j,i\neq j$ 来说，必然存在 $n_j \mid M_i$，因为 $n_i$ 两两互质，$M_i$ 的因子包含 $n_j$，因此不会对已经推出来的解造成任何影响。</p>
 <p>通解方面：容易想到，加减 $nM$ 也不会对解的可行性造成任何影响。</p>
 <h3 id="实现">实现</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="n">llint</span> <span class="nf">ex_gcd</span><span class="p">(</span><span class="n">llint</span> <span class="n">u</span><span class="p">,</span> <span class="n">llint</span> <span class="n">v</span><span class="p">,</span> <span class="n">llint</span><span class="o">&amp;</span> <span class="n">x</span><span class="p">,</span> <span class="n">llint</span><span class="o">&amp;</span> <span class="n">y</span><span class="p">)</span> <span class="p">{</span>
@@ -473,7 +473,7 @@ n_1k_1 + n_2(-k_2) &amp;= g \\
 (k_1 \cdot \frac{a_2-a_1}{g})n_1 + (-k_2 \cdot \frac{a_2-a_1}{g})n_2 &amp;= a_2-a_1
 \end{aligned}
 $$
-抽出刚才表示 $x$ 的方程组的一条，得到 $x_0 = a_1 + k_1n_1$，$k_1$ 的通解为 $k_1 + \cfrac{n_2}gp, p\in \mathbf Z$，则
+抽出刚才表示 $x$ 的方程组的一条，得到 $x_0 = a_1 + k_1n_1$，$k_1$ 的通解为 $k_1 + \cfrac{n_2}gp, p\in \mathbb Z$，则
 $$
 \begin{aligned}
 x &amp;= a_1 + (k_1+\cfrac{n_2}gp)n_1 \\
