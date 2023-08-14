@@ -362,7 +362,7 @@ $$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;单位元 $\epsilon * f = f$，其中 $\epsilon(n)=[n=1]$。&lt;/li&gt;
 &lt;li&gt;对于每个 $f(1) \neq 0$ 的数论函数 $f$，都存在一个函数 $g$ 使 $f*g=\epsilon$（函数逆元）&lt;/li&gt;
-&lt;li&gt;整除分块：对于 $i,k\in \mathbb{N*}$，$k$ 为定值时，$\lfloor \frac ki \rfloor$ 有大约 $\sqrt k$ 种取值。可以用这个做答案关于 $i\in[x,y], \lfloor \frac ki \rfloor$ 相关的问题（把整除结果相同的数算成一个块来求答案，这样的块大约有 $\sqrt k$ 个）。&lt;/li&gt;
+&lt;li&gt;整除分块：对于 $i,k\in \mathbb{N^*}$，$k$ 为定值时，$\lfloor \frac ki \rfloor$ 有大约 $\sqrt k$ 种取值。可以用这个做答案关于 $i\in[x,y], \lfloor \frac ki \rfloor$ 相关的问题（把整除结果相同的数算成一个块来求答案，这样的块大约有 $\sqrt k$ 个）。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
 &lt;hr&gt;
