@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="一点点数论，比较杂" />
-<meta name="keywords" content="数论,, 同余方程,, 模,, 取模,, 扩展欧几里得算法,, 扩欧"><title>初级数论</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="啥也不会，啥也看不懂" />
+<meta name="keywords" content="数论,, 同余方程,, 模,, 取模,, 狄利克雷卷积,, 积性函数"><title>初等数论</title>
 
 <link rel="canonical" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/" />
 
-<link rel="stylesheet" href="/scss/style.min.728d06729a1c59be2f9dd572948bce23a539c64c94665e2a2c51bd1cc20a3908.css"><meta property='og:title' content='初级数论'>
-<meta property='og:description' content='一点点数论，比较杂'>
+<link rel="stylesheet" href="/scss/style.min.728d06729a1c59be2f9dd572948bce23a539c64c94665e2a2c51bd1cc20a3908.css"><meta property='og:title' content='初等数论'>
+<meta property='og:description' content='啥也不会，啥也看不懂'>
 <meta property='og:url' content='https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/'>
 <meta property='og:site_name' content='钛合金伞的隙间'>
-<meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='数论' /><meta property='article:tag' content='同余' /><meta property='article:published_time' content='2022-10-24T09:10:49&#43;00:00'/><meta property='article:modified_time' content='2023-03-02T17:38:29&#43;00:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
-<meta name="twitter:title" content="初级数论">
-<meta name="twitter:description" content="一点点数论，比较杂"><meta name="twitter:card" content="summary_large_image">
+<meta property='og:type' content='article'><meta property='article:section' content='Notes' /><meta property='article:tag' content='数论' /><meta property='article:tag' content='同余' /><meta property='article:published_time' content='2022-10-24T09:10:49&#43;00:00'/><meta property='article:modified_time' content='2023-08-12T19:59:54&#43;08:00'/><meta property='og:image' content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
+<meta name="twitter:title" content="初等数论">
+<meta name="twitter:description" content="啥也不会，啥也看不懂"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg' />
 <link rel="shortcut icon" href="/favicon.png" />
 
@@ -303,7 +303,18 @@
     <li><a href="#同余方程相关">同余方程相关</a></li>
     <li><a href="#数论函数">数论函数</a>
       <ol>
-        <li><a href="#积性函数">积性函数</a></li>
+        <li><a href="#积性函数">积性函数</a>
+          <ol>
+            <li><a href="#性质">性质</a></li>
+            <li><a href="#常见积性函数">常见积性函数</a></li>
+          </ol>
+        </li>
+        <li><a href="#dirichlet-卷积">Dirichlet 卷积</a>
+          <ol>
+            <li><a href="#性质-1">性质</a></li>
+          </ol>
+        </li>
+        <li><a href="#其他东西">其他东西</a></li>
       </ol>
     </li>
   </ol>
@@ -322,7 +333,7 @@
         <div class="article-image">
             <a href="/notes/%E6%95%B0%E5%AD%A6/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/">
                 
-                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" alt="Featured image of post 初级数论" />
+                    <img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" loading="lazy" alt="Featured image of post 初等数论" />
                 
             </a>
         </div>
@@ -341,12 +352,12 @@
 
     <div class="article-title-wrapper">
         <h1 class="article-title">
-            <a href="/notes/%E6%95%B0%E5%AD%A6/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/">初级数论</a>
+            <a href="/notes/%E6%95%B0%E5%AD%A6/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/">初等数论</a>
         </h1>
 
         
         <h3 class="article-subtitle">
-            一点点数论，比较杂
+            啥也不会，啥也看不懂
         </h3>
         
     </div>
@@ -422,7 +433,56 @@ C++ 中模运算可能结果是负数。当 $n&lt;0$ 时，模运算结果满足
 </span></span></code></pre></div><h2 id="同余方程相关">同余方程相关</h2>
 <p><a class="link" href="https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E5%90%8C%E4%BD%99%E6%96%B9%E7%A8%8B%E4%B8%8E%E4%BA%8C%E5%85%83%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%AE%9A%E6%96%B9%E7%A8%8B/" >同余方程与二元一次不定方程</a></p>
 <h2 id="数论函数">数论函数</h2>
+<p>定义域<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>为正整数的函数。</p>
 <h3 id="积性函数">积性函数</h3>
+<p>积性函数 $f(n)$ 满足：$f(1)=1$，且 $\forall x,y\in \mathbb{N^*},\gcd(x,y)=1$，都有 $f(xy)=f(x)f(y)$。</p>
+<p>完全积性函数 $f(n)$ 满足：满足：$f(1)=1$，且 $\forall x,y\in \mathbb{N^*}$，都有 $f(xy)=f(x)f(y)$。</p>
+<h4 id="性质">性质</h4>
+<p>若 $f(x),g(x)$ 为积性函数，则以下函数也为积性函数。</p>
+<ul>
+<li>$h(x)=f(x^p)$</li>
+<li>$h(x)=f^p(x)$</li>
+<li>$h(x)=f(x)g(x)$</li>
+<li>$h(x)=\sum _{d\mid x} f(d)g(\frac xd)$（<a class="link" href="#dirichlet-卷积" >#Dirichlet 卷积</a>）</li>
+</ul>
+<h4 id="常见积性函数">常见积性函数</h4>
+<ul>
+<li>$\varepsilon(n)=[n=1]$<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>（完全积性）</li>
+<li>欧拉函数 $\varphi(n)=\sum_{i=1}^n[\gcd(i,n)=1]$</li>
+</ul>
+<h3 id="dirichlet-卷积">Dirichlet 卷积</h3>
+<p>有两个数论函数 $f(x),g(x)$，其狄利克雷卷积计算的结果 $h(x)$ 即：</p>
+<p>$$
+\begin{aligned}<br>
+h(x) &amp;= \sum _{d\mid x} f(d)g(\frac xd) \newline
+&amp;= \sum _{ab=x} f(a)g(b)
+\end{aligned}
+$$</p>
+<p>后一种形式容易理解一点。人话来解释 $h(x)$ 的计算过程，就是把 $x$ 的每一对因数 $a,b$ 找出来（即 $ab=x$），然后计算 $f(a)g(b)$ 和 $f(b)g(a)$，再对这对东西求和。</p>
+<p>上面的式子可以简记为</p>
+<p>$$
+h=f*g
+$$</p>
+<h4 id="性质-1">性质</h4>
+<p>上面说过，两个积性函数的狄利克雷卷积形式依然是积性函数。</p>
+<p>满足交换律 结合律 分配律</p>
+<h3 id="其他东西">其他东西</h3>
+<ul>
+<li>单位元 $\epsilon * f = f$，其中 $\epsilon(n)=[n=1]$。</li>
+<li>对于每个 $f(1) \neq 0$ 的数论函数 $f$，都存在一个函数 $g$ 使 $f*g=\epsilon$（函数逆元）</li>
+<li>整除分块：对于 $i,k\in \mathbf{N*}$，$k$ 为定值时，$\lfloor \frac ki \rfloor$ 有大约 $\sqrt k$ 种取值。可以用这个做答案关于 $i\in[x,y], \lfloor \frac ki \rfloor$ 相关的问题（把整除结果相同的数算成一个块来求答案，这样的块大约有 $\sqrt k$ 个）。</li>
+</ul>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>函数 $f(x)$ 的定义域即为 $x$ 的取值范围。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>艾佛森括号 $[a]$ 中包含一个条件 $a$，该表达式当 $a$ 成立时为 $1$，否则为 $0$。&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
 </section>
 
@@ -460,7 +520,7 @@ C++ 中模运算可能结果是负数。当 $n&lt;0$ 时，模运算结果满足
 
 
         <span>
-            最后更新于 Mar 02, 2023 17:38 UTC
+            最后更新于 Aug 12, 2023 19:59 CST
         </span>
     </section></footer>
 

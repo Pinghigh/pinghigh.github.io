@@ -22,7 +22,7 @@
 &lt;p&gt;MY Heart Rate —— あよ，专辑：森羅万象《シンクロ2》&lt;/p&gt;
 &lt;p&gt;ayo 牛逼，没得说。&lt;/p&gt;
 &lt;p&gt;这首歌总能带来一些轻松的感觉呢，想必是编曲的时候考虑到灵梦日常的无聊心情吧（笑）&lt;/p&gt;
-&lt;p&gt;另外，Heart Rate 用比较 Japanglish 的口音读的话，应该能体会到是对 はくれい（Hakurei）的谐音。&lt;/p&gt;
+&lt;p&gt;另外，Heart Rate 用比较 Japanglish 的口音读的话，应该能发现这是 はくれい（Hakurei）的谐音。&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;改天需要把 dotfile 分享一下了，还有安装指南的坑没填&lt;/p&gt;
 &lt;p&gt;pacman 实在是太好用了&lt;/p&gt;
@@ -3700,12 +3700,12 @@ Hyper-V 上安装可能会涉及到 pacman 检测不到架构之类的问题，�
 </description>
         </item>
         <item>
-        <title>初级数论</title>
+        <title>初等数论</title>
         <link>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/</link>
         <pubDate>Mon, 24 Oct 2022 09:10:49 +0000</pubDate>
         
         <guid>https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/</guid>
-        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 初级数论" /&gt;&lt;h2 id=&#34;质数相关&#34;&gt;质数相关&lt;/h2&gt;
+        <description>&lt;img src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" alt="Featured image of post 初等数论" /&gt;&lt;h2 id=&#34;质数相关&#34;&gt;质数相关&lt;/h2&gt;
 &lt;p&gt;质数即一个数的因数只包含 $1$ 和自己。&lt;br&gt;
 筛法请见：&lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E8%B4%A8%E6%95%B0%E7%AD%9B%E6%B3%95/&#34; &gt;质数筛法&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;模运算相关&#34;&gt;模运算相关&lt;/h2&gt;
@@ -3731,7 +3731,56 @@ C++ 中模运算可能结果是负数。当 $n&amp;lt;0$ 时，模运算结果�
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;同余方程相关&#34;&gt;同余方程相关&lt;/h2&gt;
 &lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.tibrella.top/notes/%E6%95%B0%E5%AD%A6/%E5%90%8C%E4%BD%99%E6%96%B9%E7%A8%8B%E4%B8%8E%E4%BA%8C%E5%85%83%E4%B8%80%E6%AC%A1%E4%B8%8D%E5%AE%9A%E6%96%B9%E7%A8%8B/&#34; &gt;同余方程与二元一次不定方程&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;数论函数&#34;&gt;数论函数&lt;/h2&gt;
+&lt;p&gt;定义域&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;为正整数的函数。&lt;/p&gt;
 &lt;h3 id=&#34;积性函数&#34;&gt;积性函数&lt;/h3&gt;
+&lt;p&gt;积性函数 $f(n)$ 满足：$f(1)=1$，且 $\forall x,y\in \mathbb{N^*},\gcd(x,y)=1$，都有 $f(xy)=f(x)f(y)$。&lt;/p&gt;
+&lt;p&gt;完全积性函数 $f(n)$ 满足：满足：$f(1)=1$，且 $\forall x,y\in \mathbb{N^*}$，都有 $f(xy)=f(x)f(y)$。&lt;/p&gt;
+&lt;h4 id=&#34;性质&#34;&gt;性质&lt;/h4&gt;
+&lt;p&gt;若 $f(x),g(x)$ 为积性函数，则以下函数也为积性函数。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$h(x)=f(x^p)$&lt;/li&gt;
+&lt;li&gt;$h(x)=f^p(x)$&lt;/li&gt;
+&lt;li&gt;$h(x)=f(x)g(x)$&lt;/li&gt;
+&lt;li&gt;$h(x)=\sum _{d\mid x} f(d)g(\frac xd)$（&lt;a class=&#34;link&#34; href=&#34;#dirichlet-卷积&#34; &gt;#Dirichlet 卷积&lt;/a&gt;）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;常见积性函数&#34;&gt;常见积性函数&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;$\varepsilon(n)=[n=1]$&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;（完全积性）&lt;/li&gt;
+&lt;li&gt;欧拉函数 $\varphi(n)=\sum_{i=1}^n[\gcd(i,n)=1]$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;dirichlet-卷积&#34;&gt;Dirichlet 卷积&lt;/h3&gt;
+&lt;p&gt;有两个数论函数 $f(x),g(x)$，其狄利克雷卷积计算的结果 $h(x)$ 即：&lt;/p&gt;
+&lt;p&gt;$$
+\begin{aligned}&lt;br&gt;
+h(x) &amp;amp;= \sum _{d\mid x} f(d)g(\frac xd) \newline
+&amp;amp;= \sum _{ab=x} f(a)g(b)
+\end{aligned}
+$$&lt;/p&gt;
+&lt;p&gt;后一种形式容易理解一点。人话来解释 $h(x)$ 的计算过程，就是把 $x$ 的每一对因数 $a,b$ 找出来（即 $ab=x$），然后计算 $f(a)g(b)$ 和 $f(b)g(a)$，再对这对东西求和。&lt;/p&gt;
+&lt;p&gt;上面的式子可以简记为&lt;/p&gt;
+&lt;p&gt;$$
+h=f*g
+$$&lt;/p&gt;
+&lt;h4 id=&#34;性质-1&#34;&gt;性质&lt;/h4&gt;
+&lt;p&gt;上面说过，两个积性函数的狄利克雷卷积形式依然是积性函数。&lt;/p&gt;
+&lt;p&gt;满足交换律 结合律 分配律&lt;/p&gt;
+&lt;h3 id=&#34;其他东西&#34;&gt;其他东西&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;单位元 $\epsilon * f = f$，其中 $\epsilon(n)=[n=1]$。&lt;/li&gt;
+&lt;li&gt;对于每个 $f(1) \neq 0$ 的数论函数 $f$，都存在一个函数 $g$ 使 $f*g=\epsilon$（函数逆元）&lt;/li&gt;
+&lt;li&gt;整除分块：对于 $i,k\in \mathbf{N*}$，$k$ 为定值时，$\lfloor \frac ki \rfloor$ 有大约 $\sqrt k$ 种取值。可以用这个做答案关于 $i\in[x,y], \lfloor \frac ki \rfloor$ 相关的问题（把整除结果相同的数算成一个块来求答案，这样的块大约有 $\sqrt k$ 个）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;函数 $f(x)$ 的定义域即为 $x$ 的取值范围。&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;艾佛森括号 $[a]$ 中包含一个条件 $a$，该表达式当 $a$ 成立时为 $1$，否则为 $0$。&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
 </description>
         </item>
         <item>
