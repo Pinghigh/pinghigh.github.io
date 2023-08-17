@@ -6,7 +6,7 @@
   <link href="http://blog.tibrella.top/atom.xml" rel="self"/>
   
   <link href="http://blog.tibrella.top/"/>
-  <updated>2023-08-17T13:41:55.364Z</updated>
+  <updated>2023-08-17T13:54:48.736Z</updated>
   <id>http://blog.tibrella.top/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2023.8.17 闲话</title>
+    <link href="http://blog.tibrella.top/post/diary-2023-08-17/"/>
+    <id>http://blog.tibrella.top/post/diary-2023-08-17/</id>
+    <published>2023-08-17T13:46:27.000Z</published>
+    <updated>2023-08-17T13:54:48.736Z</updated>
+    
+    <content type="html"><![CDATA[<p>首先一个喜报，两天时间把博客迁移到 Hexo上了，更好的是，很多东西都有国内 CDN支持，所以你访问本博客不会太慢。</p><p>不太好的是，由于 InstantClick 的一些东西没搞明白，对 JSX还不够熟悉，导致你从本站某一个页面转到另一个页面的时候会导致数学失效。同时首页摘要上的<span class="math inline">\(\LaTeX\)</span> 可能会炸。</p><p>这个主题实在太强了，很多自定义标签，还有时间轴和项目文档支持，刚刚给linux-tikogasa写了个介绍，可以点击页面底部的文档字样进入。时间轴进入方法同理。</p><hr /><p>再来一个喜报，经过 2天的等待，我买的晶振到了。然后经过一中午和晚上一小时的折腾，成功让电脑检测到了单片机的信息。不得不说，这方面教程还是太少了，过两天写一个基础安装的文档。</p><p>下一步是用 sdcc 编写程序，但是为什么这个 RGB灯环没有文档啊，可恶。</p><hr /><p>推歌。</p><p>《亡霊》 —— あよ，专辑《ダイナマイト》。</p><p>非常好的慵懒感，可能是因为长时间缺乏睡眠精神紧张导致喜欢这种感觉的吧（笑）。</p><hr /><p>题目分享可以看<a href="/post/count-misc-questions">计数杂题</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;首先一个喜报，两天时间把博客迁移到 Hexo
+上了，更好的是，很多东西都有国内 CDN
+支持，所以你访问本博客不会太慢。&lt;/p&gt;
+&lt;p&gt;不太好的是，由于 InstantClick 的一些东西没搞明白，对 JSX
+还不够熟悉，导致你从本站某一个页面转到另一个页面的时候</summary>
+      
+    
+    
+    
+    <category term="闲话" scheme="http://blog.tibrella.top/categories/%E9%97%B2%E8%AF%9D/"/>
+    
+    
+    <category term="闲话" scheme="http://blog.tibrella.top/tags/%E9%97%B2%E8%AF%9D/"/>
+    
+  </entry>
   
   <entry>
     <title>计数杂题</title>
@@ -499,39 +527,6 @@ ax&#92;equiv 1 &#92;pmod b
     <category term="数论" scheme="http://blog.tibrella.top/tags/%E6%95%B0%E8%AE%BA/"/>
     
     <category term="同余" scheme="http://blog.tibrella.top/tags/%E5%90%8C%E4%BD%99/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>离散对数（BSGS）</title>
-    <link href="http://blog.tibrella.top/post/bsgs/"/>
-    <id>http://blog.tibrella.top/post/bsgs/</id>
-    <published>2023-04-28T10:12:32.000Z</published>
-    <updated>2023-08-17T11:28:45.849Z</updated>
-    
-    <content type="html"><![CDATA[<p>离散对数问题，即已知 <spanclass="math inline">\(a,b,p\)</span>，求方程 <spanclass="math inline">\(a^x \equiv b \pmod p\)</span> 最小非负整数解。</p><h2 id="bsgs-算法">BSGS 算法</h2><h3 id="原理">原理</h3><p>思考暴力做法，即枚举 <span class="math inline">\(x\)</span>直到满足方程，复杂度 <spanclass="math inline">\(\operatorname{O}(p)\)</span></p><p>BSGS 类似一种分块思想，也有点像折半搜索（</p><p>首先把 <span class="math inline">\(x\)</span> 拆开，拆成 <spanclass="math inline">\(km - r\)</span> ，然后进行变换： <spanclass="math display">\[\begin{aligned}a^x &amp;\equiv b \pmod p \newlinea^{km-r} &amp;\equiv b \pmod p \newline\frac {a^{km}}{a^r} &amp; \equiv b \pmod p \newlinea^{km} &amp; \equiv ba^r \pmod p\end{aligned}\]</span> 这里的 <span class="math inline">\(m\)</span>我们设为一个固定值，然后分别枚举等式两边的 <spanclass="math inline">\(k,r\)</span>，存哈希表（映射），然后匹配即可，其中<span class="math inline">\(k \in [0, \cfrac pm], r \in [0,m]\)</span>，复杂度 <span class="math inline">\(\operatorname{O}(\max(m,\cfracpm))\)</span> ，则 <span class="math inline">\(m=\sqrt p\)</span>时最优，复杂度是一个根号。</p><h3 id="实现">实现</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">read</span>(n, p);</span><br><span class="line">b = <span class="number">10</span>;</span><br><span class="line">n = n * <span class="number">9</span> + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">b = (b % p + p) % p;</span><br><span class="line">n = (n % p + p) % p;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (b == <span class="number">0</span>) &#123;</span><br><span class="line"><span class="keyword">if</span> (n == <span class="number">0</span>) <span class="built_in">output</span>(<span class="number">1</span>);</span><br><span class="line"><span class="built_in">failed</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line"><span class="built_in">output</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (b == <span class="number">1</span>) &#123;</span><br><span class="line"><span class="built_in">failed</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">i128 m = <span class="built_in">sqrt</span>(p), z = n;</span><br><span class="line"><span class="keyword">for</span> (i128 i = <span class="number">0</span>; i &lt; m; ++i) &#123;</span><br><span class="line">mp[z] = i; <span class="comment">// 存储的实际上是模数所对应的最大 r（从小到大枚举，挨个覆盖）</span></span><br><span class="line">z = z * b % p;</span><br><span class="line">&#125;</span><br><span class="line">z = <span class="built_in">binpow</span>(b, m);</span><br><span class="line"><span class="keyword">for</span> (i128 i = <span class="number">1</span>, pian = z; i &lt;= p / m + <span class="number">10</span>; ++i) &#123;</span><br><span class="line"><span class="keyword">auto</span> it = mp.<span class="built_in">find</span>(z);</span><br><span class="line"><span class="keyword">if</span> (it != mp.<span class="built_in">end</span>()) &#123;</span><br><span class="line"><span class="built_in">output</span>(m * i - it-&gt;second);</span><br><span class="line">&#125;</span><br><span class="line">z = z * pian % p;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">failed</span>();</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;离散对数问题，即已知 &lt;span
-class=&quot;math inline&quot;&gt;&#92;(a,b,p&#92;)&lt;/span&gt;，求方程 &lt;span
-class=&quot;math inline&quot;&gt;&#92;(a^x &#92;equiv b &#92;pmod p&#92;)&lt;/span&gt; 最小非负整数解。&lt;/p&gt;
-&lt;h2 i</summary>
-      
-    
-    
-    <content src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" type="image"/>
-    
-    
-    <category term="数学" scheme="http://blog.tibrella.top/categories/%E6%95%B0%E5%AD%A6/"/>
-    
-    
-    <category term="数论" scheme="http://blog.tibrella.top/tags/%E6%95%B0%E8%AE%BA/"/>
-    
-    <category term="同余" scheme="http://blog.tibrella.top/tags/%E5%90%8C%E4%BD%99/"/>
-    
-    <category term="BSGS" scheme="http://blog.tibrella.top/tags/BSGS/"/>
     
   </entry>
   
