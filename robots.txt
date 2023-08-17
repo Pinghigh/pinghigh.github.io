@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /shorten.html
+Disallow: /cdn/
+Sitemap: https://blog.tibrella.top/sitemap.xml
