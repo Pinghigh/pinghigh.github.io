@@ -6,7 +6,7 @@
   <link href="http://blog.tibrella.top/atom.xml" rel="self"/>
   
   <link href="http://blog.tibrella.top/"/>
-  <updated>2023-08-18T14:14:56.789Z</updated>
+  <updated>2023-08-18T14:20:35.636Z</updated>
   <id>http://blog.tibrella.top/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://blog.tibrella.top/post/diary-2023-08-18/"/>
     <id>http://blog.tibrella.top/post/diary-2023-08-18/</id>
     <published>2023-08-18T13:54:19.000Z</published>
-    <updated>2023-08-18T14:14:56.789Z</updated>
+    <updated>2023-08-18T14:20:35.636Z</updated>
     
-    <content type="html"><![CDATA[<p>好好好，闲话日更了。</p><hr /><p>上午搜到了一个用 sdcc 支持的语法写的 <ahref="https://www.jianshu.com/p/bf313788b37b">LED控制程序</a>，还有完整的注释，于是就用了。现在单片机能够控制 LED灯亮灭了。就是用杜邦线串起来的两个 6 厘米多长的电阻看起来有点傻逼😅。然后还得串一个 LED 进去。</p><p>8051这块貌似被商业工具链占据大部分市场了，个人认为这是很恐怖的事情，所以迅速使用sdcc 报平安。Keil再对个人免费你也没法确定什么时候割韭菜，对商业公司人也肯定得收费。</p><p>ARM 和 RISC-V 之类架构的板子，LLVM 应该够用了，在这基础之上你还能写Rust 之类支持 LLVM 后端的语言。</p><p>买的 RGB灯环好傻逼，不能用杜邦线接，口太细还焊不了，买的时候应该看看接口型号的😅。</p><p>下一步就是折腾数码管了，打算搞一个 IO口用来校准时间，然后用塑料定一个包装送给谢特以报答他从他们学校小卖部给我买的东方明信片。</p><p>会发博客的，这方面教程还是太少了。</p><hr /><p>推歌。</p><p>まりおさんに贈るナイト・オブ・ナイツ2018 —— marasy，专辑是COOL&amp;CREATE 的骑士之夜。</p><p>听到的第一首来自触手猴的东方组曲，这首曲子在音色（收音），编曲，节奏上都无可挑剔，感觉是非常养耳朵的一首歌，它的收音要比很多猴子专辑中的曲子好的。</p><p>实际上就是在骑士之夜里串了好几首曲子（笑）</p><hr /><p>题目分享继续见<a href="/post/count-misc-questions">计数杂题</a>。</p><hr /><p><ahref="https://www.luogu.com.cn/blog/tibrella/fei-yang-di-xiao-niao-ben-ji">飞扬的小鸟本纪</a></p><hr /><p>篮球基本不会打了，现在干什么都跟半身不遂一样不协调。</p><hr /><p>博客的 MathJax 终于让咱给修好了，改了一下目录结构，把 MathJax相关的文件扔到了和评论同级的 <code>plugins</code>目录下，然后仿照一刀斩给 waline/valine 写的加载脚本给 MathJax贺了一份。</p><p>现在可能出现的问题是打开某一个页面是白色的，原因未知，刷新就好了。</p><p>对了，我编写的 MathJax 加载脚本是使用原配置文件中的 cdn选项的，所以不用担心选项失效什么的问题。本站现在使用最新的 MathJax4.0.0-beta.3 版本。</p>]]></content>
+    <content type="html"><![CDATA[<p>好好好，闲话日更了。</p><hr /><p>上午搜到了一个用 sdcc 支持的语法写的 <ahref="https://www.jianshu.com/p/bf313788b37b">LED控制程序</a>，还有完整的注释，于是就用了。现在单片机能够控制 LED灯亮灭了。就是用杜邦线串起来的两个 6 厘米多长的电阻看起来有点傻逼😅。然后还得串一个 LED 进去。</p><p>8051这块貌似被商业工具链占据大部分市场了，个人认为这是很恐怖的事情，所以迅速使用sdcc 报平安。Keil再对个人免费你也没法确定什么时候割韭菜，对商业公司人也肯定得收费。</p><p>ARM 和 RISC-V 之类架构的板子，LLVM 应该够用了，在这基础之上你还能写Rust 之类支持 LLVM 后端的语言。</p><p>买的 RGB灯环好傻逼，不能用杜邦线接，口太细还焊不了，买的时候应该看看接口型号的😅。</p><p>下一步就是折腾数码管了，打算搞一个 IO口用来校准时间，然后用塑料定一个包装送给谢特以报答他从他们学校小卖部给我买的东方明信片。</p><p>会发博客的，这方面教程还是太少了。</p><hr /><p>推歌。</p><p>まりおさんに贈るナイト・オブ・ナイツ2018 —— marasy，专辑是COOL&amp;CREATE 的骑士之夜。</p><p>听到的第一首来自触手猴的东方组曲，这首曲子在音色（收音），编曲，节奏上都无可挑剔，感觉是非常养耳朵的一首歌，它的收音要比很多猴子专辑中的曲子好的。</p><p>实际上就是在骑士之夜里串了好几首曲子（笑）</p><p>但是多少有点中耳炎，这段时间不太能听歌了。</p><hr /><p>题目分享继续见<a href="/post/count-misc-questions">计数杂题</a>。</p><hr /><p><ahref="https://www.luogu.com.cn/blog/tibrella/fei-yang-di-xiao-niao-ben-ji">飞扬的小鸟本纪</a></p><hr /><p>篮球基本不会打了，现在干什么都跟半身不遂一样不协调。</p><hr /><p>博客的 MathJax 终于让咱给修好了，改了一下目录结构，把 MathJax相关的文件扔到了和评论同级的 <code>plugins</code>目录下，然后仿照一刀斩给 waline/valine 写的加载脚本给 MathJax贺了一份。</p><p>现在可能出现的问题是打开某一个页面是白色的，原因未知，刷新就好了。</p><p>对了，我编写的 MathJax 加载脚本是使用原配置文件中的 cdn选项的，所以不用担心选项失效什么的问题。本站现在使用最新的 MathJax4.0.0-beta.3 版本。</p>]]></content>
     
     
       
