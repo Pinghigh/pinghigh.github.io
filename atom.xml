@@ -6,7 +6,7 @@
   <link href="http://blog.tibrella.top/atom.xml" rel="self"/>
   
   <link href="http://blog.tibrella.top/"/>
-  <updated>2023-08-18T14:20:35.636Z</updated>
+  <updated>2023-08-19T14:25:42.900Z</updated>
   <id>http://blog.tibrella.top/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2023.8.19 闲话</title>
+    <link href="http://blog.tibrella.top/post/diary-2023-08-19/"/>
+    <id>http://blog.tibrella.top/post/diary-2023-08-19/</id>
+    <published>2023-08-19T14:05:17.000Z</published>
+    <updated>2023-08-19T14:25:42.900Z</updated>
+    
+    <content type="html"><![CDATA[<p>首先是破事。</p><p>二南有个在灌水区吐槽 S2赛制的，讨论快完了之后某个姓听的教皇小猴子出来跳脚了，这人是个著名洛谷网红，有种地头蛇看谁不顺眼就怼谁的美感。上次一帮人和xht 对线的帖子里面我还没急这小猴子就指着我骂了。</p><p>于是听说他们在 HL 群对线，我 UID正好是偶数，进去就看见他还是那么桀骜不驯。于是和他耍一耍无赖就让他自尊心爆炸把我拉黑了。</p><p>啊，当然我针对他不是因为他骂我，而是长时间当洛谷网红四处引战，甚至作为一个山东人还要嘲讽山东天灾。早看他不顺眼了，可是他那么爱口嗨，怎么骂两句就破防了呢。</p><p>对线就是放下自尊心和对面耍无赖，所以对线是没意义的，唯一的作用是恶心人。所以不要对线，遇到这种人该拉黑拉黑该举报举报就完事了，没必要耽误自己时间。</p><p>我实在没想到一个金钩爷心理素质这么差，希望明年打国赛的时候心态别像今天这么崩溃就好了，反正人有钱买d 队，进不进队线无所谓。</p><h2id="拉黑完了之后想在群里恶心我恶心得不伦不类的给我逗笑了">拉黑完了之后想在群里恶心我，恶心得不伦不类的，给我逗笑了。</h2><p>破事还是少点好。</p><p>打了场 ABC，C 题吃了 5发罚时，结果是一个非常傻逼的少更新一个数组的错误。（赛时没调出来）<br />非常完美的跳题策略，成功跳过 D 题并直接拿下 E 题，但是 F题太急了当贪心做了。</p><hr /><p>推歌</p><p>《ヒカリ》—— めらみぽっぷ，专辑 凋叶棕《綴》</p><p>梅拉米唱歌一直很有感染力，我认为这首是她感染力最强的一首。</p><p>第一次见这首歌是在 2023 东方新春宴的一个静止系 mad，差点看哭了。</p><p>讲的是神琦创作一个人偶爱丽丝，逐渐将其认可成为自己女儿的事。</p><p>没啥说的，梅拉米牛逼，这首歌从人声和伴奏上都很有感染力，对神琦的塑造非常形象。</p><hr /><p>abc315 e 题</p><p>实际上就是找出 1 这个任务依赖的所有任务。</p><p>于是建反图，从 1 开始 dfs，输出 dfs的出栈序列（逆后序）即可。由于栈顶一定没有依赖，所以相当于做了拓扑排序，是正确的。</p><hr /><p>要退役了，我要学跳表。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;首先是破事。&lt;/p&gt;
+&lt;p&gt;二南有个在灌水区吐槽 S2
+赛制的，讨论快完了之后某个姓听的教皇小猴子出来跳脚了，这人是个著名洛谷网红，有种地头蛇看谁不顺眼就怼谁的美感。上次一帮人和
+xht 对线的帖子里面我还没急这小猴子就指着我骂了。&lt;/p&gt;
+&lt;p&gt;于是听说他们在 H</summary>
+      
+    
+    
+    
+    <category term="闲话" scheme="http://blog.tibrella.top/categories/%E9%97%B2%E8%AF%9D/"/>
+    
+    
+    <category term="闲话" scheme="http://blog.tibrella.top/tags/%E9%97%B2%E8%AF%9D/"/>
+    
+  </entry>
   
   <entry>
     <title>2023.8.18 闲话</title>
@@ -492,38 +520,6 @@ class=&quot;math inline&quot;</summary>
     
     
     <category term="组合数学" scheme="http://blog.tibrella.top/tags/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>模意义下的乘法逆元</title>
-    <link href="http://blog.tibrella.top/post/multi-inverse-element/"/>
-    <id>http://blog.tibrella.top/post/multi-inverse-element/</id>
-    <published>2023-04-29T11:24:23.000Z</published>
-    <updated>2023-08-17T11:28:45.854Z</updated>
-    
-    <content type="html"><![CDATA[<p>自学逆元...</p><h2 id="定义">定义</h2><p>OI 中常用“逆元”作“模意义下的乘法逆元”。 <span class="math display">\[ax\equiv 1 \pmod b\]</span> 则 <span class="math inline">\(x\)</span> 为模 <spanclass="math inline">\(b\)</span> 意义下的 <spanclass="math inline">\(a\)</span> 的逆元，记作 <spanclass="math inline">\(a^{-1}\)</span> 。<br />通俗来讲，<span class="math inline">\(a\cdot a^{-1} \bmod b =1\)</span></p><h2 id="用途">用途</h2><p><del>先讲用途再说求法？</del></p><p>对于 <span class="math inline">\(\fracab\)</span>，想要对结果取模，但是实际上 <spanclass="math inline">\(\frac ab \bmod p \neq \frac {a\bmod p}{b \bmodp}\)</span><br />难道没有办法了吗？<br />并不是。</p><p>设 <span class="math inline">\(b^{-1}\)</span> 为 <spanclass="math inline">\(b \bmod p\)</span> 意义下的逆元，则有 <spanclass="math display">\[\frac ab \bmod p = a\cdot b^{-1}\]</span> ## 求单个逆元</p><h3 id="扩展欧几里得算法">扩展欧几里得算法</h3><p>此法相对于快速幂来说，限制少，常数小，因此比较优，不再写快速幂法。<del>实际上是我不会快速幂法</del></p><p>容易发现乘法逆元定义式就是一个普普通通的同余方程<br />于是可以轻松使用扩欧求解<br />详见 <a href="/post/exgcd">同余方程与二元一次不定方程</a></p><h2 id="线性求逆元">线性求逆元</h2><p>由于线性求任意多个数逆元过于简单，所以直接记录这个解法。</p><p>考虑逆元的定义，容易想到对于 <spanclass="math inline">\(a^{-1}b^{-1}\)</span> 来说，乘 <spanclass="math inline">\(a\)</span> 即可消除 <spanclass="math inline">\(a^{-1}\)</span> 的影响，即 <spanclass="math display">\[a\cdot a^{-1}b^{-1} \bmod p = (a\cdot a^{-1} \bmod p)b^{-1} = b^{-1}\]</span> 与此同时，两个数积的逆元等于两个数逆元的积<br />证明： <span class="math display">\[\begin{aligned}aa^{-1} \bmod p &amp;= 1\newlinebb^{-1} \bmod p &amp;= 1\newlineaa^{-1} \cdot bb^{-1} \bmod p &amp;= 1 \newlineab \cdot a^{-1}b^{-1} \bmod p &amp;= 1 \newline\therefore (ab)^{-1} = a^{-1}b^{-1}\end{aligned}\]</span> 因此对于任意数列 <span class="math inline">\(a_1 \dotsa_n\)</span> ，可以先求出其前缀积 <spanclass="math inline">\(s_i\)</span> ，然后利用扩展欧几里得求累积的逆元<span class="math inline">\(f_n =s_n^{-1}\)</span>，然后从后往前线性复杂度求出前缀积的逆元 <spanclass="math inline">\(f_{i-1} = f_ia_i \bmod p\)</span>，最后从前往后扫一遍求出每个数的逆元 <span class="math inline">\(inv_i =s_{i-1}f_i\)</span> 即可。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">i32 tmp;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">exgcd</span><span class="params">(i32 a, i32 b, i32&amp; x, i64&amp; y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!b) &#123;</span><br><span class="line">        x = <span class="number">1</span>, y = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">exgcd</span>(b, a % b, x, y);</span><br><span class="line">    tmp = x;</span><br><span class="line">    x = y;</span><br><span class="line">    y = tmp - (a / b) * y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> N 5000001</span></span><br><span class="line"></span><br><span class="line">i32 a[N], s[N], f[N];</span><br><span class="line">i64 n, p, k, ans, ktmp, y;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">read</span>(n, p, k);</span><br><span class="line">    s[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (i32 i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">        <span class="built_in">read</span>(a[i]), s[i] = s[i - <span class="number">1</span>] % p * a[i] % p;</span><br><span class="line">    <span class="built_in">exgcd</span>(s[n], p, f[n], y);</span><br><span class="line">    <span class="comment">// write(p, &#x27;\n&#x27;);</span></span><br><span class="line">    <span class="keyword">for</span> (i32 i = n - <span class="number">1</span>; i; --i) &#123;</span><br><span class="line">        f[i] = f[i + <span class="number">1</span>] % p * a[i + <span class="number">1</span>] % p;</span><br><span class="line">    &#125;</span><br><span class="line">    f[<span class="number">1</span>] %= p;</span><br><span class="line">    ans = k * f[<span class="number">1</span>] % p;</span><br><span class="line">    ktmp = k % p;</span><br><span class="line">    <span class="keyword">for</span> (i32 i = <span class="number">2</span>; i &lt;= n; ++i) &#123;</span><br><span class="line">        f[i] = s[i - <span class="number">1</span>] % p * f[i] % p;</span><br><span class="line">        ktmp = (ktmp * k) % p;</span><br><span class="line">        ans = ((ans % p + ktmp * f[i]) % p + p) % p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">write</span>(ans, <span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;自学逆元...&lt;/p&gt;
-&lt;h2 id=&quot;定义&quot;&gt;定义&lt;/h2&gt;
-&lt;p&gt;OI 中常用“逆元”作“模意义下的乘法逆元”。 &lt;span class=&quot;math display&quot;&gt;&#92;[
-ax&#92;equiv 1 &#92;pmod b
-&#92;]&lt;/span&gt; 则 &lt;span class=&quot;</summary>
-      
-    
-    
-    <content src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" type="image"/>
-    
-    
-    <category term="数学" scheme="http://blog.tibrella.top/categories/%E6%95%B0%E5%AD%A6/"/>
-    
-    
-    <category term="数论" scheme="http://blog.tibrella.top/tags/%E6%95%B0%E8%AE%BA/"/>
-    
-    <category term="同余" scheme="http://blog.tibrella.top/tags/%E5%90%8C%E4%BD%99/"/>
     
   </entry>
   
