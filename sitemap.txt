@@ -1,8 +1,9 @@
+http://blog.tibrella.top/post/diary-2023-08-28/
+http://blog.tibrella.top/post/sparse-table/
 http://blog.tibrella.top/post/skip-list/
 http://blog.tibrella.top/post/mobius/
 http://blog.tibrella.top/post/dsu/
 http://blog.tibrella.top/post/pairing-heap/
-http://blog.tibrella.top/post/sparse-table/
 http://blog.tibrella.top/post/diary-2023-08-19/
 http://blog.tibrella.top/post/count-misc-questions/
 http://blog.tibrella.top/post/diary-2023-08-05/
