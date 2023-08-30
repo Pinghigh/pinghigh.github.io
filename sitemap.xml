@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.tibrella.top/about/index.html</loc>
+    
+    <lastmod>2023-08-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.tibrella.top/post/skip-list/</loc>
     
     <lastmod>2023-08-30</lastmod>
@@ -417,15 +426,6 @@
   
   <url>
     <loc>http://blog.tibrella.top/post/basic-search/</loc>
-    
-    <lastmod>2023-08-16</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.tibrella.top/about/index.html</loc>
     
     <lastmod>2023-08-16</lastmod>
     

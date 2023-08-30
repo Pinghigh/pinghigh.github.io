@@ -1,3 +1,4 @@
+http://blog.tibrella.top/about/index.html
 http://blog.tibrella.top/post/skip-list/
 http://blog.tibrella.top/post/count-misc-questions/
 http://blog.tibrella.top/post/mobius/
@@ -45,7 +46,6 @@ http://blog.tibrella.top/post/diary-2023-08-10/
 http://blog.tibrella.top/post/ff-network-maxflow/
 http://blog.tibrella.top/post/multiply-lca/
 http://blog.tibrella.top/post/basic-search/
-http://blog.tibrella.top/about/index.html
 http://blog.tibrella.top/post/elementary-number-theory/
 http://blog.tibrella.top/post/basic-combinatorics/
 http://blog.tibrella.top/post/manacher/
