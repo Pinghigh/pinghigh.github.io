@@ -1,6 +1,6 @@
-http://blog.tibrella.top/about/index.html
-http://blog.tibrella.top/post/skip-list/
 http://blog.tibrella.top/post/count-misc-questions/
+http://blog.tibrella.top/post/skip-list/
+http://blog.tibrella.top/about/index.html
 http://blog.tibrella.top/post/mobius/
 http://blog.tibrella.top/post/diary-2023-08-28/
 http://blog.tibrella.top/post/sparse-table/
