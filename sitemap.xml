@@ -2,6 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.tibrella.top/post/KMP/</loc>
+    
+    <lastmod>2023-09-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.tibrella.top/post/amd-p-state-honor/</loc>
+    
+    <lastmod>2023-09-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.tibrella.top/post/noi-linux-2-guide/</loc>
+    
+    <lastmod>2023-09-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.tibrella.top/post/count-misc-questions/</loc>
     
     <lastmod>2023-09-04</lastmod>
@@ -111,33 +138,6 @@
   
   <url>
     <loc>http://blog.tibrella.top/post/archlinux-on-zfs-root-with-zbm/</loc>
-    
-    <lastmod>2023-08-19</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.tibrella.top/post/noi-linux-2-guide/</loc>
-    
-    <lastmod>2023-08-19</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.tibrella.top/post/amd-p-state-honor/</loc>
-    
-    <lastmod>2023-08-19</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.tibrella.top/post/KMP/</loc>
     
     <lastmod>2023-08-19</lastmod>
     
@@ -877,6 +877,20 @@
   
   <url>
     <loc>http://blog.tibrella.top/tags/%E6%9C%80%E5%A4%A7%E6%B5%81/</loc>
+    <lastmod>2023-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.tibrella.top/tags/%E5%86%85%E6%A0%B8/</loc>
+    <lastmod>2023-09-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.tibrella.top/tags/NOI-Linux/</loc>
     <lastmod>2023-09-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
