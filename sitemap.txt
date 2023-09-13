@@ -1,8 +1,8 @@
+http://blog.tibrella.top/post/noi-linux-2-guide/
 http://blog.tibrella.top/post/count-misc-questions/
 http://blog.tibrella.top/post/probability-misc-questions/
 http://blog.tibrella.top/post/KMP/
 http://blog.tibrella.top/post/amd-p-state-honor/
-http://blog.tibrella.top/post/noi-linux-2-guide/
 http://blog.tibrella.top/post/diary-2023-09-02/
 http://blog.tibrella.top/post/skip-list/
 http://blog.tibrella.top/about/index.html
