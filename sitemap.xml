@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.tibrella.top/post/tauri-react-jsx-dynamic-new-window/</loc>
+    
+    <lastmod>2023-09-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://blog.tibrella.top/post/noi-vscode/</loc>
     
     <lastmod>2023-09-14</lastmod>
@@ -905,6 +914,20 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>http://blog.tibrella.top/tags/React/</loc>
+    <lastmod>2023-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.tibrella.top/tags/Tauri/</loc>
+    <lastmod>2023-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -993,6 +1016,13 @@
   
   <url>
     <loc>http://blog.tibrella.top/categories/%E9%A2%98%E8%A7%A3/</loc>
+    <lastmod>2023-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.tibrella.top/categories/%E5%89%8D%E7%AB%AF/</loc>
     <lastmod>2023-09-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
