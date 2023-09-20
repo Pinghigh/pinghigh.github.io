@@ -6,7 +6,7 @@
   <link href="http://blog.tibrella.top/atom.xml" rel="self"/>
   
   <link href="http://blog.tibrella.top/"/>
-  <updated>2023-09-15T00:22:55.575Z</updated>
+  <updated>2023-09-20T14:15:06.664Z</updated>
   <id>http://blog.tibrella.top/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>春节十二响 题解</title>
+    <link href="http://blog.tibrella.top/post/spring-12-biu/"/>
+    <id>http://blog.tibrella.top/post/spring-12-biu/</id>
+    <published>2023-09-20T14:05:20.000Z</published>
+    <updated>2023-09-20T14:15:06.664Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题意">题意</h2><p>给定 <span class="math inline">\(n\)</span>个程序，每个程序所需内存空间为 <spanclass="math inline">\(m_i\)</span>。</p><p>这些程序的调用关系形成一棵以 <span class="math inline">\(1\)</span>为根的树。</p><p>内存可以分为若干个段，每个段存放若干个程序，这些程序在调用关系树上不能为祖先-后代关系，每个段的大小为存放的程序所需空间的最大值。</p><p><span class="math inline">\(n\leq 2\times 10^5\)</span></p><h2 id="题解">题解</h2><p>做这种题要先从部分分入手。</p><p>它给了一个特殊性质：调用关系为一条链。我们把一个位置的段记到一个集合里，然后分类讨论：</p><ul><li>只有一个儿子：有依赖关系显然没法扔到一个段里面，所以把 <spanclass="math inline">\(m_i\)</span> 扔到集合里面。</li><li>两个儿子：一个容易想到的贪心策略，即把两个儿子的段集合里面最大的几个拿出来合并到一个段里面（即取<span class="math inline">\(\max\)</span>）。<br />我们用堆来维护这个集合，如果是两个儿子的情况，就取两个儿子的堆顶的 <spanclass="math inline">\(\max\)</span>放到当前节点的堆中，然后分别弹堆顶，重复这个过程直到一个儿子的堆为空，再把另一个儿子剩下的东西扔到父节点堆里面去就好了。</li></ul><p>然后我们发现可以用这个方法直接在树上合并，然后就成了一般情况。对于多个儿子的节点，我们将它们按照第二条规则两两合并，然后扔到父节点的集合里面。</p><p>（令 <span class="math inline">\(dep_i\)</span> 表示 <spanclass="math inline">\(i\)</span> 子树内最深的点的深度。）</p><p>发现每次都需要让 <span class="math inline">\(\max_{(u,v)}dep_v\)</span>个程序从一个堆进入到另一个堆里面，一个链带点叶子的结构就会卡到 <spanclass="math inline">\(\Theta(n^2 \log n)\)</span>。</p><p>然后我们发现，用到堆的<strong>根节点</strong>最大的特性的地方，仅有<strong>两个儿子堆顶取最大值</strong>的地方，除此以外增加复杂度的地方是“把另一个儿子剩下的东西扔到父节点堆里面去”的过程。</p><p>后面这个东西相当于合并两个堆，所以如果你已经用了配对堆/斐波那契堆这类<span class="math inline">\(\Theta(1)\)</span>合并的可并堆那你就可以先走了。</p><p>其实我们可以在<strong>两个儿子堆顶取最大值</strong>后扔到一个缓冲区里面，一个堆空了之后直接把缓冲区里面的东西全都扔到另一个非空堆中，这样就省去了合并的过程。这样的话一次合并的复杂度是<span class="math inline">\(\min(dep_x,dep_y)\)</span> 的。</p><p>分析总时间复杂度，发现每一次取 <spanclass="math inline">\(\max\)</span>实际上就是扔掉一个元素，然后每个元素只能被扔掉一次，总共被扔了 <spanclass="math inline">\(\Theta(n)\)</span> 次，加上堆的影响就成了 <spanclass="math inline">\(\Theta(n\log n)\)</span> 次。</p><p><span class="math inline">\(\Theta(n^2 \log n)\)</span>多余的复杂度主要来源于冗余的插入堆操作。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;题意&quot;&gt;题意&lt;/h2&gt;
+&lt;p&gt;给定 &lt;span class=&quot;math inline&quot;&gt;&#92;(n&#92;)&lt;/span&gt;
+个程序，每个程序所需内存空间为 &lt;span
+class=&quot;math inline&quot;&gt;&#92;(m_i&#92;)&lt;/span&gt;。&lt;/p&gt;
+&lt;p&gt;这些程序的调</summary>
+      
+    
+    
+    
+    <category term="题解" scheme="http://blog.tibrella.top/categories/%E9%A2%98%E8%A7%A3/"/>
+    
+    
+    <category term="启发式合并" scheme="http://blog.tibrella.top/tags/%E5%90%AF%E5%8F%91%E5%BC%8F%E5%90%88%E5%B9%B6/"/>
+    
+    <category term="贪心" scheme="http://blog.tibrella.top/tags/%E8%B4%AA%E5%BF%83/"/>
+    
+  </entry>
   
   <entry>
     <title>Tauri 使用 WebviewWindow 新建窗口</title>
@@ -496,31 +526,6 @@ class=&quot;math inline&quot;</summary>
     
     
     <category term="概率" scheme="http://blog.tibrella.top/tags/%E6%A6%82%E7%8E%87/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>最大流要点</title>
-    <link href="http://blog.tibrella.top/post/ff-network-maxflow/"/>
-    <id>http://blog.tibrella.top/post/ff-network-maxflow/</id>
-    <published>2023-05-20T09:23:16.000Z</published>
-    <updated>2023-08-16T14:09:01.889Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="什么是最大流问题">什么是最大流问题</h2><p>总体是一张有向图，定一个源点，一个汇点。单位时间内源点能流出无限水，汇点能接受无限水。图中每条边相当于一个单位时间流量有限的管道。</p><p>最大流问题：单位时间内汇点最多能接收到多少水流？</p><h2 id="解法">解法</h2><p>考虑贪心去做：反复 dfs找到仍能流水的一条从源点到汇点的路径，路径中每个边的容量减去路径的最小容量（水管模型能流多少显然受最小容量限制吧...）。<br />但是好像不太对，有可能当前的一个流让它从另一个路径流出去更合适，借鉴反悔贪心的思想，我们可以给每条边加一条反向边。当一条边的容量被占据了<span class="math inline">\(f\)</span> 时，其容量减去 <spanclass="math inline">\(f\)</span>，然后给它的反向边加上 <spanclass="math inline">\(f\)</span>。</p><div class="tag-plugin image"><div class="image-bg"><img src="https://pic.imgdb.cn/item/6496477d1ddac507cce1334e.jpg" fancybox="true"/></div></div><p>上面只是简单介绍了一下增广路的主要思想，下面是三种具体的求法。</p><p>OI 中网络流貌似不需要去管他的复杂度之类，尤其是最大流，卡 Dinic的题可能只有 HLPP 模板题那一道。</p><p>主要是感性理解，重点都在建模。</p><h3 id="ek">EK</h3><p>不会，上界 <spanclass="math inline">\(\operatorname{O}(nm^2)\)</span>，懒得学了</p><h3 id="dinic">Dinic</h3><p>推荐结合这个博客看：https://www.cnblogs.com/SYCstudio/p/7260613.html</p><p>继续上面的贪心想法</p><p>每一次 dfs 可能得遍历整张图，只找到 1 条增广路，感觉不太值。</p><p>考虑多路增广。</p><p>dfs 每次传入两个参数：当前点编号和流过来了多少流量</p><p>原来的 dfs 过程：</p><ol type="1"><li>判断当前是否到达汇点，如果到达汇点，返回当前流量。</li><li>否则枚举有流量的边，继续 dfs。</li><li>dfs 如果返回正数，说明找到一条增广路，返回。</li></ol><p>我们实际上可以在第 3 步找到增广路时不立即停止，而是将当前流量减去 dfs返回的流量，表示有这么多的水已经流出去了。然后继续枚举边，枚举完毕/当前流量减到0 则停止。</p><p>貌似会死循环，我们可以用 bfs 分层。每次 bfs从源点开始，只走有流量的边，一个点的深度为到源点的最短距离。如果图不连通，说明找不到增广路了。</p><p>如果图连通，则反复 dfs。向下一个点搜索的前提是下一个点的深度 -1等于当前点深度。</p><p>然后加一个当前弧优化：dfs可能反复到达同一个点，而这个点的某些边可能已经被增广过了。因此在第一次到达该点的过程中，可以把链式前向星的fir[nod]修改为当前增广过但是还可能继续增广的边——之前的边增广过，流量没跑完，说明走那条边已经找不到增广路了。</p><p>每次分层情况都不一样，所以开一个 cur 数组当 fir 数组用，每次分层将cur 数组的每个值都初始化成原 fir 数组的值。</p><p>示例代码：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">edge</span> &#123;</span><br><span class="line">    i64 u, v;</span><br><span class="line">    edge *nex, *opp;</span><br><span class="line">    i64 w;</span><br><span class="line">&#125; graph[M];</span><br><span class="line">edge* tot = graph;</span><br><span class="line">edge *fir[N], *cur[N];</span><br><span class="line">i64 depth[N];</span><br><span class="line">i64 n, m, s, t; <span class="comment">// 点数，边数，源点，汇点</span></span><br><span class="line">queue&lt;i64&gt; q;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(i64 a, i64 b, i64 c)</span> </span>&#123;</span><br><span class="line">    ++tot;</span><br><span class="line">    tot-&gt;u = a;</span><br><span class="line">    tot-&gt;v = b;</span><br><span class="line">    tot-&gt;w = c;</span><br><span class="line">    tot-&gt;opp = tot + <span class="number">1</span>;</span><br><span class="line">    tot-&gt;nex = fir[a];</span><br><span class="line">    fir[a] = tot;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 反向边</span></span><br><span class="line">    ++tot;</span><br><span class="line">    tot-&gt;u = b;</span><br><span class="line">    tot-&gt;v = a;</span><br><span class="line">    tot-&gt;w = <span class="number">0</span>;</span><br><span class="line">    tot-&gt;opp = tot - <span class="number">1</span>;</span><br><span class="line">    tot-&gt;nex = fir[b];</span><br><span class="line">    fir[b] = tot;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">bfs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (q.<span class="built_in">size</span>())</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="comment">// memset(depth, 0, sizeof depth);</span></span><br><span class="line">    cur[s] = fir[s];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">        depth[i] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    depth[s] = <span class="number">1</span>;</span><br><span class="line">    q.<span class="built_in">push</span>(s);</span><br><span class="line">    <span class="keyword">while</span> (q.<span class="built_in">size</span>()) &#123;</span><br><span class="line">        i64 idx = q.<span class="built_in">front</span>();</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">for</span> (edge* e = fir[idx]; e; e = e-&gt;nex) &#123;</span><br><span class="line">            <span class="keyword">if</span> (e-&gt;w &gt; <span class="number">0</span> &amp;&amp; !depth[e-&gt;v]) &#123;  <span class="comment">// 该边容量大于零且还没有被设置深度</span></span><br><span class="line">                depth[e-&gt;v] = depth[idx] + <span class="number">1</span>;</span><br><span class="line">                q.<span class="built_in">push</span>(e-&gt;v);</span><br><span class="line">                cur[e-&gt;v] = fir[e-&gt;v]; <span class="comment">// 当前弧优化</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!depth[t]) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">i64 <span class="title">dfs</span><span class="params">(i64 nod, i64 val)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nod == t) <span class="keyword">return</span> val;  <span class="comment">// 边界即到达汇点</span></span><br><span class="line"></span><br><span class="line">    i64 res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (edge* e = cur[nod]; e &amp;&amp; val; e = e-&gt;nex) &#123;</span><br><span class="line">        cur[nod] = e;</span><br><span class="line">        <span class="keyword">if</span> (depth[nod] + <span class="number">1</span> == depth[e-&gt;v] &amp;&amp; e-&gt;w) &#123;  <span class="comment">// 第一个条件判断分层图，第二个条件判断边的残量</span></span><br><span class="line">            i64 tmp = <span class="built_in">dfs</span>(e-&gt;v, <span class="built_in">min</span>(val, e-&gt;w));</span><br><span class="line">            <span class="keyword">if</span> (tmp &gt; <span class="number">0</span>) &#123;  <span class="comment">// 找到增广路</span></span><br><span class="line">                e-&gt;w -= tmp;</span><br><span class="line">                e-&gt;opp-&gt;w += tmp;</span><br><span class="line">                res += tmp;</span><br><span class="line">                val -= tmp;</span><br><span class="line">                <span class="comment">// return res;</span></span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!tmp)</span><br><span class="line">                depth[e-&gt;v] = <span class="number">-1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">i64 <span class="title">dinic</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    i64 res = <span class="number">0</span>;</span><br><span class="line">    i64 d = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> () &#123;</span><br><span class="line">        <span class="keyword">while</span> (d = <span class="built_in">dfs</span>(s, (i64)LLONG_MAX)) &#123;</span><br><span class="line">            res += d;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="isap">ISAP</h2><p>TODO<!-- Dinic 需要 bfs 和 dfs 好多次，有没有办法能够动态维护 dep 数组而不用再次 bfs 分层？ 回顾整个 dinic 过程，感性理解一下 dep 数组的变化，发现相当于除了源点以外的点在不断远离源点 --></p>]]></content>
-    
-    
-    <summary type="html">增广路求最大流，但是拣重点写</summary>
-    
-    
-    <content src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" type="image"/>
-    
-    
-    <category term="图论" scheme="http://blog.tibrella.top/categories/%E5%9B%BE%E8%AE%BA/"/>
-    
-    
-    <category term="网络流" scheme="http://blog.tibrella.top/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/"/>
-    
-    <category term="最大流" scheme="http://blog.tibrella.top/tags/%E6%9C%80%E5%A4%A7%E6%B5%81/"/>
     
   </entry>
   
