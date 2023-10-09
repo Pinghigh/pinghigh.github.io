@@ -1,8 +1,8 @@
+http://blog.tibrella.top/post/tauri-react-jsx-dynamic-new-window/
 http://blog.tibrella.top/post/KMP/
 http://blog.tibrella.top/post/noi-linux-2-guide/
 http://blog.tibrella.top/post/noi-vscode/
 http://blog.tibrella.top/post/spring-12-biu/
-http://blog.tibrella.top/post/tauri-react-jsx-dynamic-new-window/
 http://blog.tibrella.top/post/probability-misc-questions/
 http://blog.tibrella.top/post/count-misc-questions/
 http://blog.tibrella.top/post/zbm-guide/
@@ -130,3 +130,4 @@ http://blog.tibrella.top/categories/%E6%9D%82%E6%96%87/
 http://blog.tibrella.top/categories/%E7%AE%97%E6%B3%95/
 http://blog.tibrella.top/categories/%E9%97%B2%E8%AF%9D/
 http://blog.tibrella.top/categories/%E9%A2%98%E8%A7%A3/
+http://blog.tibrella.top/categories/Tauri/
