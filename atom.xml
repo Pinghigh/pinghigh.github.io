@@ -6,7 +6,7 @@
   <link href="http://blog.tibrella.top/atom.xml" rel="self"/>
   
   <link href="http://blog.tibrella.top/"/>
-  <updated>2023-10-20T07:02:23.328Z</updated>
+  <updated>2023-09-20T14:29:09.919Z</updated>
   <id>http://blog.tibrella.top/</id>
   
   <author>
@@ -15,27 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>重链剖分</title>
-    <link href="http://blog.tibrella.top/post/null/"/>
-    <id>http://blog.tibrella.top/post/null/</id>
-    <published>2023-10-20T06:21:33.000Z</published>
-    <updated>2023-10-20T07:02:23.328Z</updated>
-    
-    <content type="html"><![CDATA[<p>总的来说，重链剖分能将一条树上路径剖分成 <spanclass="math inline">\(\Theta(\log n)\)</span> 个部分。</p><p>然后就可以实现很多东西了，比如说两个点的LCA（最近公共祖先），我们可以只在树上跳 <spanclass="math inline">\(\Theta(\log n)\)</span> 次就能跳到两点的 LCA。</p><p>然后如果想要维护树上的某些信息，要对一条链进行修改，我们也可以加一棵线段树类似的东西实现<span class="math inline">\(\Theta(\log n)\)</span>的区间操作，一条路径总共有 <span class="math inline">\(\Theta(\logn)\)</span> 个部分，于是就可以 <span class="math inline">\(\Theta(\log^2n)\)</span> 修改一条链上的信息。</p><p>上面的东西可能有点抽象，那么你可以先往下读。</p><h2 id="基本概念">基本概念</h2><p>一棵（子）树的根节点，它的每一个儿子都是一个子树的根。那么，这些儿子中，包含节点最多的子树的根节点称为<strong>重儿子</strong>，其余儿子称为<strong>轻儿子</strong>。容易发现非叶子节点的每一个节点都有且只有一个重儿子。</p><div class="tag-plugin image"><div class="image-bg"><img src="undefined" fancybox="true"/></div></div><!-- !TODO --><p>上图中所有的标有绿色箭头的节点均为<strong>重儿子</strong>。</p>]]></content>
-    
-    
-    <summary type="html">轻重链剖分是维护树上信息的一种强力工具，常数小，好实现，非常灵活。</summary>
-    
-    
-    
-    <category term="数据结构" scheme="http://blog.tibrella.top/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    
-    <category term="重链剖分" scheme="http://blog.tibrella.top/tags/%E9%87%8D%E9%93%BE%E5%89%96%E5%88%86/"/>
-    
-  </entry>
   
   <entry>
     <title>春节十二响 题解</title>
@@ -505,6 +484,36 @@ Moolenaar passed away on 3 August 2023.
 &lt;p&gt;给定一定数量的石子，两个人抛硬币，抛到正面则拿走一颗石子，否则什么都不做。拿走最后一颗石子的人胜利。&lt;br /&gt;
 已知石子数量，假设双方都采用最优方案，两个人分别抛到自己想要的那一面的概率分别为
 &lt;span class=&quot;math i</summary>
+      
+    
+    
+    <content src="https://pic.imgdb.cn/item/6416687ca682492fccfb973a.jpg" type="image"/>
+    
+    
+    <category term="题解" scheme="http://blog.tibrella.top/categories/%E9%A2%98%E8%A7%A3/"/>
+    
+    
+    <category term="概率" scheme="http://blog.tibrella.top/tags/%E6%A6%82%E7%8E%87/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>概率杂题</title>
+    <link href="http://blog.tibrella.top/post/probability-misc-questions/"/>
+    <id>http://blog.tibrella.top/post/probability-misc-questions/</id>
+    <published>2023-05-22T05:06:14.000Z</published>
+    <updated>2023-09-07T13:22:49.867Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="p4562-jxoi2018游戏"><ahref="https://www.luogu.com.cn/problem/P4562">P4562[JXOI2018]游戏</a></h2><p>给定区间 <spanclass="math inline">\([l,r]\)</span>，每次选择一个未选择过的数，将这个数以及它的所有倍数标记，每一种方案全部标记所用次数记为<span class="math inline">\(t\)</span>，求所有可能 <spanclass="math inline">\(t\)</span> 的和。</p><p>首先想到每次将所有点标记的实质，就是将 <spanclass="math inline">\(\left[l,r\right]\)</span>中<strong>没有</strong>在<strong>此区间内</strong>的<strong>非自身的因数</strong>的数标记完。称这样的数为关键数，设关键数有<span class="math inline">\(k\)</span>个，则实际上标记次数就是<strong>最后一个关键数</strong>的位置。</p><p>最后一个关键数的位置...不沾头不沾尾，所以换个方向考虑——最后一个关键数的位置可以替换为<strong>它后面的非关键数的数量</strong>。</p><p>实际上，<span class="math inline">\(k\)</span>个关键数把整个区间分成了 <span class="math inline">\(k+1\)</span>份。设区间长度为 <spanclass="math inline">\(1\)</span>，则一个非关键数在最后一段区间上的期望就是<span class="math inline">\(\cfrac 1 {k+1}\)</span>（<spanclass="math inline">\(k+1\)</span>种情况，每种情况都在段区间上，只有一种情况在目标区间上），<spanclass="math inline">\(n-k\)</span> 个非关键点在最后一段区间上的期望就是<spanclass="math inline">\(\cfrac{n-k}{k+1}\)</span>。（注意这里概率到期望的转换，要想想为什么期望成了求解目标）</p><p>于是，最后一个点的位置的期望，即 <spanclass="math inline">\(t\)</span> 的期望为下式</p><p><span class="math display">\[\begin{aligned}&amp;\ \ \ \ \  n-\cfrac{n-k}{k+1} \newline&amp;= \cfrac{nk+n-n+k}{k+1} \newline&amp;= \cfrac{(n+1)k}{k+1}\end{aligned}\]</span></p><p>求所有可能的 <span class="math inline">\(t\)</span>的值的和，乘一个阶乘就好了。</p><p><span class="math display">\[\begin{aligned}&amp;\ \ \ \ \  \cfrac{(n+1)k}{k+1}n! \newline&amp;= \cfrac{k}{k+1}(n+1)!\end{aligned}\]</span></p><p>取模的话，求完阶乘 <span class="math inline">\(\times k\)</span>再乘个 <a href="/post/multi-inverse-element">逆元</a> 就行了。</p><h2 id="p4284-shoi2014-概率充电器"><ahref="https://www.luogu.com.cn/problem/P4284">P4284 [SHOI2014]概率充电器</a></h2><p>给定一棵树，每条边能导电的概率为 <spanclass="math inline">\(p_i\)</span>，每个点自己带电的概率为 <spanclass="math inline">\(q_i\)</span>，求带电点个数的期望。</p><p>根据期望的线性性，考虑求每个点有电的期望。因为只有 <spanclass="math inline">\(0,1\)</span> 两种情况，因此求概率就行了。</p><p>考虑单个点有电的情况：</p><ul><li>自己有电</li><li>儿子有电，和儿子连边导电</li><li>父亲有电，和父亲连边导电</li></ul><p>设 <span class="math inline">\(f_u\)</span> 为点 <spanclass="math inline">\(u\)</span> 带电的期望：</p><ul><li>第一种情况的概率就是 <spanclass="math inline">\(q_u\)</span>，所以直接 <spanclass="math inline">\(f_u = q_u\)</span> 就行。</li><li>第二种情况非常像树形 DP 的样子，容易想到从叶子节点向上推就行。<ul><li>考虑两个独立事件发生其中一件即可的概率： <spanclass="math inline">\(P(A+B)=P(A)+(1-P(A))P(B)\)</span>，即 <spanclass="math inline">\(A\)</span> 事件的概率 <spanclass="math inline">\(+\)</span> <span class="math inline">\((B\)</span>事件 <span class="math inline">\(+\)</span> <spanclass="math inline">\(A\)</span> 事件未发生 <spanclass="math inline">\()\)</span> 的概率。</li><li>进行 dfs，回溯的时候统计：<ul><li>设当前点为 <span class="math inline">\(u\)</span>，儿子为 <spanclass="math inline">\(v\)</span>，则有 <span class="math inline">\(f_u =f_u + (1-f_u)p_{u,v}f_v\)</span></li></ul></li></ul></li><li>第三种情况实际上也是树形 DP，只不过变成了正推，从 <spanclass="math inline">\(u\)</span> 计算对 <spanclass="math inline">\(v\)</span> 的贡献。<ul><li>假设当前到达 <span class="math inline">\(u\)</span>，且 <spanclass="math inline">\(f_u\)</span> 已经算好了，考虑如何把贡献传给 <spanclass="math inline">\(f_v\)</span>。</li><li>容易想到 <span class="math inline">\(u\)</span> 能贡献给 <spanclass="math inline">\(v\)</span> 电流的那部分概率，实际上是 <spanclass="math inline">\(f_u\)</span> 扔掉 <spanclass="math inline">\(v\)</span> 这棵子树的部分。</li><li>换句话说，贡献 <span class="math inline">\(=\)</span> <spanclass="math inline">\(u\)</span> 有电的概率 <spanclass="math inline">\(-\)</span> <span class="math inline">\(u\)</span>不考虑 <span class="math inline">\(v\)</span>的有电的概率，再乘边的概率之类的常数即可。</li><li>设 <span class="math inline">\(\langle u,v \rangle=e\)</span>，<spanclass="math inline">\(u\)</span> 不考虑 <spanclass="math inline">\(v\)</span> 的有电的概率为 <spanclass="math inline">\(g_u\)</span>，<spanclass="math inline">\(v\)</span> 只考虑下方来电有电的概率为 <spanclass="math inline">\(l_v\)</span>，有柿子： <spanclass="math display">\[\begin{aligned}f_u &amp;= g_u + l_vp_e(1-g_u) \newlinef_u &amp;= g_u + l_vp_e-l_vp_eg_u \newlinef_u - l_vp_e &amp;= g_u(1-l_vp_e) \newlineg_u &amp;= \cfrac {f_u-l_vp_e}{1-l_vp_e} \newlinef_u - g_u &amp;= f_u - \cfrac {f_u-l_vp_e}{1-l_vp_e}\end{aligned}\]</span></li><li>考虑完 <span class="math inline">\(u\)</span>有电的贡献，乘一下边的概率和 <span class="math inline">\(v\)</span>没电的概率就行了 <span class="math display">\[f_v = f_v + (1-f_v)\cdot p_e \cdot(f_u - \cfrac {f_u-l_vp_e}{1-l_vp_e})\]</span></li></ul></li></ul><p>柿子推完了，写两个 dfs 算答案即可。</p><h2 id="spoj-4060-kpgame">SPOJ 4060 KPGAME</h2><p><a href="/post/spoj-4060-solution">传送门</a></p><h2 id="cf-1316-f">CF 1316 F</h2><p>又是一个重量级题目。</p><p>首先我们发现他这个数列是假的，因为求权值的时候是“排序”后再求，子序列也不需要连续，所以我们直接把它当一个数的集合做，不需要维护他们在原数列中的顺序。下面所说的下标都是排序后的下标。</p><p>好，接下来考虑一个点对对期望的贡献。<br />假设有点对 <spanclass="math inline">\(a_i,a_j,i&lt;j\)</span>，显然权值的贡献是 <spanclass="math inline">\(a_ia_j\)</span>。<br />然后来看概率，由于是相邻的，所以能随便挑选的只有 <spanclass="math inline">\(i\)</span> 左边，<spanclass="math inline">\(j\)</span> 右边的点，总共有 <spanclass="math inline">\((i-1)+(m-j)\)</span>个，满足两个点相邻的子序列数量即为 <spanclass="math inline">\(2^{(i-1)+(m-j)}\)</span>，而子序列的总数有 <spanclass="math inline">\(2^n\)</span> 个。因此，这两个点相邻的概率为：</p><p><span class="math display">\[\frac {2^{(i-1)+(m-j)}}{2^n} = \frac {1}{2^{n-i+1-j-n}} = \frac1{2^{j-i+1}}\]</span></p><p>于是得出点对 <span class="math inline">\(a_i,a_j,i&lt;j\)</span>对期望的贡献：<span class="math inline">\(\frac{a_ia_j}{2^{j-i+1}}\)</span>。</p><p>然后给定一个数列，其权值的期望直接枚举点对计算就是答案：<spanclass="math inline">\(\sum_{i=1}^n \sum_{j=i+1}^n \frac{a_ia_j}{2^{j-i+1}}\)</span>。</p><p>但是这玩意带单点修改，直接用这个式子的话就是一个非常优秀的 <spanclass="math inline">\(\Theta(qn^2)\)</span> 的做法。</p><p>单点修改。考虑分治。</p><p>把一个序列分成两段：<spanclass="math inline">\([1,m],[m+1,n]\)</span>，那它的贡献可以分成三部分：</p><ul><li><span class="math inline">\([1,m]\)</span> 的贡献</li><li><span class="math inline">\([m+1,n]\)</span> 的贡献</li><li>跨越两个区间的点对的贡献</li></ul><p>前两个可以分治解决，问题在于第三个东西。<br />首先这个东西的式子是很好写的：<span class="math inline">\(\sum_{i=1}^m\sum_{j=m+1}^n \frac {a_ia_j}{2^{j-i+1}}\)</span><br />为了分治，我们得把这个式子拆成左右两半。欸，这 <spanclass="math inline">\(1\sim m\)</span> 和 <spanclass="math inline">\(m+1\sim n\)</span>根本就没交集，那就直接拆开就好了！</p><p><span class="math display">\[\begin{aligned}&amp;\ \ \ \ \ \sum_{i=1}^m \sum_{j=m+1}^n \frac {a_ia_j}{2^{j-i+1}}\newline&amp;= \sum_{i=1}^m \sum_{j=m+1}^n \frac {a_ia_j}{2^{j-m+m-i+1}}\newline&amp;= (\sum_{i=1}^m \frac {a_i}{2^{m-i+1}})(\sum_{j=m+1}^n \frac{a_j}{2^{j-m}})\end{aligned}\]</span></p><p>然后我们就可以直接分治解决了。</p><p>设一个区间的答案为 <spanclass="math inline">\(f\)</span>，上面拆成的两个部分一个是 <spanclass="math inline">\(ls\)</span> 一个是 <spanclass="math inline">\(rs\)</span>，<span class="math inline">\(len(x,y)= y-x+1\)</span> 表示一个区间的长度。</p><p>对于一个区间 <spanclass="math inline">\([l,r]\)</span>，有如下一堆东西：</p><p><span class="math display">\[\begin{cases}f(i,i) = 0 \newlinels(i,i) = rs(i,i) = 1 \newlinef(l,r) = f(l,m) + f(m+1,r) + ls(l,m)rs(m+1,r)\newlinels(l,r) = ls(l,m) + \frac {rs(m+1,r)}{2^{len(l,m)}} \newliners(l,r) = rs(m+1,r) + \frac {rs(l,m)}{2^{len(m+1,r)}}\end{cases}\]</span></p><p>最终答案是 <span class="math inline">\(f(1,n)\)</span>。</p><p>这样的分治，最终复杂度是 <spanclass="math inline">\(\Theta(qn)\)</span> 的，还是不够。</p><p>这个分治实际上很容易用线段树维护，但是修改权值怎么办？答案是使用权值线段树。</p><p>我们将询问离线下来，把原数列和询问中的数字全部离散化，然后存到权值线段树里面,<strong>这样显然就把排序的部分做完了</strong>。<br />然后对于每个线段树节点，维护当前区间里面的<strong>有效点个数</strong>，以及上面那一堆东西，但是<span class="math inline">\(len\)</span>就可以替换成刚才提到的点数了。</p><p><code>push_up</code> 就用上面的式子就好。</p><p>这样的做法时间复杂度为 <span class="math inline">\(\Theta(n+q\logn)\)</span>，非常能过。</p><p>但是另一个细节的点来了：离散化。由于两个相同的数作为点对也会产生贡献，所以在离散化的时候给他们分配不同的编号。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;p4562-jxoi2018游戏&quot;&gt;&lt;a
+href=&quot;https://www.luogu.com.cn/problem/P4562&quot;&gt;P4562
+[JXOI2018]游戏&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;给定区间 &lt;span
+class=&quot;math inline&quot;&gt;&#92;([</summary>
       
     
     
