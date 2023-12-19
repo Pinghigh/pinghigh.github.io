@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /shorten.html
 Disallow: /cdn/
-Sitemap: https://blog.tibrella.top/sitemap.xml
+Sitemap: https://blog.tibrella.space/sitemap.xml
