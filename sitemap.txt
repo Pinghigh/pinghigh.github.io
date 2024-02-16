@@ -1,3 +1,4 @@
+http://blog.tibrella.space/post/kde-xwayland-guide/
 http://blog.tibrella.space/timeline/index.html
 http://blog.tibrella.space/post/noi-linux-2-guide/
 http://blog.tibrella.space/post/tauri-react-jsx-dynamic-new-window/
@@ -115,6 +116,9 @@ http://blog.tibrella.space/tags/SPFA/
 http://blog.tibrella.space/tags/%E8%AE%A1%E6%95%B0/
 http://blog.tibrella.space/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/
 http://blog.tibrella.space/tags/%E6%9C%80%E5%A4%A7%E6%B5%81/
+http://blog.tibrella.space/tags/KDE-Plasma/
+http://blog.tibrella.space/tags/XWayland/
+http://blog.tibrella.space/tags/Fcitx-5/
 http://blog.tibrella.space/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/
 http://blog.tibrella.space/categories/Linux/
 http://blog.tibrella.space/categories/%E6%9D%82%E9%A1%B9/
